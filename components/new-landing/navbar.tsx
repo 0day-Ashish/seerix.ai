@@ -208,8 +208,30 @@ function ProductsMenu() {
   );
 }
 
+/** Hamburger that morphs to a close mark, driven by the open state. */
+function MenuIcon({ open }: { open: boolean }) {
+  return (
+    <svg
+      className="h-4 w-4"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      aria-hidden="true"
+    >
+      {open ? (
+        <path d="M4 4l8 8M12 4l-8 8" />
+      ) : (
+        <path d="M2 4.5h12M2 11.5h12" />
+      )}
+    </svg>
+  );
+}
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     // The info bar sits above the sticky header and scrolls away with the page,
@@ -221,6 +243,34 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // The panel only exists below lg, so growing past that breakpoint while it
+  // is open would otherwise leave the scroll lock stuck on.
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 1024px)");
+    function onChange() {
+      if (query.matches) setMenuOpen(false);
+    }
+    query.addEventListener("change", onChange);
+    return () => query.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setMenuOpen(false);
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [menuOpen]);
 
   return (
     <header
@@ -289,8 +339,77 @@ export default function Navbar() {
               <path d="M3 8h10M9 4l4 4-4 4" />
             </svg>
           </Link>
+
+          <button
+            type="button"
+            onClick={() => setMenuOpen((value) => !value)}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            className="flex h-10 w-10 items-center justify-center rounded-lg border border-black/15 bg-white text-zinc-700 transition-colors hover:border-black/30 hover:text-black lg:hidden"
+          >
+            <MenuIcon open={menuOpen} />
+          </button>
         </div>
       </nav>
+
+      {menuOpen && (
+        <div
+          id="mobile-menu"
+          className="max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-black/10 bg-white px-6 pb-8 pt-2 lg:hidden"
+        >
+          <ul className="font-body text-[15px] text-zinc-700">
+            {links.map((link) => (
+              <li key={link.label}>
+                <Link
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center justify-between border-b border-dashed border-black/10 py-3.5 transition-colors hover:text-black"
+                >
+                  {link.label}
+                  <ArrowBox />
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          {/* The desktop mega-menu is hover-driven, so its contents are
+              re-laid out here as plain stacked groups. */}
+          {productColumns.map((column) => (
+            <div key={column.title} className="mt-6">
+              <div className="flex items-center gap-2.5">
+                <span className={`h-2.5 w-2.5 rounded-sm ${column.swatch}`} />
+                <span className="font-mono text-[11px] font-medium tracking-wider text-black">
+                  {column.title}
+                </span>
+              </div>
+              <ul className="mt-1">
+                {column.items.map((item) => (
+                  <li key={item.label}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setMenuOpen(false)}
+                      className="flex items-center justify-between border-b border-dashed border-black/10 py-3 font-body text-[14px] text-zinc-700 transition-colors hover:text-black"
+                    >
+                      {item.label}
+                      <ArrowBox />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          {/* Mirrors the header CTA, which is hidden at this width. */}
+          <Link
+            href="#faq"
+            onClick={() => setMenuOpen(false)}
+            className="mt-7 flex h-11 items-center justify-center rounded-lg border border-black/15 bg-white px-6 font-body text-[15px] text-zinc-700 [box-shadow:0_4px_0_0_#d4d4d8] transition-colors hover:border-black/30 hover:text-black sm:hidden"
+          >
+            Contact us
+          </Link>
+        </div>
+      )}
     </header>
   );
 }

@@ -34,7 +34,7 @@ export default function Home() {
       <section className="mt-auto">
         <ParticleDissolve />
         {/* Amakusa Black, matching the tone the dissolve settles into. */}
-        <div className="relative overflow-hidden bg-[#36363B] px-6 pb-[260px] pt-12">
+        <div className="relative overflow-hidden bg-[#36363B] px-6 pb-[34vw] pt-12 sm:pb-[260px]">
           <div className="relative z-10">
             {/* Contact sits left, link columns right; they stack on mobile. */}
             <div className="mx-auto flex max-w-5xl flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
@@ -64,7 +64,7 @@ export default function Home() {
           </div>
 
           {/* Oversized wordmark, stroke-drawn on scroll into view. */}
-          <div className="pointer-events-none absolute inset-x-0 -bottom-[64px] select-none">
+          <div className="pointer-events-none absolute inset-x-0 -bottom-[8vw] select-none sm:-bottom-[64px]">
             <StrokeText
               // SVG text inherits from the span, so set the family there.
               style={{

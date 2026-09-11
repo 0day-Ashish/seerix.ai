@@ -98,7 +98,7 @@ export default function Stats() {
         {cards.map((card, index) => (
           <div
             key={index}
-            className={`rounded-lg border border-black/10 bg-white p-8 ${card.className}`}
+            className={`rounded-lg border border-black/10 bg-white p-6 sm:p-8 ${card.className}`}
           >
             {card.stats.map((stat, statIndex) => (
               <div
@@ -109,13 +109,13 @@ export default function Stats() {
                     : undefined
                 }
               >
-                <p className="flex items-baseline gap-x-3 whitespace-nowrap">
+                <p className="flex flex-wrap items-baseline gap-x-3">
                   <CountUp
                     value={stat.value}
-                    className="font-mono text-5xl tracking-tight text-black"
+                    className="font-mono text-4xl tracking-tight text-black sm:text-5xl"
                   />
                   {stat.unit && (
-                    <span className="font-mono text-xl tracking-wide text-black">
+                    <span className="font-mono text-lg tracking-wide text-black sm:text-xl">
                       {stat.unit}
                     </span>
                   )}

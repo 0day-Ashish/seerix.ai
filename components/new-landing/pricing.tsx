@@ -106,7 +106,7 @@ export default function Pricing() {
           {plans.map((plan) => (
             <div
               key={plan.name}
-              className={`flex flex-col rounded-lg border bg-white p-8 ${
+              className={`flex flex-col rounded-lg border bg-white p-6 sm:p-8 ${
                 plan.featured
                   ? "border-[#36363B]/40 shadow-sm shadow-black/5"
                   : "border-black/10"
@@ -123,8 +123,8 @@ export default function Pricing() {
                 )}
               </div>
 
-              <p className="mt-6 flex items-baseline gap-x-1 whitespace-nowrap">
-                <span className="font-mono text-5xl tracking-tight text-black">
+              <p className="mt-6 flex flex-wrap items-baseline gap-x-1">
+                <span className="font-mono text-4xl tracking-tight text-black sm:text-5xl">
                   {plan.price}
                 </span>
                 <span className="font-mono text-lg tracking-wide text-zinc-500">

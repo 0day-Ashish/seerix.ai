@@ -233,7 +233,15 @@ const StrokeText = ({
     >
       <svg
         className="block w-full"
-        style={{ height: `${Math.round(fontSize * 1.3)}px` }}
+        // The SVG scales to the container width, so a fixed height would
+        // reserve desktop-sized space on a phone and leave a gap under the
+        // shrunken glyphs. Tracking the measured box keeps height in step
+        // with width; the fixed value is only the pre-measurement fallback.
+        style={
+          box
+            ? { aspectRatio: `${box.width} / ${box.height}`, maxHeight: `${Math.round(fontSize * 1.3)}px` }
+            : { height: `${Math.round(fontSize * 1.3)}px` }
+        }
         viewBox={viewBox}
         preserveAspectRatio="xMidYMid meet"
         aria-hidden="true"
