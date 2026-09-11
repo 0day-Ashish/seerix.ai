@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme {
+  /* Type: Space Grotesk for display, DM Sans for body, mono for figures.
+     Mirrors the source landing route's typographic system exactly. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Seerix palette. Three brand anchors plus the steps derived from them
+     for button gradients, press shadows and hover states. */
+  --color-white-grey: #dcdddd;
+  --color-genji-grey: #888084;
+  --color-amakusa-black: #36363b;
+
+  /* Derived ramp: lifted for gradient tops and hovers, darkened for the
+     solid press shadow that sits under every button. */
+  --color-amakusa-lift: #4a4a51;
+  --color-amakusa-hover: #55555d;
+  --color-amakusa-deep: #1c1c21;
+  --color-amakusa-ink: #23232a;
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  background: #ffffff;
+  color-scheme: light;
+}
+
+body {
+  background: #ffffff;
+  color: var(--color-amakusa-black);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-amakusa-black);
+  color: var(--color-white-grey);
+}
+
+/* Focus rings: visible, on-brand, never on mouse click. */
+:focus-visible {
+  outline: 2px solid var(--color-amakusa-black);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
