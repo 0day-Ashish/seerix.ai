@@ -9,13 +9,13 @@ export default function InfoBar() {
   if (dismissed) return null;
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-6 pt-3 font-display">
-      <div className="relative flex min-h-9 items-center justify-center gap-1.5 rounded-lg bg-[#36363B]/10 px-12 py-1.5 text-center text-[13px] text-[#23232a] shadow-sm shadow-black/5">
+    <div className="w-full border-b border-black/[0.06] bg-zinc-50/80 font-body">
+      <div className="relative mx-auto flex min-h-9 max-w-6xl items-center justify-center gap-1.5 px-6 py-2 text-center text-[13px] text-zinc-500">
         <p>
           Early access: design-partner seats open.{" "}
           <Link
             href="mailto:hello@seerix.ai"
-            className="font-medium text-[#36363B] underline underline-offset-2 transition-colors hover:text-[#23232a]"
+            className="text-black underline underline-offset-2 transition-colors hover:text-zinc-500"
           >
             Get in touch
           </Link>
@@ -24,7 +24,7 @@ export default function InfoBar() {
           type="button"
           onClick={() => setDismissed(true)}
           aria-label="Dismiss announcement"
-          className="absolute right-2 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded text-[#23232a]/70 transition-colors hover:bg-[#36363B]/10 hover:text-[#23232a]"
+          className="absolute right-6 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded text-zinc-400 transition-colors hover:bg-black/[0.04] hover:text-black"
         >
           <svg
             className="h-3 w-3"

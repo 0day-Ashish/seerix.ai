@@ -1,7 +1,6 @@
 import Link from "next/link";
 
-import { BlockReveal } from "@/components/new-landing/block-reveal";
-import SectionLabel from "@/components/new-landing/section-label";
+import SectionHeader from "@/components/new-landing/section-header";
 
 type Pillar = {
   title: string;
@@ -25,38 +24,23 @@ const pillars: Pillar[] = [
 
 export default function Trust() {
   return (
-    <section id="trust" className="bg-white px-6 pb-12 pt-20">
-      <SectionLabel number="04" name="WHY TRUST IT" />
+    <section id="trust" className="bg-white px-6 py-16 sm:py-20">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeader
+          label="Why trust it"
+          heading="Built so it can't make things up about your site."
+        />
 
-      <div className="mx-auto mt-10 max-w-5xl">
-        <span className="relative inline-flex items-center bg-[#36363B]/[0.07] px-5 py-3 font-mono text-[13px] font-medium tracking-[0.18em] text-[#23232a]">
-          {/* Corner brackets: two edges each, drawn per corner. */}
-          <span className="pointer-events-none absolute left-0 top-0 h-2 w-2 border-l border-t border-[#36363B]/45" />
-          <span className="pointer-events-none absolute right-0 top-0 h-2 w-2 border-r border-t border-[#36363B]/45" />
-          <span className="pointer-events-none absolute bottom-0 left-0 h-2 w-2 border-b border-l border-[#36363B]/45" />
-          <span className="pointer-events-none absolute bottom-0 right-0 h-2 w-2 border-b border-r border-[#36363B]/45" />
-
-          WHY TRUST IT
-        </span>
-
-        <div className="mt-10">
-          <h2 className="max-w-3xl font-display text-4xl leading-[1.15] tracking-[-0.02em] text-black sm:text-5xl">
-            <BlockReveal>
-              Built so it can&rsquo;t make things up about your site.
-            </BlockReveal>
-          </h2>
-        </div>
-
-        <div className="mt-16 grid overflow-hidden rounded-xl border border-black/10 lg:grid-cols-3">
+        <div className="mt-10 grid gap-4 lg:grid-cols-3">
           {pillars.map((pillar) => (
             <div
               key={pillar.title}
-              className="border-b border-r border-black/10 p-8 last:border-b-0 last:border-r-0 lg:border-b-0 lg:[&:nth-child(3n)]:border-r-0"
+              className="rounded-xl border border-black/[0.07] bg-white p-7 transition-colors duration-200 hover:border-black/[0.14]"
             >
-              <h3 className="font-display text-lg font-semibold tracking-tight text-black">
+              <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-black">
                 {pillar.title}
               </h3>
-              <p className="mt-3 font-body text-[15px] leading-relaxed text-zinc-600">
+              <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-500">
                 {pillar.body}
               </p>
             </div>
@@ -65,20 +49,20 @@ export default function Trust() {
 
         <Link
           href="#"
-          className="group mt-8 inline-flex items-center gap-2 font-body text-[15px] text-zinc-700 transition-colors duration-200 hover:text-black"
+          className="group mt-10 inline-flex items-center gap-2 font-body text-[15px] text-zinc-500 transition-colors duration-200 hover:text-black"
         >
           Privacy Policy
           <svg
-            className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1"
+            className="h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
             viewBox="0 0 16 16"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.4"
+            strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
             aria-hidden="true"
           >
-            <path d="M3 8h10M9 4l4 4-4 4" />
+            <path d="M6 3.5L10.5 8L6 12.5" />
           </svg>
         </Link>
       </div>

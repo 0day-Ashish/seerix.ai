@@ -1,41 +1,22 @@
 type SectionLabelProps = {
-  /** Two-digit section number, e.g. "01". */
-  number: string;
+  /** Short eyebrow, e.g. "How it works". */
   name: string;
-  /** Drop the top rule where the preceding section already draws one. */
-  hideTopBorder?: boolean;
+  /** Override the default tone, e.g. on an inverted panel. */
+  className?: string;
 };
 
 /**
- * Sticky section marker that parks under the navbar while its section is in
- * view. Each label sticks within its own section, so the next one pushes the
- * previous up on scroll with no JavaScript.
- *
- * The rails sit at the max-w-6xl container's padding edge, so the bar pulls out
- * by that padding to meet them exactly, then re-applies it to the content.
+ * Quiet eyebrow above a section heading. Replaces the earlier sticky numbered
+ * bar: it scrolls with its section, claims one line, and carries no rules or
+ * background of its own so the surrounding whitespace does the separating.
  */
 export default function SectionLabel({
-  number,
   name,
-  hideTopBorder = false,
+  className = "text-zinc-400",
 }: SectionLabelProps) {
   return (
-    <div className="sticky top-16 z-20 mb-10">
-      <div className="mx-auto max-w-6xl px-6">
-        <div
-          className={`-mx-6 flex items-center gap-3 border-b border-black/10 bg-white/90 px-6 py-3 backdrop-blur-sm ${
-            hideTopBorder ? "" : "border-t"
-          }`}
-        >
-          <span className="font-display text-[13px] font-medium tracking-[0.1em] text-[#36363B]">
-            {number}
-          </span>
-          <span className="h-3 w-px bg-black/15" />
-          <span className="font-display text-[13px] font-medium tracking-[0.1em] text-black">
-            {name}
-          </span>
-        </div>
-      </div>
-    </div>
+    <p className={`font-body text-[13px] font-medium tracking-[0.02em] ${className}`}>
+      {name}
+    </p>
   );
 }

@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
+import Button, { ButtonArrow } from "@/components/new-landing/button";
+
 const links = [
   { label: "How it works", href: "#how-it-works" },
   { label: "Pricing", href: "#pricing" },
@@ -13,7 +15,7 @@ const links = [
 
 const productColumns = [
   {
-    title: "WHAT IT DOES",
+    title: "What it does",
     swatch: "bg-[#36363B]",
     items: [
       { label: "Diagnose", href: "#features" },
@@ -23,7 +25,7 @@ const productColumns = [
     ],
   },
   {
-    title: "HOW IT WORKS",
+    title: "How it works",
     swatch: "bg-[#888084]",
     items: [
       { label: "Connect Search Console", href: "#how-it-works" },
@@ -34,7 +36,7 @@ const productColumns = [
   },
 ];
 
-const featured = { label: "SEERIX: SEO ANSWERS WITH RECEIPTS", href: "#" };
+const featured = { label: "Seerix: SEO answers with receipts", href: "#" };
 
 function Chevron({ className = "" }: { className?: string }) {
   return (
@@ -157,7 +159,7 @@ function ProductsMenu() {
                       <span
                         className={`h-2.5 w-2.5 rounded-sm ${column.swatch}`}
                       />
-                      <span className="font-mono text-[11px] font-medium tracking-wider text-black">
+                      <span className="font-body text-[12px] font-medium text-black">
                         {column.title}
                       </span>
                     </div>
@@ -194,7 +196,7 @@ function ProductsMenu() {
                       height={14}
                     />
                   </span>
-                  <span className="font-mono text-[11px] font-medium tracking-wider text-black">
+                  <span className="font-body text-[12px] font-medium text-black">
                     {featured.label}
                   </span>
                 </span>
@@ -274,11 +276,11 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full border-b bg-white transition-colors duration-300 ease-out ${
-        scrolled ? "border-black/15" : "border-transparent"
+      className={`sticky top-0 z-40 w-full border-b bg-white/80 backdrop-blur-xl transition-colors duration-300 ease-out ${
+        scrolled ? "border-black/[0.07]" : "border-transparent"
       }`}
     >
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-8 px-6">
+      <nav className="mx-auto flex h-[72px] max-w-6xl items-center justify-between gap-8 px-6">
         <Link href="/" className="group flex shrink-0 items-center gap-2.5">
           {/* The mark is three bars at 60 degree steps, so a 60 degree turn
               lands it back on itself and the spin has no visible seam. */}
@@ -290,7 +292,7 @@ export default function Navbar() {
             priority
             className="transition-transform duration-500 ease-out will-change-transform group-hover:rotate-60 motion-reduce:transition-none motion-reduce:group-hover:rotate-0"
           />
-          <span className="relative font-display text-xl font-semibold tracking-tight text-black">
+          <span className="relative font-display text-[19px] font-medium tracking-[-0.02em] text-black">
             seerix
             <sup className="absolute -right-3.5 top-1 font-body text-[8px] font-extrabold leading-none tracking-normal text-black">
               TM
@@ -298,7 +300,7 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <ul className="hidden items-center gap-7 font-body text-[15px] text-zinc-700 lg:flex">
+        <ul className="hidden items-center gap-7 font-body text-[14px] text-zinc-500 lg:flex">
           <li>
             <ProductsMenu />
           </li>
@@ -315,30 +317,17 @@ export default function Navbar() {
         </ul>
 
         <div className="flex shrink-0 items-center gap-3 font-body">
-          <Link
+          <Button
             href="#faq"
-            className="hidden h-10 translate-y-0 items-center rounded-lg border border-black/15 bg-white px-4 text-[15px] text-zinc-700 [box-shadow:0_4px_0_0_#d4d4d8,0_5px_10px_rgba(0,0,0,0.10)] transition-all duration-150 ease-out hover:-translate-y-0.5 hover:border-black/30 hover:text-black hover:[box-shadow:0_6px_0_0_#d4d4d8,0_10px_18px_rgba(0,0,0,0.14)] active:translate-y-[3px] active:[box-shadow:0_1px_0_0_#d4d4d8,0_2px_4px_rgba(0,0,0,0.10)] sm:flex"
+            variant="secondary"
+            className="hidden sm:inline-flex"
           >
             Contact us
-          </Link>
-          <Link
-            href="#demo"
-            className="group flex h-10 translate-y-0 items-center gap-3 rounded-lg bg-gradient-to-b from-[#4a4a51] to-[#36363B] px-5 text-[15px] text-white [box-shadow:0_4px_0_0_#1c1c21,0_5px_10px_rgba(0,0,0,0.18)] transition-all duration-150 ease-out hover:-translate-y-0.5 hover:from-[#55555d] hover:to-[#3f3f45] hover:[box-shadow:0_6px_0_0_#1c1c21,0_10px_18px_rgba(0,0,0,0.22)] active:translate-y-[3px] active:[box-shadow:0_1px_0_0_#1c1c21,0_2px_4px_rgba(0,0,0,0.15)]"
-          >
+          </Button>
+          <Button href="#demo">
             See demo
-            <svg
-              className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1"
-              viewBox="0 0 16 16"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M3 8h10M9 4l4 4-4 4" />
-            </svg>
-          </Link>
+            <ButtonArrow />
+          </Button>
 
           <button
             type="button"
@@ -346,7 +335,7 @@ export default function Navbar() {
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="flex h-10 w-10 items-center justify-center rounded-lg border border-black/15 bg-white text-zinc-700 transition-colors hover:border-black/30 hover:text-black lg:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-[10px] border border-black/[0.09] bg-white text-zinc-500 transition-colors hover:border-black/[0.16] hover:text-black lg:hidden"
           >
             <MenuIcon open={menuOpen} />
           </button>
@@ -356,15 +345,15 @@ export default function Navbar() {
       {menuOpen && (
         <div
           id="mobile-menu"
-          className="max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-black/10 bg-white px-6 pb-8 pt-2 lg:hidden"
+          className="max-h-[calc(100dvh-72px)] overflow-y-auto overscroll-contain border-t border-black/[0.07] bg-white px-6 pb-8 pt-2 lg:hidden"
         >
-          <ul className="font-body text-[15px] text-zinc-700">
+          <ul className="font-body text-[15px] text-zinc-600">
             {links.map((link) => (
               <li key={link.label}>
                 <Link
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="flex items-center justify-between border-b border-dashed border-black/10 py-3.5 transition-colors hover:text-black"
+                  className="flex items-center justify-between border-b border-black/[0.07] py-3.5 transition-colors hover:text-black"
                 >
                   {link.label}
                   <ArrowBox />
@@ -379,7 +368,7 @@ export default function Navbar() {
             <div key={column.title} className="mt-6">
               <div className="flex items-center gap-2.5">
                 <span className={`h-2.5 w-2.5 rounded-sm ${column.swatch}`} />
-                <span className="font-mono text-[11px] font-medium tracking-wider text-black">
+                <span className="font-body text-[12px] font-medium text-black">
                   {column.title}
                 </span>
               </div>
@@ -389,7 +378,7 @@ export default function Navbar() {
                     <Link
                       href={item.href}
                       onClick={() => setMenuOpen(false)}
-                      className="flex items-center justify-between border-b border-dashed border-black/10 py-3 font-body text-[14px] text-zinc-700 transition-colors hover:text-black"
+                      className="flex items-center justify-between border-b border-black/[0.07] py-3 font-body text-[14px] text-zinc-600 transition-colors hover:text-black"
                     >
                       {item.label}
                       <ArrowBox />
@@ -401,13 +390,14 @@ export default function Navbar() {
           ))}
 
           {/* Mirrors the header CTA, which is hidden at this width. */}
-          <Link
+          <Button
             href="#faq"
             onClick={() => setMenuOpen(false)}
-            className="mt-7 flex h-11 items-center justify-center rounded-lg border border-black/15 bg-white px-6 font-body text-[15px] text-zinc-700 [box-shadow:0_4px_0_0_#d4d4d8] transition-colors hover:border-black/30 hover:text-black sm:hidden"
+            variant="secondary"
+            className="mt-7 w-full sm:hidden"
           >
             Contact us
-          </Link>
+          </Button>
         </div>
       )}
     </header>

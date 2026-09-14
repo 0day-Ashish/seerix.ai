@@ -1,43 +1,45 @@
 import Link from "next/link";
 
 import { BlockReveal } from "@/components/new-landing/block-reveal";
-
-const trustMarks = [
-  "Search Console",
-  "SERP tracking",
-  "Crawl data",
-  "Competitors",
-  "Algo updates",
-];
+import Button, { ButtonArrow } from "@/components/new-landing/button";
+import HeroPanel from "@/components/new-landing/hero-panel";
+import LightStreaks from "@/components/new-landing/light-streaks";
 
 /**
- * Sits above the railed content so the vertical rules start below it, and
- * closes with its own hairline to hand off to the first railed section.
+ * Left-aligned opener: an oversized headline, then a baseline row that carries
+ * the subhead on the left and a secondary announcement link on the right, with
+ * the product panel bleeding off the bottom of the section.
  */
 export default function Hero() {
   return (
-    <section className="border-b border-black/10 bg-white px-6 pb-24 pt-24 sm:pt-28">
-      <div className="mx-auto max-w-5xl">
-        <h1 className="max-w-3xl font-display text-5xl leading-[1.05] tracking-[-0.03em] text-black sm:text-6xl lg:text-7xl">
+    <section className="relative overflow-hidden bg-white px-6 pt-20 sm:pt-28">
+      <LightStreaks />
+      {/* Clears the streaks off the lower half so they never sit behind the
+          panel; the top stays open so the effect is actually visible. */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white" />
+
+      <div className="relative mx-auto max-w-6xl">
+        <h1 className="max-w-4xl font-display text-[38px] font-medium leading-[1.07] tracking-[-0.035em] text-black sm:text-[52px] lg:text-[60px]">
           <BlockReveal>
-            Seerix: the Search Console platform that explains why
+            The Search Console platform that explains why
           </BlockReveal>
         </h1>
 
-        <p className="mt-7 max-w-xl font-body text-[17px] leading-relaxed text-zinc-600">
-          Seerix connects to your Google Search Console, monitors your SERPs,
-          and tracks every ranking change, then does what dashboards
-          can&rsquo;t: tells you why it happened and what to do next.
-        </p>
+        {/* Subhead left, announcement right; they stack below sm. */}
+        <div className="mt-8 flex flex-col gap-6 sm:mt-12 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
+          <p className="max-w-md font-body text-[17px] leading-[1.55] text-zinc-500">
+            Diagnoses with receipts, not dashboards with homework. Built on
+            your own Search Console data.
+          </p>
 
-        <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
           <Link
-            href="#demo"
-            className="group flex h-11 translate-y-0 items-center gap-3 rounded-lg bg-gradient-to-b from-[#4a4a51] to-[#36363B] px-6 font-body text-[15px] text-white [box-shadow:0_4px_0_0_#1c1c21,0_5px_10px_rgba(0,0,0,0.18)] transition-all duration-150 ease-out hover:-translate-y-0.5 hover:from-[#55555d] hover:to-[#3f3f45] hover:[box-shadow:0_6px_0_0_#1c1c21,0_10px_18px_rgba(0,0,0,0.22)] active:translate-y-[3px] active:[box-shadow:0_1px_0_0_#1c1c21,0_2px_4px_rgba(0,0,0,0.15)]"
+            href="#features"
+            className="group inline-flex shrink-0 items-center gap-2 font-body text-[15px] text-zinc-500 transition-colors duration-200 hover:text-black"
           >
-            See demo
+            <span className="text-black">New</span>
+            Evidence-cited answers
             <svg
-              className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1"
+              className="h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
               viewBox="0 0 16 16"
               fill="none"
               stroke="currentColor"
@@ -46,30 +48,24 @@ export default function Hero() {
               strokeLinejoin="round"
               aria-hidden="true"
             >
-              <path d="M3 8h10M9 4l4 4-4 4" />
+              <path d="M6 3.5L10.5 8L6 12.5" />
             </svg>
-          </Link>
-
-          <Link
-            href="#features"
-            className="flex h-11 translate-y-0 items-center rounded-lg border border-black/15 bg-white px-6 font-body text-[15px] text-zinc-700 [box-shadow:0_4px_0_0_#d4d4d8,0_5px_10px_rgba(0,0,0,0.10)] transition-all duration-150 ease-out hover:-translate-y-0.5 hover:border-black/30 hover:text-black hover:[box-shadow:0_6px_0_0_#d4d4d8,0_10px_18px_rgba(0,0,0,0.14)] active:translate-y-[3px] active:[box-shadow:0_1px_0_0_#d4d4d8,0_2px_4px_rgba(0,0,0,0.10)]"
-          >
-            Explore features
           </Link>
         </div>
 
-        <div className="mt-16 flex flex-wrap items-center gap-x-6 gap-y-3">
-          <span className="font-mono text-[11px] font-medium tracking-wider text-zinc-400">
-            BUILT ON
-          </span>
-          {trustMarks.map((name) => (
-            <span
-              key={name}
-              className="font-display text-[15px] font-semibold tracking-tight text-zinc-400"
-            >
-              {name}
-            </span>
-          ))}
+        <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row">
+          <Button href="#demo">
+            See demo
+            <ButtonArrow />
+          </Button>
+          <Button href="#features" variant="secondary">
+            Explore features
+          </Button>
+        </div>
+
+        {/* Bleeds past the section's bottom edge, as the reference does. */}
+        <div className="mt-16 sm:mt-20">
+          <HeroPanel />
         </div>
       </div>
     </section>
