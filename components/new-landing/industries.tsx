@@ -33,8 +33,8 @@ const industries: Industry[] = [
 
 export default function Industries() {
   return (
-    <section id="industries" className="bg-white px-6 py-16 sm:py-20">
-      <div className="mx-auto max-w-6xl">
+    <section id="industries" className="bg-white px-6 py-20 sm:py-24">
+      <div className="mx-auto max-w-7xl">
         {/* Dark panel: the one inverted block on the page, so the section
             reads as a break between the FAQ and the closing CTA. */}
         <div className="overflow-hidden rounded-2xl bg-[#1c1c21] px-7 py-12 sm:px-12 sm:py-16">
@@ -53,8 +53,8 @@ export default function Industries() {
               </h2>
 
               <p className="mt-5 max-w-sm font-body text-[16px] leading-[1.6] text-white/45">
-                Seerix makes no assumptions about your vertical. Every
-                diagnosis is assembled from your own data, whatever you sell.
+                Seerix makes no assumptions about your vertical. Every diagnosis
+                is assembled from your own data, whatever you sell.
               </p>
 
               <Link

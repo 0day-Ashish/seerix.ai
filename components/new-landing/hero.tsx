@@ -7,29 +7,42 @@ import LightStreaks from "@/components/new-landing/light-streaks";
 
 /**
  * Left-aligned opener: an oversized headline, then a baseline row that carries
- * the subhead on the left and a secondary announcement link on the right, with
- * the product panel bleeding off the bottom of the section.
+ * the subhead on the left and a secondary announcement link on the right. The
+ * call-to-action pair is right-aligned beneath it, with the product panel
+ * bleeding off the bottom of the section.
  */
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-white px-6 pt-20 sm:pt-28">
-      <LightStreaks />
-      {/* Clears the streaks off the lower half so they never sit behind the
-          panel; the top stays open so the effect is actually visible. */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white" />
+    <section className="relative overflow-hidden bg-white px-6 pt-28 sm:pt-52">
+      <LightStreaks count={64} />
+      {/* Clears the streaks off the panel without erasing the whole field: the
+          fade starts low so the band behind the headline stays populated. */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-60% to-white to-95%" />
 
-      <div className="relative mx-auto max-w-6xl">
+      <div className="relative mx-auto max-w-7xl">
         <h1 className="max-w-4xl font-display text-[38px] font-medium leading-[1.07] tracking-[-0.035em] text-black sm:text-[52px] lg:text-[60px]">
           <BlockReveal>
             The Search Console platform that explains why
           </BlockReveal>
         </h1>
 
-        {/* Subhead left, announcement right; they stack below sm. */}
-        <div className="mt-8 flex flex-col gap-6 sm:mt-12 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
+        {/* Buttons sit on their own right-aligned row so the subhead and the
+            announcement below can share a baseline. */}
+        <div className="mt-5 flex flex-col items-stretch gap-3 sm:-mt-[44px] sm:flex-row sm:items-center sm:justify-end">
+          <Button href="#demo">
+            See demo
+            <ButtonArrow />
+          </Button>
+          <Button href="#features" variant="secondary">
+            Explore features
+          </Button>
+        </div>
+
+        {/* Subhead left, announcement right, aligned on their last line. */}
+        <div className="mt-5 flex flex-col gap-4 sm:mt-4 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
           <p className="max-w-md font-body text-[17px] leading-[1.55] text-zinc-500">
-            Diagnoses with receipts, not dashboards with homework. Built on
-            your own Search Console data.
+            Diagnoses with receipts, not dashboards with homework. Built on your
+            own Search Console data.
           </p>
 
           <Link
@@ -53,18 +66,8 @@ export default function Hero() {
           </Link>
         </div>
 
-        <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row">
-          <Button href="#demo">
-            See demo
-            <ButtonArrow />
-          </Button>
-          <Button href="#features" variant="secondary">
-            Explore features
-          </Button>
-        </div>
-
         {/* Bleeds past the section's bottom edge, as the reference does. */}
-        <div className="mt-16 sm:mt-20">
+        <div className="mt-3 sm:mt-5">
           <HeroPanel />
         </div>
       </div>

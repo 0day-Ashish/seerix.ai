@@ -40,8 +40,8 @@ const stats: Stat[] = [
 
 export default function Stats() {
   return (
-    <section id="numbers" className="bg-white px-6 py-16 sm:py-20">
-      <div className="mx-auto max-w-6xl">
+    <section id="numbers" className="bg-white px-6 py-20 sm:py-24">
+      <div className="mx-auto max-w-7xl">
         <SectionHeader
           label="By the numbers"
           heading="Every claim shows its receipts"

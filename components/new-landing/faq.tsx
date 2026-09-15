@@ -98,8 +98,8 @@ export default function Faq() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="bg-white px-6 py-16 sm:py-20">
-      <div className="mx-auto max-w-6xl">
+    <section id="faq" className="bg-white px-6 py-20 sm:py-24">
+      <div className="mx-auto max-w-7xl">
         {/* Heading parks alongside the list while it scrolls past. */}
         <div className="grid gap-10 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-16">
           <div className="lg:sticky lg:top-28 lg:self-start">
@@ -108,8 +108,8 @@ export default function Faq() {
               <BlockReveal>Fair questions.</BlockReveal>
             </h2>
             <p className="mt-5 font-body text-[17px] leading-[1.6] text-zinc-500">
-              Everything about Google permissions, how your data is handled,
-              and why the answers can&rsquo;t make things up about your site.
+              Everything about Google permissions, how your data is handled, and
+              why the answers can&rsquo;t make things up about your site.
             </p>
 
             <Link

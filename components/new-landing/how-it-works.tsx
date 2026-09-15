@@ -29,8 +29,8 @@ const steps: Step[] = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="bg-white px-6 py-16 sm:py-20">
-      <div className="mx-auto max-w-6xl">
+    <section id="how-it-works" className="bg-white px-6 py-20 sm:py-24">
+      <div className="mx-auto max-w-7xl">
         <SectionHeader
           label="How it works"
           heading="Connect once. Then just ask."

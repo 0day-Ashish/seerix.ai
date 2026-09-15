@@ -1,4 +1,3 @@
-import Link from "next/link";
 import HowItWorks from "@/components/new-landing/how-it-works";
 import Cta from "@/components/new-landing/cta";
 import Faq from "@/components/new-landing/faq";
@@ -10,7 +9,9 @@ import FooterContact from "@/components/new-landing/footer-contact";
 import FooterLinks from "@/components/new-landing/footer-links";
 import Stats from "@/components/new-landing/stats";
 import StrokeText from "@/components/new-landing/StrokeText";
+import ThemeToggle from "@/components/new-landing/theme-toggle";
 import ValueProp from "@/components/new-landing/value-prop";
+import WhatIsSeerix from "@/components/new-landing/what-is-seerix";
 import { ParticleDissolve } from "@/components/new-landing/ui/particle-dissolve";
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       <Hero />
 
       <div className="flex flex-1 flex-col">
+        <WhatIsSeerix />
         <HowItWorks />
         <Stats />
         <ValueProp />
@@ -35,29 +37,17 @@ export default function Home() {
         <div className="relative overflow-hidden bg-[#36363B] px-6 pb-[34vw] pt-12 sm:pb-[260px]">
           <div className="relative z-10">
             {/* Contact sits left, link columns right; they stack on mobile. */}
-            <div className="mx-auto flex max-w-6xl flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
+            <div className="mx-auto flex max-w-7xl flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
               <FooterContact />
               <FooterLinks />
             </div>
 
-            <div className="mx-auto mt-16 flex max-w-6xl flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mx-auto mt-16 flex max-w-7xl flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
               <p className="font-body text-[13px] text-white/40">
-                &copy; {new Date().getFullYear()} Seerix &middot; seerix.ai SEO answers
-                with receipts.
+                &copy; {new Date().getFullYear()} Seerix. All rights reserved.
               </p>
 
-              <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
-                {["Privacy", "Terms", "Legal"].map((label) => (
-                  <li key={label}>
-                    <Link
-                      href="#"
-                      className="font-body text-[13px] text-white/40 transition-colors duration-200 hover:text-white"
-                    >
-                      {label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <ThemeToggle />
             </div>
           </div>
 

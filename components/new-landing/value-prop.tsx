@@ -40,8 +40,8 @@ const cards: Card[] = [
 
 export default function ValueProp() {
   return (
-    <section id="features" className="bg-white px-6 py-16 sm:py-20">
-      <div className="mx-auto max-w-6xl">
+    <section id="features" className="bg-white px-6 py-20 sm:py-24">
+      <div className="mx-auto max-w-7xl">
         <SectionHeader
           label="What Seerix does"
           heading="Four jobs a consultant does. Automated, with evidence."

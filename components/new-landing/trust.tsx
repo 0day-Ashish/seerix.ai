@@ -24,8 +24,8 @@ const pillars: Pillar[] = [
 
 export default function Trust() {
   return (
-    <section id="trust" className="bg-white px-6 py-16 sm:py-20">
-      <div className="mx-auto max-w-6xl">
+    <section id="trust" className="bg-white px-6 py-20 sm:py-24">
+      <div className="mx-auto max-w-7xl">
         <SectionHeader
           label="Why trust it"
           heading="Built so it can't make things up about your site."

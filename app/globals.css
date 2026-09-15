@@ -24,26 +24,41 @@
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Tailwind v4 is CSS-first, so the dark variant is declared here rather than
+   in a config file. The class is set before paint by the script in <head>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Surface and ink, swapped per theme. Everything chrome-level reads these two
+   rather than a literal white, so the toggle moves the whole page. */
+:root {
+  --surface: #ffffff;
+  --ink: var(--color-amakusa-black);
+}
+
+.dark {
+  --surface: var(--color-amakusa-deep);
+  --ink: var(--color-white-grey);
+}
+
 html {
-  background: #ffffff;
-  color-scheme: light;
+  background: var(--surface);
 }
 
 body {
-  background: #ffffff;
-  color: var(--color-amakusa-black);
+  background: var(--surface);
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: var(--color-amakusa-black);
-  color: var(--color-white-grey);
+  background: var(--ink);
+  color: var(--surface);
 }
 
 /* Focus rings: visible, on-brand, never on mouse click. */
 :focus-visible {
-  outline: 2px solid var(--color-amakusa-black);
+  outline: 2px solid var(--ink);
   outline-offset: 2px;
   border-radius: 4px;
 }

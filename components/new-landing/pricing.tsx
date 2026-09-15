@@ -78,8 +78,8 @@ function Check() {
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="bg-white px-6 py-16 sm:py-20">
-      <div className="mx-auto max-w-6xl">
+    <section id="pricing" className="bg-white px-6 py-20 sm:py-24">
+      <div className="mx-auto max-w-7xl">
         <SectionHeader
           label="Pricing"
           heading="A fraction of one consultant hour."

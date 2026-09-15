@@ -3,7 +3,7 @@ import { BlockReveal } from "@/components/new-landing/block-reveal";
 
 export default function Cta() {
   return (
-    <section id="demo" className="bg-white px-6 pb-20 pt-16 sm:pb-24 sm:pt-20">
+    <section id="demo" className="bg-white px-6 py-20 sm:py-24">
       <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
         <h2 className="font-display text-[32px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[44px]">
           <BlockReveal>Stop guessing why. Start knowing.</BlockReveal>

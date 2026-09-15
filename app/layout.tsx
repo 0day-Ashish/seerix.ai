@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { DM_Sans, Geist_Mono, Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-import InfoBar from "@/components/new-landing/info-bar";
 import Navbar from "@/components/new-landing/navbar";
 
 // Display face: headings and the wordmark.
@@ -37,15 +36,25 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
+    // The theme script below rewrites this element's class and color-scheme
+    // before React hydrates, which the server cannot predict; suppressing the
+    // warning here is the sanctioned escape hatch and is scoped to this node.
     <html
       lang="en"
       className={`${spaceGrotesk.variable} ${dmSans.variable} ${inter.variable} ${geistMono.variable} antialiased`}
+      style={{ colorScheme: "light" }}
+      suppressHydrationWarning
     >
       <head>
         <meta name="theme-color" content="#36363B" />
+        {/* Runs before paint so a stored dark choice never flashes light. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("seerix-theme")||"system";var d=t==="dark"||(t==="system"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",d);document.documentElement.style.colorScheme=d?"dark":"light";}catch(e){}})();`,
+          }}
+        />
       </head>
-      <body className="flex min-h-dvh flex-col bg-white font-sans text-black">
-        <InfoBar />
+      <body className="flex min-h-dvh flex-col font-sans">
         <Navbar />
         {children}
       </body>

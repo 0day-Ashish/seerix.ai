@@ -232,19 +232,7 @@ function MenuIcon({ open }: { open: boolean }) {
 }
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    // The info bar sits above the sticky header and scrolls away with the page,
-    // so the border fades in once it has cleared the top.
-    function onScroll() {
-      setScrolled(window.scrollY > 8);
-    }
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   // The panel only exists below lg, so growing past that breakpoint while it
   // is open would otherwise leave the scroll lock stuck on.
@@ -275,129 +263,129 @@ export default function Navbar() {
   }, [menuOpen]);
 
   return (
-    <header
-      className={`sticky top-0 z-40 w-full border-b bg-white/80 backdrop-blur-xl transition-colors duration-300 ease-out ${
-        scrolled ? "border-black/[0.07]" : "border-transparent"
-      }`}
-    >
-      <nav className="mx-auto flex h-[72px] max-w-6xl items-center justify-between gap-8 px-6">
-        <Link href="/" className="group flex shrink-0 items-center gap-2.5">
-          {/* The mark is three bars at 60 degree steps, so a 60 degree turn
+    <header className="sticky top-0 z-40 w-full border-b border-black/[0.07] bg-white backdrop-blur-xl">
+      <div className="px-6">
+        <nav className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-8">
+          <Link href="/" className="group flex shrink-0 items-center gap-2.5">
+            {/* The mark is three bars at 60 degree steps, so a 60 degree turn
               lands it back on itself and the spin has no visible seam. */}
-          <Image
-            src="/assets/seerix-symbol-ink.svg"
-            alt="Seerix"
-            width={24}
-            height={24}
-            priority
-            className="transition-transform duration-500 ease-out will-change-transform group-hover:rotate-60 motion-reduce:transition-none motion-reduce:group-hover:rotate-0"
-          />
-          <span className="relative font-display text-[19px] font-medium tracking-[-0.02em] text-black">
-            seerix
-            <sup className="absolute -right-3.5 top-1 font-body text-[8px] font-extrabold leading-none tracking-normal text-black">
-              TM
-            </sup>
-          </span>
-        </Link>
+            <Image
+              src="/assets/seerix-symbol-ink.svg"
+              alt="Seerix"
+              width={24}
+              height={24}
+              priority
+              className="transition-transform duration-500 ease-out will-change-transform group-hover:rotate-60 motion-reduce:transition-none motion-reduce:group-hover:rotate-0"
+            />
+            <span className="relative font-display text-[19px] font-medium tracking-[-0.02em] text-black">
+              seerix
+              <sup className="absolute -right-3.5 top-1 font-body text-[8px] font-extrabold leading-none tracking-normal text-black">
+                TM
+              </sup>
+            </span>
+          </Link>
 
-        <ul className="hidden items-center gap-7 font-body text-[14px] text-zinc-500 lg:flex">
-          <li>
-            <ProductsMenu />
-          </li>
-          {links.map((link) => (
-            <li key={link.label}>
-              <Link
-                href={link.href}
-                className="transition-colors hover:text-black"
-              >
-                {link.label}
-              </Link>
+          <ul className="hidden items-center gap-7 font-body text-[14px] text-zinc-500 lg:flex">
+            <li>
+              <ProductsMenu />
             </li>
-          ))}
-        </ul>
+            {links.map((link) => (
+              <li key={link.label}>
+                <Link
+                  href={link.href}
+                  className="transition-colors hover:text-black"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-        <div className="flex shrink-0 items-center gap-3 font-body">
-          <Button
-            href="#faq"
-            variant="secondary"
-            className="hidden sm:inline-flex"
-          >
-            Contact us
-          </Button>
-          <Button href="#demo">
-            See demo
-            <ButtonArrow />
-          </Button>
+          <div className="flex shrink-0 items-center gap-3 font-body">
+            <Button
+              href="#faq"
+              variant="secondary"
+              className="hidden sm:inline-flex"
+            >
+              Contact us
+            </Button>
+            <Button href="#demo">
+              See demo
+              <ButtonArrow />
+            </Button>
 
-          <button
-            type="button"
-            onClick={() => setMenuOpen((value) => !value)}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="flex h-11 w-11 items-center justify-center rounded-[10px] border border-black/[0.09] bg-white text-zinc-500 transition-colors hover:border-black/[0.16] hover:text-black lg:hidden"
-          >
-            <MenuIcon open={menuOpen} />
-          </button>
-        </div>
-      </nav>
+            <button
+              type="button"
+              onClick={() => setMenuOpen((value) => !value)}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              className="flex h-11 w-11 items-center justify-center rounded-[10px] border border-black/[0.09] bg-white text-zinc-500 transition-colors hover:border-black/[0.16] hover:text-black lg:hidden"
+            >
+              <MenuIcon open={menuOpen} />
+            </button>
+          </div>
+        </nav>
+      </div>
 
       {menuOpen && (
         <div
           id="mobile-menu"
           className="max-h-[calc(100dvh-72px)] overflow-y-auto overscroll-contain border-t border-black/[0.07] bg-white px-6 pb-8 pt-2 lg:hidden"
         >
-          <ul className="font-body text-[15px] text-zinc-600">
-            {links.map((link) => (
-              <li key={link.label}>
-                <Link
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="flex items-center justify-between border-b border-black/[0.07] py-3.5 transition-colors hover:text-black"
-                >
-                  {link.label}
-                  <ArrowBox />
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <div className="mx-auto max-w-7xl">
+            <ul className="font-body text-[15px] text-zinc-600">
+              {links.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center justify-between border-b border-black/[0.07] py-3.5 transition-colors hover:text-black"
+                  >
+                    {link.label}
+                    <ArrowBox />
+                  </Link>
+                </li>
+              ))}
+            </ul>
 
-          {/* The desktop mega-menu is hover-driven, so its contents are
+            {/* The desktop mega-menu is hover-driven, so its contents are
               re-laid out here as plain stacked groups. */}
-          {productColumns.map((column) => (
-            <div key={column.title} className="mt-6">
-              <div className="flex items-center gap-2.5">
-                <span className={`h-2.5 w-2.5 rounded-sm ${column.swatch}`} />
-                <span className="font-body text-[12px] font-medium text-black">
-                  {column.title}
-                </span>
+            {productColumns.map((column) => (
+              <div key={column.title} className="mt-6">
+                <div className="flex items-center gap-2.5">
+                  <span className={`h-2.5 w-2.5 rounded-sm ${column.swatch}`} />
+                  <span className="font-body text-[12px] font-medium text-black">
+                    {column.title}
+                  </span>
+                </div>
+                <ul className="mt-1">
+                  {column.items.map((item) => (
+                    <li key={item.label}>
+                      <Link
+                        href={item.href}
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center justify-between border-b border-black/[0.07] py-3 font-body text-[14px] text-zinc-600 transition-colors hover:text-black"
+                      >
+                        {item.label}
+                        <ArrowBox />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <ul className="mt-1">
-                {column.items.map((item) => (
-                  <li key={item.label}>
-                    <Link
-                      href={item.href}
-                      onClick={() => setMenuOpen(false)}
-                      className="flex items-center justify-between border-b border-black/[0.07] py-3 font-body text-[14px] text-zinc-600 transition-colors hover:text-black"
-                    >
-                      {item.label}
-                      <ArrowBox />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            ))}
 
-          {/* Mirrors the header CTA, which is hidden at this width. */}
-          <Button
-            href="#faq"
-            onClick={() => setMenuOpen(false)}
-            variant="secondary"
-            className="mt-7 w-full sm:hidden"
-          >
-            Contact us
-          </Button>
+            {/* Mirrors the header CTA, which is hidden at this width. */}
+            <Button
+              href="#faq"
+              onClick={() => setMenuOpen(false)}
+              variant="secondary"
+              className="mt-7 w-full sm:hidden"
+            >
+              Contact us
+            </Button>
+          </div>
         </div>
       )}
     </header>
