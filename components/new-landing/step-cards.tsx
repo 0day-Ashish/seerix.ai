@@ -40,9 +40,9 @@ function Frame({ children }: { children: React.ReactNode }) {
         alt=""
         fill
         sizes="(min-width: 1024px) 50vw, 100vw"
-        className="pointer-events-none select-none object-cover object-top opacity-[0.45] [transform:scaleY(-1)]"
+        className="pointer-events-none select-none object-cover object-top [transform:scaleY(-1)]"
       />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#1c1c21]/70 to-[#1c1c21]" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#1c1c21]/20 via-[#1c1c21]/55 to-[#1c1c21]/95" />
 
       <div className="relative flex flex-1 flex-col">{children}</div>
     </div>
