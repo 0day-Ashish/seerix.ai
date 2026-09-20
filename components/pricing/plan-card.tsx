@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import Button, { ButtonArrow } from "@/components/new-landing/button";
 
 type PlanCardProps = {
@@ -53,15 +55,32 @@ export default function PlanCard({
 }: PlanCardProps) {
   return (
     <div
-      className={`flex flex-col rounded-2xl border p-3 transition-colors duration-200 ${
+      className={`relative flex flex-col overflow-hidden rounded-2xl border p-3 transition-colors duration-200 ${
         featured
           ? "border-black/[0.10] bg-zinc-50 shadow-[0_2px_16px_rgba(0,0,0,0.06)]"
           : "border-black/[0.07] bg-white hover:border-black/[0.14]"
       }`}
     >
+      {/* The featured plan carries art; the others stay plain so it keeps the
+          emphasis. Flipped vertically, so the image's near-black end sits at
+          the top and its pale end at the bottom. The scrim runs the other way
+          with it, clearing the dark end off the copy. */}
+      {featured && (
+        <>
+          <Image
+            src="/assets/pricing.png"
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 33vw, 100vw"
+            className="pointer-events-none select-none object-cover object-top [transform:scaleY(-1)]"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-zinc-50/80 to-zinc-50" />
+        </>
+      )}
+
       {/* Header block: its own bordered panel inside the card. */}
       <div
-        className={`rounded-xl border p-5 ${
+        className={`relative rounded-xl border p-5 ${
           featured ? "border-black/[0.06] bg-white" : "border-black/[0.07]"
         }`}
       >
@@ -81,7 +100,7 @@ export default function PlanCard({
         </p>
       </div>
 
-      <div className="flex flex-1 flex-col px-5 pb-2 pt-6">
+      <div className="relative flex flex-1 flex-col px-5 pb-2 pt-6">
         {/* Price, over a rule that stops short of the card's width. */}
         <p className="flex flex-wrap items-baseline gap-x-1.5 border-b border-black/[0.10] pb-4">
           <span className="font-display text-[17px] font-medium text-black">

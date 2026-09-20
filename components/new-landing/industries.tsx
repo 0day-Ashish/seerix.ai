@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { BlockReveal } from "@/components/new-landing/block-reveal";
@@ -37,8 +38,19 @@ export default function Industries() {
       <div className="mx-auto max-w-7xl">
         {/* Dark panel: the one inverted block on the page, so the section
             reads as a break between the FAQ and the closing CTA. */}
-        <div className="overflow-hidden rounded-2xl bg-[#1c1c21] px-7 py-12 sm:px-12 sm:py-16">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
+        <div className="relative overflow-hidden rounded-2xl bg-[#1c1c21] px-7 py-12 sm:px-12 sm:py-16">
+          {/* Ghost light: already a dark navy, so it needs only a light scrim
+              rather than the heavy one a pale image would want. */}
+          <Image
+            src="/assets/Ghost light-2048x1428.png"
+            alt=""
+            fill
+            sizes="(min-width: 1280px) 80rem, 100vw"
+            className="pointer-events-none select-none object-cover"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-[#1c1c21]/55" />
+
+          <div className="relative grid gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
             {/* Heading parks alongside the grid while it scrolls past. */}
             <div className="lg:sticky lg:top-28 lg:self-start">
               <span className="flex items-center gap-2.5">

@@ -8,6 +8,8 @@
  * Decorative: the step copy beside them carries the same meaning in prose.
  */
 
+import Image from "next/image";
+
 import {
   AskVisual,
   ConnectVisual,
@@ -19,7 +21,33 @@ import {
     section jumped when the selected step changed. Every panel is now exactly
     the same box, and the readout absorbs the difference internally. */
 const frame =
-  "flex h-[36rem] flex-col overflow-hidden rounded-2xl bg-[#1c1c21] shadow-[0_30px_70px_-30px_rgba(0,0,0,0.5)] lg:h-[39rem]";
+  "relative flex h-[36rem] flex-col overflow-hidden rounded-2xl bg-[#1c1c21] shadow-[0_30px_70px_-30px_rgba(0,0,0,0.5)] lg:h-[39rem]";
+
+/**
+ * The card shell. The art is declared here rather than in each of the three
+ * panels, so they cannot drift apart.
+ *
+ * The image is flipped vertically, as on the featured pricing card, putting
+ * its near-black end at the top. On this dark ground the scrim runs the other
+ * way from the pricing card's: it clears the pale end off the readout at the
+ * bottom, where the light copy sits.
+ */
+function Frame({ children }: { children: React.ReactNode }) {
+  return (
+    <div aria-hidden="true" className={frame}>
+      <Image
+        src="/assets/pricing.png"
+        alt=""
+        fill
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        className="pointer-events-none select-none object-cover object-top opacity-[0.45] [transform:scaleY(-1)]"
+      />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#1c1c21]/70 to-[#1c1c21]" />
+
+      <div className="relative flex flex-1 flex-col">{children}</div>
+    </div>
+  );
+}
 
 const header = "border-b border-white/[0.08] px-6 py-4";
 const headerText = "font-body text-[13px] text-white/45";
@@ -38,7 +66,7 @@ export function ConnectCard() {
   ];
 
   return (
-    <div aria-hidden="true" className={frame}>
+    <Frame>
       <div className={header}>
         <p className={headerText}>Connect Google Search Console</p>
       </div>
@@ -92,7 +120,7 @@ export function ConnectCard() {
           <span className="font-mono text-[12px] text-white/60">16 months</span>
         </div>
       </div>
-    </div>
+    </Frame>
   );
 }
 
@@ -106,7 +134,7 @@ export function StudyCard() {
   ];
 
   return (
-    <div aria-hidden="true" className={frame}>
+    <Frame>
       <div className={header}>
         <p className={headerText}>Continuous background analysis</p>
       </div>
@@ -158,7 +186,7 @@ export function StudyCard() {
           </span>
         </div>
       </div>
-    </div>
+    </Frame>
   );
 }
 
@@ -171,7 +199,7 @@ export function AskCard() {
   ];
 
   return (
-    <div aria-hidden="true" className={frame}>
+    <Frame>
       <div className={header}>
         <p className={headerText}>Why did /pricing lose traffic last week?</p>
       </div>
@@ -232,6 +260,6 @@ export function AskCard() {
           </span>
         </div>
       </div>
-    </div>
+    </Frame>
   );
 }
