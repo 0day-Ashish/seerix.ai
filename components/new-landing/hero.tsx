@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 import { BlockReveal } from "@/components/new-landing/block-reveal";
-import Button, { ButtonArrow } from "@/components/new-landing/button";
 import HeroPanel from "@/components/new-landing/hero-panel";
 import Threads from "@/components/Threads";
+import WaitlistForm from "@/components/new-landing/waitlist-form";
 
 /**
  * Left-aligned opener: an oversized headline, then a baseline row that carries
@@ -70,19 +70,10 @@ export default function Hero() {
           </BlockReveal>
         </h1>
 
-        {/* Buttons sit on their own right-aligned row, tucked up beside the
-            headline's last line. */}
-        {/* Scaled down below sm to sit with the smaller mobile headline. The
-            shared Button size is restored at sm, so the "one height
-            everywhere" rule still holds from that width up. */}
-        <div className="mt-5 flex flex-wrap items-center gap-2.5 sm:-mt-[44px] sm:gap-3 sm:justify-end">
-          <Button href="#demo" size="compact">
-            See demo
-            <ButtonArrow />
-          </Button>
-          <Button href="#features" variant="secondary" size="compact">
-            Explore features
-          </Button>
+        {/* The hero's one action. It keeps the right-aligned placement the
+            button pair had, tucked up beside the headline's last line. */}
+        <div className="mt-5 sm:-mt-[44px] sm:flex sm:justify-end">
+          <WaitlistForm />
         </div>
 
         {/* The announcement that used to share this row now sits in the pill
