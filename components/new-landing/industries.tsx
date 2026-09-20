@@ -93,6 +93,38 @@ export default function Industries() {
                   </p>
                 </div>
               ))}
+
+              {/* An odd number of industries leaves the last cell empty, so it
+                  closes the table rather than sitting blank: the list is not
+                  meant to be exhaustive, and this is where you say so. */}
+              <div className="group border-t border-white/10 py-7 sm:border-l sm:pl-7">
+                <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-white/55">
+                  Not listed here?
+                </h3>
+                <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-white/35">
+                  The vertical never changes the method. Connect a property and
+                  Seerix reads what your market actually does.
+                </p>
+
+                <Link
+                  href="/contact"
+                  className="mt-4 inline-flex items-center gap-2 font-body text-[15px] text-white/70 transition-colors duration-200 hover:text-white"
+                >
+                  Ask about your case
+                  <svg
+                    className="h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 3.5L10.5 8L6 12.5" />
+                  </svg>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

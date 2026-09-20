@@ -19,7 +19,7 @@ export default function Cta() {
             See demo
             <ButtonArrow />
           </Button>
-          <Button href="mailto:hello@seerix.ai" variant="secondary">
+          <Button href="/contact" variant="secondary">
             Contact us
           </Button>
         </div>

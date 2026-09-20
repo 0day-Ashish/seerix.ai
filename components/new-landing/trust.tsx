@@ -48,7 +48,7 @@ export default function Trust() {
         </div>
 
         <Link
-          href="#"
+          href="/privacy"
           className="group mt-10 inline-flex items-center gap-2 font-body text-[15px] text-zinc-500 transition-colors duration-200 hover:text-black"
         >
           Privacy Policy

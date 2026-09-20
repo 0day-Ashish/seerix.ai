@@ -8,9 +8,9 @@ import Button, { ButtonArrow } from "@/components/new-landing/button";
 
 const links = [
   { label: "How it works", href: "#how-it-works" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Pricing", href: "/pricing" },
   { label: "FAQ", href: "#faq" },
-  { label: "Privacy", href: "#" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const productColumns = [
@@ -153,7 +153,7 @@ function ProductsMenu() {
                 {productColumns.map((column) => (
                   <div
                     key={column.title}
-                    className="flex flex-col rounded-md border border-white/40 bg-white/90 p-3.5 backdrop-blur-md"
+                    className="flex flex-col rounded-md border border-black/[0.06] bg-white p-3.5"
                   >
                     <div className="flex items-center gap-2.5 pb-4">
                       <span
@@ -185,7 +185,7 @@ function ProductsMenu() {
 
               <Link
                 href={featured.href}
-                className="group mt-1.5 flex items-center justify-between gap-3 rounded-md border border-white/40 bg-white/90 p-2.5 backdrop-blur-md transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-white/70 hover:bg-white hover:shadow-md hover:shadow-black/10"
+                className="group mt-1.5 flex items-center justify-between gap-3 rounded-md border border-black/[0.06] bg-white p-2.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-black/[0.14] hover:shadow-md hover:shadow-black/10"
               >
                 <span className="flex items-center gap-3">
                   <span className="flex h-7 w-7 items-center justify-center rounded border border-black/10 bg-white">
@@ -302,17 +302,17 @@ export default function Navbar() {
           </ul>
 
           <div className="flex shrink-0 items-center gap-3 font-body">
-            <Button
-              href="#faq"
-              variant="secondary"
-              className="hidden sm:inline-flex"
-            >
-              Contact us
-            </Button>
-            <Button href="#demo">
-              See demo
-              <ButtonArrow />
-            </Button>
+            <span className="hidden lg:contents">
+              <Button href="/contact" variant="secondary">
+                Contact us
+              </Button>
+            </span>
+            <span className="hidden sm:contents">
+              <Button href="#demo">
+                See demo
+                <ButtonArrow />
+              </Button>
+            </span>
 
             <button
               type="button"
@@ -377,14 +377,25 @@ export default function Navbar() {
             ))}
 
             {/* Mirrors the header CTA, which is hidden at this width. */}
-            <Button
-              href="#faq"
-              onClick={() => setMenuOpen(false)}
-              variant="secondary"
-              className="mt-7 w-full sm:hidden"
-            >
-              Contact us
-            </Button>
+            {/* Mirrors the header CTAs, which are held back below lg. */}
+            <div className="mt-7 flex flex-col gap-3 lg:hidden">
+              <Button
+                href="#demo"
+                onClick={() => setMenuOpen(false)}
+                className="w-full sm:hidden"
+              >
+                See demo
+                <ButtonArrow />
+              </Button>
+              <Button
+                href="/contact"
+                onClick={() => setMenuOpen(false)}
+                variant="secondary"
+                className="w-full"
+              >
+                Contact us
+              </Button>
+            </div>
           </div>
         </div>
       )}

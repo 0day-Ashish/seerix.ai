@@ -13,14 +13,17 @@ const columns = [
   {
     title: "Legal",
     links: [
-      { label: "Privacy Policy", href: "#" },
-      { label: "Terms of Service", href: "#" },
-      { label: "About SeerixBot", href: "#" },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms of Service", href: "/terms" },
+      { label: "About SeerixBot", href: "/seerixbot" },
     ],
   },
   {
     title: "Contact",
-    links: [{ label: "hello@seerix.ai", href: "mailto:hello@seerix.ai" }],
+    links: [
+      { label: "Contact us", href: "/contact" },
+      { label: "hello@seerix.ai", href: "mailto:hello@seerix.ai" },
+    ],
   },
 ];
 

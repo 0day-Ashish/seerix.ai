@@ -143,7 +143,13 @@ export default function Pricing() {
         </div>
 
         <p className="mt-10 font-body text-[15px] leading-[1.65] text-zinc-500">
-          Early access is invite-based while we work closely with design
+          <Link
+            href="/pricing"
+            className="text-black underline underline-offset-2 transition-colors hover:text-zinc-500"
+          >
+            Compare every plan side by side
+          </Link>
+          . Early access is invite-based while we work closely with design
           partners. Reach us at{" "}
           <Link
             href="mailto:hello@seerix.ai"

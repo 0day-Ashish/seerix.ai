@@ -3,6 +3,7 @@ import { DM_Sans, Geist_Mono, Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 import Navbar from "@/components/new-landing/navbar";
+import { siteUrl } from "@/app/sitemap";
 
 // Display face: headings and the wordmark.
 const spaceGrotesk = Space_Grotesk({
@@ -23,6 +24,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  // Resolves relative Open Graph and canonical URLs against the real origin
+  // rather than localhost; shares the constant the sitemap is built from.
+  metadataBase: new URL(siteUrl),
   title: "Seerix \u00b7 The Search Console platform that explains why",
   description:
     "Seerix connects to your Google Search Console, monitors your SERPs, and tracks every ranking change, then tells you why it happened and what to do next.",
