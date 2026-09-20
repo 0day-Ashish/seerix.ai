@@ -3,6 +3,7 @@ import Cta from "@/components/new-landing/cta";
 import Faq from "@/components/new-landing/faq";
 import Hero from "@/components/new-landing/hero";
 import Industries from "@/components/new-landing/industries";
+import SectionDivider from "@/components/new-landing/section-divider";
 import SiteFooter from "@/components/new-landing/site-footer";
 import Pricing from "@/components/new-landing/pricing";
 import Trust from "@/components/new-landing/trust";
@@ -15,15 +16,25 @@ export default function Home() {
     <div className="flex flex-1 flex-col bg-white">
       <Hero />
 
+      {/* Dividers live here rather than inside each section, so the rule sits
+          between siblings and the last section before the footer has none. */}
       <div className="flex flex-1 flex-col">
         <WhatIsSeerix />
+        <SectionDivider />
         <HowItWorks />
+        <SectionDivider />
         <Stats />
+        <SectionDivider />
         <ValueProp />
+        <SectionDivider />
         <Trust />
+        <SectionDivider />
         <Pricing />
+        <SectionDivider />
         <Faq />
+        <SectionDivider />
         <Industries />
+        <SectionDivider />
         <Cta />
       </div>
 

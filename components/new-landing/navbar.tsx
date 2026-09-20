@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import Button, { ButtonArrow } from "@/components/new-landing/button";
 
 const links = [
-  { label: "How it works", href: "#how-it-works" },
+  { label: "Changelog", href: "/changelog" },
   { label: "Pricing", href: "/pricing" },
   { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "/contact" },

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import Button from "@/components/new-landing/button";
 import SectionHeader from "@/components/new-landing/section-header";
+import PlanCard from "@/components/pricing/plan-card";
 
 type Plan = {
   name: string;
@@ -59,23 +59,6 @@ const plans: Plan[] = [
   },
 ];
 
-function Check() {
-  return (
-    <svg
-      className="mt-[3px] h-3.5 w-3.5 shrink-0 text-zinc-400"
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M3 8.5l3.5 3.5L13 5" />
-    </svg>
-  );
-}
-
 export default function Pricing() {
   return (
     <section id="pricing" className="bg-white px-6 py-20 sm:py-24">
@@ -88,57 +71,17 @@ export default function Pricing() {
 
         <div className="mt-10 grid gap-4 lg:grid-cols-3">
           {plans.map((plan) => (
-            <div
+            <PlanCard
               key={plan.name}
-              className={`flex flex-col rounded-xl border bg-white p-7 ${
-                plan.featured
-                  ? "border-black/[0.16] shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
-                  : "border-black/[0.07]"
-              }`}
-            >
-              <div className="flex items-center justify-between gap-3">
-                <h3 className="font-display text-[17px] font-medium tracking-[-0.02em] text-black">
-                  {plan.name}
-                </h3>
-                {plan.featured && (
-                  <span className="rounded-full border border-black/[0.08] px-2.5 py-0.5 font-body text-[12px] text-zinc-500">
-                    Most popular
-                  </span>
-                )}
-              </div>
-
-              <p className="mt-6 flex flex-wrap items-baseline gap-x-1">
-                <span className="font-display text-[40px] font-medium tracking-[-0.03em] text-black">
-                  {plan.price}
-                </span>
-                <span className="font-body text-[15px] text-zinc-400">
-                  {plan.cadence}
-                </span>
-              </p>
-
-              <p className="mt-2 font-body text-[15px] leading-[1.65] text-zinc-500">
-                {plan.subtitle}
-              </p>
-
-              <ul className="mt-7 flex flex-1 flex-col gap-3 border-t border-black/[0.07] pt-7">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2.5">
-                    <Check />
-                    <span className="font-body text-[15px] leading-[1.6] text-zinc-500">
-                      {feature}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-
-              <Button
-                href="#demo"
-                variant={plan.featured ? "primary" : "secondary"}
-                className="mt-7 w-full"
-              >
-                See demo
-              </Button>
-            </div>
+              name={plan.name}
+              price={plan.price}
+              cadence={plan.cadence}
+              subtitle={plan.subtitle}
+              features={plan.features}
+              cta="See demo"
+              href="#demo"
+              featured={plan.featured}
+            />
           ))}
         </div>
 
