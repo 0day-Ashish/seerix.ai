@@ -3,6 +3,7 @@ import { DM_Sans, Geist_Mono, Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 import Navbar from "@/components/new-landing/navbar";
+import SmoothScroll from "@/components/smooth-scroll";
 import { siteUrl } from "@/app/sitemap";
 
 // Display face: headings and the wordmark.
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="flex min-h-dvh flex-col font-sans">
+        <SmoothScroll />
         <Navbar />
         {children}
       </body>

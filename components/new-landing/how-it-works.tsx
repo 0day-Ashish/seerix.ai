@@ -122,7 +122,7 @@ export default function HowItWorks() {
           {/* Sits first in the source on mobile so the panel is seen before it
               is argued, and returns to the right on wide screens, dropped a
               little below the heading it sits beside. */}
-          <div className="order-first lg:order-none lg:mt-16">
+          <div className="order-first lg:order-none lg:mt-8">
             {steps[active].card}
           </div>
         </div>

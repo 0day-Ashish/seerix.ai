@@ -25,7 +25,7 @@ function Dot() {
  */
 export default function PricingHero() {
   return (
-    <section className="relative overflow-hidden border-b border-black/[0.07] bg-white px-6 pt-16 sm:pt-32">
+    <section className="relative overflow-hidden bg-white px-6 pt-16 sm:pt-32">
       <LightStreaks count={64} />
       {/* Matches the landing hero: the field stays populated behind the
           headline and clears before the cards begin. */}

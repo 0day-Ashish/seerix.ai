@@ -14,17 +14,20 @@ import {
   StudyVisual,
 } from "@/components/new-landing/step-visuals";
 
-/** Taller than any one panel's content needs: the three share a minimum so
-    swapping between steps never resizes the section, and the extra height
-    gives the card presence against the step list beside it. */
+/** A fixed height, not a minimum: the three panels carry different numbers of
+    readout rows, so a minimum let the longest one size itself taller and the
+    section jumped when the selected step changed. Every panel is now exactly
+    the same box, and the readout absorbs the difference internally. */
 const frame =
-  "flex min-h-[34rem] flex-col overflow-hidden rounded-2xl bg-[#1c1c21] shadow-[0_30px_70px_-30px_rgba(0,0,0,0.5)] lg:min-h-[40rem]";
+  "flex h-[36rem] flex-col overflow-hidden rounded-2xl bg-[#1c1c21] shadow-[0_30px_70px_-30px_rgba(0,0,0,0.5)] lg:h-[39rem]";
 
 const header = "border-b border-white/[0.08] px-6 py-4";
 const headerText = "font-body text-[13px] text-white/45";
 
-/** The 3D construction sits in its own stage above the readout. */
-const stage = "relative min-h-[15rem] flex-1 overflow-hidden";
+/** The 3D construction sits in its own stage above the readout. Fixed height
+    rather than flex-1: stretching it parked the card's spare height as an
+    empty band under the scene instead of closing the gap. */
+const stage = "relative h-[12rem] shrink-0 overflow-hidden lg:h-[14rem]";
 
 /** Step 01: the read-only Google connection and what it pulls back. */
 export function ConnectCard() {
@@ -44,7 +47,7 @@ export function ConnectCard() {
         <ConnectVisual />
       </div>
 
-      <div className="flex flex-col px-6 pb-6 pt-5">
+      <div className="flex flex-1 flex-col px-6 pb-6 pt-5">
         <p className="max-w-md font-display text-[19px] font-medium leading-snug tracking-[-0.02em] text-white">
           One sign-in. Sixteen months of history, read-only.
         </p>
@@ -82,7 +85,7 @@ export function ConnectCard() {
           ))}
         </div>
 
-        <div className="mt-5 flex items-center justify-between gap-4 border-t border-white/[0.08] pt-5">
+        <div className="mt-auto flex items-center justify-between gap-4 border-t border-white/[0.08] pt-5">
           <span className="font-body text-[13px] text-white/45">
             History pulled on first sync
           </span>
@@ -112,7 +115,7 @@ export function StudyCard() {
         <StudyVisual />
       </div>
 
-      <div className="flex flex-col px-6 pb-6 pt-5">
+      <div className="flex flex-1 flex-col px-6 pb-6 pt-5">
         <p className="max-w-md font-display text-[19px] font-medium leading-snug tracking-[-0.02em] text-white">
           It keeps studying your site while you do other work.
         </p>
@@ -146,7 +149,7 @@ export function StudyCard() {
           ))}
         </div>
 
-        <div className="mt-5 flex items-center justify-between gap-4 border-t border-white/[0.08] pt-5">
+        <div className="mt-auto flex items-center justify-between gap-4 border-t border-white/[0.08] pt-5">
           <span className="font-body text-[13px] text-white/45">
             Last run
           </span>
@@ -177,7 +180,7 @@ export function AskCard() {
         <AskVisual />
       </div>
 
-      <div className="flex flex-col px-6 pb-6 pt-5">
+      <div className="flex flex-1 flex-col px-6 pb-6 pt-5">
         <p className="max-w-md font-display text-[19px] font-medium leading-snug tracking-[-0.02em] text-white">
           Rankings fell after a title rewrite, not a Google update.
         </p>
@@ -210,7 +213,7 @@ export function AskCard() {
           ))}
         </div>
 
-        <div className="mt-5 flex items-center justify-between gap-4 border-t border-white/[0.08] pt-5">
+        <div className="mt-auto flex items-center justify-between gap-4 border-t border-white/[0.08] pt-5">
           <span className="font-body text-[13px] text-white/45">
             Confidence in this diagnosis
           </span>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import Button, { ButtonArrow } from "@/components/new-landing/button";
@@ -102,9 +103,23 @@ export default function Stats() {
 
             {/* Fills the fourth quadrant of the 2x2 grid: the figures above
                 are the argument, this is the ask. Inverted so it reads as a
-                panel rather than a fifth statistic. */}
-            <div className="flex flex-col justify-between gap-6 rounded-xl bg-[#36363B] p-7 sm:col-span-2">
-              <div>
+                panel rather than a fifth statistic, on the same ground as the
+                how-it-works panels above. */}
+            <div className="relative flex min-h-[18rem] flex-col justify-between gap-6 overflow-hidden rounded-xl bg-[#1c1c21] p-7 sm:col-span-2 sm:min-h-[22rem]">
+              {/* Silver mist, flipped so its dark end backs the copy on the
+                  left and the light end falls away to the right. */}
+              <Image
+                src="/assets/Silver mist-2048x1428.png"
+                alt=""
+                fill
+                priority={false}
+                sizes="(min-width: 1024px) 66vw, 100vw"
+                className="pointer-events-none select-none object-cover [transform:scaleX(-1)]"
+              />
+              {/* Holds the copy legible over the lighter passages. */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#1c1c21]/85 via-[#1c1c21]/55 to-transparent" />
+
+              <div className="relative">
                 <p className="font-display text-[20px] font-medium leading-snug tracking-[-0.02em] text-white sm:text-[22px]">
                   See these numbers against your own site.
                 </p>
@@ -113,7 +128,7 @@ export default function Stats() {
                 </p>
               </div>
 
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="relative flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Button
                   href="#demo"
                   variant="secondary"

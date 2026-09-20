@@ -22,7 +22,8 @@ export default function Home() {
         <WhatIsSeerix />
         <SectionDivider />
         <HowItWorks />
-        <SectionDivider />
+        {/* No divider here: the numbers follow the how-it-works panels
+            directly, without a rule between them. */}
         <Stats />
         <SectionDivider />
         <ValueProp />
@@ -34,7 +35,8 @@ export default function Home() {
         <Faq />
         <SectionDivider />
         <Industries />
-        <SectionDivider />
+        {/* No divider here: the closing CTA follows the industries panel
+            directly, without a rule between them. */}
         <Cta />
       </div>
 
