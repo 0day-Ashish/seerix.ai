@@ -102,7 +102,7 @@ export default function WhatIsSeerix() {
           <div
             role="tablist"
             aria-label="Example questions"
-            className="flex flex-wrap items-center gap-2 border-b border-white/[0.08] p-3"
+            className="flex items-center gap-2 overflow-x-auto border-b border-white/[0.08] p-3 [scrollbar-width:none] sm:flex-wrap [&::-webkit-scrollbar]:hidden"
           >
             <span className="hidden pl-3 pr-1 font-body text-[13px] text-white/40 sm:block">
               Ask Seerix
@@ -119,7 +119,7 @@ export default function WhatIsSeerix() {
                   onClick={() => setActive(index)}
                   onMouseEnter={() => setActive(index)}
                   onFocus={() => setActive(index)}
-                  className={`rounded-lg px-3.5 py-2 font-body text-[14px] transition-colors duration-200 ${
+                  className={`shrink-0 whitespace-nowrap rounded-lg px-3.5 py-2 font-body text-[14px] transition-colors duration-200 ${
                     on
                       ? "bg-white text-[#1c1c21]"
                       : "text-white/55 hover:bg-white/[0.06] hover:text-white"
@@ -136,13 +136,13 @@ export default function WhatIsSeerix() {
             key={diagnosis.question}
             id="what-is-seerix-panel"
             role="tabpanel"
-            className="grid animate-[seerix-fade-in_0.4s_ease-out] gap-8 p-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-12 lg:p-10"
+            className="grid animate-[seerix-fade-in_0.4s_ease-out] grid-cols-1 gap-8 p-5 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-12 lg:p-10"
           >
-            <div className="flex flex-col">
+            <div className="flex min-w-0 flex-col">
               <p className="font-body text-[14px] text-white/45">
                 {diagnosis.question}
               </p>
-              <p className="mt-4 font-display text-[24px] font-medium leading-snug tracking-[-0.02em] text-white sm:text-[28px]">
+              <p className="mt-4 font-display text-[22px] font-medium leading-snug tracking-[-0.02em] text-white sm:text-[28px]">
                 {diagnosis.answer}
               </p>
 
@@ -165,7 +165,7 @@ export default function WhatIsSeerix() {
               </div>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <p className="font-body text-[12px] font-medium uppercase tracking-[0.06em] text-white/40">
                 Evidence
               </p>
@@ -177,13 +177,15 @@ export default function WhatIsSeerix() {
                       index > 0 ? "border-t border-white/[0.07]" : ""
                     }`}
                   >
-                    <span className="flex min-w-0 items-center gap-3">
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#dcdddd]/60" />
-                      <span className="shrink-0 font-body text-[14px] text-white/85">
-                        {row.source}
-                      </span>
-                      <span className="truncate font-mono text-[12px] text-white/45">
-                        {row.detail}
+                    <span className="flex min-w-0 items-start gap-3 sm:items-center">
+                      <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#dcdddd]/60 sm:mt-0" />
+                      <span className="flex min-w-0 flex-col gap-0.5 sm:flex-row sm:items-center sm:gap-3">
+                        <span className="shrink-0 font-body text-[14px] text-white/85">
+                          {row.source}
+                        </span>
+                        <span className="truncate font-mono text-[12px] text-white/45">
+                          {row.detail}
+                        </span>
                       </span>
                     </span>
                     <span className="shrink-0 rounded-full border border-white/[0.12] px-2 py-0.5 font-body text-[11px] text-white/50">

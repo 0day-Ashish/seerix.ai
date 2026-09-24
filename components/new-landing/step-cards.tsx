@@ -21,7 +21,7 @@ import {
     section jumped when the selected step changed. Every panel is now exactly
     the same box, and the readout absorbs the difference internally. */
 const frame =
-  "relative flex h-[36rem] flex-col overflow-hidden rounded-2xl bg-[#1c1c21] shadow-[0_30px_70px_-30px_rgba(0,0,0,0.5)] lg:h-[min(39rem,calc(100dvh-12rem))]";
+  "relative flex flex-col overflow-hidden rounded-2xl bg-[#1c1c21] shadow-[0_30px_70px_-30px_rgba(0,0,0,0.5)] lg:h-[min(39rem,calc(100dvh-12rem))]";
 
 /**
  * The card shell. The art is declared here rather than in each of the three
@@ -113,7 +113,7 @@ export function ConnectCard() {
           ))}
         </div>
 
-        <div className="mt-auto flex items-center justify-between gap-4 border-t border-white/[0.08] pt-5">
+        <div className="mt-5 flex items-center justify-between gap-4 border-t border-white/[0.08] pt-5 lg:mt-auto">
           <span className="font-body text-[13px] text-white/45">
             History pulled on first sync
           </span>
@@ -177,7 +177,7 @@ export function StudyCard() {
           ))}
         </div>
 
-        <div className="mt-auto flex items-center justify-between gap-4 border-t border-white/[0.08] pt-5">
+        <div className="mt-5 flex items-center justify-between gap-4 border-t border-white/[0.08] pt-5 lg:mt-auto">
           <span className="font-body text-[13px] text-white/45">
             Last run
           </span>
@@ -241,7 +241,7 @@ export function AskCard() {
           ))}
         </div>
 
-        <div className="mt-auto flex items-center justify-between gap-4 border-t border-white/[0.08] pt-5">
+        <div className="mt-5 flex items-center justify-between gap-4 border-t border-white/[0.08] pt-5 lg:mt-auto">
           <span className="font-body text-[13px] text-white/45">
             Confidence in this diagnosis
           </span>

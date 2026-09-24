@@ -181,7 +181,7 @@ export default function Trust() {
             {pillars.map((pillar) => (
               <article
                 key={pillar.title}
-                className="flex h-[26rem] w-[82vw] shrink-0 flex-col justify-between rounded-2xl bg-[#1c1c21] p-8 sm:w-[27rem] lg:h-[min(30rem,calc(100dvh-21rem))] lg:w-[30rem] lg:p-11"
+                className="flex min-h-[26rem] w-[82vw] shrink-0 flex-col justify-between rounded-2xl bg-[#1c1c21] p-7 sm:w-[27rem] lg:h-[min(30rem,calc(100dvh-21rem))] lg:w-[30rem] lg:p-11"
               >
                 <h3 className="font-display text-[22px] font-medium leading-snug tracking-[-0.02em] text-white lg:text-[26px]">
                   {pillar.title}
