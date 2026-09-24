@@ -70,7 +70,7 @@ export default function Pricing() {
         />
 
         <div className="mt-10 grid gap-4 lg:grid-cols-3">
-          {plans.map((plan) => (
+          {plans.map((plan, index) => (
             <PlanCard
               key={plan.name}
               name={plan.name}
@@ -81,6 +81,7 @@ export default function Pricing() {
               cta="See demo"
               href="#demo"
               featured={plan.featured}
+              index={index}
             />
           ))}
         </div>

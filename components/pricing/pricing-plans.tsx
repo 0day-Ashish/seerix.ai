@@ -10,7 +10,7 @@ export default function PricingPlans() {
   return (
     <section id="plans" className="bg-white px-6 pb-20 sm:pb-24">
       <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-3">
-        {plans.map((plan) => (
+        {plans.map((plan, index) => (
           <PlanCard
             key={plan.id}
             name={plan.name}
@@ -21,6 +21,7 @@ export default function PricingPlans() {
             cta={plan.cta}
             href={plan.href}
             featured={plan.featured}
+            index={index}
           />
         ))}
       </div>

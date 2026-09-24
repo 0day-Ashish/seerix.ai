@@ -10,14 +10,14 @@ export default function FooterContact() {
   return (
     <div className="max-w-xs">
       <Link href="/" className="group flex items-center gap-2.5">
-        {/* White variant for the black footer; spins 60 degrees like the
-            navbar mark, which maps the three bars back onto themselves. */}
+        {/* White variant for the black footer; nudges toward the answer on
+            hover, matching the navbar mark. */}
         <Image
           src="/assets/seerix-symbol-white.svg"
           alt="Seerix"
           width={24}
           height={24}
-          className="transition-transform duration-500 ease-out will-change-transform group-hover:rotate-60 motion-reduce:transition-none motion-reduce:group-hover:rotate-0"
+          className="transition-transform duration-500 ease-out will-change-transform group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
         />
         <span className="relative font-display text-xl font-semibold tracking-tight text-white">
           seerix

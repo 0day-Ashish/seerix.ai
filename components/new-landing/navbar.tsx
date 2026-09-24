@@ -267,15 +267,16 @@ export default function Navbar() {
       <div className="px-6">
         <nav className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-8">
           <Link href="/" className="group flex shrink-0 items-center gap-2.5">
-            {/* The mark is three bars at 60 degree steps, so a 60 degree turn
-              lands it back on itself and the spin has no visible seam. */}
+            {/* The rows converge on the answer at the right, so the mark
+              nudges that way on hover rather than spinning: it is no longer
+              radially symmetric, and a turn would simply tilt it. */}
             <Image
               src="/assets/seerix-symbol-ink.svg"
               alt="Seerix"
               width={24}
               height={24}
               priority
-              className="transition-transform duration-500 ease-out will-change-transform group-hover:rotate-60 motion-reduce:transition-none motion-reduce:group-hover:rotate-0"
+              className="transition-transform duration-500 ease-out will-change-transform group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
             />
             <span className="relative font-display text-[19px] font-medium tracking-[-0.02em] text-black">
               seerix

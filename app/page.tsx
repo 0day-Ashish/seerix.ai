@@ -3,6 +3,7 @@ import Cta from "@/components/new-landing/cta";
 import Faq from "@/components/new-landing/faq";
 import Hero from "@/components/new-landing/hero";
 import Industries from "@/components/new-landing/industries";
+import Marquee from "@/components/new-landing/marquee";
 import SectionDivider from "@/components/new-landing/section-divider";
 import SiteFooter from "@/components/new-landing/site-footer";
 import Pricing from "@/components/new-landing/pricing";
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <div className="flex flex-1 flex-col bg-white">
       <Hero />
+      <Marquee />
 
       {/* Dividers live here rather than inside each section, so the rule sits
           between siblings and the last section before the footer has none. */}

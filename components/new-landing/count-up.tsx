@@ -49,11 +49,14 @@ function format(
 }
 
 /**
- * Counts from zero to the target when scrolled into view. Renders the final
- * value on the server and for reduced-motion users, so the number is always
- * correct even if the animation never runs.
+ * Counts from zero to the target when scrolled into view.
+ *
+ * The server renders the final value, so the number is correct without
+ * JavaScript. On mount, a number that is not yet on screen is reset to zero
+ * straight away, so the reader never sees the final figure snap back to 0
+ * before counting. Reduced-motion users keep the final value throughout.
  */
-export function CountUp({ value, duration = 1.6, className = "" }: CountUpProps) {
+export function CountUp({ value, duration = 2, className = "" }: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const [display, setDisplay] = useState(value);
 
@@ -67,31 +70,33 @@ export function CountUp({ value, duration = 1.6, className = "" }: CountUpProps)
     ).matches;
     if (reduced || target === 0) return;
 
+    const zero = format(0, decimals, grouped, prefix, suffix);
     let frame = 0;
-    let start = 0;
-    let done = false;
+    let started = false;
 
-    const step = (now: number) => {
-      if (!start) start = now;
+    // Off screen at mount: sit at zero until it is seen.
+    const rect = el.getBoundingClientRect();
+    if (rect.top > window.innerHeight || rect.bottom < 0) setDisplay(zero);
+
+    const step = (start: number) => (now: number) => {
       const t = Math.min((now - start) / (duration * 1000), 1);
       // Ease out so the count decelerates into its final value.
       const eased = 1 - Math.pow(1 - t, 3);
       setDisplay(format(target * eased, decimals, grouped, prefix, suffix));
-      if (t < 1) frame = requestAnimationFrame(step);
-      else done = true;
+      if (t < 1) frame = requestAnimationFrame(step(start));
     };
 
     const observer = new IntersectionObserver(
       (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting && !done && !frame) {
-            setDisplay(format(0, decimals, grouped, prefix, suffix));
-            frame = requestAnimationFrame(step);
-            observer.disconnect();
-          }
-        }
+        if (started || !entries.some((e) => e.isIntersecting)) return;
+        started = true;
+        observer.disconnect();
+        setDisplay(zero);
+        frame = requestAnimationFrame((now) => {
+          frame = requestAnimationFrame(step(now));
+        });
       },
-      { threshold: 0.4 },
+      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" },
     );
     observer.observe(el);
 
@@ -102,7 +107,7 @@ export function CountUp({ value, duration = 1.6, className = "" }: CountUpProps)
   }, [value, duration]);
 
   return (
-    <span ref={ref} className={className}>
+    <span ref={ref} className={`tabular-nums ${className}`}>
       {display}
     </span>
   );

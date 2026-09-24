@@ -21,7 +21,7 @@ import {
     section jumped when the selected step changed. Every panel is now exactly
     the same box, and the readout absorbs the difference internally. */
 const frame =
-  "relative flex h-[36rem] flex-col overflow-hidden rounded-2xl bg-[#1c1c21] shadow-[0_30px_70px_-30px_rgba(0,0,0,0.5)] lg:h-[39rem]";
+  "relative flex h-[36rem] flex-col overflow-hidden rounded-2xl bg-[#1c1c21] shadow-[0_30px_70px_-30px_rgba(0,0,0,0.5)] lg:h-[min(39rem,calc(100dvh-12rem))]";
 
 /**
  * The card shell. The art is declared here rather than in each of the three

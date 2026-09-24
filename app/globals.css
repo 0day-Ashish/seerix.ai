@@ -122,6 +122,29 @@ body {
   }
 }
 
+/* Under-hero marquee: each row is two identical halves, and one loop moves
+   exactly one half, so the restart lands on the same pixels. */
+@keyframes seerix-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* A panel's content arriving: a short rise into place. */
+@keyframes seerix-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

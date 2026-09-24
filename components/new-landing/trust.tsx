@@ -6,6 +6,13 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import SectionHeader from "@/components/new-landing/section-header";
+import {
+  Checkable,
+  CitedOrRejected,
+  HonestConfidence,
+  NeverWrites,
+  PrivateByDesign,
+} from "@/components/new-landing/trust-visuals";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -14,28 +21,35 @@ if (typeof window !== "undefined") {
 type Pillar = {
   title: string;
   body: string;
+  /** The product fragment shown between the heading and the body. */
+  visual: React.ReactNode;
 };
 
 const pillars: Pillar[] = [
   {
     title: "Cited, or rejected",
     body: "The AI only reasons over evidence assembled from your actual data. Answers citing evidence that doesn't exist are automatically thrown away before you see them.",
+    visual: <CitedOrRejected />,
   },
   {
     title: "Honest confidence",
     body: "Short history? Thin data? Confidence drops and Seerix says why. It never rounds uncertainty up to sound smart, and 'I don't know yet' is an answer it's allowed to give.",
+    visual: <HonestConfidence />,
   },
   {
     title: "Private by design",
     body: "Read-only Google access, revocable anytime. Encrypted tokens, isolated per-customer data, no selling, no cross-customer sharing, no model training on your data.",
+    visual: <PrivateByDesign />,
   },
   {
     title: "It can never write",
     body: "Seerix holds read-only scopes and nothing else. It cannot change a setting, add or remove a property, or push anything back to your Google account, whatever you ask it to do.",
+    visual: <NeverWrites />,
   },
   {
     title: "Checkable, not trusted",
     body: "Every diagnosis carries the evidence rows it was built from, so you can follow the reasoning back to the data yourself instead of taking the conclusion on faith.",
+    visual: <Checkable />,
   },
 ];
 
@@ -167,11 +181,12 @@ export default function Trust() {
             {pillars.map((pillar) => (
               <article
                 key={pillar.title}
-                className="flex h-[24rem] w-[78vw] shrink-0 flex-col justify-between rounded-2xl bg-[#1c1c21] p-8 sm:w-[24rem] lg:h-[26rem] lg:w-[26rem] lg:p-10"
+                className="flex h-[26rem] w-[82vw] shrink-0 flex-col justify-between rounded-2xl bg-[#1c1c21] p-8 sm:w-[27rem] lg:h-[min(30rem,calc(100dvh-21rem))] lg:w-[30rem] lg:p-11"
               >
                 <h3 className="font-display text-[22px] font-medium leading-snug tracking-[-0.02em] text-white lg:text-[26px]">
                   {pillar.title}
                 </h3>
+                <div className="my-6">{pillar.visual}</div>
                 <p className="font-body text-[15px] leading-[1.7] text-white/55 lg:text-[16px]">
                   {pillar.body}
                 </p>

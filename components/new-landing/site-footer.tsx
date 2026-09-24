@@ -1,9 +1,17 @@
+import Link from "next/link";
+
 import FooterContact from "@/components/new-landing/footer-contact";
 import FooterDetails from "@/components/new-landing/footer-details";
 import FooterLinks from "@/components/new-landing/footer-links";
 import StrokeText from "@/components/new-landing/StrokeText";
-import ThemeToggle from "@/components/new-landing/theme-toggle";
 import { ParticleDissolve } from "@/components/new-landing/ui/particle-dissolve";
+
+/** The short legal run in the bottom bar, beside the status readout. */
+const legalLinks = [
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+  { label: "SeerixBot", href: "/seerixbot" },
+];
 
 /**
  * The shared page foot: dissolve, contact and links, then the oversized
@@ -30,7 +38,31 @@ export default function SiteFooter() {
               &copy; {new Date().getFullYear()} Seerix. All rights reserved.
             </p>
 
-            <ThemeToggle />
+            {/* Replaces the theme toggle, which had nothing to switch: no part
+                of the site carries dark variants. A status readout and the
+                legal links use the slot for something the footer is actually
+                asked for. */}
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+              <span className="flex items-center gap-2 font-body text-[13px] text-white/40">
+                <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4ade80] opacity-60" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#4ade80]" />
+                </span>
+                All systems operational
+              </span>
+
+              <nav aria-label="Legal" className="flex items-center gap-5">
+                {legalLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className="font-body text-[13px] text-white/40 transition-colors duration-200 hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
           </div>
         </div>
 

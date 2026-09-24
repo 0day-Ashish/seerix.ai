@@ -1,7 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
 
-import Button, { ButtonArrow } from "@/components/new-landing/button";
 import { CountUp } from "@/components/new-landing/count-up";
 import SectionLabel from "@/components/new-landing/section-label";
 import { BlockReveal } from "@/components/new-landing/block-reveal";
@@ -51,6 +48,18 @@ const stats: Stat[] = [
   },
 ];
 
+/**
+ * Soft washes off the brand greys, one per tile, each lit from a different
+ * corner. The same family the features bento uses, so the two sections read
+ * as one system.
+ */
+const tints = [
+  "bg-[radial-gradient(120%_100%_at_15%_10%,#f7f7f8_0%,#ececed_50%,#dcdddd_100%)]",
+  "bg-[radial-gradient(120%_100%_at_85%_15%,#f7f7f8_0%,#eaeaeb_50%,#d8d8da_100%)]",
+  "bg-[radial-gradient(120%_100%_at_20%_90%,#f7f7f8_0%,#ebebec_50%,#dadadc_100%)]",
+  "bg-[radial-gradient(120%_100%_at_80%_85%,#f7f7f8_0%,#e9e9ea_50%,#d6d6d8_100%)]",
+];
+
 export default function Stats() {
   return (
     <section id="numbers" className="bg-white px-6 py-20 sm:py-24">
@@ -69,14 +78,14 @@ export default function Stats() {
             </p>
           </div>
 
-          {/* Each figure carries its own rule, so the four read as columns of a
-              table rather than as free-floating numbers. */}
-          <div className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:col-span-8 lg:mt-0 lg:grid-cols-2">
+          {/* Each figure sits in its own washed box, so the four read as a
+              set of tiles rather than as free-floating numbers. */}
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:col-span-8 lg:mt-0 lg:grid-cols-2">
             <dl className="contents">
-              {stats.map((stat) => (
+              {stats.map((stat, index) => (
                 <div
                   key={stat.value}
-                  className="border-t border-black/[0.10] pt-5"
+                  className={`rounded-2xl border border-black/[0.06] p-7 ${tints[index % tints.length]}`}
                 >
                   <dt className="flex flex-wrap items-baseline gap-x-2">
                     <CountUp
@@ -100,64 +109,6 @@ export default function Stats() {
                 </div>
               ))}
             </dl>
-
-            {/* Fills the fourth quadrant of the 2x2 grid: the figures above
-                are the argument, this is the ask. Inverted so it reads as a
-                panel rather than a fifth statistic, on the same ground as the
-                how-it-works panels above. */}
-            <div className="relative flex min-h-[18rem] flex-col justify-between gap-6 overflow-hidden rounded-xl bg-[#1c1c21] p-7 sm:col-span-2 sm:min-h-[22rem]">
-              {/* Silver mist, flipped so its dark end backs the copy on the
-                  left and the light end falls away to the right. */}
-              <Image
-                src="/assets/Silver mist-2048x1428.png"
-                alt=""
-                fill
-                priority={false}
-                sizes="(min-width: 1024px) 66vw, 100vw"
-                className="pointer-events-none select-none object-cover [transform:scaleX(-1)]"
-              />
-              {/* Holds the copy legible over the lighter passages. */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#1c1c21]/85 via-[#1c1c21]/55 to-transparent" />
-
-              <div className="relative">
-                <p className="font-display text-[20px] font-medium leading-snug tracking-[-0.02em] text-white sm:text-[22px]">
-                  See these numbers against your own site.
-                </p>
-                <p className="mt-2 max-w-sm font-body text-[14px] leading-[1.65] text-white/50">
-                  Read-only Search Console access, revocable anytime.
-                </p>
-              </div>
-
-              <div className="relative flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Button
-                  href="#demo"
-                  variant="secondary"
-                  size="compact"
-                  className="w-full sm:w-auto"
-                >
-                  See demo
-                  <ButtonArrow />
-                </Button>
-                <Link
-                  href="/pricing"
-                  className="group inline-flex items-center gap-2 font-body text-[14px] text-white/60 transition-colors duration-200 hover:text-white"
-                >
-                  View pricing
-                  <svg
-                    className="h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M6 3.5L10.5 8L6 12.5" />
-                  </svg>
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       </div>

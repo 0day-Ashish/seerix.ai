@@ -38,7 +38,7 @@ export function ConnectVisual() {
         // Nudged below centre: the angled base faces hang under the blocks,
         // so dead-centre reads as sitting high in the stage.
         className="relative mt-14 h-[112px] w-[240px] [transform-style:preserve-3d] lg:mt-20"
-        style={{ transform: "rotateX(24deg) rotateY(-26deg)" }}
+        style={{ transform: "rotateX(24deg)  rotateY(-26deg)" }}
       >
         {/* Source block, standing at the far end. */}
         <div
