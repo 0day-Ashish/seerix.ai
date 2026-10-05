@@ -225,6 +225,8 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  // Products starts collapsed each time the mobile menu opens.
+  const [productsOpen, setProductsOpen] = useState(false);
 
   // The panel only exists below lg, so growing past that breakpoint while it
   // is open would otherwise leave the scroll lock stuck on.
@@ -308,7 +310,10 @@ export default function Navbar() {
 
               <button
                 type="button"
-                onClick={() => setMenuOpen((value) => !value)}
+                onClick={() => {
+                setMenuOpen((value) => !value);
+                setProductsOpen(false);
+              }}
                 aria-expanded={menuOpen}
                 aria-controls="mobile-menu"
                 aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -342,34 +347,49 @@ export default function Navbar() {
               ))}
             </ul>
 
-            {/* The desktop mega-menu is hover-driven, so its contents are
-              re-laid out here as plain stacked groups. */}
-            {productColumns.map((column) => (
-              <div key={column.title} className="mt-6">
-                <div className="flex items-center gap-2.5">
-                  <span className={`h-2.5 w-2.5 ${column.swatch}`} />
-                  <span className="font-body text-[12px] font-medium text-black">
-                    {column.title}
-                  </span>
-                </div>
-                <ul className="mt-1">
-                  {column.items.map((item) => (
-                    <li key={item.label}>
-                      <Link
-                        href={item.href}
-                        onClick={() => setMenuOpen(false)}
-                        className="flex items-center justify-between border-b border-black/[0.07] py-3 font-body text-[14px] text-zinc-600 transition-colors hover:text-black"
-                      >
-                        {item.label}
-                        <ArrowBox />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+            {/* The desktop mega-menu is hover-driven, so here it is a
+              collapsed "Products" row that opens its groups on tap. */}
+            <button
+              type="button"
+              onClick={() => setProductsOpen((v) => !v)}
+              aria-expanded={productsOpen}
+              aria-controls="mobile-products"
+              className="flex w-full items-center justify-between border-b border-black/[0.07] py-3.5 font-body text-[15px] text-zinc-600 transition-colors hover:text-black"
+            >
+              Products
+              <Chevron
+                className={`transition-transform ${productsOpen ? "rotate-90" : ""}`}
+              />
+            </button>
+            {productsOpen && (
+              <div id="mobile-products" className="pb-2">
+                {productColumns.map((column) => (
+                  <div key={column.title} className="mt-5">
+                    <div className="flex items-center gap-2.5">
+                      <span className={`h-2.5 w-2.5 ${column.swatch}`} />
+                      <span className="font-body text-[12px] font-medium text-black">
+                        {column.title}
+                      </span>
+                    </div>
+                    <ul className="mt-1">
+                      {column.items.map((item) => (
+                        <li key={item.label}>
+                          <Link
+                            href={item.href}
+                            onClick={() => setMenuOpen(false)}
+                            className="flex items-center justify-between border-b border-black/[0.07] py-3 font-body text-[14px] text-zinc-600 transition-colors hover:text-black"
+                          >
+                            {item.label}
+                            <ArrowBox />
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
 
-            {/* Mirrors the header CTA, which is hidden at this width. */}
             {/* Mirrors the header CTAs, which are held back below lg. */}
             <div className="mt-7 flex flex-col gap-3 lg:hidden">
               <Button

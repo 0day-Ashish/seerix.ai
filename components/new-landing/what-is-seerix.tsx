@@ -120,7 +120,7 @@ export default function WhatIsSeerix() {
           <div
             role="tablist"
             aria-label="Example questions"
-            className="flex items-center gap-2 overflow-x-auto border-b border-white/[0.08] p-3 [scrollbar-width:none] sm:flex-wrap [&::-webkit-scrollbar]:hidden"
+            className="grid grid-cols-3 gap-1.5 border-b border-white/[0.08] p-2 sm:flex sm:flex-wrap sm:items-center sm:gap-2 sm:p-3"
           >
             <span className="hidden pl-3 pr-1 font-body text-[13px] text-white/40 sm:block">
               Ask Seerix
@@ -137,7 +137,7 @@ export default function WhatIsSeerix() {
                   onClick={() => setActive(index)}
                   onMouseEnter={() => setActive(index)}
                   onFocus={() => setActive(index)}
-                  className={`shrink-0 whitespace-nowrap  px-3.5 py-2 font-body text-[14px] transition-colors duration-200 ${
+                  className={`min-w-0 px-1.5 py-2 text-center font-body text-[12px] leading-tight transition-colors duration-200 sm:shrink-0 sm:whitespace-nowrap sm:px-3.5 sm:text-[14px] ${
                     on
                       ? "bg-white text-[#1c1c21]"
                       : "text-white/55 hover:bg-white/[0.06] hover:text-white"
