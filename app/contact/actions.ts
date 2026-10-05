@@ -1,24 +1,26 @@
 "use server";
 
+type Field = "firstName" | "lastName" | "company" | "email" | "source" | "message";
+
 /** What the form renders back to the user after a submit attempt. */
 export type ContactState = {
   status: "idle" | "success" | "error";
   /** Shown above the form on failure, or as the confirmation on success. */
   message?: string;
   /** Per-field messages, keyed by input name. */
-  errors?: Partial<Record<"name" | "email" | "topic" | "message", string>>;
+  errors?: Partial<Record<Field, string>>;
   /** Echoed back so a rejected submit does not wipe what was typed. */
-  values?: Partial<Record<"name" | "email" | "topic" | "message", string>>;
+  values?: Partial<Record<Field, string>>;
 };
 
 /** Mirrors the <select> options; anything else is a tampered payload. */
-const topics = [
-  "Product question",
-  "Pricing and plans",
-  "Demo request",
-  "Security and data",
-  "Partnership",
-  "Something else",
+const sources = [
+  "Search engine",
+  "LinkedIn",
+  "X / Twitter",
+  "A friend or colleague",
+  "Newsletter or podcast",
+  "Other",
 ];
 
 /** Deliberately permissive: shape only, since delivery is the real test. */
@@ -45,28 +47,32 @@ export async function submitContact(
   }
 
   const values = {
-    name: field(formData, "name"),
+    firstName: field(formData, "firstName"),
+    lastName: field(formData, "lastName"),
+    company: field(formData, "company"),
     email: field(formData, "email"),
-    topic: field(formData, "topic"),
+    source: field(formData, "source"),
     message: field(formData, "message"),
   };
 
   const errors: ContactState["errors"] = {};
 
-  if (!values.name) errors.name = "Tell us who you are.";
-  else if (values.name.length > 100) errors.name = "That name is too long.";
+  if (!values.firstName) errors.firstName = "Required.";
+  else if (values.firstName.length > 80) errors.firstName = "Too long.";
+  if (!values.lastName) errors.lastName = "Required.";
+  else if (values.lastName.length > 80) errors.lastName = "Too long.";
+  if (!values.company) errors.company = "Required.";
+  else if (values.company.length > 120) errors.company = "Too long.";
 
   if (!values.email) errors.email = "We need somewhere to reply.";
   else if (!emailPattern.test(values.email))
     errors.email = "That does not look like an email address.";
 
-  if (!values.topic || !topics.includes(values.topic))
-    errors.topic = "Pick the closest topic.";
+  if (!values.source || !sources.includes(values.source))
+    errors.source = "Pick the closest one.";
 
-  if (!values.message) errors.message = "Add a little detail.";
-  else if (values.message.length < 10)
-    errors.message = "A sentence or two helps us answer properly.";
-  else if (values.message.length > 4000)
+  // Optional, but bounded.
+  if (values.message.length > 4000)
     errors.message = "That is longer than we can take; email us instead.";
 
   if (Object.keys(errors).length > 0) {
@@ -96,9 +102,11 @@ export async function submitContact(
 }
 
 type ContactMessage = {
-  name: string;
+  firstName: string;
+  lastName: string;
+  company: string;
   email: string;
-  topic: string;
+  source: string;
   message: string;
 };
 
@@ -113,7 +121,7 @@ async function deliverContactMessage(message: ContactMessage): Promise<void> {
 
   if (!webhook) {
     console.info("[contact] no CONTACT_WEBHOOK_URL set; message not delivered", {
-      topic: message.topic,
+      source: message.source,
       email: message.email,
     });
     return;

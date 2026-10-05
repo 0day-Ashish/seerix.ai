@@ -1,5 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
+
+import SeerixMark from "@/components/new-landing/seerix-mark";
 
 const tagline =
   "The SEO platform that explains why. Connect your Google Search Console and get diagnoses with receipts, not dashboards with homework.";
@@ -9,19 +10,11 @@ const contacts = [{ label: "hello@seerix.ai", href: "mailto:hello@seerix.ai" }];
 export default function FooterContact() {
   return (
     <div className="max-w-xs">
-      <Link href="/" className="group flex items-center gap-2.5">
-        {/* White variant for the black footer; nudges toward the answer on
-            hover, matching the navbar mark. */}
-        <Image
-          src="/assets/seerix-symbol-white.svg"
-          alt="Seerix"
-          width={24}
-          height={24}
-          className="transition-transform duration-500 ease-out will-change-transform group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
-        />
-        <span className="relative font-display text-xl font-semibold tracking-tight text-white">
+      <Link href="/" className="group flex items-center gap-2">
+        <SeerixMark size={32} tone="white" />
+        <span className="relative font-display text-[25px] font-medium tracking-[-0.03em] text-white">
           seerix
-          <sup className="absolute -right-3.5 top-1 font-body text-[8px] font-extrabold leading-none tracking-normal text-white">
+          <sup className="absolute -right-4 top-1.5 font-body text-[9px] font-extrabold leading-none tracking-normal text-white">
             TM
           </sup>
         </span>

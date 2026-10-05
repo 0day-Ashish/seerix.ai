@@ -11,7 +11,7 @@
 const phrase = [
   { text: "YOUR DATA", tone: "font-display font-medium uppercase text-black" },
   { text: "explained", tone: "font-body text-black" },
-  { text: "WITH RECEIPTS", tone: "font-display font-medium uppercase text-[#888084]" },
+  { text: "WITH RECEIPTS", tone: "font-display font-medium uppercase text-signal" },
 ];
 
 /** Enough repeats that the row is wider than any viewport before it loops. */

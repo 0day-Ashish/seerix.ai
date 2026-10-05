@@ -1,10 +1,26 @@
 import Button, { ButtonArrow } from "@/components/new-landing/button";
 import { BlockReveal } from "@/components/new-landing/block-reveal";
+import ScanField from "@/components/new-landing/scan-field";
 
 export default function Cta() {
   return (
-    <section id="demo" className="bg-white px-6 py-20 sm:py-24">
-      <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
+    <section
+      id="demo"
+      className="relative overflow-hidden bg-white px-6 py-24 sm:py-32"
+    >
+      {/* The scan field behind the closing line, fading out at every edge
+          so it reads as ground rather than a panel. */}
+      <div className="pointer-events-none absolute inset-0 [-webkit-mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_70%)] [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_70%)]">
+        <ScanField
+          tone="light"
+          cell={14}
+          strength={0.12}
+          findings={3}
+          scanLine={false}
+          sweep={8}
+        />
+      </div>
+      <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
         <h2 className="font-display text-[32px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[44px]">
           <BlockReveal>Stop guessing why. Start knowing.</BlockReveal>
         </h2>

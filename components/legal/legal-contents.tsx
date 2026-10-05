@@ -85,7 +85,7 @@ export default function LegalContents({ items }: LegalContentsProps) {
               <span
                 aria-hidden="true"
                 className={`absolute -left-px top-0 h-full w-px transition-colors duration-200 ${
-                  active ? "bg-black" : "bg-transparent"
+                  active ? "bg-signal" : "bg-transparent"
                 }`}
               />
               <Link

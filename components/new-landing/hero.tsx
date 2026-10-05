@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { BlockReveal } from "@/components/new-landing/block-reveal";
 import HeroPanel from "@/components/new-landing/hero-panel";
-import Threads from "@/components/Threads";
+import ScanField from "@/components/new-landing/scan-field";
 import WaitlistForm from "@/components/new-landing/waitlist-form";
 
 /**
@@ -14,18 +14,11 @@ import WaitlistForm from "@/components/new-landing/waitlist-form";
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-white px-6 pt-16 sm:pt-32">
-      {/* Threads sweeping out of the bottom-left corner toward the top
-          right. Amakusa Black (#36363B), the same ink the primary button
-          settles into, rather than the pack default of white -- which is
-          invisible on this ground. */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.16]">
-        <Threads
-          color={[0.212, 0.212, 0.231]}
-          rotation={-45}
-          coverage={1.6}
-          amplitude={1.1}
-          distance={0.4}
-        />
+      {/* The scan field, confined to the top-right corner: it stays clear of
+          the headline and the product panel, and fades out toward the
+          centre and down toward the waitlist form. */}
+      <div className="pointer-events-none absolute right-0 top-0 h-[29rem] w-[48%] [-webkit-mask-image:radial-gradient(ellipse_at_top_right,black_25%,transparent_72%)] [mask-image:radial-gradient(ellipse_at_top_right,black_25%,transparent_72%)]">
+        <ScanField tone="light" cell={16} strength={0.16} findings={4} sweep={8} />
       </div>
       {/* Clears the field off the panel without erasing it: the fade starts
           low and stops short of opaque, so the weave still reaches the
@@ -47,7 +40,7 @@ export default function Hero() {
             </span>
           </span>
           <span aria-hidden="true" className="h-4 w-px bg-black/[0.10]" />
-          <span className="flex shrink-0 items-center gap-1.5 whitespace-nowrap font-body text-[12px] font-medium text-black sm:text-[14px]">
+          <span className="flex shrink-0 items-center gap-1.5 whitespace-nowrap font-body text-[12px] font-medium text-signal-deep sm:text-[14px]">
             Read more
             <svg
               className="h-3 w-3 transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"

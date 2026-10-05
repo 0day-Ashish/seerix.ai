@@ -131,7 +131,6 @@ export default function PrivacyPage() {
     <div className="flex flex-1 flex-col bg-white">
       <div className="flex flex-1 flex-col">
         <LegalPage
-          label="Legal"
           title="Privacy Policy"
           lede="What Seerix reads, what it stores, how long it keeps it, and how to take it all back."
           updated="20 September 2026"

@@ -152,7 +152,7 @@ export default function Trust() {
       //
       // No overflow-hidden here: GSAP wraps the pinned node in a spacer, and
       // clipping on an ancestor fights the pin. The rail clips instead.
-      className="relative z-10 bg-white"
+      className="relative z-10 bg-white pt-20 sm:pt-28 lg:pt-48"
     >
       {/* The pinned node is this wrapper, not the section. GSAP moves whatever
           it pins into a spacer it injects; pinning the section put that spacer
@@ -164,10 +164,7 @@ export default function Trust() {
         className="relative z-10 flex flex-col bg-white py-20 sm:py-24 lg:h-[calc(100dvh-72px)] lg:pb-0 lg:pt-16"
       >
         <div className="mx-auto w-full max-w-7xl px-6">
-          <SectionHeader
-            label="Why trust it"
-            heading="Built so it can't make things up about your site."
-          />
+          <SectionHeader heading="Built so it can't make things up about your site." />
         </div>
 
         {/* The rail runs past the page gutter on purpose: the row should read
@@ -181,7 +178,7 @@ export default function Trust() {
             {pillars.map((pillar) => (
               <article
                 key={pillar.title}
-                className="flex min-h-[26rem] w-[82vw] shrink-0 flex-col justify-between rounded-2xl bg-[#1c1c21] p-7 sm:w-[27rem] lg:h-[min(30rem,calc(100dvh-21rem))] lg:w-[30rem] lg:p-11"
+                className="flex min-h-[26rem] w-[82vw] shrink-0 flex-col justify-between bg-[#1c1c21] p-7 sm:w-[27rem] lg:h-[min(30rem,calc(100dvh-21rem))] lg:w-[30rem] lg:p-11"
               >
                 <h3 className="font-display text-[22px] font-medium leading-snug tracking-[-0.02em] text-white lg:text-[26px]">
                   {pillar.title}
@@ -216,7 +213,6 @@ export default function Trust() {
           </Link>
         </div>
       </div>
-
     </section>
   );
 }

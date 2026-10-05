@@ -1,22 +1,21 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import Button, { ButtonArrow } from "@/components/new-landing/button";
+import SeerixMark from "@/components/new-landing/seerix-mark";
 
 const links = [
   { label: "Changelog", href: "/changelog" },
   { label: "Pricing", href: "/pricing" },
-  { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "/contact" },
 ];
 
 const productColumns = [
   {
     title: "What it does",
-    swatch: "bg-[#36363B]",
+    swatch: "bg-signal",
     items: [
       { label: "Diagnose", href: "#features" },
       { label: "Prioritize", href: "#features" },
@@ -50,14 +49,14 @@ function Chevron({ className = "" }: { className?: string }) {
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      <path d="M3 4.5 6 7.5 9 4.5" />
+      <path d="M4.5 3 7.5 6 4.5 9" />
     </svg>
   );
 }
 
 function ArrowBox() {
   return (
-    <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border border-black/15 text-zinc-500 transition-all duration-200 ease-out group-hover:border-[#36363B] group-hover:bg-[#36363B] group-hover:text-white">
+    <span className="flex h-4 w-4 shrink-0 items-center justify-center border border-black/15 text-zinc-500 transition-all duration-200 ease-out group-hover:border-[#36363B] group-hover:bg-[#36363B] group-hover:text-white">
       <svg
         className="h-2.5 w-2.5 transition-transform duration-200 ease-out group-hover:translate-x-px"
         viewBox="0 0 16 16"
@@ -129,14 +128,14 @@ function ProductsMenu() {
         Products
         <Chevron
           className={
-            open ? "rotate-180 transition-transform" : "transition-transform"
+            open ? "rotate-90 transition-transform" : "transition-transform"
           }
         />
       </button>
 
       {open && (
         <div className="absolute left-1/2 top-full z-50 w-[min(40rem,calc(100vw-3rem))] -translate-x-1/2 pt-2">
-          <div className="relative overflow-hidden rounded-lg border border-black/10 shadow-lg shadow-black/5">
+          <div className="relative overflow-hidden border border-black/10 shadow-lg shadow-black/5">
             <video
               className="absolute inset-0 h-full w-full object-cover"
               src="/assets/Emerald.mp4"
@@ -153,12 +152,10 @@ function ProductsMenu() {
                 {productColumns.map((column) => (
                   <div
                     key={column.title}
-                    className="flex flex-col rounded-md border border-black/[0.06] bg-white p-3.5"
+                    className="flex flex-col border border-black/[0.06] bg-white p-3.5"
                   >
                     <div className="flex items-center gap-2.5 pb-4">
-                      <span
-                        className={`h-2.5 w-2.5 rounded-sm ${column.swatch}`}
-                      />
+                      <span className={`h-2.5 w-2.5 ${column.swatch}`} />
                       <span className="font-body text-[12px] font-medium text-black">
                         {column.title}
                       </span>
@@ -169,7 +166,7 @@ function ProductsMenu() {
                         <li key={item.label}>
                           <Link
                             href={item.href}
-                            className="group -mx-1.5 flex items-center justify-between gap-3 rounded border-t border-dashed border-black/15 px-1.5 py-2 text-[13px] text-zinc-800 transition-colors duration-200 hover:bg-black/[0.04] hover:text-black"
+                            className="group -mx-1.5 flex items-center justify-between gap-3 border-t border-dashed border-black/15 px-1.5 py-2 text-[13px] text-zinc-800 transition-colors duration-200 hover:bg-black/[0.04] hover:text-black"
                           >
                             <span className="transition-transform duration-200 ease-out group-hover:translate-x-1">
                               {item.label}
@@ -185,16 +182,11 @@ function ProductsMenu() {
 
               <Link
                 href={featured.href}
-                className="group mt-1.5 flex items-center justify-between gap-3 rounded-md border border-black/[0.06] bg-white p-2.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-black/[0.14] hover:shadow-md hover:shadow-black/10"
+                className="group mt-1.5 flex items-center justify-between gap-3 border border-black/[0.06] bg-white p-2.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-black/[0.14] hover:shadow-md hover:shadow-black/10"
               >
                 <span className="flex items-center gap-3">
-                  <span className="flex h-7 w-7 items-center justify-center rounded border border-black/10 bg-white">
-                    <Image
-                      src="/assets/seerix-symbol-ink.svg"
-                      alt=""
-                      width={14}
-                      height={14}
-                    />
+                  <span className="flex h-7 w-7 items-center justify-center border border-black/10 bg-white">
+                    <SeerixMark size={16} animated={false} />
                   </span>
                   <span className="font-body text-[12px] font-medium text-black">
                     {featured.label}
@@ -263,68 +255,68 @@ export default function Navbar() {
   }, [menuOpen]);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-black/[0.07] bg-white backdrop-blur-xl">
-      <div className="px-6">
+    <header className="sticky top-0 z-40 w-full">
+      {/* Frosted ground: the page shows through, blurred. It runs past the
+          bar's bottom edge and fades out there, so the bar ends in a soft
+          falloff rather than a hard line. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[calc(100%+28px)] bg-white/60 backdrop-blur-xl backdrop-saturate-150 [-webkit-mask-image:linear-gradient(to_bottom,black_62%,transparent)] [mask-image:linear-gradient(to_bottom,black_62%,transparent)]"
+      />
+      <div className="relative px-6">
         <nav className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-8">
-          <Link href="/" className="group flex shrink-0 items-center gap-2.5">
-            {/* The rows converge on the answer at the right, so the mark
-              nudges that way on hover rather than spinning: it is no longer
-              radially symmetric, and a turn would simply tilt it. */}
-            <Image
-              src="/assets/seerix-symbol-ink.svg"
-              alt="Seerix"
-              width={24}
-              height={24}
-              priority
-              className="transition-transform duration-500 ease-out will-change-transform group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
-            />
-            <span className="relative font-display text-[19px] font-medium tracking-[-0.02em] text-black">
+          <Link href="/" className="group flex shrink-0 items-center gap-2">
+            <SeerixMark size={32} />
+            <span className="relative font-display text-[25px] font-medium tracking-[-0.03em] text-black">
               seerix
-              <sup className="absolute -right-3.5 top-1 font-body text-[8px] font-extrabold leading-none tracking-normal text-black">
+              <sup className="absolute -right-4 top-1.5 font-body text-[9px] font-extrabold leading-none tracking-normal text-black">
                 TM
               </sup>
             </span>
           </Link>
 
-          <ul className="hidden items-center gap-7 font-body text-[14px] text-zinc-500 lg:flex">
-            <li>
-              <ProductsMenu />
-            </li>
-            {links.map((link) => (
-              <li key={link.label}>
-                <Link
-                  href={link.href}
-                  className="transition-colors hover:text-black"
-                >
-                  {link.label}
-                </Link>
+          <div className="flex items-center gap-10">
+            <ul className="hidden items-center gap-9 font-body text-[15px] text-black/80 lg:flex">
+              <li>
+                <ProductsMenu />
               </li>
-            ))}
-          </ul>
+              {links.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="transition-colors hover:text-black/50"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
 
-          <div className="flex shrink-0 items-center gap-3 font-body">
-            <span className="hidden lg:contents">
-              <Button href="/contact" variant="secondary">
-                Contact us
-              </Button>
-            </span>
-            <span className="hidden sm:contents">
-              <Button href="#demo">
+            <div className="flex shrink-0 items-center gap-2">
+              <Link
+                href="#demo"
+                className="hidden h-10 items-center bg-[#141416] px-4 font-mono text-[14px] uppercase tracking-[0.04em] text-white transition-colors hover:bg-[#36363B] sm:flex"
+              >
                 See demo
-                <ButtonArrow />
-              </Button>
-            </span>
+              </Link>
+              <Link
+                href="/contact"
+                className="hidden h-10 items-center border border-black/[0.18] bg-white px-4 font-mono text-[14px] uppercase tracking-[0.04em] text-black transition-colors hover:border-black/50 lg:flex"
+              >
+                Contact us
+              </Link>
 
-            <button
-              type="button"
-              onClick={() => setMenuOpen((value) => !value)}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
-              className="flex h-11 w-11 items-center justify-center rounded-[10px] border border-black/[0.09] bg-white text-zinc-500 transition-colors hover:border-black/[0.16] hover:text-black lg:hidden"
-            >
-              <MenuIcon open={menuOpen} />
-            </button>
+              <button
+                type="button"
+                onClick={() => setMenuOpen((value) => !value)}
+                aria-expanded={menuOpen}
+                aria-controls="mobile-menu"
+                aria-label={menuOpen ? "Close menu" : "Open menu"}
+                className="flex h-11 w-11 items-center justify-center border border-black/[0.09] bg-white text-zinc-500 transition-colors hover:border-black/[0.16] hover:text-black lg:hidden"
+              >
+                <MenuIcon open={menuOpen} />
+              </button>
+            </div>
           </div>
         </nav>
       </div>
@@ -355,7 +347,7 @@ export default function Navbar() {
             {productColumns.map((column) => (
               <div key={column.title} className="mt-6">
                 <div className="flex items-center gap-2.5">
-                  <span className={`h-2.5 w-2.5 rounded-sm ${column.swatch}`} />
+                  <span className={`h-2.5 w-2.5 ${column.swatch}`} />
                   <span className="font-body text-[12px] font-medium text-black">
                     {column.title}
                   </span>

@@ -20,7 +20,7 @@ export default function HeroPanel() {
   return (
     <div
       aria-hidden="true"
-      className="relative rounded-t-2xl border border-b-0 border-black/[0.08] bg-white shadow-[0_-1px_0_rgba(0,0,0,0.02),0_24px_60px_-20px_rgba(0,0,0,0.18)]"
+      className="relative border border-b-0 border-black/[0.08] bg-white shadow-[0_-1px_0_rgba(0,0,0,0.02),0_24px_60px_-20px_rgba(0,0,0,0.18)]"
     >
       {/* Title bar */}
       <div className="flex items-center gap-2 border-b border-black/[0.06] px-4 py-3">
@@ -36,7 +36,7 @@ export default function HeroPanel() {
         {/* Sidebar: hidden on narrow screens, where the answer is the point. */}
         <div className="hidden w-52 shrink-0 border-r border-black/[0.06] p-4 sm:block">
           <div className="flex items-center gap-2">
-            <span className="h-5 w-5 rounded bg-[#36363B]" />
+            <span className="h-5 w-5 bg-[#36363B]" />
             <span className="font-body text-[13px] font-medium text-black">
               acme.com
             </span>
@@ -46,7 +46,7 @@ export default function HeroPanel() {
             {navItems.map((item, index) => (
               <li
                 key={item}
-                className={`rounded-md px-2 py-1.5 font-body text-[13px] ${
+                className={`px-2 py-1.5 font-body text-[13px] ${
                   index === 1 ? "bg-black/[0.05] text-black" : "text-zinc-400"
                 }`}
               >
@@ -72,15 +72,15 @@ export default function HeroPanel() {
               <span
                 key={index}
                 style={{ height: `${height}%` }}
-                className={`flex-1 rounded-sm ${
-                  index > 7 ? "bg-[#36363B]/70" : "bg-black/[0.10]"
+                className={`flex-1  ${
+                  index > 7 ? "bg-signal" : "bg-black/[0.10]"
                 }`}
               />
             ))}
           </div>
 
           {/* Evidence rows */}
-          <div className="mt-6 overflow-hidden rounded-lg border border-black/[0.07]">
+          <div className="mt-6 overflow-hidden border border-black/[0.07]">
             {evidence.map((row, index) => (
               <div
                 key={row.source}

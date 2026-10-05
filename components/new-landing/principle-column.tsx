@@ -19,7 +19,7 @@ export default function PrincipleColumn({
 }: PrincipleColumnProps) {
   return (
     <div>
-      <div className="flex h-[160px] items-center justify-center overflow-hidden rounded-xl border border-black/[0.07] bg-[#fafafa] px-6">
+      <div className="flex h-[160px] items-center justify-center overflow-hidden border border-black/[0.07] bg-[#fafafa] px-6">
         {visual}
       </div>
 

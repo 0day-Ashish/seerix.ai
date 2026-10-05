@@ -128,7 +128,6 @@ export default function TermsPage() {
     <div className="flex flex-1 flex-col bg-white">
       <div className="flex flex-1 flex-col">
         <LegalPage
-          label="Legal"
           title="Terms of Service"
           lede="The agreement covering your use of Seerix: what each side is responsible for, how billing works, and how either of us can end it."
           updated="20 September 2026"

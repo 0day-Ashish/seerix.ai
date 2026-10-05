@@ -1,28 +1,24 @@
 import { BlockReveal } from "@/components/new-landing/block-reveal";
-import SectionLabel from "@/components/new-landing/section-label";
 
 type SectionHeaderProps = {
-  /** Eyebrow above the heading. */
-  label: string;
   heading: string;
   /** Optional lede, set below the heading at a narrow measure. */
   lede?: string;
 };
 
 /**
- * The eyebrow / heading / lede stack every section opens with. Left-aligned and
+ * The heading / lede stack every section opens with. The heading carries a
+ * signal bar beside its first line (.heading-mark) in place of an eyebrow. Left-aligned and
  * stacked rather than the earlier two-column split, so all sections share one
  * rhythm.
  */
 export default function SectionHeader({
-  label,
   heading,
   lede,
 }: SectionHeaderProps) {
   return (
     <div className="max-w-2xl">
-      <SectionLabel name={label} />
-      <h2 className="mt-4 font-display text-[32px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[40px]">
+      <h2 className="heading-mark font-display text-[36px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[50px] lg:text-[56px]">
         <BlockReveal>{heading}</BlockReveal>
       </h2>
       {lede && (

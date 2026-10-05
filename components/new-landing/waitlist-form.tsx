@@ -19,7 +19,7 @@ export default function WaitlistForm() {
     return (
       <p
         role="status"
-        className="inline-flex items-center gap-2.5 rounded-[10px] border border-black/[0.09] bg-white px-4 py-3 font-body text-[14px] text-black sm:text-[15px]"
+        className="inline-flex items-center gap-2.5 border border-black/[0.09] bg-white px-4 py-3 font-body text-[14px] text-black sm:text-[15px]"
       >
         <svg
           className="h-4 w-4 shrink-0"
@@ -70,7 +70,7 @@ export default function WaitlistForm() {
             placeholder="you@company.com"
             aria-invalid={invalid}
             aria-describedby={invalid ? "waitlist-error" : undefined}
-            className={`h-10 w-full rounded-[10px] border bg-white px-3.5 font-body text-[14px] text-black transition-colors duration-200 placeholder:text-zinc-400 focus:outline-none sm:h-11 sm:text-[15px] ${
+            className={`h-10 w-full  border bg-white px-3.5 font-body text-[14px] text-black transition-colors duration-200 placeholder:text-zinc-400 focus:outline-none sm:h-11 sm:text-[15px] ${
               invalid
                 ? "border-black/[0.28] focus:border-black/[0.45]"
                 : "border-black/[0.09] hover:border-black/[0.16] focus:border-black/[0.35]"
@@ -83,7 +83,7 @@ export default function WaitlistForm() {
         <button
           type="submit"
           disabled={pending}
-          className="group inline-flex h-10 shrink-0 translate-y-0 items-center justify-center gap-2 rounded-[10px] bg-gradient-to-b from-[#4a4a51] to-[#36363B] px-4 font-body text-[14px] text-white transition-all duration-150 ease-out [box-shadow:0_3px_0_0_#1c1c21,0_4px_10px_rgba(0,0,0,0.18)] hover:-translate-y-0.5 hover:from-[#55555d] hover:to-[#3f3f45] hover:[box-shadow:0_5px_0_0_#1c1c21,0_9px_16px_rgba(0,0,0,0.22)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#1c1c21,0_2px_4px_rgba(0,0,0,0.15)] disabled:pointer-events-none disabled:opacity-60 sm:h-11 sm:px-5 sm:text-[15px]"
+          className="group inline-flex h-10 shrink-0 translate-y-0 items-center justify-center gap-2 bg-gradient-to-b from-[#4a4a51] to-[#36363B] px-4 font-body text-[14px] text-white transition-all duration-150 ease-out [box-shadow:0_3px_0_0_#1c1c21,0_4px_10px_rgba(0,0,0,0.18)] hover:-translate-y-0.5 hover:from-[#55555d] hover:to-[#3f3f45] hover:[box-shadow:0_5px_0_0_#1c1c21,0_9px_16px_rgba(0,0,0,0.22)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#1c1c21,0_2px_4px_rgba(0,0,0,0.15)] disabled:pointer-events-none disabled:opacity-60 sm:h-11 sm:px-5 sm:text-[15px]"
         >
           {pending ? "Joining..." : "Join waitlist"}
           {!pending && (

@@ -1,65 +1,47 @@
-import { BlockReveal } from "@/components/new-landing/block-reveal";
-import Button, { ButtonArrow } from "@/components/new-landing/button";
-import LightStreaks from "@/components/new-landing/light-streaks";
+import Link from "next/link";
 
-/** The three reassurances that sit under the lede, as a quiet inline run. */
-const assurances = [
-  "No per-question overage",
-  "Read-only Search Console access",
-  "Cancel anytime",
-];
-
-function Dot() {
-  return (
-    <span
-      aria-hidden="true"
-      className="h-1 w-1 shrink-0 rounded-full bg-zinc-300"
-    />
-  );
-}
+/** The verticals Seerix is set up for, linking to their use-case panel. */
+const useCases = ["SaaS", "E-commerce", "Publishers", "Local services", "Agencies"];
 
 /**
- * Opener for the pricing route. Mirrors the landing hero's streak field and
- * gradient so the two pages read as one site, but centres its column: there is
- * no product panel here to balance a left-aligned headline against.
+ * The pricing page's opener: one line of promise, the way in, and the
+ * verticals as a row of chips -- left-aligned, with no hero art, so the plans
+ * below are the first thing with any weight.
  */
 export default function PricingHero() {
   return (
-    <section className="relative overflow-hidden bg-white px-6 pt-16 sm:pt-32">
-      <LightStreaks count={64} />
-      {/* Matches the landing hero: the field stays populated behind the
-          headline and clears before the cards begin. */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-60% to-white to-95%" />
-
-      <div className="relative mx-auto max-w-3xl pb-16 text-center sm:pb-20">
-        <h1 className="font-display text-[38px] font-medium leading-[1.07] tracking-[-0.035em] text-black sm:text-[52px]">
-          <BlockReveal>Pricing that scales with what you run</BlockReveal>
+    <section className="bg-white px-6 pb-12 pt-20 sm:pt-28">
+      <div className="mx-auto max-w-7xl">
+        <h1 className="heading-mark font-display text-[40px] font-medium leading-[1.05] tracking-[-0.035em] text-black sm:text-[56px]">
+          Start with one site that matters
         </h1>
-
-        <p className="mx-auto mt-6 max-w-xl font-body text-[17px] leading-[1.6] text-zinc-500">
-          Start on one site that matters. Move up when you are answering for a
-          portfolio. You pay for the plan, never for the evidence behind an
-          answer.
+        <p className="mt-4 font-body text-[18px] leading-[1.55] text-zinc-500 sm:text-[20px]">
+          Plans from $39 a month. Month to month, cancel anytime.
         </p>
 
-        <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Button href="#demo">
-            See demo
-            <ButtonArrow />
-          </Button>
-          <Button href="#compare" variant="secondary">
-            Compare plans
-          </Button>
-        </div>
+        <div className="mt-9 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <Link
+            href="/#demo"
+            className="flex h-12 w-full items-center justify-center bg-[#141416] px-8 font-body text-[16px] font-medium text-white transition-colors hover:bg-[#36363B] sm:w-56"
+          >
+            Get started
+          </Link>
 
-        <ul className="mt-8 flex flex-col items-center justify-center gap-y-2 font-body text-[14px] text-zinc-400 sm:flex-row sm:gap-x-4">
-          {assurances.map((item, index) => (
-            <li key={item} className="flex items-center gap-4">
-              {index > 0 && <Dot />}
-              {item}
-            </li>
-          ))}
-        </ul>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="mr-2 font-mono text-[11px] uppercase tracking-[0.1em] text-zinc-500">
+              Use cases
+            </span>
+            {useCases.map((label) => (
+              <Link
+                key={label}
+                href="#use-cases"
+                className="border border-black/[0.12] px-2.5 py-1.5 font-mono text-[12px] text-zinc-700 transition-colors hover:border-black/40 hover:text-black"
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 
-import ContactChannels from "@/components/contact/contact-channels";
 import ContactFaq from "@/components/contact/contact-faq";
 import ContactForm from "@/components/contact/contact-form";
-import ContactHero from "@/components/contact/contact-hero";
+import {
+  ContactFormBlock,
+  ContactOpener,
+  ContactRoutes,
+} from "@/components/contact/contact-routes";
+import Cta from "@/components/new-landing/cta";
 import SiteFooter from "@/components/new-landing/site-footer";
 
 export const metadata: Metadata = {
@@ -21,19 +25,13 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="flex flex-1 flex-col bg-white">
-      <ContactHero />
+      <ContactOpener />
 
       <div className="flex flex-1 flex-col">
-        <section className="bg-white px-6 pb-20 sm:pb-24">
-          {/* Form leads; the quicker routes sit beside it on wide screens and
-              fall in underneath once the two columns stop fitting. */}
-          <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
-            <ContactForm />
-            <ContactChannels />
-          </div>
-        </section>
-
+        <ContactFormBlock form={<ContactForm />} />
+        <ContactRoutes />
         <ContactFaq />
+        <Cta />
       </div>
 
       <SiteFooter />

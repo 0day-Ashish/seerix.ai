@@ -3,7 +3,6 @@ import Link from "next/link";
 import LegalContents from "@/components/legal/legal-contents";
 
 import { BlockReveal } from "@/components/new-landing/block-reveal";
-import SectionLabel from "@/components/new-landing/section-label";
 
 export type LegalSection = {
   heading: string;
@@ -14,7 +13,6 @@ export type LegalSection = {
 };
 
 type LegalPageProps = {
-  label: string;
   title: string;
   lede: string;
   /** Display date, e.g. "20 September 2026". */
@@ -35,7 +33,6 @@ function slug(heading: string) {
  * than being spelled out three times.
  */
 export default function LegalPage({
-  label,
   title,
   lede,
   updated,
@@ -45,8 +42,7 @@ export default function LegalPage({
     <section className="bg-white px-6 pb-20 pt-16 sm:pb-24 sm:pt-24">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-2xl">
-          <SectionLabel name={label} />
-          <h1 className="mt-4 font-display text-[36px] font-medium leading-[1.1] tracking-[-0.035em] text-black sm:text-[46px]">
+          <h1 className="heading-mark font-display text-[36px] font-medium leading-[1.1] tracking-[-0.035em] text-black sm:text-[46px]">
             <BlockReveal>{title}</BlockReveal>
           </h1>
           <p className="mt-5 font-body text-[17px] leading-[1.6] text-zinc-500">

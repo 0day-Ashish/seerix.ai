@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import SectionLabel from "@/components/new-landing/section-label";
-import { BlockReveal } from "@/components/new-landing/block-reveal";
 
 type Faq = {
   /** Groups the list into labelled runs. */
@@ -93,58 +91,118 @@ const faqs: Faq[] = [
   },
 ];
 
+const groups = ["All", ...Array.from(new Set(faqs.map((f) => f.group)))];
+
 export default function Faq() {
-  // All questions start collapsed.
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [group, setGroup] = useState("All");
+  // All questions start collapsed; keyed by question so filtering keeps it.
+  const [open, setOpen] = useState<string | null>(null);
+
+  const shown = group === "All" ? faqs : faqs.filter((f) => f.group === group);
 
   return (
     <section id="faq" className="bg-white px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
-        {/* Heading parks alongside the list while it scrolls past. */}
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-16">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
+          {/* Heading, filters and the way out park beside the list. */}
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <SectionLabel name="FAQ" />
-            <h2 className="mt-4 font-display text-[32px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[40px]">
-              <BlockReveal>Fair questions.</BlockReveal>
+            <h2 className="heading-mark font-display text-[36px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[48px]">
+              Fair questions.
             </h2>
             <p className="mt-5 font-body text-[17px] leading-[1.6] text-zinc-500">
-              Everything about Google permissions, how your data is handled, and
-              why the answers can&rsquo;t make things up about your site.
+              Google permissions, how your data is handled, and why the answers
+              can&rsquo;t make things up about your site.
             </p>
 
-            <Link
-              href="mailto:hello@seerix.ai"
-              className="group mt-6 inline-flex items-center gap-2 font-body text-[15px] text-black transition-colors duration-200 hover:text-zinc-500"
+            <div
+              role="tablist"
+              aria-label="Filter questions"
+              className="mt-8 flex flex-wrap gap-2"
             >
-              Still have a question?
-              <svg
-                className="h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
-                viewBox="0 0 16 16"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M6 3.5L10.5 8L6 12.5" />
-              </svg>
+              {groups.map((g) => {
+                const on = g === group;
+                const count =
+                  g === "All"
+                    ? faqs.length
+                    : faqs.filter((f) => f.group === g).length;
+                return (
+                  <button
+                    key={g}
+                    type="button"
+                    role="tab"
+                    aria-selected={on}
+                    onClick={() => {
+                      setGroup(g);
+                      setOpen(null);
+                    }}
+                    className={`flex items-center gap-2 rounded-full border px-3.5 py-1.5 font-body text-[14px] transition-colors duration-200 ${
+                      on
+                        ? "border-[#1c1c21] bg-[#1c1c21] text-white"
+                        : "border-black/[0.10] text-zinc-600 hover:border-black/[0.2] hover:text-black"
+                    }`}
+                  >
+                    {g}
+                    <span
+                      className={`font-mono text-[11px] ${
+                        on ? "text-white/50" : "text-zinc-400"
+                      }`}
+                    >
+                      {count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* The way out when the list doesn't have it: drawn as the
+                product's own question bar, routed to a person. */}
+            <Link
+              href="/contact"
+              className="group mt-10 block bg-[#1c1c21] p-5 transition-transform duration-200 hover:-translate-y-0.5"
+            >
+              <p className="font-body text-[13px] text-white/45">
+                Not on the list?
+              </p>
+              <span className="mt-3 flex items-center justify-between gap-3 bg-white/[0.06] px-4 py-3 ring-1 ring-white/[0.08]">
+                <span className="font-body text-[14px] text-white/60">
+                  Ask the people who built it
+                </span>
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center bg-signal text-white transition-transform duration-200 group-hover:translate-x-0.5">
+                  <svg
+                    className="h-3.5 w-3.5"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M3 8h10M9 4l4 4-4 4" />
+                  </svg>
+                </span>
+              </span>
+              <p className="mt-3 font-mono text-[11px] text-white/35">
+                a person replies within one business day
+              </p>
             </Link>
           </div>
 
-          <div>
-            {faqs.map((faq, index) => {
-              const open = openIndex === index;
-              // A group heading is drawn once, above its first question.
+          <div className="border-t border-black/[0.07]">
+            {shown.map((faq, index) => {
+              const isOpen = open === faq.question;
+              const id = `faq-panel-${faqs.indexOf(faq)}`;
+              // In "All", a group label is drawn once above its first question.
               const startsGroup =
-                index === 0 || faqs[index - 1].group !== faq.group;
+                group === "All" &&
+                (index === 0 || shown[index - 1].group !== faq.group);
 
               return (
                 <div key={faq.question}>
                   {startsGroup && (
                     <p
-                      className={`font-body text-[14px] text-zinc-400 ${
-                        index === 0 ? "" : "mt-12"
+                      className={`pl-[18px] font-mono text-[11px] uppercase tracking-[0.08em] text-zinc-400 ${
+                        index === 0 ? "pt-6" : "pt-12"
                       }`}
                     >
                       {faq.group}
@@ -154,21 +212,33 @@ export default function Faq() {
                   <div className="border-b border-black/[0.07]">
                     <button
                       type="button"
-                      aria-expanded={open}
-                      aria-controls={`faq-panel-${index}`}
-                      onClick={() => setOpenIndex(open ? null : index)}
-                      className="group flex w-full cursor-pointer items-start justify-between gap-6 py-5 text-left font-body text-[18px] leading-snug text-black transition-colors duration-200 hover:text-zinc-500"
+                      aria-expanded={isOpen}
+                      aria-controls={id}
+                      onClick={() => setOpen(isOpen ? null : faq.question)}
+                      className="group flex w-full cursor-pointer items-start justify-between gap-6 py-5 text-left font-body text-[18px] leading-snug text-black transition-colors duration-200 hover:text-zinc-600"
                     >
-                      {faq.question}
+                      <span className="flex gap-4">
+                        {/* A signal rule marks the open question. */}
+                        <span
+                          aria-hidden="true"
+                          className={`mt-1 w-[2px] shrink-0 self-stretch rounded-full transition-colors duration-300 ${
+                            isOpen ? "bg-signal" : "bg-transparent"
+                          }`}
+                        />
+                        {faq.question}
+                      </span>
                       <span
                         aria-hidden="true"
-                        className="relative mt-1 h-4 w-4 shrink-0 text-zinc-400 transition-colors duration-200 group-hover:text-black"
+                        className={`relative mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors duration-200 ${
+                          isOpen
+                            ? "border-signal bg-signal text-white"
+                            : "border-black/[0.12] text-zinc-500 group-hover:border-black/[0.3] group-hover:text-black"
+                        }`}
                       >
-                        {/* Plus that loses its vertical stroke when open. */}
-                        <span className="absolute left-0 top-1/2 h-px w-4 -translate-y-1/2 bg-current" />
+                        <span className="absolute h-px w-2.5 bg-current" />
                         <span
-                          className={`absolute left-1/2 top-0 h-4 w-px -translate-x-1/2 bg-current transition-transform duration-300 ease-out ${
-                            open ? "scale-y-0" : "scale-y-100"
+                          className={`absolute h-2.5 w-px bg-current transition-transform duration-300 ease-out ${
+                            isOpen ? "scale-y-0" : "scale-y-100"
                           }`}
                         />
                       </span>
@@ -176,13 +246,13 @@ export default function Faq() {
 
                     {/* grid-template-rows animates where height:auto cannot. */}
                     <div
-                      id={`faq-panel-${index}`}
+                      id={id}
                       className={`grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none ${
-                        open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                        isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                       }`}
                     >
                       <div className="overflow-hidden">
-                        <p className="max-w-2xl pb-6 pr-10 font-body text-[16px] leading-[1.7] text-zinc-500">
+                        <p className="max-w-2xl pb-6 pl-[18px] pr-10 font-body text-[16px] leading-[1.7] text-zinc-500">
                           {faq.answer}
                         </p>
                       </div>

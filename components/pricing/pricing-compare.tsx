@@ -9,7 +9,7 @@ function Tick() {
   return (
     <>
       <svg
-        className="mx-auto h-4 w-4 text-black"
+        className="mx-auto h-4 w-4 text-signal"
         viewBox="0 0 16 16"
         fill="none"
         stroke="currentColor"
@@ -56,18 +56,14 @@ export default function PricingCompare() {
   return (
     <section id="compare" className="bg-white px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
-        <SectionHeader
-          label="Compare"
-          heading="What actually changes between plans."
-          lede="Every plan gives you the same evidence-cited diagnoses. What changes is how many sites you run, how much Seerix looks at, and how much of it you can hand to someone else."
-        />
+        <SectionHeader heading="Plan comparison" />
 
         {/* Scrolls horizontally rather than letting the table set a min-width
             wider than the phone it is being read on. `contain: paint` is what
             keeps the 720px table from widening the document itself: the sticky
             header row otherwise escapes the scroll container and counts toward
             the page's scroll width, so the whole page pans sideways. */}
-        <div className="mt-10 overflow-x-auto contain-[paint]">
+        <div className="mt-10 overflow-x-auto border border-black/[0.12] contain-[paint]">
           <table className="w-full min-w-[720px] border-collapse text-left">
             <caption className="sr-only">
               Feature comparison across the Starter, Growth and Agency plans
@@ -78,10 +74,10 @@ export default function PricingCompare() {
                   stop the wide table widening the page on a phone, and that
                   containing block is exactly what a sticky row cannot escape.
                   Readability comes from the repeated group headings instead. */}
-              <tr className="bg-white">
+              <tr className="bg-zinc-50">
                 <th
                   scope="col"
-                  className="w-[34%] border-b border-black/[0.12] bg-white px-4 py-4 font-body text-[13px] font-medium text-zinc-400"
+                  className="w-[34%] border-b border-black/[0.12] px-4 py-4 font-body text-[13px] font-medium text-zinc-400"
                 >
                   Features
                 </th>
@@ -89,7 +85,7 @@ export default function PricingCompare() {
                   <th
                     key={plan.id}
                     scope="col"
-                    className="border-b border-black/[0.12] bg-white px-4 py-4 text-center"
+                    className="border-b border-l border-black/[0.12] px-4 py-4 text-center"
                   >
                     <span className="block font-display text-[16px] font-medium tracking-[-0.02em] text-black">
                       {plan.name}
@@ -122,7 +118,7 @@ export default function PricingCompare() {
                     <td
                       key={plan.id}
                       aria-hidden="true"
-                      className="px-4 pb-3 pt-9 text-center font-body text-[12px] text-zinc-300"
+                      className="border-l border-black/[0.08] px-4 pb-3 pt-9 text-center font-body text-[12px] text-zinc-300"
                     >
                       {plan.name}
                     </td>
@@ -148,7 +144,7 @@ export default function PricingCompare() {
                     {plans.map((plan) => (
                       <td
                         key={plan.id}
-                        className="px-4 py-4 text-center align-top"
+                        className="border-l border-black/[0.08] px-4 py-4 text-center align-top"
                       >
                         <Value value={row.values[plan.id]} />
                       </td>

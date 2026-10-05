@@ -1,39 +1,48 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 
 import { submitContact, type ContactState } from "@/app/contact/actions";
 
-const topics = [
-  "Product question",
-  "Pricing and plans",
-  "Demo request",
-  "Security and data",
-  "Partnership",
-  "Something else",
+const sources = [
+  "Search engine",
+  "LinkedIn",
+  "X / Twitter",
+  "A friend or colleague",
+  "Newsletter or podcast",
+  "Other",
 ];
 
 const initialState: ContactState = { status: "idle" };
 
-/** Shared input chrome: one border treatment across text, select and area. */
+/** One border treatment across text, select and area, on the grey panel. */
 const fieldBase =
-  "w-full rounded-[10px] border bg-white px-3.5 py-3 font-body text-[15px] text-black transition-colors duration-200 placeholder:text-zinc-400 focus:outline-none";
+  "w-full border bg-transparent px-4 py-3.5 font-body text-[16px] text-black transition-colors duration-200 placeholder:text-zinc-400 focus:outline-none";
 
 function fieldClass(invalid: boolean) {
   return `${fieldBase} ${
     invalid
-      ? "border-black/[0.28] focus:border-black/[0.45]"
-      : "border-black/[0.09] hover:border-black/[0.16] focus:border-black/[0.35]"
+      ? "border-signal focus:border-signal"
+      : "border-black/[0.22] hover:border-black/40 focus:border-black"
   }`;
 }
 
-function Label({ htmlFor, children }: { htmlFor: string; children: string }) {
+function Label({
+  htmlFor,
+  children,
+  required,
+}: {
+  htmlFor: string;
+  children: string;
+  required?: boolean;
+}) {
   return (
     <label
       htmlFor={htmlFor}
-      className="font-body text-[14px] font-medium text-black"
+      className="font-mono text-[14px] uppercase tracking-[0.04em] text-black"
     >
       {children}
+      {required && "*"}
     </label>
   );
 }
@@ -41,35 +50,39 @@ function Label({ htmlFor, children }: { htmlFor: string; children: string }) {
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null;
   return (
-    <p id={id} className="font-body text-[13px] text-zinc-500">
+    <p id={id} className="font-body text-[13px] text-signal-deep">
       {message}
     </p>
   );
 }
 
 /**
- * The contact form proper. State comes back from the Server Action rather than
- * living in the client, so a rejected submit keeps what was typed and the same
- * validation governs a direct POST.
+ * The contact form: a grey panel with mono labels, two fields to a row, and a
+ * submit that stays muted until every required field has something in it.
+ * State comes back from the Server Action rather than living in the client,
+ * so a rejected submit keeps what was typed and the same validation governs a
+ * direct POST.
  */
 export default function ContactForm() {
   const [state, action, pending] = useActionState(submitContact, initialState);
+  // Tracks only whether the required fields are filled, to wake the button.
+  const [filled, setFilled] = useState<Record<string, boolean>>({});
+
+  const panel = "border border-black/[0.12] bg-[#f3f2ef] p-8 sm:p-14";
 
   if (state.status === "success") {
     return (
-      <div
-        role="status"
-        className="rounded-xl border border-black/[0.07] bg-white p-7"
-      >
-        <h2 className="font-display text-[19px] font-medium tracking-[-0.02em] text-black">
+      <div role="status" className={panel}>
+        <h2 className="flex items-center gap-4 font-display text-[36px] tracking-[-0.03em] text-black">
+          <span className="h-3 w-3 rounded-full bg-signal" />
           Message sent
         </h2>
-        <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-500">
-          {state.message} We reply within one business day, usually sooner. If
-          it is urgent, mail{" "}
+        <p className="mt-5 max-w-lg font-body text-[16px] leading-[1.65] text-zinc-600">
+          {state.message} We reply within one business day. If it is urgent,
+          mail{" "}
           <a
             href="mailto:hello@seerix.ai"
-            className="text-black underline underline-offset-4 transition-colors duration-200 hover:text-zinc-500"
+            className="text-black underline underline-offset-4"
           >
             hello@seerix.ai
           </a>{" "}
@@ -81,95 +94,134 @@ export default function ContactForm() {
 
   const errors = state.errors ?? {};
   const values = state.values ?? {};
+  const required = ["firstName", "lastName", "company", "email", "source"];
+  const ready = required.every(
+    (n) => filled[n] ?? Boolean(values[n as keyof typeof values]),
+  );
+
+  const track = (e: React.FormEvent<HTMLFormElement>) => {
+    const t = e.target as HTMLInputElement;
+    if (required.includes(t.name)) {
+      setFilled((f) => ({ ...f, [t.name]: t.value.trim() !== "" }));
+    }
+  };
+
+  const describe = (name: keyof typeof errors) =>
+    errors[name] ? `${name}-error` : undefined;
 
   return (
     <form
       action={action}
       noValidate
-      className="relative rounded-xl border border-black/[0.07] bg-white p-7"
+      onInput={track}
+      onChange={track}
+      className={`relative ${panel}`}
     >
+      <h2 className="flex items-center gap-4 font-display text-[36px] tracking-[-0.03em] text-black sm:text-[42px]">
+        <span
+          aria-hidden="true"
+          className="h-3 w-3 shrink-0 rounded-full bg-signal"
+        />
+        Contact us
+      </h2>
+
       {state.status === "error" && state.message && (
         <p
           role="alert"
-          className="mb-6 rounded-[10px] border border-black/[0.12] bg-zinc-50 px-3.5 py-3 font-body text-[14px] leading-[1.6] text-zinc-600"
+          className="mt-6 border border-signal/40 bg-signal-soft px-4 py-3 font-body text-[14px] text-signal-deep"
         >
           {state.message}
         </p>
       )}
 
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="name">Name</Label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            autoComplete="name"
-            defaultValue={values.name}
-            aria-invalid={Boolean(errors.name)}
-            aria-describedby={errors.name ? "name-error" : undefined}
-            className={fieldClass(Boolean(errors.name))}
-            placeholder="Alex Mercer"
-          />
-          <FieldError id="name-error" message={errors.name} />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="email">Work email</Label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            defaultValue={values.email}
-            aria-invalid={Boolean(errors.email)}
-            aria-describedby={errors.email ? "email-error" : undefined}
-            className={fieldClass(Boolean(errors.email))}
-            placeholder="alex@company.com"
-          />
-          <FieldError id="email-error" message={errors.email} />
-        </div>
+      <div className="mt-10 grid gap-x-12 gap-y-8 sm:grid-cols-2">
+        {(
+          [
+            ["firstName", "First name", "First Name", "given-name", "text"],
+            ["lastName", "Last name", "Last Name", "family-name", "text"],
+            ["company", "Company", "Company", "organization", "text"],
+            ["email", "Work email", "Work Email", "email", "email"],
+          ] as const
+        ).map(([name, label, placeholder, auto, type]) => (
+          <div key={name} className="flex flex-col gap-3">
+            <Label htmlFor={name} required>
+              {label}
+            </Label>
+            <input
+              id={name}
+              name={name}
+              type={type}
+              autoComplete={auto}
+              placeholder={placeholder}
+              defaultValue={values[name]}
+              aria-invalid={Boolean(errors[name])}
+              aria-describedby={describe(name)}
+              className={fieldClass(Boolean(errors[name]))}
+            />
+            <FieldError id={`${name}-error`} message={errors[name]} />
+          </div>
+        ))}
       </div>
 
-      <div className="mt-5 flex flex-col gap-2">
-        <Label htmlFor="topic">What is this about</Label>
-        <select
-          id="topic"
-          name="topic"
-          defaultValue={values.topic ?? ""}
-          aria-invalid={Boolean(errors.topic)}
-          aria-describedby={errors.topic ? "topic-error" : undefined}
-          className={`${fieldClass(Boolean(errors.topic))} cursor-pointer`}
-        >
-          <option value="" disabled>
-            Choose a topic
-          </option>
-          {topics.map((topic) => (
-            <option key={topic} value={topic}>
-              {topic}
+      <div className="mt-8 flex flex-col gap-3">
+        <Label htmlFor="source" required>
+          How did you find us
+        </Label>
+        <div className="relative">
+          <select
+            id="source"
+            name="source"
+            defaultValue={values.source ?? ""}
+            aria-invalid={Boolean(errors.source)}
+            aria-describedby={describe("source")}
+            className={`${fieldClass(Boolean(errors.source))} cursor-pointer appearance-none pr-12 invalid:text-zinc-400`}
+            required
+          >
+            <option value="" disabled>
+              Select one...
             </option>
-          ))}
-        </select>
-        <FieldError id="topic-error" message={errors.topic} />
+            {sources.map((s) => (
+              <option key={s} value={s} className="text-black">
+                {s}
+              </option>
+            ))}
+          </select>
+          <svg
+            className="pointer-events-none absolute right-5 top-1/2 h-4 w-4 -translate-y-1/2 text-black"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 6l4 4 4-4" />
+          </svg>
+        </div>
+        <FieldError id="source-error" message={errors.source} />
       </div>
 
-      <div className="mt-5 flex flex-col gap-2">
-        <Label htmlFor="message">Message</Label>
+      <div className="mt-8 flex flex-col gap-3">
+        <Label htmlFor="message">How can we help?</Label>
         <textarea
           id="message"
           name="message"
-          rows={6}
+          rows={4}
           defaultValue={values.message}
           aria-invalid={Boolean(errors.message)}
-          aria-describedby={errors.message ? "message-error" : undefined}
+          aria-describedby={describe("message")}
           className={`${fieldClass(Boolean(errors.message))} resize-y`}
-          placeholder="Tell us about your site, your market, and what you are trying to work out."
+          placeholder="Tell us about your site, timeline, or any questions..."
         />
         <FieldError id="message-error" message={errors.message} />
       </div>
 
       {/* Honeypot: off-screen and skipped by tab order, so only bots fill it. */}
-      <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="absolute left-[-9999px] h-0 w-0 overflow-hidden"
+      >
         <label htmlFor="company_website">Company website</label>
         <input
           id="company_website"
@@ -180,31 +232,30 @@ export default function ContactForm() {
         />
       </div>
 
-      <div className="mt-7 flex flex-col gap-4 border-t border-black/[0.07] pt-6 sm:flex-row sm:items-center sm:justify-between">
-        <p className="font-body text-[13px] leading-[1.6] text-zinc-400">
-          We use what you send here to answer you, nothing else.
-        </p>
-
-        <button
-          type="submit"
-          disabled={pending}
-          className="group inline-flex h-11 shrink-0 translate-y-0 items-center justify-center gap-2 rounded-[10px] bg-gradient-to-b from-[#4a4a51] to-[#36363B] px-5 font-body text-[15px] text-white transition-all duration-150 ease-out [box-shadow:0_3px_0_0_#1c1c21,0_4px_10px_rgba(0,0,0,0.18)] hover:-translate-y-0.5 hover:from-[#55555d] hover:to-[#3f3f45] hover:[box-shadow:0_5px_0_0_#1c1c21,0_9px_16px_rgba(0,0,0,0.22)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#1c1c21,0_2px_4px_rgba(0,0,0,0.15)] disabled:pointer-events-none disabled:opacity-60"
+      <button
+        type="submit"
+        disabled={pending}
+        aria-disabled={!ready}
+        // The site's dark button: the same ink and hover as the navbar's
+        // "See demo". Until the form is ready it sits slightly dimmed.
+        className={`group mt-10 inline-flex h-14 items-center gap-3 bg-[#141416] px-8 font-mono text-[18px] uppercase tracking-[0.04em] text-white transition-all duration-200 hover:bg-[#36363B] disabled:opacity-60 ${
+          ready ? "opacity-100" : "opacity-75"
+        }`}
+      >
+        {pending ? "Sending" : "Submit"}
+        <svg
+          className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-0.5"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
         >
-          {pending ? "Sending" : "Send message"}
-          <svg
-            className="h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
-            viewBox="0 0 16 16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.75"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M6 3.5L10.5 8L6 12.5" />
-          </svg>
-        </button>
-      </div>
+          <path d="M4 10h12M11 5l5 5-5 5" />
+        </svg>
+      </button>
     </form>
   );
 }

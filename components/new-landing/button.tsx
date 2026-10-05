@@ -6,7 +6,7 @@ import type { ComponentProps } from "react";
  * spelled the same long shadow stack out inline.
  */
 const base =
-  "inline-flex shrink-0 translate-y-0 items-center justify-center gap-2 rounded-[10px] font-body transition-all duration-150 ease-out";
+  "inline-flex shrink-0 translate-y-0 items-center justify-center gap-2 font-body transition-all duration-150 ease-out";
 
 /**
  * One height everywhere: nav and body buttons match. `compact` steps that down

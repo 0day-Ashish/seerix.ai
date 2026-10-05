@@ -6,7 +6,6 @@ import {
   pricingDrop,
   type Diagnosis,
 } from "@/components/new-landing/answer-card";
-import SectionLabel from "@/components/new-landing/section-label";
 
 type Point = {
   title: string;
@@ -47,9 +46,21 @@ const diagnoses: Diagnosis[] = [
     answer:
       "Six pages sit at positions 6–12 with rising impressions. Start with /integrations.",
     evidence: [
-      { source: "Search Console", detail: "impressions +38% (28d)", confidence: "High" },
-      { source: "SERP snapshot", detail: "/integrations 8 → 6", confidence: "High" },
-      { source: "Crawl", detail: "3 pages with no internal links", confidence: "Medium" },
+      {
+        source: "Search Console",
+        detail: "impressions +38% (28d)",
+        confidence: "High",
+      },
+      {
+        source: "SERP snapshot",
+        detail: "/integrations 8 → 6",
+        confidence: "High",
+      },
+      {
+        source: "Crawl",
+        detail: "3 pages with no internal links",
+        confidence: "Medium",
+      },
     ],
     confidence: 4,
     confidenceLabel: "High",
@@ -59,9 +70,17 @@ const diagnoses: Diagnosis[] = [
     answer:
       "Not yet. Clicks are flat, and the new title has only been indexed for nine days.",
     evidence: [
-      { source: "Search Console", detail: "clicks 1,110 → 1,140", confidence: "Medium" },
+      {
+        source: "Search Console",
+        detail: "clicks 1,110 → 1,140",
+        confidence: "Medium",
+      },
       { source: "Crawl", detail: "reindexed 21 Mar", confidence: "High" },
-      { source: "SERP snapshot", detail: "position unchanged (9)", confidence: "High" },
+      {
+        source: "SERP snapshot",
+        detail: "position unchanged (9)",
+        confidence: "High",
+      },
     ],
     confidence: 2,
     confidenceLabel: "Low",
@@ -84,8 +103,7 @@ export default function WhatIsSeerix() {
             section; this one reads top to bottom so the two don't repeat. */}
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
           <div>
-            <SectionLabel name="What is Seerix" />
-            <h2 className="mt-4 font-display text-[32px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[44px]">
+            <h2 className="heading-mark font-display text-[36px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[54px] lg:text-[60px]">
               An SEO analyst that works from your Search Console.
             </h2>
           </div>
@@ -98,7 +116,7 @@ export default function WhatIsSeerix() {
 
         {/* The demo, full width: the question bar across the top, then the
             answer on the left and the evidence it cites on the right. */}
-        <div className="mt-14 overflow-hidden rounded-2xl bg-[#1c1c21] shadow-[0_30px_70px_-30px_rgba(0,0,0,0.5)]">
+        <div className="mt-14 overflow-hidden bg-[#1c1c21] shadow-[0_30px_70px_-30px_rgba(0,0,0,0.5)]">
           <div
             role="tablist"
             aria-label="Example questions"
@@ -119,7 +137,7 @@ export default function WhatIsSeerix() {
                   onClick={() => setActive(index)}
                   onMouseEnter={() => setActive(index)}
                   onFocus={() => setActive(index)}
-                  className={`shrink-0 whitespace-nowrap rounded-lg px-3.5 py-2 font-body text-[14px] transition-colors duration-200 ${
+                  className={`shrink-0 whitespace-nowrap  px-3.5 py-2 font-body text-[14px] transition-colors duration-200 ${
                     on
                       ? "bg-white text-[#1c1c21]"
                       : "text-white/55 hover:bg-white/[0.06] hover:text-white"
@@ -153,7 +171,7 @@ export default function WhatIsSeerix() {
                       key={index}
                       className={`h-1.5 w-5 rounded-full ${
                         index < diagnosis.confidence
-                          ? "bg-[#dcdddd]/80"
+                          ? "bg-signal"
                           : "bg-white/[0.12]"
                       }`}
                     />
@@ -169,7 +187,7 @@ export default function WhatIsSeerix() {
               <p className="font-body text-[12px] font-medium uppercase tracking-[0.06em] text-white/40">
                 Evidence
               </p>
-              <div className="mt-3 overflow-hidden rounded-lg border border-white/[0.09]">
+              <div className="mt-3 overflow-hidden border border-white/[0.09]">
                 {diagnosis.evidence.map((row, index) => (
                   <div
                     key={row.source + row.detail}
@@ -178,7 +196,7 @@ export default function WhatIsSeerix() {
                     }`}
                   >
                     <span className="flex min-w-0 items-start gap-3 sm:items-center">
-                      <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#dcdddd]/60 sm:mt-0" />
+                      <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-signal sm:mt-0" />
                       <span className="flex min-w-0 flex-col gap-0.5 sm:flex-row sm:items-center sm:gap-3">
                         <span className="shrink-0 font-body text-[14px] text-white/85">
                           {row.source}
@@ -201,7 +219,10 @@ export default function WhatIsSeerix() {
         {/* The three points as a row closing the section. */}
         <div className="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-8">
           {points.map((point, index) => (
-            <div key={point.title} className="border-t border-black/[0.10] pt-5">
+            <div
+              key={point.title}
+              className="border-t border-black/[0.10] pt-5"
+            >
               <span className="font-mono text-[12px] text-zinc-400">
                 0{index + 1}
               </span>

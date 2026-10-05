@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { BlockReveal } from "@/components/new-landing/block-reveal";
-import SectionLabel from "@/components/new-landing/section-label";
 
 type Item = { question: string; answer: string };
 
@@ -49,32 +48,13 @@ export default function ContactFaq() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-16">
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <SectionLabel name="Before you write" />
-            <h2 className="mt-4 font-display text-[32px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[40px]">
+            <h2 className="heading-mark font-display text-[36px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[50px] lg:text-[56px]">
               <BlockReveal>What happens after you send.</BlockReveal>
             </h2>
             <p className="mt-5 font-body text-[17px] leading-[1.6] text-zinc-500">
               Who reads it, how fast, and what we do with it.
             </p>
 
-            <Link
-              href="/#faq"
-              className="group mt-6 inline-flex items-center gap-2 font-body text-[15px] text-black transition-colors duration-200 hover:text-zinc-500"
-            >
-              Questions about the product
-              <svg
-                className="h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
-                viewBox="0 0 16 16"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M6 3.5L10.5 8L6 12.5" />
-              </svg>
-            </Link>
           </div>
 
           <div>

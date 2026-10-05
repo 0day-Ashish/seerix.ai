@@ -79,7 +79,6 @@ export default function SeerixBotPage() {
     <div className="flex flex-1 flex-col bg-white">
       <div className="flex flex-1 flex-col">
         <LegalPage
-          label="Legal"
           title="About SeerixBot"
           lede="The crawler that reads your site so Seerix can explain your rankings. What it fetches, how to spot it, and how to control it."
           updated="20 September 2026"

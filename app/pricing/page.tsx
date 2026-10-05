@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 
-import Cta from "@/components/new-landing/cta";
 import SiteFooter from "@/components/new-landing/site-footer";
+import {
+  PricingBilling,
+  PricingCloser,
+} from "@/components/pricing/pricing-billing";
 import PricingCompare from "@/components/pricing/pricing-compare";
-import PricingFaq from "@/components/pricing/pricing-faq";
 import PricingHero from "@/components/pricing/pricing-hero";
+import PricingModules from "@/components/pricing/pricing-modules";
 import PricingPlans from "@/components/pricing/pricing-plans";
+import PricingUseCases from "@/components/pricing/pricing-use-cases";
 
 export const metadata: Metadata = {
   title: "Pricing · Seerix",
@@ -26,9 +30,11 @@ export default function PricingPage() {
 
       <div className="flex flex-1 flex-col">
         <PricingPlans />
+        <PricingModules />
+        <PricingUseCases />
         <PricingCompare />
-        <PricingFaq />
-        <Cta />
+        <PricingBilling />
+        <PricingCloser />
       </div>
 
       <SiteFooter />

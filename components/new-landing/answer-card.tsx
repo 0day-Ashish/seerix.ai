@@ -28,7 +28,11 @@ export const pricingDrop: Diagnosis = {
   question: "Why did /pricing lose traffic last week?",
   answer: "Rankings fell after a title rewrite, not a Google update.",
   evidence: [
-    { source: "Search Console", detail: "clicks 2,940 → 1,823", confidence: "High" },
+    {
+      source: "Search Console",
+      detail: "clicks 2,940 → 1,823",
+      confidence: "High",
+    },
     { source: "SERP snapshot", detail: "position 4 → 11", confidence: "High" },
     { source: "Crawl", detail: "title rewritten 2 Apr", confidence: "Medium" },
   ],
@@ -45,7 +49,7 @@ export default function AnswerCard({
 }) {
   return (
     <div
-      className={`flex flex-col overflow-hidden rounded-2xl bg-[#1c1c21] shadow-[0_30px_70px_-30px_rgba(0,0,0,0.5)] ${className}`}
+      className={`flex flex-col overflow-hidden bg-[#1c1c21] shadow-[0_30px_70px_-30px_rgba(0,0,0,0.5)] ${className}`}
     >
       {/* The question, set as though typed into the product. */}
       <div className="border-b border-white/[0.08] px-6 py-4">
@@ -65,7 +69,7 @@ export default function AnswerCard({
           Evidence
         </p>
 
-        <div className="mt-3 overflow-hidden rounded-lg border border-white/[0.09]">
+        <div className="mt-3 overflow-hidden border border-white/[0.09]">
           {diagnosis.evidence.map((row, index) => (
             <div
               key={row.source + row.detail}
@@ -74,7 +78,7 @@ export default function AnswerCard({
               }`}
             >
               <span className="flex min-w-0 items-center gap-2.5">
-                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#dcdddd]/60" />
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-signal" />
                 <span className="shrink-0 font-body text-[13px] text-white/85">
                   {row.source}
                 </span>
@@ -104,7 +108,7 @@ export default function AnswerCard({
                   key={index}
                   className={`h-1.5 w-4 rounded-full ${
                     index < diagnosis.confidence
-                      ? "bg-[#dcdddd]/80"
+                      ? "bg-signal"
                       : "bg-white/[0.12]"
                   }`}
                 />

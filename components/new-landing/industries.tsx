@@ -1,8 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { BlockReveal } from "@/components/new-landing/block-reveal";
-import SectionLabel from "@/components/new-landing/section-label";
 
 type Industry = {
   name: string;
@@ -38,27 +36,50 @@ export default function Industries() {
       <div className="mx-auto max-w-7xl">
         {/* Dark panel: the one inverted block on the page, so the section
             reads as a break between the FAQ and the closing CTA. */}
-        <div className="relative overflow-hidden rounded-2xl bg-[#1c1c21] px-7 py-12 sm:px-12 sm:py-16">
-          {/* Ghost light: already a dark navy, so it needs only a light scrim
-              rather than the heavy one a pale image would want. */}
-          <Image
-            src="/assets/Ghost light-2048x1428.png"
-            alt=""
-            fill
-            sizes="(min-width: 1280px) 80rem, 100vw"
-            className="pointer-events-none select-none object-cover"
-          />
-          <div className="pointer-events-none absolute inset-0 bg-[#1c1c21]/55" />
+        <div className="relative overflow-hidden bg-[#1c1c21] px-7 py-12 sm:px-12 sm:py-16">
+          {/* Moving gradient: two lights orbiting the panel's centre in
+              opposite directions at different speeds, so their overlap keeps
+              shifting, over a signal glow that slowly breathes. Each orbit is a
+              full-panel layer rotated about the middle with its light set off
+              to one side. Transforms and opacity only; the reduced-motion rule
+              holds it still. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+          >
+            {/* Grey light, clockwise. */}
+            <div
+              className="absolute inset-[-25%]"
+              style={{ animation: "seerix-orbit 48s linear infinite" }}
+            >
+              <span className="absolute left-[10%] top-[12%] h-[45%] w-[38%] rounded-full bg-[#7a7a82] opacity-45 blur-[100px]" />
+            </div>
+            {/* Second grey light, counter-clockwise and slower. */}
+            <div
+              className="absolute inset-[-25%]"
+              style={{ animation: "seerix-orbit 70s linear infinite reverse" }}
+            >
+              <span className="absolute bottom-[15%] right-[12%] h-[40%] w-[34%] rounded-full bg-[#888084] opacity-30 blur-[110px]" />
+            </div>
+            {/* Signal glow, breathing in place at the lower right. */}
+            <span
+              className="absolute -bottom-[40%] right-[8%] h-[90%] w-[55%] rounded-full bg-signal blur-[120px]"
+              style={{ animation: "seerix-breathe 9s ease-in-out infinite" }}
+            />
+            <span
+              className="absolute -bottom-[35%] left-[28%] h-[55%] w-[32%] rounded-full bg-[#d9430d] blur-[110px]"
+              style={{
+                animation: "seerix-breathe 13s ease-in-out infinite reverse",
+              }}
+            />
+          </div>
+          {/* Holds the copy on the left on the darkest ground. */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#1c1c21]/75 via-[#1c1c21]/20 to-transparent" />
 
           <div className="relative grid gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
             {/* Heading parks alongside the grid while it scrolls past. */}
             <div className="lg:sticky lg:top-28 lg:self-start">
-              <span className="flex items-center gap-2.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#888084]" />
-                <SectionLabel name="Industries" className="text-white/40" />
-              </span>
-
-              <h2 className="mt-5 font-display text-[30px] font-medium leading-[1.15] tracking-[-0.03em] text-white sm:text-[36px]">
+              <h2 className="heading-mark font-display text-[34px] font-medium leading-[1.15] tracking-[-0.03em] text-white sm:text-[44px]">
                 <BlockReveal>
                   Built for sites where search traffic is the business.
                 </BlockReveal>
