@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { BlockReveal } from "@/components/new-landing/block-reveal";
-import HeroPanel from "@/components/new-landing/hero-panel";
+import HeroDashboard from "@/components/new-landing/hero-dashboard";
 import ScanField from "@/components/new-landing/scan-field";
 import WaitlistForm from "@/components/new-landing/waitlist-form";
 
@@ -84,7 +84,7 @@ export default function Hero() {
         <div className="relative mt-3 sm:mt-5">
           <div className="pointer-events-none absolute inset-x-[-100vw] bottom-0 border-b border-black/[0.07]" />
           <div className="relative">
-            <HeroPanel />
+            <HeroDashboard />
           </div>
         </div>
       </div>
