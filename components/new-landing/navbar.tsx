@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import Button, { ButtonArrow } from "@/components/new-landing/button";
@@ -224,6 +225,7 @@ function MenuIcon({ open }: { open: boolean }) {
 }
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   // Products starts collapsed each time the mobile menu opens.
   const [productsOpen, setProductsOpen] = useState(false);
@@ -255,6 +257,10 @@ export default function Navbar() {
       document.body.style.overflow = previous;
     };
   }, [menuOpen]);
+
+  // The settings area is the app, with its own sidebar; the marketing bar
+  // stays out of it.
+  if (pathname.startsWith("/settings")) return null;
 
   return (
     <header className="sticky top-0 z-40 w-full">
