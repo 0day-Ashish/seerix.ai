@@ -49,8 +49,15 @@ export default function SettingsSidebar() {
   return (
     <aside className="border-b border-black/[0.08] bg-[#f5f4f2] lg:sticky lg:top-0 lg:h-dvh lg:w-[264px] lg:shrink-0 lg:overflow-y-auto lg:border-b-0 lg:border-r">
       <div className="px-4 pb-4 pt-5 lg:px-5 lg:pb-10 lg:pt-6">
+        <Link
+          href="/app"
+          className="inline-flex items-center gap-1.5 px-1 font-body text-[13px] text-zinc-500 transition-colors hover:text-black"
+        >
+          <NavIcon d="M10 3.5L5.5 8l4.5 4.5" />
+          Back to dashboard
+        </Link>
 
-        <h1 className="px-1 font-display text-[22px] font-medium tracking-[-0.02em] text-black">
+        <h1 className="mt-4 px-1 font-display text-[22px] font-medium tracking-[-0.02em] text-black">
           Settings
         </h1>
 

@@ -98,84 +98,6 @@ function Profile() {
   );
 }
 
-function Notifications() {
-  const groups: { title: string; items: [string, string, boolean][] }[] = [
-    {
-      title: "Reports",
-      items: [
-        ["Weekly report", "Every finding, ranked, in one email.", true],
-        [
-          "Monthly summary",
-          "The month's movement and fixes, for stakeholders.",
-          false,
-        ],
-      ],
-    },
-    {
-      title: "Alerts",
-      items: [
-        [
-          "Traffic drops",
-          "When clicks fall sharply on a page you care about.",
-          true,
-        ],
-        [
-          "Ranking changes",
-          "When a tracked query moves three or more positions.",
-          true,
-        ],
-        [
-          "Competitor moves",
-          "When a competitor overtakes you on your queries.",
-          true,
-        ],
-        ["Fix verified", "When Seerix confirms whether a fix worked.", true],
-      ],
-    },
-    {
-      title: "Product",
-      items: [
-        [
-          "Product updates",
-          "New diagnoses and features, from the changelog.",
-          false,
-        ],
-        ["Tips", "Short guides on getting more from Seerix.", false],
-      ],
-    },
-  ];
-  return (
-    <>
-      <PageHeader
-        title="Notifications"
-        description="Choose what Seerix tells you about, and when."
-      />
-      {groups.map((g) => (
-        <Panel key={g.title} title={g.title}>
-          {g.items.map(([label, hint, on]) => (
-            <Row key={label} label={label} hint={hint}>
-              <div className="flex justify-end">
-                <Toggle defaultOn={on} label={label} />
-              </div>
-            </Row>
-          ))}
-        </Panel>
-      ))}
-      <Panel title="Delivery" footer={<Button>Save</Button>}>
-        <Row label="Weekly report day">
-          <Select
-            options={["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]}
-            defaultValue="Monday"
-          />
-        </Row>
-        <Row label="Send to">
-          <Input defaultValue="alex@acme.com" />
-        </Row>
-      </Panel>
-    </>
-  );
-}
-
 function Affiliate() {
   const [copied, setCopied] = useState(false);
   const link = "https://seerix.ai/?ref=alex-mercer";
@@ -933,7 +855,6 @@ function Usage() {
 
 const sections: Record<string, () => React.ReactElement> = {
   profile: Profile,
-  notifications: Notifications,
   affiliate: Affiliate,
   learn: Learn,
   knowledge: Knowledge,

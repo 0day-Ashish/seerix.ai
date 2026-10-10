@@ -258,9 +258,15 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  // The settings area is the app, with its own sidebar; the marketing bar
-  // stays out of it.
-  if (pathname.startsWith("/settings")) return null;
+  // The app areas (settings, the gap tools) have their own sidebar; the
+  // marketing bar stays out of them.
+  if (
+    pathname.startsWith("/settings") ||
+    pathname.startsWith("/gap") ||
+    pathname === "/app" ||
+    pathname.startsWith("/app/")
+  )
+    return null;
 
   return (
     <header className="sticky top-0 z-40 w-full">
@@ -317,9 +323,9 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => {
-                setMenuOpen((value) => !value);
-                setProductsOpen(false);
-              }}
+                  setMenuOpen((value) => !value);
+                  setProductsOpen(false);
+                }}
                 aria-expanded={menuOpen}
                 aria-controls="mobile-menu"
                 aria-label={menuOpen ? "Close menu" : "Open menu"}

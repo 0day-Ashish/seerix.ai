@@ -18,11 +18,6 @@ export const settingsGroups: SettingsGroup[] = [
         icon: "M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM2.5 14c.6-2.8 2.8-4.2 5.5-4.2s4.9 1.4 5.5 4.2",
       },
       {
-        slug: "notifications",
-        label: "Notifications",
-        icon: "M4 11V7a4 4 0 0 1 8 0v4l1 1.5H3L4 11zM6.5 13.5h3",
-      },
-      {
         slug: "affiliate",
         label: "Affiliate",
         icon: "M2.5 6.5h11v2h-11zM3.5 8.5h9v5h-9zM8 6.5v7M8 6.5C6.5 6.5 5 5.8 5 4.5S6.5 2.8 8 6.5c1.5-3.7 3-3.3 3-2s-1.5 2-3 2",
