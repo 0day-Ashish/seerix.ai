@@ -14,11 +14,18 @@ const SERIES = {
 } as const;
 type Key = keyof typeof SERIES;
 
-/** Rounds up to 1, 2, 2.5 or 5 × 10ⁿ, so the four gridlines land on even numbers. */
+/**
+ * The top of the scale: four equal steps of a round size (1, 2, 2.5, 3, 4,
+ * 5, 6 or 8 × 10ⁿ, whole numbers only), so every gridline reads cleanly.
+ */
 function niceMax(v: number) {
-  const exp = 10 ** Math.floor(Math.log10(Math.max(v, 1)));
-  const f = v / exp;
-  return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * exp;
+  const raw = Math.max(v, 1) / 4;
+  const exp = 10 ** Math.floor(Math.log10(raw));
+  const step =
+    [1, 2, 2.5, 3, 4, 5, 6, 8, 10]
+      .map((c) => c * exp)
+      .find((c) => c >= raw && Number.isInteger(c)) ?? 10 * exp;
+  return Math.max(step, 1) * 4;
 }
 
 const compact = (n: number) =>
@@ -356,9 +363,9 @@ export default function TrafficChart({ days }: { days: Day[] }) {
           {ticks.map(({ d, i }, k) => (
             <span
               key={d.date}
-              // Every other label on phones, so the dates never collide.
+              // Every third label on phones, so the dates never collide.
               className={`absolute -translate-x-1/2 whitespace-nowrap first:translate-x-0 ${
-                k % 2 ? "hidden sm:inline" : ""
+                k % 3 ? "hidden sm:inline" : ""
               }`}
               style={{ left: `${(i / (days.length - 1)) * 100}%` }}
             >
