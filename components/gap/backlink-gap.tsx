@@ -109,7 +109,7 @@ function Prospects({ rows }: { rows: BacklinkRow[] }) {
           key={r.domain}
           className="flex items-center justify-between gap-4 border-b border-black/[0.05] px-5 py-3 last:border-b-0"
         >
-          <span className="truncate font-body text-[13px] text-signal-deep">
+          <span className="truncate font-body text-[13px] text-link">
             {r.domain}
           </span>
           <span className="font-mono text-[12px] text-zinc-500">AS {r.as}</span>
@@ -243,7 +243,7 @@ export default function BacklinkGap() {
               {picked.size} selected ·{" "}
               <button
                 type="button"
-                className="text-signal-deep hover:underline"
+                className="text-link hover:text-link-deep hover:underline hover:underline-offset-[3px]"
               >
                 Add to outreach list
               </button>
@@ -301,7 +301,7 @@ export default function BacklinkGap() {
                 return (
                   <tr
                     key={r.domain}
-                    className={`border-b border-black/[0.05] ${on ? "bg-signal-soft/60" : "hover:bg-black/[0.015]"}`}
+                    className={`border-b border-black/[0.05] ${on ? "bg-black/[0.035]" : "hover:bg-black/[0.015]"}`}
                   >
                     <td className="px-4 py-3">
                       <input
@@ -316,10 +316,10 @@ export default function BacklinkGap() {
                           })
                         }
                         aria-label={`Select ${r.domain}`}
-                        className="h-4 w-4 accent-[#ff5a1f]"
+                        className="h-4 w-4 accent-[#141416]"
                       />
                     </td>
-                    <td className="px-3 py-3 font-body text-[13.5px] text-signal-deep">
+                    <td className="px-3 py-3 font-body text-[13.5px] text-link">
                       {r.domain}
                     </td>
                     <td className="px-3 py-3 text-right">

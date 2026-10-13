@@ -28,6 +28,9 @@
   --color-signal: #ff5a1f;
   --color-signal-deep: #d9430d;
   --color-signal-soft: #fff1ea;
+  /* Links in the app: one blue, so anything clickable reads as clickable. */
+  --color-link: #1a5fd0;
+  --color-link-deep: #134aa6;
 
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 }

@@ -34,7 +34,7 @@ const nav = [
     d: "M7 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM10.5 10.5l3 3",
   },
   {
-    href: "/gap/backlinks",
+    href: "/app/backlinks",
     label: "Backlinks",
     d: "M6.5 9.5l3-3M7 4.5l1-1a2.5 2.5 0 0 1 3.5 3.5l-1 1M9 11.5l-1 1A2.5 2.5 0 0 1 4.5 9l1-1",
   },
@@ -81,13 +81,13 @@ function AlertStrip() {
         return (
           <div
             key={a.alert_id}
-            className={`flex flex-wrap items-center gap-x-4 gap-y-2 border border-l-[3px] border-black/[0.1] px-4 py-2.5 ${
-              urgent
-                ? "border-l-signal bg-signal-soft/70"
-                : "border-l-[#36363b] bg-white"
-            }`}
+            className="flex flex-wrap items-center gap-x-4 gap-y-2 border border-black/[0.1] bg-white px-4 py-2.5"
           >
-            <p className="min-w-0 basis-full font-body text-[13.5px] text-black sm:basis-0 sm:flex-1">
+            <p className="flex min-w-0 basis-full items-baseline gap-2.5 font-body text-[13.5px] text-black sm:basis-0 sm:flex-1">
+              <span
+                className={`h-1.5 w-1.5 shrink-0 -translate-y-px ${urgent ? "bg-signal" : "bg-black/35"}`}
+                aria-hidden="true"
+              />
               {a.summary}
             </p>
             <div className="flex items-center gap-3">
@@ -180,12 +180,12 @@ export default function DashboardShell({
                       : "text-zinc-600 hover:bg-black/[0.03] hover:text-black"
                   }`}
                 >
-                  <span className={on ? "text-signal-deep" : "text-zinc-500"}>
+                  <span className={on ? "text-black" : "text-zinc-500"}>
                     <NavIcon d={n.d} />
                   </span>
                   {n.label}
                   {n.count ? (
-                    <span className="ml-auto bg-signal px-1.5 font-mono text-[10.5px] leading-[18px] text-white">
+                    <span className="ml-auto font-mono text-[11px] text-zinc-400">
                       {n.count}
                     </span>
                   ) : null}
@@ -197,7 +197,7 @@ export default function DashboardShell({
       </aside>
 
       <div className="min-w-0 flex-1">
-        <header className="flex items-center justify-between gap-3 border-b border-black/[0.08] px-5 py-3 sm:px-8 lg:px-10">
+        <header className="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-black/[0.08] bg-[#fbfaf9]/95 px-5 backdrop-blur-md py-3 sm:px-8 lg:px-10">
           <p className="hidden font-mono text-[11px] uppercase tracking-[0.1em] text-zinc-400 sm:block">
             Workspace · Ardent Dev
           </p>

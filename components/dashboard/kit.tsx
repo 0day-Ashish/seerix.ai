@@ -2,7 +2,8 @@ import Link from "next/link";
 
 /* -------------------------------------------------------------------------
  * The dashboard kit: page title, framed cards, KPI tiles, deltas, tags,
- * sparklines and a ruled table. Square corners, ink and signal.
+ * sparklines and a ruled table. Square corners and ink; the signal
+ * colour is kept for what needs attention.
  * ---------------------------------------------------------------------- */
 
 export function PageTitle({
@@ -22,7 +23,7 @@ export function PageTitle({
             {title}
           </h1>
           <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-zinc-400">
-            <span className="h-1.5 w-1.5 bg-signal" />
+            <span className="h-1.5 w-1.5 bg-zinc-300" />
             Sample data
           </span>
         </div>
@@ -140,7 +141,7 @@ export function Tag({
 }) {
   const styles = {
     neutral: "border border-black/[0.12] text-zinc-600",
-    signal: "bg-signal-soft text-signal-deep",
+    signal: "border border-signal/40 text-signal-deep",
     good: "bg-[#e5f3ea] text-[#1f6b3a]",
     ink: "bg-[#141416] text-white",
   }[tone];

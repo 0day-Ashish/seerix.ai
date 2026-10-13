@@ -110,7 +110,7 @@ export default function Competitors() {
                       );
                       setNote("");
                     }}
-                    className="font-body text-[12.5px] text-zinc-500 hover:text-signal-deep"
+                    className="font-body text-[12.5px] text-zinc-500 hover:text-black"
                   >
                     Remove
                   </button>
@@ -138,7 +138,7 @@ export default function Competitors() {
                   type="button"
                   disabled={on}
                   onClick={() => track(s.domain)}
-                  className="border border-black/[0.14] bg-white px-3 py-1.5 text-left font-body text-[13px] text-black transition-colors hover:border-signal disabled:border-[#1f6b3a]/30 disabled:bg-[#e5f3ea] disabled:text-[#1f6b3a]"
+                  className="border border-black/[0.14] bg-white px-3 py-1.5 text-left font-body text-[13px] text-black transition-colors hover:border-black/40 disabled:border-[#1f6b3a]/30 disabled:bg-[#e5f3ea] disabled:text-[#1f6b3a]"
                 >
                   {on ? "✓ " : "+ "}
                   {s.domain}
@@ -251,7 +251,7 @@ export default function Competitors() {
             head={["Domain", "Rank", "Links to", "Total links", "Spam"]}
             align={["left", "right", "left", "right", "right"]}
             rows={intel.link_gap.map((d) => [
-              <span key="d" className="text-signal-deep">
+              <span key="d" className="text-link">
                 {d.source_domain}
               </span>,
               d.domain_rank,

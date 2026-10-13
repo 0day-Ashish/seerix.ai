@@ -88,7 +88,7 @@ function Reasoning({ a }: { a: Answer }) {
         aria-expanded={open}
         className="flex w-full items-center gap-2 px-3 py-2 text-left font-body text-[12.5px] font-medium text-black"
       >
-        <span className="font-mono text-[10px] text-signal-deep">
+        <span className="font-mono text-[10px] text-zinc-500">
           {open ? "▾" : "▸"}
         </span>
         Reasoning
@@ -109,7 +109,7 @@ function Reasoning({ a }: { a: Answer }) {
           {a.supporting_evidence?.map((e) => (
             <p
               key={e.statement}
-              className="my-1.5 border-l-2 border-signal pl-2.5 text-zinc-700"
+              className="my-1.5 border-l border-black/20 pl-2.5 text-zinc-700"
             >
               {e.statement}
             </p>
@@ -206,7 +206,7 @@ function AiMessage({ a, onAsk }: { a: Answer; onAsk: (q: string) => void }) {
             {a.recommended_actions.map((r) => (
               <p
                 key={r.action_text}
-                className="my-1.5 border-l-2 border-signal pl-2.5 text-[13.5px] text-black"
+                className="my-1.5 border-l border-black/20 pl-2.5 text-[13.5px] text-black"
               >
                 <Inline text={`→ ${r.action_text}`} />
               </p>
@@ -219,7 +219,7 @@ function AiMessage({ a, onAsk }: { a: Answer; onAsk: (q: string) => void }) {
             {a.suggested_actions.map((s) => {
               const label = done[s.action];
               const cls =
-                "border border-black/[0.16] bg-white px-2.5 py-1 font-body text-[12.5px] text-black transition-colors hover:border-signal";
+                "border border-black/[0.16] bg-white px-2.5 py-1 font-body text-[12.5px] text-black transition-colors hover:border-black/40";
               if (s.action === "open_rankings")
                 return (
                   <Link key={s.action} href="/app/rankings" className={cls}>

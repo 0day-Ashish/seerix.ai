@@ -103,7 +103,7 @@ export default function Health() {
                       <p className="font-body text-[13.5px] text-zinc-600">
                         {i.what}
                       </p>
-                      <p className="mt-2 break-all border-l-2 border-signal pl-3 font-mono text-[12px] text-black">
+                      <p className="mt-2 break-all border-l border-black/20 pl-3 font-mono text-[12px] text-black">
                         {i.example}
                       </p>
                     </div>

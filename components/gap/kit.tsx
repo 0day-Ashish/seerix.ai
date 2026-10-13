@@ -41,7 +41,7 @@ export function DomainBar({
           {title}
         </h1>
         <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-zinc-400">
-          <span className="h-1.5 w-1.5 bg-signal" />
+          <span className="h-1.5 w-1.5 bg-zinc-300" />
           Sample data
         </span>
       </div>
@@ -78,7 +78,10 @@ export function DomainBar({
           </button>
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-3 font-body text-[13px] text-zinc-500">
-          <button type="button" className="text-signal-deep hover:underline">
+          <button
+            type="button"
+            className="text-link hover:text-link-deep hover:underline hover:underline-offset-[3px]"
+          >
             + Add up to 2 competitors
           </button>
           <span className="h-3 w-px bg-black/[0.12]" />
@@ -119,7 +122,9 @@ export function Tabs<T extends string>({
             aria-selected={on}
             onClick={() => onChange(t)}
             className={`-mb-px flex shrink-0 flex-col items-start border-b-2 px-4 py-2.5 text-left transition-colors ${
-              on ? "border-signal" : "border-transparent hover:bg-black/[0.03]"
+              on
+                ? "border-[#141416]"
+                : "border-transparent hover:bg-black/[0.03]"
             }`}
           >
             <span
@@ -161,7 +166,7 @@ export function SortHeader({
       } ${align === "right" ? "justify-end" : ""}`}
     >
       {label}
-      <span className={active ? "text-signal-deep" : "opacity-0"}>
+      <span className={active ? "text-black" : "opacity-0"}>
         {dir === "asc" ? "↑" : "↓"}
       </span>
     </button>

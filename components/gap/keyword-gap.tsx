@@ -103,7 +103,7 @@ function Opportunities({
           key={r.keyword}
           className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 border-t border-black/[0.05] px-5 py-2.5"
         >
-          <span className="truncate font-body text-[13px] text-signal-deep">
+          <span className="truncate font-body text-[13px] text-link">
             {r.keyword}
           </span>
           <span className="font-mono text-[12px] text-zinc-600">
@@ -316,7 +316,7 @@ export default function KeywordGap() {
               {picked.size} selected ·{" "}
               <button
                 type="button"
-                className="text-signal-deep hover:underline"
+                className="text-link hover:text-link-deep hover:underline hover:underline-offset-[3px]"
               >
                 Add to fix list
               </button>
@@ -389,7 +389,7 @@ export default function KeywordGap() {
                 return (
                   <tr
                     key={r.keyword}
-                    className={`border-b border-black/[0.05] ${on ? "bg-signal-soft/60" : "hover:bg-black/[0.015]"}`}
+                    className={`border-b border-black/[0.05] ${on ? "bg-black/[0.035]" : "hover:bg-black/[0.015]"}`}
                   >
                     <td className="px-4 py-3">
                       <input
@@ -404,10 +404,10 @@ export default function KeywordGap() {
                           })
                         }
                         aria-label={`Select ${r.keyword}`}
-                        className="h-4 w-4 accent-[#ff5a1f]"
+                        className="h-4 w-4 accent-[#141416]"
                       />
                     </td>
-                    <td className="px-3 py-3 font-body text-[13.5px] text-signal-deep">
+                    <td className="px-3 py-3 font-body text-[13.5px] text-link">
                       {r.keyword}
                     </td>
                     <td className="px-3 py-3">

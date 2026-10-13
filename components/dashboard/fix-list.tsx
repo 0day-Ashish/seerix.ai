@@ -37,7 +37,7 @@ function FixRow({
         >
           {fix.title}
         </p>
-        <p className="mt-2 border-l-2 border-signal pl-3 font-body text-[13.5px] leading-[1.6] text-zinc-600">
+        <p className="mt-2 border-l border-black/20 pl-3 font-body text-[13.5px] leading-[1.6] text-zinc-600">
           {fix.evidence}
         </p>
         <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 font-mono text-[11.5px] text-zinc-500">
@@ -59,7 +59,7 @@ function FixRow({
           </span>
           <Link
             href={askHref(`why is this on my fix list: ${fix.title}`)}
-            className="font-body text-[12.5px] text-signal-deep hover:underline"
+            className="font-body text-[12.5px] text-link hover:text-link-deep hover:underline hover:underline-offset-[3px]"
           >
             Ask why
           </Link>

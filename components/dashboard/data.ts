@@ -809,6 +809,181 @@ export const issues: Issue[] = [
   },
 ];
 
+/* ---------- GET /backlinks (per-link rows) ------------------------------ */
+
+export type Backlink = {
+  /** Authority score of the linking page, 0-100. */
+  page_from_rank: number;
+  source_title: string;
+  source_page_url: string;
+  language: string;
+  mobile_friendly: boolean;
+  external_links: number;
+  internal_links: number;
+  anchor_text: string;
+  target_url: string;
+  link_type: "Text" | "Image";
+  attribute: "follow" | "nofollow" | "sponsored" | "ugc";
+  semantic_location: "Content" | "Footer" | "Sidebar" | "Header" | null;
+  status: "active" | "new" | "lost";
+  lost_reason?: "Link removed" | "Page not found" | "Redirected";
+  first_seen: string;
+  last_seen: string;
+  /** Set when the target page on our site no longer resolves. */
+  our_status?: 404 | 410;
+};
+
+type Row = [
+  number,
+  string,
+  string,
+  string,
+  boolean,
+  number,
+  number,
+  string,
+  string,
+  Backlink["link_type"],
+  Backlink["attribute"],
+  Backlink["semantic_location"],
+  Backlink["status"],
+  Backlink["lost_reason"] | null,
+  string,
+  string,
+];
+
+const BROKEN_TARGETS = new Set([
+  "arddev.in/blog/performance-budgeting-all-you-need-to-know",
+  "arddev.in/blog/understanding-react-server-components",
+]);
+
+// prettier-ignore
+const backlinkSeeds: Row[] = [
+  [71, "Best web development companies in India (2026) | Clutch", "clutch.co/in/web-developers", "EN", true, 212, 340, "Arddev", "arddev.in/", "Text", "follow", "Content", "active", null, "2025-11-04", "2026-10-11"],
+  [64, "Core Web Vitals in practice - Smashing Magazine", "smashingmagazine.com/2026/05/core-web-vitals-in-practice", "EN", true, 38, 96, "this teardown of a slow SaaS site", "arddev.in/blog/core-web-vitals", "Text", "follow", "Content", "active", null, "2026-05-19", "2026-10-09"],
+  [62, "vercel/next.js · Discussion #61234 · GitHub", "github.com/vercel/next.js/discussions/61234", "EN", true, 14, 88, "arddev.in/blog/nextjs-seo-checklist", "arddev.in/blog/nextjs-seo-checklist", "Text", "ugc", "Content", "active", null, "2026-03-02", "2026-10-10"],
+  [58, "Arddev - Product Hunt", "producthunt.com/products/arddev", "EN", true, 9, 140, "Visit website", "arddev.in/", "Text", "nofollow", "Sidebar", "active", null, "2025-12-15", "2026-10-07"],
+  [55, "Top Next.js agencies - DesignRush", "designrush.com/agency/web-development-companies/nextjs", "EN", true, 120, 260, "arddev.in", "arddev.in/", "Text", "follow", "Content", "new", null, "2026-10-02", "2026-10-12"],
+  [52, "How to migrate a WordPress site to Next.js - Stack Overflow", "stackoverflow.com/questions/77812345/migrate-wordpress-to-nextjs", "EN", true, 6, 112, "website migration checklist", "arddev.in/blog/website-migration", "Text", "ugc", "Content", "active", null, "2026-02-21", "2026-10-08"],
+  [49, "Webflow vs Next.js for startups : r/webdev", "reddit.com/r/webdev/comments/1f3k2a/webflow_vs_nextjs_for_startups", "EN", true, 22, 74, "this comparison", "arddev.in/blog/webflow-vs-nextjs", "Text", "ugc", "Content", "active", null, "2026-04-11", "2026-10-11"],
+  [47, "Redirecting...", "shorthalte4dzone.online/", "EN", false, 1, 0, "buat ke situs terbaru kami :D", "arddev.in/", "Text", "follow", null, "lost", "Link removed", "2026-04-04", "2026-05-03"],
+  [46, "Shopify Hydrogen vs Next.js - SitePoint", "sitepoint.com/shopify-hydrogen-vs-nextjs", "EN", true, 19, 63, "headless commerce build", "arddev.in/services/web-development", "Text", "follow", "Content", "lost", "Link removed", "2025-12-08", "2026-09-21"],
+  [44, "Ask HN: Who builds marketing sites in Next.js?", "news.ycombinator.com/item?id=41827733", "EN", true, 31, 12, "arddev.in", "arddev.in/", "Text", "nofollow", "Content", "active", null, "2026-06-30", "2026-10-06"],
+  [43, "Web development agencies | GoodFirms", "goodfirms.co/directory/languages/top-website-development-companies", "EN", true, 180, 310, "Arddev", "arddev.in/", "Text", "follow", "Content", "new", null, "2026-09-28", "2026-10-12"],
+  [41, "Building a fintech dashboard in 6 weeks - HackerNoon", "hackernoon.com/building-a-fintech-dashboard-in-6-weeks", "EN", true, 12, 57, "case study", "arddev.in/case-studies/fintech-dashboard", "Text", "follow", "Content", "active", null, "2026-01-17", "2026-10-03"],
+  [39, "Tailwind CSS - Showcase", "tailwindcss.com/showcase", "EN", true, 64, 22, "Arddev studio", "arddev.in/", "Image", "follow", "Content", "active", null, "2026-02-09", "2026-10-09"],
+  [37, "Accessibility audits that actually ship - CSS-Tricks", "css-tricks.com/accessibility-audits-that-ship", "EN", true, 17, 81, "accessibility audit", "arddev.in/services/web-development", "Text", "follow", "Content", "new", null, "2026-10-05", "2026-10-12"],
+  [35, "Next.js SEO checklist for 2026 - DEV Community", "dev.to/arddev/nextjs-seo-checklist-2026", "EN", true, 8, 45, "full checklist on our blog", "arddev.in/blog/nextjs-seo-checklist", "Text", "follow", "Content", "active", null, "2026-03-14", "2026-10-10"],
+  [33, "Freelance vs agency: who should build your MVP? - Indie Hackers", "indiehackers.com/post/freelance-vs-agency-mvp-8a1c2", "EN", true, 11, 39, "arddev", "arddev.in/", "Text", "ugc", "Content", "active", null, "2026-05-27", "2026-09-30"],
+  [31, "Sortlist: web agencies in Bangalore", "sortlist.com/web-development/bangalore-karnataka-in", "EN", true, 96, 204, "Arddev", "arddev.in/", "Text", "sponsored", "Content", "active", null, "2026-01-05", "2026-10-11"],
+  [29, "Weekly web dev links #212 - Frontend Focus", "frontendfoc.us/issues/212", "EN", true, 41, 6, "How we cut LCP by 60%", "arddev.in/blog/core-web-vitals", "Text", "follow", "Content", "lost", "Page not found", "2025-11-21", "2026-08-30"],
+  [27, "Headless commerce stack guide - Hashnode", "hashnode.com/post/headless-commerce-stack-guide", "EN", true, 15, 33, "arddev.in/services/web-development", "arddev.in/services/web-development", "Text", "follow", "Content", "new", null, "2026-10-01", "2026-10-11"],
+  [26, "Awwwards - Arddev profile", "awwwards.com/arddev", "EN", true, 7, 92, "Website", "arddev.in/", "Text", "nofollow", "Header", "active", null, "2025-12-02", "2026-10-04"],
+  [24, "Resources for designers (2026) - UX Collective", "uxdesign.cc/resources-for-designers-2026", "EN", true, 58, 14, "Next.js development agency", "arddev.in/services/nextjs-development", "Text", "follow", "Content", "new", null, "2026-09-24", "2026-10-10"],
+  [23, "arddev+nextjs - Yahoo Search Results", "uk.search.yahoo.com/mobile/s?p=arddev%2Bnextjs", "EN", true, 17, 32, "www.arddev.in › blog › ...", "arddev.in/blog/understanding-react-server-components", "Text", "follow", null, "lost", "Link removed", "2025-11-20", "2026-04-10"],
+  [23, "Website migration checklist (thread) : r/SEO", "reddit.com/r/SEO/comments/1g9p0x/website_migration_checklist", "EN", true, 20, 42, "migration checklist", "arddev.in/blog/website-migration", "Text", "ugc", "Content", "active", null, "2026-07-08", "2026-10-02"],
+  [21, "API integration partners | Zapier", "zapier.com/partners/experts/arddev", "EN", true, 5, 66, "arddev.in", "arddev.in/", "Text", "follow", "Sidebar", "active", null, "2026-02-27", "2026-10-07"],
+  [19, "Directory of B2B website designers", "b2bwebdirectory.net/designers?page=4", "EN", false, 140, 12, "arddev", "arddev.in/", "Text", "follow", "Footer", "lost", "Redirected", "2025-12-19", "2026-07-14"],
+  [18, "Performance Budgeting - Вопросы к П...", "ya.ru/neurum/t/PerformanceBudgeting", "RU", true, 7, 27, "www.arddev.in", "arddev.in/blog/performance-budgeting-all-you-need-to-know", "Text", "follow", "Content", "active", null, "2026-06-29", "2026-08-15"],
+  [17, "Business Strategy - Вопросы к П...", "ya.ru/neurum/t/BusinessStrategy", "RU", true, 47, 83, "www.arddev.in", "arddev.in/blog/performance-budgeting-all-you-need-to-know", "Text", "follow", "Content", "active", null, "2026-06-27", "2026-10-01"],
+  [15, "Jamstack agencies directory", "jamstack.org/agencies", "EN", true, 230, 18, "Arddev", "arddev.in/", "Text", "follow", "Content", "new", null, "2026-10-06", "2026-10-12"],
+  [12, "Weekly roundup: Next.js links - Medium", "medium.com/@frontendweekly/nextjs-roundup-41", "EN", true, 26, 9, "nextjs seo checklist", "arddev.in/blog/nextjs-seo-checklist", "Text", "nofollow", "Content", "active", null, "2026-08-12", "2026-10-05"],
+  [11, "IFRS 15 automated: a guide to compliance dashboards", "finopsjournal.com/ifrs-15-automated", "EN", true, 31, 45, "five-step model", "arddev.in/case-studies/fintech-dashboard", "Text", "follow", "Content", "active", null, "2026-03-27", "2026-09-26"],
+];
+
+export const backlinks: Backlink[] = backlinkSeeds.map(
+  ([
+    page_from_rank,
+    source_title,
+    source_page_url,
+    language,
+    mobile_friendly,
+    external_links,
+    internal_links,
+    anchor_text,
+    target_url,
+    link_type,
+    attribute,
+    semantic_location,
+    status,
+    lost_reason,
+    first_seen,
+    last_seen,
+  ]) => ({
+    page_from_rank,
+    source_title,
+    source_page_url,
+    language,
+    mobile_friendly,
+    external_links,
+    internal_links,
+    anchor_text,
+    target_url,
+    link_type,
+    attribute,
+    semantic_location,
+    status,
+    lost_reason: lost_reason ?? undefined,
+    first_seen,
+    last_seen,
+    // These targets were deleted in the July blog cleanup without a redirect.
+    our_status: BROKEN_TARGETS.has(target_url) ? 404 : undefined,
+  }),
+);
+
+/** GET /backlinks snapshot: the headline numbers for the latest capture. */
+export const backlinkSnapshot = (() => {
+  const live = backlinks.filter((b) => b.status !== "lost");
+  const domain = (u: string) => u.split("/")[0];
+  return {
+    captured_date: "2026-10-04",
+    backlinks_total: live.length,
+    backlinks_new: backlinks.filter((b) => b.status === "new").length,
+    backlinks_lost: backlinks.filter((b) => b.status === "lost").length,
+    referring_domains: new Set(live.map((b) => domain(b.source_page_url))).size,
+    referring_pages: new Set(live.map((b) => b.source_page_url)).size,
+    referring_ips: 24,
+    referring_subnets: 22,
+    provider_rank: 35,
+    dofollow: live.filter((b) => b.attribute === "follow").length,
+  };
+})();
+
+/** Top referring domains: links and dofollow links per domain. */
+export const referringDomains = Object.values(
+  backlinks
+    .filter((b) => b.status !== "lost")
+    .reduce<
+      Record<
+        string,
+        { domain: string; rank: number; links: number; dofollow: number }
+      >
+    >((m, b) => {
+      const d = b.source_page_url.split("/")[0];
+      const r = (m[d] ??= { domain: d, rank: 0, links: 0, dofollow: 0 });
+      r.rank = Math.max(r.rank, b.page_from_rank);
+      r.links += 1;
+      if (b.attribute === "follow") r.dofollow += 1;
+      return m;
+    }, {}),
+).sort((a, b) => b.rank - a.rank);
+
+/** Anchor mix: how many referring domains use each anchor. */
+export const anchors = Object.entries(
+  backlinks
+    .filter((b) => b.status !== "lost")
+    .reduce<Record<string, Set<string>>>((m, b) => {
+      (m[b.anchor_text] ??= new Set()).add(b.source_page_url.split("/")[0]);
+      return m;
+    }, {}),
+)
+  .map(([anchor, d]) => ({ anchor, referring_domains: d.size }))
+  .sort(
+    (a, b) =>
+      b.referring_domains - a.referring_domains ||
+      a.anchor.localeCompare(b.anchor),
+  );
+
 /* ---------- GET /chat/threads/:id/messages ------------------------------- */
 
 export type Answer = {

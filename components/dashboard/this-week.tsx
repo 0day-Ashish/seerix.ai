@@ -79,7 +79,7 @@ export default function ThisWeek() {
           <p className="mt-2.5 font-display text-[20px] leading-[1.3] tracking-[-0.015em] text-black">
             {i.topFix.title}
           </p>
-          <p className="mt-3 border-l-2 border-signal pl-3 font-body text-[13.5px] leading-[1.6] text-zinc-600">
+          <p className="mt-3 border-l border-black/20 pl-3 font-body text-[13.5px] leading-[1.6] text-zinc-600">
             {i.topFix.evidence}
           </p>
           <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -202,7 +202,7 @@ export default function ThisWeek() {
                       <span className="font-mono text-[11.5px] text-zinc-500">
                         sent {shortDate(r.sent_at)}
                       </span>
-                      <span className="font-body text-[13px] text-signal-deep">
+                      <span className="font-body text-[13px] text-link hover:underline hover:underline-offset-[3px]">
                         {on ? "Close" : "Open"}
                       </span>
                     </span>

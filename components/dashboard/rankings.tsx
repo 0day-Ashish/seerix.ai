@@ -155,7 +155,7 @@ export default function Rankings() {
                 {r.ranking_url ?? "—"}
               </span>,
               <div key="f" className="flex flex-wrap gap-1">
-                {r.ai_overview && <Tag tone="signal">AI Overview</Tag>}
+                {r.ai_overview && <Tag tone="ink">AI Overview</Tag>}
                 {r.features.slice(0, 2).map((f) => (
                   <Tag key={f}>{f.replace(/_/g, " ")}</Tag>
                 ))}
