@@ -59,7 +59,7 @@ export default function MultiLineChart({
     let raf = 0;
     const t0 = performance.now();
     const tick = (t: number) => {
-      const k = Math.min((t - t0) / 1000, 1);
+      const k = Math.min(Math.max((t - t0) / 1000, 0), 1);
       setP(1 - (1 - k) ** 3);
       if (k < 1) raf = requestAnimationFrame(tick);
     };

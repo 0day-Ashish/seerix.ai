@@ -2,9 +2,14 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 import { alerts, fixList, sites } from "@/components/dashboard/data";
+import {
+  deleteThread,
+  useThreads,
+  when,
+} from "@/components/dashboard/chat-history";
 import { askHref } from "@/components/dashboard/kit";
 import SeerixMark from "@/components/new-landing/seerix-mark";
 
@@ -47,24 +52,96 @@ const nav = [
   {
     href: "/settings/profile",
     label: "Settings",
-    d: "M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M3.4 12.6l1.4-1.4M11.2 4.8l1.4-1.4",
+    // A gear, drawn on a 24px grid.
+    vb: 24,
+    d: "M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z",
   },
 ];
 
-function NavIcon({ d }: { d: string }) {
+/** A 16px icon; `vb` for one drawn on a larger grid, scaled to match. */
+function NavIcon({ d, vb = 16 }: { d: string; vb?: number }) {
   return (
     <svg
       className="h-4 w-4 shrink-0"
-      viewBox="0 0 16 16"
+      viewBox={`0 0 ${vb} ${vb}`}
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.3"
+      strokeWidth={(1.3 * vb) / 16}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
     >
       <path d={d} />
     </svg>
+  );
+}
+
+/**
+ * Recent chats, under the tabs: newest first, the open one highlighted, a
+ * new-chat button, and a delete on hover. Desktop sidebar only.
+ */
+function RecentChats() {
+  const { threads, active } = useThreads();
+  const pathname = usePathname();
+  return (
+    <div className="mt-4 hidden min-h-0 flex-1 flex-col border-t border-zinc-100 pt-4 lg:flex">
+      <div className="flex items-center justify-between px-2.5 pb-1.5">
+        <p className="font-body text-[12px] font-medium text-zinc-400">
+          Recent chats
+        </p>
+        <Link
+          href="/app/chat"
+          title="New chat"
+          aria-label="New chat"
+          className="flex h-6 w-6 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-800"
+        >
+          <NavIcon d="M8 3.5v9M3.5 8h9" />
+        </Link>
+      </div>
+      {threads.length === 0 ? (
+        <p className="px-2.5 font-body text-[12.5px] text-zinc-400">
+          Your chats will show up here.
+        </p>
+      ) : (
+        <ul className="-mx-1 min-h-0 flex-1 overflow-y-auto px-1 [scrollbar-width:thin]">
+          {threads.map((t) => {
+            const on = pathname === "/app/chat" && t.id === active;
+            return (
+              <li key={t.id} className="group relative">
+                <Link
+                  href={`/app/chat?t=${t.id}`}
+                  title={t.title}
+                  aria-current={on ? "page" : undefined}
+                  className={`block rounded-lg py-1.5 pl-2.5 pr-7 font-body transition-colors ${
+                    on ? "bg-[#eef3fd]" : "hover:bg-zinc-100"
+                  }`}
+                >
+                  <span
+                    className={`block truncate text-[13px] ${
+                      on ? "font-medium text-[#1a5fd0]" : "text-zinc-700"
+                    }`}
+                  >
+                    {t.title}
+                  </span>
+                  <span className="block text-[11.5px] text-zinc-400">
+                    {when(t.at)}
+                  </span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => deleteThread(t.id)}
+                  aria-label={`Delete “${t.title}”`}
+                  title="Delete chat"
+                  className="absolute right-1 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-md text-zinc-400 opacity-0 transition-opacity hover:bg-zinc-200/70 hover:text-zinc-800 focus-visible:opacity-100 group-hover:opacity-100"
+                >
+                  <NavIcon d="M4.5 4.5l7 7M11.5 4.5l-7 7" />
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
   );
 }
 
@@ -218,7 +295,7 @@ export default function DashboardShell({
           <nav
             ref={stripRef}
             aria-label="Dashboard"
-            className="mt-4 flex gap-0.5 overflow-x-auto [scrollbar-width:none] lg:mt-7 lg:flex-1 lg:flex-col lg:overflow-visible [&::-webkit-scrollbar]:hidden"
+            className="mt-4 flex gap-0.5 overflow-x-auto [scrollbar-width:none] lg:mt-7 lg:min-h-0 lg:flex-1 lg:flex-col lg:overflow-visible [&::-webkit-scrollbar]:hidden"
           >
             {nav.map((n) => {
               const on =
@@ -227,35 +304,38 @@ export default function DashboardShell({
                   : pathname.startsWith(n.href);
               const last = n.label === "Settings";
               return (
-                <Link
-                  key={n.href}
-                  href={n.href}
-                  aria-current={on ? "page" : undefined}
-                  title={slim ? n.label : undefined}
-                  className={`relative flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-lg px-2.5 py-[7px] font-body text-[13.5px] transition-colors ${
-                    slim ? "lg:justify-center lg:px-0 lg:py-2" : ""
-                  } ${last ? "lg:mt-auto" : ""} ${
-                    on
-                      ? "bg-[#eef3fd] font-medium text-[#1a5fd0]"
-                      : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
-                  }`}
-                >
-                  <span className={on ? "text-[#1a5fd0]" : "text-zinc-400"}>
-                    <NavIcon d={n.d} />
-                  </span>
-                  <span className={slim ? "lg:sr-only" : ""}>{n.label}</span>
-                  {n.count ? (
-                    <span
-                      className={`ml-auto rounded-full bg-zinc-100 px-1.5 font-body text-[11px] font-medium text-zinc-600 ${
-                        slim
-                          ? "lg:absolute lg:right-1 lg:top-0.5 lg:ml-0 lg:bg-[#3b6fe0] lg:px-1 lg:text-[9.5px] lg:leading-[14px] lg:text-white"
-                          : ""
-                      }`}
-                    >
-                      {n.count}
+                <Fragment key={n.href}>
+                  {/* Chat history sits between the tabs and Settings. */}
+                  {last && !slim && <RecentChats />}
+                  <Link
+                    href={n.href}
+                    aria-current={on ? "page" : undefined}
+                    title={slim ? n.label : undefined}
+                    className={`relative flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-lg px-2.5 py-[7px] font-body text-[13.5px] transition-colors ${
+                      slim ? "lg:justify-center lg:px-0 lg:py-2" : ""
+                    } ${last ? "lg:mt-auto" : ""} ${
+                      on
+                        ? "bg-[#eef3fd] font-medium text-[#1a5fd0]"
+                        : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
+                    }`}
+                  >
+                    <span className={on ? "text-[#1a5fd0]" : "text-zinc-400"}>
+                      <NavIcon d={n.d} vb={"vb" in n ? n.vb : undefined} />
                     </span>
-                  ) : null}
-                </Link>
+                    <span className={slim ? "lg:sr-only" : ""}>{n.label}</span>
+                    {n.count ? (
+                      <span
+                        className={`ml-auto rounded-full bg-zinc-100 px-1.5 font-body text-[11px] font-medium text-zinc-600 ${
+                          slim
+                            ? "lg:absolute lg:right-1 lg:top-0.5 lg:ml-0 lg:bg-[#3b6fe0] lg:px-1 lg:text-[9.5px] lg:leading-[14px] lg:text-white"
+                            : ""
+                        }`}
+                      >
+                        {n.count}
+                      </span>
+                    ) : null}
+                  </Link>
+                </Fragment>
               );
             })}
           </nav>

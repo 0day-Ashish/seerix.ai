@@ -7,6 +7,9 @@
  * backend means replacing these exports with fetches, not reshaping pages.
  */
 
+/** The signed-in person, for the chat's greeting. */
+export const account = { first_name: "Ashish" };
+
 export const site = { site_id: "site_arddev", site_name: "arddev.in" };
 export const sites = [site];
 

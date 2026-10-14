@@ -4,16 +4,18 @@ import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import {
-  alerts,
+  account,
   cannedAnswer,
-  crawl,
-  fmt,
-  LAST_DATE,
-  rankings,
-  shortDate,
   type Answer,
   type Message,
 } from "@/components/dashboard/data";
+import {
+  getThread,
+  newThreadId,
+  saveThread,
+  setActiveThread,
+} from "@/components/dashboard/chat-history";
+import ChatWelcome from "@/components/dashboard/chat-welcome";
 import { Btn, PageTitle } from "@/components/dashboard/kit";
 import SeerixMark from "@/components/new-landing/seerix-mark";
 
@@ -535,25 +537,26 @@ const STARTERS = [
 
 let nextId = 1;
 
-/** The newest alert that can be asked about, as an opening question. */
-const worth = alerts
-  .filter((a) => a.action.startsWith("ask:"))
-  .map((a) => {
-    const q = a.action.slice(4);
-    return {
-      summary: a.summary,
-      question: q.charAt(0).toUpperCase() + q.slice(1) + "?",
-    };
-  })[0];
-
 /**
  * The consultant. Opens empty on a few starter questions; until the chat
  * endpoint is wired, replies come from canned answers picked by topic.
  */
-export default function Chat({ ask }: { ask?: string }) {
+export default function Chat({
+  ask,
+  thread,
+}: {
+  ask?: string;
+  /** An earlier conversation to reopen, from the sidebar. */
+  thread?: string;
+}) {
   const [msgs, setMsgs] = useState<Msg[]>([]);
+  const threadId = useRef<string | null>(null);
+  // How many messages came from storage; opening a chat isn't a change.
+  const loaded = useRef(0);
   const [thinking, setThinking] = useState(false);
   const [streaming, setStreaming] = useState(false);
+  // Deep check: a slower answer that reads more of the data.
+  const [deep, setDeep] = useState(false);
   const [text, setText] = useState("");
   const [atBottom, setAtBottom] = useState(true);
   const scroller = useRef<HTMLDivElement>(null);
@@ -568,14 +571,17 @@ export default function Chat({ ask }: { ask?: string }) {
     setMsgs((m) => [...m, { role: "user", text: t, id: nextId++ }]);
     setThinking(true);
     setAtBottom(true);
-    timer.current = setTimeout(() => {
-      setMsgs((m) => [
-        ...m,
-        { role: "ai", answer: cannedAnswer(t), id: nextId++, live: true },
-      ]);
-      setThinking(false);
-      setStreaming(true);
-    }, 1900);
+    timer.current = setTimeout(
+      () => {
+        setMsgs((m) => [
+          ...m,
+          { role: "ai", answer: cannedAnswer(t), id: nextId++, live: true },
+        ]);
+        setThinking(false);
+        setStreaming(true);
+      },
+      deep ? 3400 : 1900,
+    );
   };
 
   const stop = () => {
@@ -587,8 +593,45 @@ export default function Chat({ ask }: { ask?: string }) {
     stop();
     setStreaming(false);
     setMsgs([]);
+    threadId.current = null;
+    loaded.current = 0;
+    setActiveThread(null);
+    window.history.replaceState(null, "", "/app/chat");
     setTimeout(() => box.current?.focus(), 0);
   };
+
+  // Reopen a thread picked in the sidebar.
+  useEffect(() => {
+    const t = thread ? getThread(thread) : null;
+    if (t) {
+      threadId.current = t.id;
+      loaded.current = t.messages.length;
+      setMsgs(t.messages.map((m) => ({ ...m, id: nextId++ })));
+    }
+    setActiveThread(t?.id ?? null);
+    return () => setActiveThread(null);
+  }, [thread]);
+
+  // Save the conversation once each answer has finished arriving. The first
+  // save gives it an id and puts that in the address, so a reload keeps it.
+  useEffect(() => {
+    if (!msgs.length || thinking || streaming) return;
+    if (msgs.length === loaded.current) return;
+    const first = msgs.find((m) => m.role === "user");
+    if (!first || first.role !== "user") return;
+    if (!threadId.current) {
+      threadId.current = newThreadId();
+      window.history.replaceState(null, "", `/app/chat?t=${threadId.current}`);
+      setActiveThread(threadId.current);
+    }
+    saveThread({
+      id: threadId.current,
+      title: first.text,
+      at: Date.now(),
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      messages: msgs.map(({ id, live, ...m }) => m as Message),
+    });
+  }, [msgs, thinking, streaming]);
 
   // A question handed over from an alert or another tab ("Ask why").
   useEffect(() => {
@@ -623,6 +666,19 @@ export default function Chat({ ask }: { ask?: string }) {
     setText("");
   };
 
+  if (msgs.length === 0 && !thinking)
+    return (
+      <ChatWelcome
+        name={account.first_name}
+        text={text}
+        setText={setText}
+        onSubmit={submit}
+        onAsk={send}
+        deep={deep}
+        setDeep={setDeep}
+      />
+    );
+
   return (
     <div>
       <PageTitle
@@ -648,73 +704,7 @@ export default function Chat({ ask }: { ask?: string }) {
           data-lenis-prevent
           className="flex-1 overflow-y-auto overscroll-contain"
         >
-          {msgs.length === 0 && !thinking ? (
-            <div className="flex min-h-full items-center justify-center px-5 py-8">
-              <div className="w-full max-w-md">
-                {/* What Seerix is answering from, and how fresh it is. */}
-                <p className="font-body text-[13px] font-medium text-zinc-900">
-                  Seerix has read your latest data
-                </p>
-                <ul className="mt-3 divide-y divide-zinc-100 rounded-xl border border-zinc-200">
-                  {[
-                    [
-                      "Search Console",
-                      "16 months of data",
-                      `to ${shortDate(LAST_DATE)}`,
-                    ],
-                    [
-                      "Rankings",
-                      `${rankings.length} keywords`,
-                      "checked weekly",
-                    ],
-                    [
-                      "Site crawl",
-                      `${fmt(crawl.url_crawled_count)} pages`,
-                      shortDate(crawl.crawl_completed_at),
-                    ],
-                  ].map(([name, what, when]) => (
-                    <li
-                      key={name}
-                      className="flex items-center gap-3 px-3.5 py-2.5 font-body text-[13px]"
-                    >
-                      <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-500" />
-                      <span className="w-[7.5rem] shrink-0 font-medium text-zinc-800">
-                        {name}
-                      </span>
-                      <span className="min-w-0 flex-1 truncate text-zinc-500">
-                        {what}
-                      </span>
-                      <span className="hidden shrink-0 text-[12px] text-zinc-400 sm:inline">
-                        {when}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* The one thing most worth asking about right now. */}
-                {worth && (
-                  <button
-                    type="button"
-                    onClick={() => send(worth.question)}
-                    className="group mt-4 flex w-full items-start gap-3 rounded-xl bg-[#f5f8fe] px-4 py-3.5 text-left transition-colors hover:bg-[#eef3fd]"
-                  >
-                    <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-amber-400" />
-                    <span className="min-w-0 flex-1">
-                      <span className="block font-body text-[12px] font-medium text-[#1a5fd0]">
-                        Worth asking
-                      </span>
-                      <span className="mt-0.5 block font-body text-[13.5px] leading-[1.5] text-zinc-800">
-                        {worth.summary}
-                      </span>
-                    </span>
-                    <span className="mt-4 shrink-0 font-body text-[12.5px] font-medium text-[#1a5fd0] transition-transform group-hover:translate-x-0.5">
-                      Ask why →
-                    </span>
-                  </button>
-                )}
-              </div>
-            </div>
-          ) : (
+          {
             <div className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-8 sm:px-6">
               {msgs.map((m, i) =>
                 m.role === "user" ? (
@@ -747,7 +737,7 @@ export default function Chat({ ask }: { ask?: string }) {
               )}
               {thinking && <Thinking />}
             </div>
-          )}
+          }
         </div>
 
         {!atBottom && (

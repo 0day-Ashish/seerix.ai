@@ -81,7 +81,7 @@ function useDrawIn() {
     let raf = 0;
     const t0 = performance.now();
     const tick = (t: number) => {
-      const k = Math.min((t - t0) / DRAW_MS, 1);
+      const k = Math.min(Math.max((t - t0) / DRAW_MS, 0), 1);
       setP(1 - (1 - k) ** 3);
       if (k < 1) raf = requestAnimationFrame(tick);
     };
