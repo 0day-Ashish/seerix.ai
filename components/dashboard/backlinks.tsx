@@ -144,20 +144,20 @@ function Chip({
   tone?: "grey" | "lost" | "new";
 }) {
   const styles = {
-    grey: "bg-black/[0.05] text-zinc-600",
-    lost: "bg-black/[0.05] text-signal-deep",
-    new: "bg-black/[0.05] text-[#1f6b3a]",
+    grey: "bg-zinc-100 text-zinc-600",
+    lost: "bg-red-50 text-red-700",
+    new: "bg-emerald-50 text-emerald-700",
   }[tone];
   return (
     <span
-      className={`inline-flex items-center whitespace-nowrap px-2 py-0.5 font-body text-[12px] ${styles}`}
+      className={`inline-flex items-center whitespace-nowrap rounded-full px-2 py-0.5 font-body text-[12px] font-medium ${styles}`}
     >
       {children}
     </span>
   );
 }
 
-/** A joined row of square toggles: one choice at a time. */
+/** A rounded segmented control: one choice at a time. */
 function Segments<T extends string>({
   options,
   value,
@@ -173,9 +173,9 @@ function Segments<T extends string>({
     <div
       role="radiogroup"
       aria-label={label}
-      className="flex shrink-0 border border-black/[0.14] bg-white"
+      className="flex shrink-0 gap-0.5 rounded-lg border border-zinc-200 bg-white p-0.5 shadow-[0_1px_2px_rgba(15,23,42,0.05)]"
     >
-      {options.map((o, i) => {
+      {options.map((o) => {
         const on = o === value;
         return (
           <button
@@ -184,12 +184,10 @@ function Segments<T extends string>({
             role="radio"
             aria-checked={on}
             onClick={() => onChange(o)}
-            className={`relative h-9 px-3 font-body text-[13.5px] transition-colors ${
-              i > 0 ? "border-l border-black/[0.1]" : ""
-            } ${
+            className={`h-8 whitespace-nowrap rounded-md px-3 font-body text-[13px] transition-colors ${
               on
-                ? "bg-[#141416] text-white"
-                : "text-zinc-700 hover:bg-black/[0.03] hover:text-black"
+                ? "bg-zinc-900 font-medium text-white"
+                : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
             }`}
           >
             {o}
@@ -216,8 +214,8 @@ function Th({
   const active = sortKey && sort.key === sortKey;
   return (
     <th
-      className={`border-b border-black/[0.08] px-4 py-3 text-left font-body text-[13px] font-medium text-black ${
-        active ? "bg-black/[0.04]" : ""
+      className={`border-y border-zinc-100 px-4 py-2.5 text-left font-body text-[12.5px] font-medium ${
+        active ? "bg-zinc-100/80 text-zinc-900" : "bg-zinc-50/70 text-zinc-500"
       } ${className}`}
       aria-sort={
         active ? (sort.dir === "asc" ? "ascending" : "descending") : undefined
@@ -227,12 +225,12 @@ function Th({
         <button
           type="button"
           onClick={() => onSort(sortKey)}
-          className="flex w-full items-center gap-1.5 text-left hover:text-black"
+          className="flex w-full items-center gap-1.5 rounded-md text-left hover:text-zinc-900"
         >
           {label}
           <svg
             viewBox="0 0 16 16"
-            className={`h-3.5 w-3.5 shrink-0 ${active ? "text-black" : "text-zinc-300"} ${
+            className={`h-3.5 w-3.5 shrink-0 ${active ? "text-[#1a5fd0]" : "text-zinc-300"} ${
               active && sort.dir === "asc" ? "rotate-180" : ""
             }`}
             fill="none"
@@ -392,7 +390,7 @@ export default function Backlinks() {
       </div>
 
       {/* Presets */}
-      <div className="mt-4 grid grid-cols-2 border border-black/[0.12] bg-white lg:grid-cols-4">
+      <div className="mt-4 grid grid-cols-2 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] lg:grid-cols-4">
         {PRESETS.map((p, i) => {
           const on = p.key === preset;
           const n = backlinks.filter(p.test).length;
@@ -406,35 +404,45 @@ export default function Backlinks() {
                 reset();
               }}
               className={`relative px-5 py-4 text-left transition-colors ${
-                i % 2 ? "border-l border-black/[0.08]" : ""
-              } ${i > 1 ? "border-t border-black/[0.08] lg:border-t-0" : ""} ${
+                i % 2 ? "border-l border-zinc-100" : ""
+              } ${i > 1 ? "border-t border-zinc-100 lg:border-t-0" : ""} ${
                 i === 2 ? "lg:border-l" : ""
-              } ${
-                on
-                  ? "bg-white shadow-[inset_0_-2px_0_#141416]"
-                  : "bg-[#fbfaf9] hover:bg-white"
-              }`}
+              } ${on ? "bg-[#f5f8fe]" : "bg-white hover:bg-zinc-50/80"}`}
             >
-              <span className="flex items-baseline gap-2">
-                <span className="font-display text-[18px] text-black">
+              <span className="flex items-center gap-2">
+                <span
+                  className={`font-body text-[15px] font-semibold ${on ? "text-[#1a5fd0]" : "text-zinc-900"}`}
+                >
                   {p.label}
                 </span>
-                <span className="font-mono text-[15px] text-zinc-500">{n}</span>
+                <span
+                  className={`rounded-full px-2 py-0.5 font-body text-[12px] font-medium tabular-nums ${
+                    on
+                      ? "bg-[#eef3fd] text-[#1a5fd0]"
+                      : "bg-zinc-100 text-zinc-600"
+                  }`}
+                >
+                  {n}
+                </span>
               </span>
-              <span className="mt-1 block font-body text-[13px] text-zinc-500">
+              <span className="mt-1 block font-body text-[13px] leading-[1.45] text-zinc-500">
                 {p.hint}
               </span>
+              <span
+                aria-hidden="true"
+                className={`absolute inset-x-0 bottom-0 h-0.5 ${on ? "bg-[#3b6fe0]" : ""}`}
+              />
             </button>
           );
         })}
       </div>
 
-      <section className="mt-5 min-w-0 border border-black/[0.12] bg-white">
+      <section className="mt-4 min-w-0 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
         {/* Title row */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.08] px-5 py-4">
-          <h2 className="font-display text-[19px] text-black">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-100 px-5 py-4">
+          <h2 className="font-body text-[15px] font-semibold text-zinc-900">
             Backlinks{" "}
-            <span className="font-body text-[15px] text-zinc-400">
+            <span className="font-normal tabular-nums text-zinc-400">
               {rows.length === 0
                 ? "0"
                 : `${page * PAGE + 1} – ${Math.min(rows.length, (page + 1) * PAGE)}`}{" "}
@@ -450,7 +458,7 @@ export default function Backlinks() {
                   : rows,
               )
             }
-            className="inline-flex h-9 items-center gap-2 border border-black/[0.16] bg-white px-3.5 font-body text-[13.5px] text-black hover:border-black/40"
+            className="inline-flex h-9 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3.5 font-body text-[13px] font-medium text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:bg-zinc-50"
           >
             <svg
               viewBox="0 0 16 16"
@@ -482,12 +490,12 @@ export default function Backlinks() {
               }}
               placeholder="Filter by title or URL"
               aria-label="Filter by title or URL"
-              className="h-9 min-w-0 flex-1 border border-black/[0.16] bg-white px-3 font-body text-[13.5px] text-black placeholder:text-zinc-400 focus:border-black focus:outline-none sm:w-[300px] sm:flex-none"
+              className="h-9 min-w-0 flex-1 rounded-l-lg border border-zinc-200 bg-white px-3 font-body text-[13.5px] text-zinc-900 placeholder:text-zinc-400 focus:border-[#1a5fd0] focus:outline-none sm:w-[300px] sm:flex-none"
             />
             <button
               type="submit"
               aria-label="Search"
-              className="flex h-9 w-10 items-center justify-center border border-l-0 border-black/[0.16] bg-[#f7f6f4] text-zinc-600 hover:text-black"
+              className="flex h-9 w-10 items-center justify-center rounded-r-lg border border-l-0 border-zinc-200 bg-zinc-50 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
             >
               <svg
                 viewBox="0 0 16 16"
@@ -529,7 +537,7 @@ export default function Backlinks() {
               type="button"
               aria-expanded={menu}
               onClick={() => setMenu((m) => !m)}
-              className="inline-flex h-9 items-center gap-1.5 px-2 font-body text-[13.5px] font-medium text-black hover:text-zinc-600"
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg px-2.5 font-body text-[13px] font-medium text-link transition-colors hover:bg-[#f5f8fe] hover:text-link-deep"
             >
               <span className="text-[17px] leading-none">+</span> Add filter
             </button>
@@ -541,10 +549,10 @@ export default function Backlinks() {
                   className="fixed inset-0 z-20 cursor-default"
                   onClick={() => setMenu(false)}
                 />
-                <div className="absolute left-0 top-11 z-30 w-[280px] border border-black/[0.14] bg-white p-4 shadow-[0_12px_32px_rgba(0,0,0,0.12)] sm:left-auto sm:right-0 lg:left-0 lg:right-auto">
+                <div className="absolute left-0 top-11 z-30 w-[280px] rounded-xl border border-zinc-200 bg-white p-4 shadow-[0_12px_32px_rgba(15,23,42,0.12)] sm:left-auto sm:right-0 lg:left-0 lg:right-auto">
                   {EXTRA_OPTIONS.map((g) => (
                     <div key={g.group} className="mb-3 last:mb-0">
-                      <p className="mb-1.5 font-mono text-[10.5px] uppercase tracking-[0.08em] text-zinc-500">
+                      <p className="mb-1.5 font-body text-[12.5px] font-medium text-zinc-500">
                         {g.group}
                       </p>
                       <div className="flex flex-wrap gap-1.5">
@@ -557,7 +565,7 @@ export default function Backlinks() {
                               setMenu(false);
                               reset();
                             }}
-                            className="border border-black/[0.14] px-2.5 py-1 font-body text-[12.5px] text-black hover:border-black/40"
+                            className="rounded-full border border-zinc-200 px-2.5 py-1 font-body text-[12.5px] text-zinc-800 transition-colors hover:border-[#1a5fd0] hover:bg-[#f5f8fe] hover:text-[#1a5fd0]"
                           >
                             {o.label}
                           </button>
@@ -573,7 +581,7 @@ export default function Backlinks() {
           {extraChips.map(([k, v]) => (
             <span
               key={k}
-              className="inline-flex h-8 items-center gap-2 border border-black/[0.2] bg-white pl-2.5 pr-1 font-body text-[12.5px] text-black"
+              className="inline-flex h-8 items-center gap-1.5 rounded-full bg-[#eef3fd] pl-3 pr-1 font-body text-[12.5px] font-medium text-[#1a5fd0]"
             >
               {k === "mobile" ? "Mobile friendly" : String(v)}
               <button
@@ -583,7 +591,7 @@ export default function Backlinks() {
                   setExtra((e) => ({ ...e, [k]: undefined }));
                   reset();
                 }}
-                className="px-1 text-[15px] leading-none text-zinc-500 hover:text-black"
+                className="flex h-6 w-6 items-center justify-center rounded-full text-[15px] leading-none text-[#1a5fd0]/70 transition-colors hover:bg-white hover:text-[#1a5fd0]"
               >
                 ×
               </button>
@@ -592,11 +600,11 @@ export default function Backlinks() {
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto border-t border-black/[0.08]">
+        <div className="overflow-x-auto">
           <table className="w-full min-w-[1120px] border-collapse">
-            <thead className="bg-[#f7f6f4]">
+            <thead>
               <tr>
-                <th className="w-12 border-b border-black/[0.08] px-4 py-3">
+                <th className="w-12 border-y border-zinc-100 bg-zinc-50/70 px-4 py-2.5">
                   <input
                     type="checkbox"
                     checked={allPicked}
@@ -612,7 +620,7 @@ export default function Backlinks() {
                       })
                     }
                     aria-label="Select all on this page"
-                    className="h-4 w-4 accent-[#141416]"
+                    className="h-4 w-4 rounded accent-[#1a5fd0]"
                   />
                 </th>
                 <Th
@@ -623,34 +631,34 @@ export default function Backlinks() {
                   className="w-[110px]"
                 />
                 <Th
-                  label="Source page Title and URL"
+                  label="Source page title and URL"
                   sort={sort}
                   onSort={onSort}
                 />
                 <Th
-                  label="Ext. Links"
+                  label="Ext. links"
                   sortKey="external_links"
                   sort={sort}
                   onSort={onSort}
                   className="w-[104px]"
                 />
                 <Th
-                  label="Int. Links"
+                  label="Int. links"
                   sortKey="internal_links"
                   sort={sort}
                   onSort={onSort}
                   className="w-[100px]"
                 />
-                <Th label="Anchor and Target URL" sort={sort} onSort={onSort} />
+                <Th label="Anchor and target URL" sort={sort} onSort={onSort} />
                 <Th
-                  label="First Seen"
+                  label="First seen"
                   sortKey="first_seen"
                   sort={sort}
                   onSort={onSort}
                   className="w-[128px]"
                 />
                 <Th
-                  label="Last Seen"
+                  label="Last seen"
                   sortKey="last_seen"
                   sort={sort}
                   onSort={onSort}
@@ -665,8 +673,8 @@ export default function Backlinks() {
                 return (
                   <tr
                     key={b.source_page_url}
-                    className={`border-b border-black/[0.06] align-top last:border-b-0 ${
-                      on ? "bg-black/[0.035]" : "hover:bg-black/[0.015]"
+                    className={`border-b border-zinc-100 align-top transition-colors last:border-b-0 ${
+                      on ? "bg-[#f5f8fe]" : "hover:bg-zinc-50/80"
                     }`}
                   >
                     <td className="px-4 py-4">
@@ -683,14 +691,14 @@ export default function Backlinks() {
                           })
                         }
                         aria-label={`Select ${b.source_title}`}
-                        className="h-4 w-4 accent-[#141416]"
+                        className="h-4 w-4 rounded accent-[#1a5fd0]"
                       />
                     </td>
-                    <td className="px-4 py-4 text-right font-mono text-[14px] text-black">
+                    <td className="px-4 py-4 text-right font-body text-[14px] font-medium tabular-nums text-zinc-900">
                       <span className="mr-6">{b.page_from_rank}</span>
                     </td>
                     <td className="px-4 py-4">
-                      <p className="font-body text-[14px] leading-[1.45] text-black">
+                      <p className="font-body text-[14px] font-medium leading-[1.45] text-zinc-900">
                         {b.source_title}
                       </p>
                       <div className="mt-0.5">
@@ -701,14 +709,14 @@ export default function Backlinks() {
                         {b.mobile_friendly && <Chip>Mobile friendly</Chip>}
                       </div>
                     </td>
-                    <td className="px-4 py-4 font-mono text-[14px] text-black">
+                    <td className="px-4 py-4 font-body text-[14px] tabular-nums text-zinc-700">
                       {b.external_links}
                     </td>
-                    <td className="px-4 py-4 font-mono text-[14px] text-black">
+                    <td className="px-4 py-4 font-body text-[14px] tabular-nums text-zinc-700">
                       {b.internal_links}
                     </td>
                     <td className="px-4 py-4">
-                      <p className="font-body text-[14px] leading-[1.45] text-black">
+                      <p className="font-body text-[14px] font-medium leading-[1.45] text-zinc-900">
                         {b.anchor_text}
                       </p>
                       <div className="mt-0.5">
@@ -739,12 +747,12 @@ export default function Backlinks() {
                         )}
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-4 py-4 font-body text-[14px] text-black">
+                    <td className="whitespace-nowrap px-4 py-4 font-body text-[14px] tabular-nums text-zinc-700">
                       {longDate(b.first_seen)}
                     </td>
                     <td
-                      className={`whitespace-nowrap px-4 py-4 font-body text-[14px] ${
-                        lost ? "text-signal-deep" : "text-black"
+                      className={`whitespace-nowrap px-4 py-4 font-body text-[14px] tabular-nums ${
+                        lost ? "text-red-600" : "text-zinc-700"
                       }`}
                     >
                       {lost ? longDate(b.last_seen) : seen(b.last_seen)}
@@ -767,11 +775,11 @@ export default function Backlinks() {
         </div>
 
         {/* Pager */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-black/[0.08] px-5 py-3 font-body text-[13px] text-zinc-500">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-zinc-100 px-5 py-3 font-body text-[13px] text-zinc-500">
           <span>
             Page {page + 1} of {pages}
           </span>
-          <div className="flex gap-1">
+          <div className="flex gap-1.5">
             {["Previous", "Next"].map((l, i) => {
               const target = i === 0 ? page - 1 : page + 1;
               return (
@@ -780,7 +788,7 @@ export default function Backlinks() {
                   type="button"
                   disabled={target < 0 || target >= pages}
                   onClick={() => setPage(target)}
-                  className="h-8 border border-black/[0.14] px-3 text-black disabled:opacity-35"
+                  className="h-8 rounded-lg border border-zinc-200 bg-white px-3 font-medium text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:bg-zinc-50 disabled:pointer-events-none disabled:opacity-40"
                 >
                   {l}
                 </button>
@@ -802,7 +810,7 @@ export default function Backlinks() {
             head={["Domain", "Rank", "Links", "Dofollow"]}
             align={["left", "right", "right", "right"]}
             rows={referringDomains.slice(0, 10).map((d) => [
-              <span key="d" className="text-black">
+              <span key="d" className="text-zinc-900">
                 {d.domain}
               </span>,
               d.rank,
@@ -822,18 +830,18 @@ export default function Backlinks() {
                 key={a.anchor}
                 className="grid grid-cols-[minmax(0,1fr)_88px_24px] items-center gap-3 py-1.5"
               >
-                <span className="truncate font-body text-[13.5px] text-black">
+                <span className="truncate font-body text-[13.5px] text-zinc-800">
                   {a.anchor}
                 </span>
-                <span className="h-1.5 bg-black/[0.06]">
+                <span className="h-1.5 overflow-hidden rounded-full bg-zinc-100">
                   <span
-                    className="block h-full bg-[#36363b]"
+                    className="block h-full rounded-full bg-[#3b6fe0]"
                     style={{
                       width: `${(a.referring_domains / anchors[0].referring_domains) * 100}%`,
                     }}
                   />
                 </span>
-                <span className="text-right font-mono text-[12.5px] text-zinc-600">
+                <span className="text-right font-body text-[12.5px] tabular-nums text-zinc-600">
                   {a.referring_domains}
                 </span>
               </li>
@@ -854,18 +862,18 @@ export default function Backlinks() {
             rows={backlinks
               .filter((b) => b.our_status && b.status !== "lost")
               .map((b) => [
-                <span key="f" className="break-all text-black">
+                <span key="f" className="break-all text-zinc-900">
                   {b.source_page_url}
                 </span>,
                 <span
                   key="t"
-                  className="break-all font-mono text-[12.5px] text-black"
+                  className="break-all font-body text-[13px] text-zinc-700"
                 >
                   {b.target_url.replace(/^arddev\.in/, "")}
                 </span>,
                 <span
                   key="s"
-                  className="font-mono text-[12.5px] text-signal-deep"
+                  className="inline-flex rounded-full bg-red-50 px-2 py-0.5 font-body text-[12px] font-medium tabular-nums text-red-700"
                 >
                   {b.our_status}
                 </span>,

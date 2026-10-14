@@ -77,24 +77,24 @@ export default function Health() {
               return (
                 <li
                   key={i.issue_type}
-                  className="border-b border-black/[0.06] last:border-b-0"
+                  className="border-b border-zinc-100 last:border-b-0"
                 >
                   <button
                     type="button"
                     onClick={() => setOpen(on ? null : i.issue_type)}
                     aria-expanded={on}
-                    className="grid w-full grid-cols-[84px_minmax(0,1fr)_auto_16px] items-center gap-4 px-5 py-3.5 text-left hover:bg-black/[0.015]"
+                    className="grid w-full grid-cols-[84px_minmax(0,1fr)_auto_20px] items-center gap-4 px-5 py-3.5 text-left transition-colors hover:bg-zinc-50/80"
                   >
                     <span>
                       <Tag tone={s.tone}>{s.label}</Tag>
                     </span>
-                    <span className="truncate font-body text-[14px] text-black">
+                    <span className="truncate font-body text-[14px] text-zinc-900">
                       {label(i.issue_type)}
                     </span>
-                    <span className="font-mono text-[13px] text-black">
+                    <span className="font-body text-[13.5px] font-medium tabular-nums text-zinc-900">
                       {i.count}
                     </span>
-                    <span className="font-mono text-[13px] text-zinc-400">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 font-body text-[13px] text-zinc-500">
                       {on ? "−" : "+"}
                     </span>
                   </button>
@@ -103,7 +103,7 @@ export default function Health() {
                       <p className="font-body text-[13.5px] text-zinc-600">
                         {i.what}
                       </p>
-                      <p className="mt-2 break-all border-l border-black/20 pl-3 font-mono text-[12px] text-black">
+                      <p className="mt-2 break-all rounded-xl bg-zinc-50 px-3.5 py-2.5 font-body text-[13px] text-zinc-800">
                         {i.example}
                       </p>
                     </div>

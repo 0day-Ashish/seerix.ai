@@ -74,6 +74,17 @@ body {
   border-radius: 4px;
 }
 
+/* In the app (dashboard, gap tools, settings) the ring is a soft blue halo
+   rather than orange. Fields already turn their border blue on focus, so
+   they get no ring at all. */
+[data-app] :focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(59 111 224 / 0.28);
+}
+[data-app] :is(input, select, textarea):focus-visible {
+  box-shadow: none;
+}
+
 /* Under-hero marquee: each row is two identical halves, and one loop moves
    exactly one half, so the restart lands on the same pixels. */
 @keyframes seerix-marquee {
@@ -234,4 +245,28 @@ html.lenis body {
   transition-property: overflow;
   transition-duration: 1ms;
   transition-behavior: allow-discrete;
+}
+
+/* Product demo: the active tab's underline filling until the next tab. */
+@keyframes seerix-tab-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Chat: the three "thinking" dots, each rising and brightening in turn. */
+@keyframes seerix-typing {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
 }

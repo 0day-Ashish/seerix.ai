@@ -4,17 +4,17 @@ import { useState } from "react";
 
 import { domains } from "@/components/gap/data";
 
-/** One colour per compared domain: you in signal, competitors in ink tones. */
+/** One colour per compared domain: you in blue, competitors in amber and green. */
 export const domainColor: Record<string, string> = {
-  "arddev.in": "#ff5a1f",
-  "pixelforge.dev": "#36363b",
-  "buildstack.io": "#9a96a0",
+  "arddev.in": "#3b6fe0",
+  "pixelforge.dev": "#f59e0b",
+  "buildstack.io": "#10b981",
 };
 
 export function Dot({ domain }: { domain: string }) {
   return (
     <span
-      className="inline-block h-2 w-2 shrink-0"
+      className="inline-block h-2 w-2 shrink-0 rounded-full"
       style={{ background: domainColor[domain] }}
     />
   );
@@ -37,25 +37,27 @@ export function DomainBar({
   return (
     <section>
       <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <h1 className="heading-mark font-display text-[30px] font-medium tracking-[-0.025em] text-black">
+        <h1 className="font-display text-[26px] font-semibold tracking-[-0.02em] text-zinc-900">
           {title}
         </h1>
-        <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-zinc-400">
-          <span className="h-1.5 w-1.5 bg-zinc-300" />
+        <span className="flex items-center gap-2 rounded-full bg-zinc-100 px-2.5 py-0.5 font-body text-[12px] font-medium text-zinc-600">
+          <span className="h-1.5 w-1.5 rounded-full bg-zinc-400" />
           Sample data
         </span>
       </div>
-      <p className="mt-2 font-body text-[14px] text-zinc-500">{description}</p>
+      <p className="mt-1 max-w-2xl font-body text-[14px] leading-[1.55] text-zinc-500">
+        {description}
+      </p>
 
-      <div className="mt-6 border border-black/[0.12] bg-white p-4">
+      <div className="mt-6 rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
         <div className="grid gap-3 md:grid-cols-[repeat(3,minmax(0,1fr))_auto]">
           {values.map((v, i) => (
             <label
               key={i}
-              className="flex min-w-0 items-center gap-2 border border-black/[0.14] px-3 py-2 focus-within:border-black"
+              className="flex min-w-0 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 transition-colors focus-within:border-[#1a5fd0]"
             >
               <Dot domain={domains[i]} />
-              <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.08em] text-zinc-400">
+              <span className="shrink-0 font-body text-[12.5px] font-medium text-zinc-500">
                 {i === 0 ? "You" : "vs"}
               </span>
               <input
@@ -65,14 +67,14 @@ export function DomainBar({
                     all.map((x, j) => (j === i ? e.target.value : x)),
                   )
                 }
-                className="min-w-0 flex-1 bg-transparent font-body text-[14px] text-black outline-none"
+                className="min-w-0 flex-1 bg-transparent font-body text-[14px] text-zinc-900 outline-none"
                 aria-label={i === 0 ? "Your domain" : `Competitor ${i}`}
               />
             </label>
           ))}
           <button
             type="button"
-            className="h-10 bg-[#141416] px-6 font-body text-[14px] font-medium text-white hover:bg-[#36363B]"
+            className="h-10 rounded-lg bg-link px-6 font-body text-[14px] font-medium text-white shadow-sm transition-colors hover:bg-link-deep"
           >
             Compare
           </button>
@@ -84,9 +86,9 @@ export function DomainBar({
           >
             + Add up to 2 competitors
           </button>
-          <span className="h-3 w-px bg-black/[0.12]" />
+          <span className="h-3 w-px bg-zinc-200" />
           <span>
-            Database: <span className="text-black">US</span>
+            Database: <span className="font-medium text-zinc-900">US</span>
           </span>
           {extra}
         </div>
@@ -95,7 +97,7 @@ export function DomainBar({
   );
 }
 
-/** Tabs with counts, Semrush style, in the site's square chip. */
+/** Tabs with counts, Semrush style, with a blue underline on the open one. */
 export function Tabs<T extends string>({
   tabs,
   counts,
@@ -110,7 +112,7 @@ export function Tabs<T extends string>({
   return (
     <div
       role="tablist"
-      className="flex overflow-x-auto border-b border-black/[0.1] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="flex overflow-x-auto border-b border-zinc-100 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       {tabs.map((t) => {
         const on = t === value;
@@ -121,19 +123,17 @@ export function Tabs<T extends string>({
             role="tab"
             aria-selected={on}
             onClick={() => onChange(t)}
-            className={`-mb-px flex shrink-0 flex-col items-start border-b-2 px-4 py-2.5 text-left transition-colors ${
-              on
-                ? "border-[#141416]"
-                : "border-transparent hover:bg-black/[0.03]"
+            className={`-mb-px flex shrink-0 flex-col items-start rounded-t-lg border-b-2 px-4 py-2.5 text-left transition-colors ${
+              on ? "border-[#3b6fe0]" : "border-transparent hover:bg-zinc-50"
             }`}
           >
             <span
-              className={`font-body text-[13px] ${on ? "text-black" : "text-zinc-500"}`}
+              className={`font-body text-[13px] ${on ? "font-medium text-zinc-900" : "text-zinc-500"}`}
             >
               {t}
             </span>
             <span
-              className={`font-mono text-[15px] ${on ? "text-black" : "text-zinc-400"}`}
+              className={`font-body text-[15px] font-semibold tabular-nums ${on ? "text-[#1a5fd0]" : "text-zinc-400"}`}
             >
               {counts[t]}
             </span>
@@ -161,12 +161,12 @@ export function SortHeader({
     <button
       type="button"
       onClick={onClick}
-      className={`flex w-full items-center gap-1 font-mono text-[10.5px] uppercase tracking-[0.08em] ${
-        active ? "text-black" : "text-zinc-500 hover:text-black"
+      className={`flex w-full items-center gap-1 whitespace-nowrap font-body text-[12.5px] font-medium ${
+        active ? "text-zinc-900" : "text-zinc-500 hover:text-zinc-900"
       } ${align === "right" ? "justify-end" : ""}`}
     >
       {label}
-      <span className={active ? "text-black" : "opacity-0"}>
+      <span className={active ? "text-[#1a5fd0]" : "opacity-0"}>
         {dir === "asc" ? "↑" : "↓"}
       </span>
     </button>
@@ -190,7 +190,7 @@ export function Pager({
   const from = total === 0 ? 0 : page * size + 1;
   const to = Math.min(total, (page + 1) * size);
   return (
-    <div className="flex items-center justify-between border-t border-black/[0.08] px-4 py-3 font-body text-[13px] text-zinc-500">
+    <div className="flex items-center justify-between border-t border-zinc-100 px-5 py-3 font-body text-[13px] tabular-nums text-zinc-500">
       <span>
         {from}–{to} of {total}
       </span>
@@ -204,7 +204,7 @@ export function Pager({
               type="button"
               disabled={disabled}
               onClick={() => onPage(target)}
-              className="border border-black/[0.14] px-3 py-1.5 text-black disabled:opacity-35"
+              className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 font-medium text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-white"
             >
               {l}
             </button>

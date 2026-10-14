@@ -63,14 +63,14 @@ function compact(n: number) {
 function Kd({ kd }: { kd: number }) {
   const c =
     kd >= 70
-      ? "#c2410c"
+      ? "#dc2626"
       : kd >= 50
-        ? "#ff5a1f"
+        ? "#f97316"
         : kd >= 30
-          ? "#f2b84b"
-          : "#4caf7a";
+          ? "#f59e0b"
+          : "#10b981";
   return (
-    <span className="inline-flex items-center gap-1.5">
+    <span className="inline-flex items-center gap-1.5 tabular-nums">
       {kd}
       <span className="h-2 w-2 rounded-full" style={{ background: c }} />
     </span>
@@ -89,24 +89,28 @@ function Opportunities({
   note: string;
 }) {
   return (
-    <div className="flex flex-col border border-black/[0.12] bg-white">
-      <div className="border-b border-black/[0.08] px-5 py-4">
-        <p className="font-display text-[16px] text-black">{title}</p>
-        <p className="mt-0.5 font-body text-[12px] text-zinc-500">{note}</p>
+    <div className="flex flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+      <div className="px-5 pb-3 pt-4">
+        <p className="font-body text-[15px] font-semibold text-zinc-900">
+          {title}
+        </p>
+        <p className="mt-0.5 font-body text-[12.5px] leading-[1.5] text-zinc-500">
+          {note}
+        </p>
       </div>
-      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 px-5 py-2 font-mono text-[10px] uppercase tracking-[0.08em] text-zinc-400">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 border-y border-zinc-100 bg-zinc-50/70 px-5 py-2 font-body text-[12.5px] font-medium text-zinc-500">
         <span>Keyword</span>
         <span>Volume</span>
       </div>
       {rows.slice(0, 5).map((r) => (
         <div
           key={r.keyword}
-          className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 border-t border-black/[0.05] px-5 py-2.5"
+          className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 border-b border-zinc-100 px-5 py-2.5 last:border-b-0"
         >
           <span className="truncate font-body text-[13px] text-link">
             {r.keyword}
           </span>
-          <span className="font-mono text-[12px] text-zinc-600">
+          <span className="font-body text-[13px] tabular-nums text-zinc-700">
             {compact(r.volume)}
           </span>
         </div>
@@ -127,10 +131,12 @@ function Overlap() {
   );
   const shared = keywordRows.filter((r) => keywordTab(r, "Shared")).length;
   return (
-    <div className="flex flex-col border border-black/[0.12] bg-white">
-      <div className="border-b border-black/[0.08] px-5 py-4">
-        <p className="font-display text-[16px] text-black">Keyword overlap</p>
-        <p className="mt-0.5 font-body text-[12px] text-zinc-500">
+    <div className="flex flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+      <div className="px-5 pb-3 pt-4">
+        <p className="font-body text-[15px] font-semibold text-zinc-900">
+          Keyword overlap
+        </p>
+        <p className="mt-0.5 font-body text-[12.5px] leading-[1.5] text-zinc-500">
           {shared} keywords all three rank for
         </p>
       </div>
@@ -156,13 +162,13 @@ function Overlap() {
             x="110"
             y="88"
             textAnchor="middle"
-            className="fill-black font-mono text-[13px]"
+            className="fill-zinc-900 font-body text-[13px] font-semibold"
           >
             {shared}
           </text>
         </svg>
       </div>
-      <div className="flex flex-wrap gap-x-5 gap-y-1 border-t border-black/[0.08] px-5 py-3">
+      <div className="flex flex-wrap gap-x-5 gap-y-1 border-t border-zinc-100 px-5 py-3">
         {domains.map((d, i) => (
           <span
             key={d}
@@ -170,7 +176,9 @@ function Overlap() {
           >
             <Dot domain={d} />
             {d}
-            <span className="font-mono text-black">{counts[i]}</span>
+            <span className="font-medium tabular-nums text-zinc-900">
+              {counts[i]}
+            </span>
           </span>
         ))}
       </div>
@@ -243,9 +251,10 @@ export default function KeywordGap() {
         description="Compare the keywords you rank for against your competitors, and find the ones you're missing."
         extra={
           <>
-            <span className="h-3 w-px bg-black/[0.12]" />
+            <span className="h-3 w-px bg-zinc-200" />
             <span>
-              Keywords: <span className="text-black">Organic</span>
+              Keywords:{" "}
+              <span className="font-medium text-zinc-900">Organic</span>
             </span>
           </>
         }
@@ -269,14 +278,14 @@ export default function KeywordGap() {
         <Overlap />
       </section>
 
-      <section className="mt-8 border border-black/[0.12] bg-white">
-        <div className="flex flex-wrap items-center justify-between gap-3 px-4 pt-4">
-          <p className="font-display text-[18px] text-black">
+      <section className="mt-8 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-5 pt-4">
+          <p className="font-body text-[15px] font-semibold text-zinc-900">
             All keyword details
           </p>
           <button
             type="button"
-            className="border border-black/[0.14] px-3 py-1.5 font-body text-[13px] text-black hover:border-black/40"
+            className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-white px-3.5 font-body text-[13px] font-medium text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:bg-zinc-50"
           >
             Export
           </button>
@@ -293,7 +302,7 @@ export default function KeywordGap() {
           />
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 border-b border-black/[0.08] p-4">
+        <div className="flex flex-wrap items-center gap-2 px-5 py-4">
           <input
             value={query}
             onChange={(e) => {
@@ -301,12 +310,12 @@ export default function KeywordGap() {
               setPage(0);
             }}
             placeholder="Filter by keyword"
-            className="w-full border border-black/[0.14] px-3 py-2 font-body text-[13px] outline-none focus:border-black sm:w-64"
+            className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[13px] text-zinc-900 placeholder:text-zinc-400 focus:border-[#1a5fd0] focus:outline-none sm:w-64"
           />
           {["Positions", "Volume", "KD", "Intent"].map((f) => (
             <span
               key={f}
-              className="border border-black/[0.14] px-3 py-2 font-body text-[13px] text-zinc-600"
+              className="rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[13px] text-zinc-700"
             >
               {f} ▾
             </span>
@@ -327,7 +336,7 @@ export default function KeywordGap() {
         <div className="overflow-x-auto">
           <table className="w-full min-w-[920px] border-collapse">
             <thead>
-              <tr className="border-b border-black/[0.08] bg-[#f7f6f4]">
+              <tr className="border-y border-zinc-100 bg-zinc-50/70">
                 <th className="w-10 px-4 py-3" />
                 <th className="px-3 py-3 text-left">
                   <SortHeader
@@ -337,7 +346,7 @@ export default function KeywordGap() {
                     onClick={by("keyword")}
                   />
                 </th>
-                <th className="px-3 py-3 text-left font-mono text-[10.5px] font-normal uppercase tracking-[0.08em] text-zinc-500">
+                <th className="px-3 py-3 text-left font-body text-[12.5px] font-medium text-zinc-500">
                   Intent
                 </th>
                 {domains.map((d) => (
@@ -378,7 +387,7 @@ export default function KeywordGap() {
                     align="right"
                   />
                 </th>
-                <th className="px-4 py-3 text-right font-mono text-[10.5px] font-normal uppercase tracking-[0.08em] text-zinc-500">
+                <th className="px-4 py-3 text-right font-body text-[12.5px] font-medium text-zinc-500">
                   Results
                 </th>
               </tr>
@@ -389,7 +398,7 @@ export default function KeywordGap() {
                 return (
                   <tr
                     key={r.keyword}
-                    className={`border-b border-black/[0.05] ${on ? "bg-black/[0.035]" : "hover:bg-black/[0.015]"}`}
+                    className={`border-b border-zinc-100 last:border-b-0 ${on ? "bg-[#f5f8fe]" : "hover:bg-zinc-50/80"}`}
                   >
                     <td className="px-4 py-3">
                       <input
@@ -404,7 +413,7 @@ export default function KeywordGap() {
                           })
                         }
                         aria-label={`Select ${r.keyword}`}
-                        className="h-4 w-4 accent-[#141416]"
+                        className="h-4 w-4 rounded accent-[#1a5fd0]"
                       />
                     </td>
                     <td className="px-3 py-3 font-body text-[13.5px] text-link">
@@ -413,7 +422,7 @@ export default function KeywordGap() {
                     <td className="px-3 py-3">
                       <span
                         title={intentName[r.intent]}
-                        className={`inline-block w-6 py-0.5 text-center font-mono text-[11px] ${intentStyle[r.intent]}`}
+                        className={`inline-block w-6 rounded-md py-0.5 text-center font-body text-[11.5px] font-semibold ${intentStyle[r.intent]}`}
                       >
                         {r.intent}
                       </span>
@@ -421,23 +430,23 @@ export default function KeywordGap() {
                     {domains.map((d) => (
                       <td
                         key={d}
-                        className="px-3 py-3 text-right font-mono text-[13px] text-black"
+                        className="px-3 py-3 text-right font-body text-[13.5px] tabular-nums text-zinc-900"
                       >
                         {r.positions[d] || (
                           <span className="text-zinc-300">0</span>
                         )}
                       </td>
                     ))}
-                    <td className="px-3 py-3 text-right font-mono text-[13px] text-black">
+                    <td className="px-3 py-3 text-right font-body text-[13.5px] tabular-nums text-zinc-900">
                       {r.volume.toLocaleString("en-US")}
                     </td>
-                    <td className="px-3 py-3 text-right font-mono text-[13px] text-black">
+                    <td className="px-3 py-3 text-right font-body text-[13.5px] tabular-nums text-zinc-900">
                       <Kd kd={r.kd} />
                     </td>
-                    <td className="px-3 py-3 text-right font-mono text-[13px] text-zinc-700">
+                    <td className="px-3 py-3 text-right font-body text-[13.5px] tabular-nums text-zinc-700">
                       ${r.cpc.toFixed(2)}
                     </td>
-                    <td className="px-4 py-3 text-right font-mono text-[13px] text-zinc-500">
+                    <td className="px-4 py-3 text-right font-body text-[13.5px] tabular-nums text-zinc-500">
                       {compact(r.results)}
                     </td>
                   </tr>

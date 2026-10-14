@@ -70,7 +70,7 @@ function SiteGrid({ sites, featured }: { sites: number; featured?: boolean }) {
       {Array.from({ length: 20 }, (_, i) => (
         <span
           key={i}
-          className={`aspect-square  ${
+          className={`aspect-square rounded-[4px] ${
             i < sites
               ? "bg-signal"
               : featured
@@ -104,7 +104,7 @@ export default function Pricing() {
             return (
               <article
                 key={plan.name}
-                className={`flex flex-col  p-7 sm:p-8 ${
+                className={`flex flex-col rounded-3xl p-7 sm:p-8 ${
                   dark
                     ? "bg-[linear-gradient(160deg,#4a4a51_0%,#36363b_35%,#1c1c21_100%)] text-white shadow-[0_30px_70px_-30px_rgba(0,0,0,0.55)] lg:-my-3 lg:py-11"
                     : "border border-black/[0.08] bg-white"
@@ -152,7 +152,7 @@ export default function Pricing() {
 
                 {/* Scale, before the figures. */}
                 <div
-                  className={`mt-8  p-4 ${
+                  className={`mt-8 rounded-2xl p-4 ${
                     dark
                       ? "bg-white/[0.04] ring-1 ring-white/[0.08]"
                       : "bg-zinc-50 ring-1 ring-black/[0.05]"
@@ -222,7 +222,7 @@ export default function Pricing() {
 
                 <Link
                   href="#demo"
-                  className={`mt-8 flex h-12 items-center justify-center gap-2  font-body text-[15px] font-medium transition-colors duration-200 ${
+                  className={`mt-8 flex h-12 items-center justify-center gap-2 rounded-xl font-body text-[15px] font-medium transition-colors duration-200 ${
                     dark
                       ? "bg-signal text-white hover:bg-signal-deep"
                       : "bg-[#1c1c21] text-white hover:bg-[#36363B]"

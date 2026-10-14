@@ -81,17 +81,21 @@ function AlertStrip() {
         return (
           <div
             key={a.alert_id}
-            className="flex flex-wrap items-center gap-x-4 gap-y-2 border border-black/[0.1] bg-white px-4 py-2.5"
+            className={`flex flex-wrap items-center gap-x-4 gap-y-2 rounded-xl border px-4 py-2.5 ${
+              urgent
+                ? "border-[#fbd5c3] bg-[#fff7f2]"
+                : "border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+            }`}
           >
-            <p className="flex min-w-0 basis-full items-baseline gap-2.5 font-body text-[13.5px] text-black sm:basis-0 sm:flex-1">
+            <p className="flex min-w-0 basis-full items-baseline gap-2.5 font-body text-[13.5px] text-zinc-800 sm:basis-0 sm:flex-1">
               <span
-                className={`h-1.5 w-1.5 shrink-0 -translate-y-px ${urgent ? "bg-signal" : "bg-black/35"}`}
+                className={`h-2 w-2 shrink-0 -translate-y-px rounded-full ${urgent ? "bg-signal" : "bg-amber-400"}`}
                 aria-hidden="true"
               />
               {a.summary}
             </p>
             <div className="flex items-center gap-3">
-              <span className="font-mono text-[11px] text-zinc-400">
+              <span className="font-body text-[12px] text-zinc-400">
                 {new Date(a.created_at + "T00:00:00Z").toLocaleDateString(
                   "en-GB",
                   { day: "numeric", month: "short", timeZone: "UTC" },
@@ -101,14 +105,14 @@ function AlertStrip() {
                 href={
                   ask ? askHref(a.action.slice(4)) : "/settings/integrations"
                 }
-                className="border border-black/[0.16] bg-white px-2.5 py-1 font-body text-[12.5px] font-medium text-black hover:border-black/40"
+                className="rounded-lg border border-zinc-200 bg-white px-2.5 py-1 font-body text-[12.5px] font-medium text-zinc-800 hover:bg-zinc-50"
               >
                 {ask ? "Ask why" : "Fix in Settings"}
               </Link>
               <button
                 type="button"
                 onClick={() => setHidden((h) => [...h, a.alert_id])}
-                className="px-1 text-[16px] leading-none text-zinc-400 hover:text-black"
+                className="flex h-6 w-6 items-center justify-center rounded-md text-[16px] leading-none text-zinc-400 hover:bg-zinc-100 hover:text-zinc-800"
                 aria-label="Dismiss alert"
               >
                 ×
@@ -146,12 +150,12 @@ export default function DashboardShell({
   }, [pathname]);
 
   return (
-    <div className="flex min-h-dvh flex-col bg-[#fbfaf9] lg:flex-row">
-      <aside className="border-b border-black/[0.08] bg-[#f5f4f2] lg:sticky lg:top-0 lg:h-dvh lg:w-[220px] lg:shrink-0 lg:border-b-0 lg:border-r">
+    <div data-app className="flex min-h-dvh flex-col bg-[#f7f8fa] lg:flex-row">
+      <aside className="border-b border-zinc-200/80 bg-white lg:sticky lg:top-0 lg:h-dvh lg:w-[220px] lg:shrink-0 lg:border-b-0 lg:border-r">
         <div className="flex h-full flex-col px-4 pb-3 pt-5 lg:pb-5">
           <Link href="/" className="flex items-center gap-2 px-1">
             <SeerixMark size={24} animated={false} />
-            <span className="font-display text-[19px] font-medium tracking-[-0.02em] text-black">
+            <span className="font-display text-[19px] font-semibold tracking-[-0.02em] text-zinc-900">
               seerix
             </span>
           </Link>
@@ -172,20 +176,20 @@ export default function DashboardShell({
                   key={n.href}
                   href={n.href}
                   aria-current={on ? "page" : undefined}
-                  className={`flex shrink-0 items-center gap-2.5 whitespace-nowrap px-2.5 py-[7px] font-body text-[13.5px] transition-colors ${
+                  className={`flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-lg px-2.5 py-[7px] font-body text-[13.5px] transition-colors ${
                     last ? "lg:mt-auto" : ""
                   } ${
                     on
-                      ? "bg-black/[0.06] text-black"
-                      : "text-zinc-600 hover:bg-black/[0.03] hover:text-black"
+                      ? "bg-[#eef3fd] font-medium text-[#1a5fd0]"
+                      : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
                   }`}
                 >
-                  <span className={on ? "text-black" : "text-zinc-500"}>
+                  <span className={on ? "text-[#1a5fd0]" : "text-zinc-400"}>
                     <NavIcon d={n.d} />
                   </span>
                   {n.label}
                   {n.count ? (
-                    <span className="ml-auto font-mono text-[11px] text-zinc-400">
+                    <span className="ml-auto rounded-full bg-zinc-100 px-1.5 font-body text-[11px] font-medium text-zinc-600">
                       {n.count}
                     </span>
                   ) : null}
@@ -197,9 +201,10 @@ export default function DashboardShell({
       </aside>
 
       <div className="min-w-0 flex-1">
-        <header className="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-black/[0.08] bg-[#fbfaf9]/95 px-5 backdrop-blur-md py-3 sm:px-8 lg:px-10">
-          <p className="hidden font-mono text-[11px] uppercase tracking-[0.1em] text-zinc-400 sm:block">
-            Workspace · Ardent Dev
+        <header className="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-zinc-200/80 bg-white/90 px-5 py-3 backdrop-blur-md sm:px-8 lg:px-10">
+          <p className="hidden items-center gap-2 font-body text-[13px] text-zinc-500 sm:flex">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            Google data updated this morning
           </p>
           <div className="ml-auto flex items-center gap-2">
             <label className="relative">
@@ -211,7 +216,7 @@ export default function DashboardShell({
                   if (e.target.value === "__add__") return;
                   setSiteId(e.target.value);
                 }}
-                className="h-9 cursor-pointer appearance-none border border-black/[0.16] bg-white pl-3 pr-9 font-body text-[13.5px] text-black hover:border-black/40 focus:border-black focus:outline-none"
+                className="h-9 cursor-pointer appearance-none rounded-lg border border-zinc-200 bg-white pl-3 pr-9 font-body text-[13.5px] text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] hover:bg-zinc-50 focus:border-[#1a5fd0] focus:outline-none"
               >
                 {sites.map((s) => (
                   <option key={s.site_id} value={s.site_id}>
@@ -234,16 +239,21 @@ export default function DashboardShell({
             <button
               type="button"
               onClick={() => router.push("/")}
-              className="h-9 border border-black/[0.16] bg-white px-3.5 font-body text-[13px] font-medium text-black hover:border-black/40"
+              className="h-9 rounded-lg border border-zinc-200 bg-white px-3.5 font-body text-[13px] font-medium text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] hover:bg-zinc-50"
             >
               Sign out
             </button>
           </div>
         </header>
 
-        <main className="px-5 pb-20 pt-7 sm:px-8 lg:px-10 lg:pt-9">
+        <main
+          className={`px-5 pt-7 sm:px-8 lg:px-10 lg:pt-9 ${
+            pathname === "/app/chat" ? "pb-6" : "pb-20"
+          }`}
+        >
           <div className="mx-auto max-w-6xl">
-            <AlertStrip />
+            {/* Chat needs the whole screen, and its alerts already lead there. */}
+            {pathname !== "/app/chat" && <AlertStrip />}
             {children}
           </div>
         </main>

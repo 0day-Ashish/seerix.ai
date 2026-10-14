@@ -219,7 +219,7 @@ export default function ValueProp() {
 
       <div className="relative mx-auto max-w-7xl">
         <p className="flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.08em] text-white/80">
-          <span className="flex h-7 w-7 items-center justify-center bg-white text-[#141416]">
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-white text-[#141416]">
             <Icon name="db" />
           </span>
           One analyst, the whole SEO job
@@ -250,7 +250,7 @@ export default function ValueProp() {
                 {column.items.map((item) => (
                   <li key={item.label} className="flex items-center gap-4">
                     <span
-                      className={`flex h-9 w-9 shrink-0 items-center justify-center ${column.tile}`}
+                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${column.tile}`}
                     >
                       <Icon name={item.icon} />
                     </span>
@@ -258,7 +258,7 @@ export default function ValueProp() {
                       {item.label}
                     </span>
                     {item.soon && (
-                      <span className="border border-white/40 px-1.5 py-px font-mono text-[11px] tracking-[0.04em] text-white/80">
+                      <span className="rounded-md border border-white/40 px-1.5 py-px font-mono text-[11px] tracking-[0.04em] text-white/80">
                         SOON
                       </span>
                     )}
@@ -272,7 +272,7 @@ export default function ValueProp() {
         {/* The foundation they all run on. */}
         <Link
           href="/#how-it-works"
-          className="group mt-20 flex items-center justify-center gap-2 bg-white/[0.06] px-6 py-5 text-center font-display text-[18px] text-white transition-colors duration-200 hover:bg-white/[0.09] sm:text-[20px]"
+          className="group mt-20 flex items-center justify-center gap-2 rounded-2xl bg-white/[0.06] px-6 py-5 text-center font-display text-[18px] text-white transition-colors duration-200 hover:bg-white/[0.09] sm:text-[20px]"
         >
           <span>
             <span className="font-semibold">Foundation:</span>{" "}
@@ -286,7 +286,7 @@ export default function ValueProp() {
         <ul className="mt-10 grid gap-x-6 gap-y-6 sm:grid-cols-3 lg:grid-cols-6">
           {foundation.map((item) => (
             <li key={item.label} className="flex items-center gap-4">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center bg-[#cfe3fb] text-[#123a66]">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#cfe3fb] text-[#123a66]">
                 <Icon name={item.icon} />
               </span>
               <span className="font-body text-[16px] leading-snug text-white/90">

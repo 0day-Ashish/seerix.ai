@@ -36,7 +36,7 @@ export default function Industries() {
       <div className="mx-auto max-w-7xl">
         {/* Dark panel: the one inverted block on the page, so the section
             reads as a break between the FAQ and the closing CTA. */}
-        <div className="relative overflow-hidden bg-[#1c1c21] px-7 py-12 sm:px-12 sm:py-16">
+        <div className="relative overflow-hidden rounded-3xl bg-[#1c1c21] px-7 py-12 sm:px-12 sm:py-16">
           {/* Moving gradient: two lights orbiting the panel's centre in
               opposite directions at different speeds, so their overlap keeps
               shifting, over a signal glow that slowly breathes. Each orbit is a

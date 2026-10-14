@@ -1,379 +1,487 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
-import { fmt, pct, shortDate, type Day } from "@/components/dashboard/data";
+import { fmt, type Day } from "@/components/dashboard/data";
+import type { Grain, Point } from "@/components/dashboard/range";
 
-const W = 1000;
-const H = 300;
-const DRAW_MS = 1400;
+export type Metric = "clicks" | "impressions" | "ctr" | "position";
 
-const SERIES = {
-  clicks: { label: "Clicks", color: "#ff5a1f" },
-  impressions: { label: "Impressions", color: "#9a96a0" },
-} as const;
-type Key = keyof typeof SERIES;
+const BLUE = "#3b6fe0";
+const H = 280;
+const PAD = { top: 12, right: 8, bottom: 28, left: 44 };
+const DRAW_MS = 1000;
 
-/**
- * The top of the scale: four equal steps of a round size (1, 2, 2.5, 3, 4,
- * 5, 6 or 8 × 10ⁿ, whole numbers only), so every gridline reads cleanly.
- */
+/** Google's announced updates; drawn as a "G" on the baseline when in range. */
+const GOOGLE_UPDATES = [
+  { date: "2025-06-30", name: "June 2025 core update" },
+  { date: "2025-08-26", name: "August 2025 spam update" },
+  { date: "2025-12-11", name: "December 2025 core update" },
+  { date: "2026-03-13", name: "March 2026 core update" },
+  { date: "2026-06-11", name: "June 2026 core update" },
+  { date: "2026-08-19", name: "August 2026 core update" },
+  { date: "2026-09-24", name: "September 2026 spam update" },
+];
+
+export const metricValue = (d: Day, m: Metric) =>
+  m === "ctr"
+    ? d.impressions
+      ? d.clicks / d.impressions
+      : 0
+    : m === "position"
+      ? d.position
+      : d[m];
+
+export const formatMetric = (v: number, m: Metric) =>
+  m === "ctr"
+    ? `${(v * 100).toFixed(1)}%`
+    : m === "position"
+      ? v.toFixed(1)
+      : fmt(Math.round(v));
+
+const axisLabel = (v: number, m: Metric) =>
+  m === "ctr"
+    ? `${+(v * 100).toFixed(1)}%`
+    : v >= 1000
+      ? `${+(v / 1000).toFixed(1)}K`
+      : String(+v.toFixed(1));
+
+/** A round top for the scale, split into four equal steps. */
 function niceMax(v: number) {
-  const raw = Math.max(v, 1) / 4;
+  if (v <= 0) return 1;
+  const raw = v / 4;
   const exp = 10 ** Math.floor(Math.log10(raw));
   const step =
-    [1, 2, 2.5, 3, 4, 5, 6, 8, 10]
-      .map((c) => c * exp)
-      .find((c) => c >= raw && Number.isInteger(c)) ?? 10 * exp;
-  return Math.max(step, 1) * 4;
+    [1, 2, 2.5, 5, 10].map((c) => c * exp).find((c) => c >= raw) ?? 10 * exp;
+  return step * 4;
 }
 
-const compact = (n: number) =>
-  n >= 1000 ? `${Math.round((n / 1000) * 10) / 10}K` : String(Math.round(n));
-
-/**
- * A monotone cubic curve through the points (Fritsch–Carlson): smooth, but
- * it never overshoots, so a dip never draws below zero or above a peak.
- */
-function smooth(pts: [number, number][]) {
-  const n = pts.length;
-  if (n < 2) return "";
-  const dx = pts.slice(1).map((p, i) => p[0] - pts[i][0]);
-  const m = pts.slice(1).map((p, i) => (p[1] - pts[i][1]) / dx[i]);
-  const t = pts.map((_, i) =>
-    i === 0
-      ? m[0]
-      : i === n - 1
-        ? m[n - 2]
-        : m[i - 1] * m[i] <= 0
-          ? 0
-          : (m[i - 1] + m[i]) / 2,
-  );
-  for (let i = 0; i < n - 1; i++) {
-    if (m[i] === 0) {
-      t[i] = t[i + 1] = 0;
-      continue;
-    }
-    const a = t[i] / m[i];
-    const b = t[i + 1] / m[i];
-    const s = a * a + b * b;
-    if (s > 9) {
-      const k = 3 / Math.sqrt(s);
-      t[i] = k * a * m[i];
-      t[i + 1] = k * b * m[i];
-    }
-  }
-  let d = `M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
-  for (let i = 0; i < n - 1; i++) {
-    const h = dx[i] / 3;
-    d += ` C${(pts[i][0] + h).toFixed(1)} ${(pts[i][1] + t[i] * h).toFixed(1)} ${(
-      pts[i + 1][0] - h
-    ).toFixed(1)} ${(pts[i + 1][1] - t[i + 1] * h).toFixed(1)} ${pts[
-      i + 1
-    ][0].toFixed(1)} ${pts[i + 1][1].toFixed(1)}`;
-  }
-  return d;
+function useWidth<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  const [w, setW] = useState(0);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    setW(el.clientWidth);
+    const ro = new ResizeObserver(([e]) => setW(e.contentRect.width));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  return [ref, w] as const;
 }
 
-/** 0 → 1 over DRAW_MS with an ease-out, once per mount; instant for reduced motion. */
+/** 0 → 1 once per mount, so the line draws in from the left. */
 function useDrawIn() {
   const [p, setP] = useState(0);
   useEffect(() => {
-    const reduce = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    let start: number | null = null;
-    let id = 0;
-    const tick = (now: number) => {
-      start ??= now;
-      const k = reduce ? 1 : Math.min(1, (now - start) / DRAW_MS);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setP(1);
+      return;
+    }
+    let raf = 0;
+    const t0 = performance.now();
+    const tick = (t: number) => {
+      const k = Math.min((t - t0) / DRAW_MS, 1);
       setP(1 - (1 - k) ** 3);
-      if (k < 1) id = requestAnimationFrame(tick);
+      if (k < 1) raf = requestAnimationFrame(tick);
     };
-    id = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(id);
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, []);
   return p;
 }
 
+function IconBtn({
+  label,
+  onClick,
+  d,
+}: {
+  label: string;
+  onClick: () => void;
+  d: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={label}
+      aria-label={label}
+      className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
+    >
+      <svg
+        className="h-[18px] w-[18px]"
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d={d} />
+      </svg>
+    </button>
+  );
+}
+
+function download(name: string, type: string, body: string) {
+  const url = URL.createObjectURL(new Blob([body], { type }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+const at = (iso: string, o: Intl.DateTimeFormatOptions) =>
+  new Date(iso + "T00:00:00Z").toLocaleDateString("en-US", {
+    ...o,
+    timeZone: "UTC",
+  });
+
+/** Axis labels: months once the span runs past ~4 months, else days. */
+const axisDate = (iso: string, grain: Grain, long: boolean) =>
+  grain === "month" || long
+    ? at(iso, { month: "short", year: "2-digit" }).replace(" ", " ’")
+    : at(iso, { month: "short", day: "numeric" });
+
+/** The tooltip's heading for one bucket. */
+const bucketDate = (pt: Point, grain: Grain) =>
+  grain === "day"
+    ? at(pt.date, {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })
+    : // Weeks and months show their exact days: the first and last can be part ones.
+      `${at(pt.date, { month: "short", day: "numeric" })} – ${at(pt.end, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })}`;
+
 /**
- * Clicks over impressions, each on its own scale (clicks left, impressions
- * right). Draws in left to right on open, behind a signal scan line; the
- * legend toggles a series; hover reads out the day.
+ * One metric over the window: a solid line for this period and a dashed one
+ * for the period before, on dashed gridlines, with Google's updates marked
+ * on the baseline. Straight segments, so each day reads as itself.
  */
-export default function TrafficChart({ days }: { days: Day[] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [hover, setHover] = useState<number | null>(null);
-  const [off, setOff] = useState<Key[]>([]);
+export default function TrafficChart({
+  days,
+  prev,
+  metric,
+  grain,
+  label,
+}: {
+  days: Point[];
+  prev: (Point | null)[];
+  metric: Metric;
+  grain: Grain;
+  /** The period's name in the legend, e.g. "28 days". */
+  label: string;
+}) {
+  const [box, width] = useWidth<HTMLDivElement>();
+  const svgRef = useRef<SVGSVGElement>(null);
   const p = useDrawIn();
+  const [hover, setHover] = useState<number | null>(null);
 
-  const max = {
-    clicks: niceMax(Math.max(...days.map((d) => d.clicks)) * 1.08),
-    impressions: niceMax(Math.max(...days.map((d) => d.impressions)) * 1.08),
-  };
-  const x = (i: number) => (i / (days.length - 1)) * W;
-  const y = (k: Key, v: number) => H - (v / max[k]) * H;
-  const line = (k: Key) => smooth(days.map((d, i) => [x(i), y(k, d[k])]));
-  const totals = {
-    clicks: days.reduce((n, d) => n + d.clicks, 0),
-    impressions: days.reduce((n, d) => n + d.impressions, 0),
-  };
-  const shown = (Object.keys(SERIES) as Key[]).filter((k) => !off.includes(k));
+  const cur = days.map((d) => metricValue(d, metric));
+  const old = prev.map((d) => (d ? metricValue(d, metric) : null));
+  const all = [...cur, ...old.filter((v): v is number => v != null)];
+  const invert = metric === "position";
+  const lo = invert ? Math.max(Math.floor(Math.min(...all)) - 1, 0) : 0;
+  const hi = invert
+    ? lo + niceMax(Math.max(...all) - lo)
+    : niceMax(Math.max(...all));
+  const ticks = [0, 1, 2, 3, 4].map((i) => lo + ((hi - lo) * i) / 4);
 
-  const step = Math.max(1, Math.floor(days.length / 6));
-  const ticks = days
-    .map((d, i) => ({ d, i }))
-    .filter(({ i }) => i % step === 0);
-  const grid = [0, 0.25, 0.5, 0.75, 1];
-
-  const onMove = (e: React.PointerEvent) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect || p < 1) return;
-    const f = (e.clientX - rect.left) / rect.width;
-    setHover(
-      Math.max(0, Math.min(days.length - 1, Math.round(f * (days.length - 1)))),
-    );
+  const iw = Math.max(width - PAD.left - PAD.right, 10);
+  const ih = H - PAD.top - PAD.bottom;
+  const n = days.length;
+  const x = (i: number) => PAD.left + (n > 1 ? (i / (n - 1)) * iw : iw / 2);
+  const y = (v: number) => {
+    const f = (v - lo) / (hi - lo || 1);
+    return PAD.top + (invert ? f : 1 - f) * ih;
   };
-  const h = hover == null ? null : days[hover];
-  const hx = hover == null ? 0 : (hover / (days.length - 1)) * 100;
+  // A null breaks the line: the period before can run past the history.
+  const line = (vals: (number | null)[]) =>
+    vals
+      .map((v, i) =>
+        v == null
+          ? ""
+          : `${i && vals[i - 1] != null ? "L" : "M"}${x(i).toFixed(1)} ${y(v).toFixed(1)}`,
+      )
+      .join("");
+  const long =
+    n > 1 &&
+    Date.parse(days[n - 1].date) - Date.parse(days[0].date) > 120 * 86_400_000;
+  const curPath = line(cur);
+  const base = PAD.top + ih;
+  const area = `${curPath}L${x(n - 1)} ${base}L${x(0)} ${base}Z`;
+
+  // Which buckets get a date under them: on long ranges, month starts only,
+  // thinned evenly to fit; otherwise every k-th bucket.
+  const room = Math.max(3, Math.floor(iw / 80));
+  const ticksX = (() => {
+    if (!long) {
+      const k = Math.max(1, Math.ceil(n / room));
+      return new Set(days.map((_, i) => i).filter((i) => i % k === 0));
+    }
+    const starts = days
+      .map((d, i) => i)
+      .filter(
+        (i) =>
+          i === 0 || days[i].date.slice(0, 7) !== days[i - 1].date.slice(0, 7),
+      );
+    const k = Math.max(1, Math.ceil(starts.length / room));
+    return new Set(starts.filter((_, j) => j % k === 0));
+  })();
+  const updates = GOOGLE_UPDATES.map((u) => ({
+    ...u,
+    i: days.findIndex((d) => d.date <= u.date && u.date <= d.end),
+  })).filter((u) => u.i >= 0);
+
+  const onMove = (e: React.PointerEvent<SVGSVGElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const i = Math.round(((e.clientX - r.left - PAD.left) / iw) * (n - 1));
+    setHover(Math.min(Math.max(i, 0), n - 1));
+  };
+
+  const hv = hover != null ? cur[hover] : null;
+  const ho = hover != null ? old[hover] : null;
 
   return (
     <div>
-      <div className="flex flex-wrap items-center gap-2">
-        {(Object.keys(SERIES) as Key[]).map((k) => {
-          const on = !off.includes(k);
-          return (
-            <button
-              key={k}
-              type="button"
-              aria-pressed={on}
-              onClick={() =>
-                setOff((o) =>
-                  on
-                    ? // Keep at least one line on the chart.
-                      o.length === 1
-                      ? o
-                      : [...o, k]
-                    : o.filter((x) => x !== k),
-                )
-              }
-              className={`flex items-center gap-2.5 border px-3 py-1.5 text-left transition-colors ${
-                on
-                  ? "border-black/[0.12] bg-white"
-                  : "border-dashed border-black/[0.12] bg-transparent opacity-50"
-              }`}
-            >
-              <span
-                className="h-2 w-2"
-                style={{ background: SERIES[k].color }}
-              />
-              <span className="font-body text-[12.5px] text-zinc-600">
-                {SERIES[k].label}
-              </span>
-              <span className="font-mono text-[12.5px] text-black">
-                {fmt(totals[k])}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="mt-5 grid grid-cols-[34px_minmax(0,1fr)_40px] gap-x-2 sm:grid-cols-[40px_minmax(0,1fr)_46px] sm:gap-x-3">
-        {/* Clicks scale */}
-        <div className="relative h-[240px] font-mono text-[10.5px] text-zinc-400 sm:h-[280px]">
-          {!off.includes("clicks") &&
-            grid.map((g) => (
-              <span
-                key={g}
-                className="absolute right-0 -translate-y-1/2"
-                style={{ top: `${(1 - g) * 100}%` }}
-              >
-                {compact(max.clicks * g)}
-              </span>
-            ))}
-        </div>
-
-        <div
-          ref={ref}
-          className="relative h-[240px] cursor-crosshair touch-none sm:h-[280px]"
-          onPointerMove={onMove}
-          onPointerDown={onMove}
-          onPointerLeave={() => setHover(null)}
-        >
+      <div ref={box} className="relative" style={{ height: H }}>
+        {width > 0 && (
           <svg
-            viewBox={`0 0 ${W} ${H}`}
-            preserveAspectRatio="none"
-            className="absolute inset-0 h-full w-full overflow-visible"
+            ref={svgRef}
+            xmlns="http://www.w3.org/2000/svg"
+            width={width}
+            height={H}
+            className="block touch-none select-none"
+            onPointerMove={onMove}
+            onPointerLeave={() => setHover(null)}
             role="img"
-            aria-label="Daily clicks and impressions"
+            aria-label={`${metric}, ${label}, by ${grain}`}
           >
             <defs>
-              {shown.map((k) => (
-                <linearGradient
-                  key={k}
-                  id={`fill-${k}`}
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
-                  <stop
-                    offset="0%"
-                    stopColor={SERIES[k].color}
-                    stopOpacity={k === "clicks" ? 0.2 : 0.16}
-                  />
-                  <stop
-                    offset="100%"
-                    stopColor={SERIES[k].color}
-                    stopOpacity="0"
-                  />
-                </linearGradient>
-              ))}
-              <clipPath id="draw-in">
-                <rect x="0" y="-10" width={W * p} height={H + 20} />
+              <linearGradient id="tc-fill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor={BLUE} stopOpacity="0.14" />
+                <stop offset="1" stopColor={BLUE} stopOpacity="0.01" />
+              </linearGradient>
+              <clipPath id="tc-clip">
+                <rect x="0" y="0" width={PAD.left + iw * p + 2} height={H} />
               </clipPath>
             </defs>
 
-            {grid.map((g) => (
-              <line
-                key={g}
-                x1="0"
-                x2={W}
-                y1={H * (1 - g)}
-                y2={H * (1 - g)}
-                stroke={g === 0 ? "rgba(0,0,0,0.18)" : "rgba(0,0,0,0.06)"}
-                strokeDasharray={g === 0 ? undefined : "3 4"}
-                vectorEffect="non-scaling-stroke"
-              />
+            {ticks.map((t) => (
+              <g key={t}>
+                <line
+                  x1={PAD.left}
+                  x2={PAD.left + iw}
+                  y1={y(t)}
+                  y2={y(t)}
+                  stroke="#dfe2e7"
+                  strokeDasharray="4 4"
+                />
+                <text
+                  x={PAD.left - 10}
+                  y={y(t) + 4}
+                  textAnchor="end"
+                  fill="#71717a"
+                  fontSize="12"
+                  className="font-body"
+                >
+                  {axisLabel(t, metric)}
+                </text>
+              </g>
             ))}
 
-            <g clipPath="url(#draw-in)">
-              {/* Impressions behind, clicks on top. */}
-              {(["impressions", "clicks"] as Key[])
-                .filter((k) => shown.includes(k))
-                .map((k) => (
-                  <g key={k}>
-                    <path
-                      d={`${line(k)} L${W} ${H} L0 ${H} Z`}
-                      fill={`url(#fill-${k})`}
-                      style={{ opacity: p }}
-                    />
-                    <path
-                      d={line(k)}
-                      fill="none"
-                      stroke={SERIES[k].color}
-                      strokeWidth={k === "clicks" ? 2.25 : 1.5}
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                      vectorEffect="non-scaling-stroke"
-                    />
-                  </g>
+            {days.map((d, i) =>
+              ticksX.has(i) ? (
+                <text
+                  key={d.date}
+                  x={x(i)}
+                  y={H - 8}
+                  textAnchor={x(i) > PAD.left + iw - 24 ? "end" : "middle"}
+                  fill="#71717a"
+                  fontSize="12"
+                  className="font-body"
+                >
+                  {axisDate(d.date, grain, long)}
+                </text>
+              ) : null,
+            )}
+
+            <g clipPath="url(#tc-clip)">
+              <path d={area} fill="url(#tc-fill)" />
+              <path
+                d={line(old)}
+                fill="none"
+                stroke={BLUE}
+                strokeOpacity="0.75"
+                strokeWidth="1.5"
+                strokeDasharray="5 4"
+              />
+              <path
+                d={curPath}
+                fill="none"
+                stroke={BLUE}
+                strokeWidth="2"
+                strokeLinejoin="round"
+              />
+              {/* Few points: mark each, so a single day still shows. */}
+              {n <= 14 &&
+                cur.map((v, i) => (
+                  <circle
+                    key={i}
+                    cx={x(i)}
+                    cy={y(v)}
+                    r="3"
+                    fill="white"
+                    stroke={BLUE}
+                    strokeWidth="1.75"
+                  />
                 ))}
             </g>
 
-            {/* The scan line that leads the draw-in. */}
-            {p < 1 && (
-              <line
-                x1={W * p}
-                x2={W * p}
-                y1="0"
-                y2={H}
-                stroke="#ff5a1f"
-                strokeOpacity={0.55 * (1 - p) + 0.15}
-                strokeWidth="1"
-                vectorEffect="non-scaling-stroke"
-              />
+            {updates.map((u) => (
+              <g key={u.date} transform={`translate(${x(u.i)} ${base})`}>
+                <title>{u.name}</title>
+                <circle r="8.5" fill="white" stroke="#dfe2e7" />
+                <text
+                  y="3.8"
+                  textAnchor="middle"
+                  fontSize="10.5"
+                  fontWeight="700"
+                  fill="#4285F4"
+                  className="font-body"
+                >
+                  G
+                </text>
+              </g>
+            ))}
+
+            {hover != null && (
+              <g pointerEvents="none">
+                <line
+                  x1={x(hover)}
+                  x2={x(hover)}
+                  y1={PAD.top}
+                  y2={base}
+                  stroke="#c7ccd4"
+                />
+                <circle
+                  cx={x(hover)}
+                  cy={y(cur[hover])}
+                  r="4"
+                  fill="white"
+                  stroke={BLUE}
+                  strokeWidth="2"
+                />
+              </g>
             )}
           </svg>
+        )}
 
-          {h && (
-            <>
-              <span
-                className="pointer-events-none absolute inset-y-0 w-px bg-black/25"
-                style={{ left: `${hx}%` }}
-              />
-              {shown.map((k) => (
+        {hover != null && hv != null && (
+          <div
+            className="pointer-events-none absolute top-2 z-10 w-52 rounded-xl border border-zinc-200 bg-white px-3.5 py-3 font-body text-[13px] shadow-[0_8px_24px_-8px_rgba(15,23,42,0.18)]"
+            style={{ left: Math.min(Math.max(x(hover) - 104, 0), width - 208) }}
+          >
+            <p className="text-[12px] text-zinc-500">
+              {bucketDate(days[hover], grain)}
+            </p>
+            <p className="mt-1.5 flex items-center justify-between gap-3">
+              <span className="flex items-center gap-2 text-zinc-600">
                 <span
-                  key={k}
-                  className="pointer-events-none absolute h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border-2 border-white shadow-[0_0_0_1px_rgba(0,0,0,0.08)]"
-                  style={{
-                    left: `${hx}%`,
-                    top: `${(y(k, h[k]) / H) * 100}%`,
-                    background: SERIES[k].color,
-                  }}
+                  className="h-0.5 w-3 rounded-full"
+                  style={{ background: BLUE }}
                 />
-              ))}
-              <div
-                className="pointer-events-none absolute top-0 z-10 w-[164px] bg-[#141416] px-3 py-2.5 font-body text-[12px] text-white shadow-[0_10px_30px_rgba(0,0,0,0.2)]"
-                style={{
-                  left:
-                    hx > 55 ? `calc(${hx}% - 176px)` : `calc(${hx}% + 12px)`,
-                }}
-              >
-                <p className="font-mono text-[11px] text-white/60">
-                  {new Date(h.date + "T00:00:00Z").toLocaleDateString("en-GB", {
-                    weekday: "short",
-                    day: "numeric",
-                    month: "short",
-                    timeZone: "UTC",
-                  })}
-                </p>
-                {(Object.keys(SERIES) as Key[]).map((k) => (
-                  <p
-                    key={k}
-                    className="mt-1.5 flex items-center justify-between gap-4"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span
-                        className="h-2 w-2"
-                        style={{ background: SERIES[k].color }}
-                      />
-                      {SERIES[k].label}
-                    </span>
-                    <span className="font-mono">{fmt(h[k])}</span>
-                  </p>
-                ))}
-                <p className="mt-1.5 flex items-center justify-between gap-4 border-t border-white/10 pt-1.5 text-white/70">
-                  CTR
-                  <span className="font-mono text-white">
-                    {pct(h.clicks / Math.max(h.impressions, 1))}
-                  </span>
-                </p>
-              </div>
-            </>
+                This period
+              </span>
+              <span className="font-medium tabular-nums text-zinc-900">
+                {formatMetric(hv, metric)}
+              </span>
+            </p>
+            {ho != null && prev[hover] && (
+              <p className="mt-1 flex items-center justify-between gap-3">
+                <span className="flex items-center gap-2 text-zinc-600">
+                  <span
+                    className="w-3 border-t-[1.5px] border-dashed"
+                    style={{ borderColor: BLUE }}
+                  />
+                  {grain === "month"
+                    ? at(prev[hover]!.date, { month: "short", year: "numeric" })
+                    : at(prev[hover]!.date, { month: "short", day: "numeric" })}
+                </span>
+                <span className="tabular-nums text-zinc-600">
+                  {formatMetric(ho, metric)}
+                </span>
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-1 font-body text-[12.5px] text-zinc-500">
+          <span className="flex items-center gap-2">
+            <span
+              className="h-0.5 w-4 rounded-full"
+              style={{ background: BLUE }}
+            />
+            {label}
+          </span>
+          <span className="flex items-center gap-2">
+            <span
+              className="w-4 border-t-[1.5px] border-dashed"
+              style={{ borderColor: BLUE }}
+            />
+            Period before
+          </span>
+          {updates.length > 0 && (
+            <span className="flex items-center gap-2">
+              <span className="flex h-4 w-4 items-center justify-center rounded-full border border-zinc-300 bg-white text-[9px] font-bold text-[#4285F4]">
+                G
+              </span>
+              Google update
+            </span>
           )}
         </div>
-
-        {/* Impressions scale */}
-        <div className="relative h-[240px] font-mono text-[10.5px] text-zinc-400 sm:h-[280px]">
-          {!off.includes("impressions") &&
-            grid.map((g) => (
-              <span
-                key={g}
-                className="absolute left-0 -translate-y-1/2"
-                style={{ top: `${(1 - g) * 100}%` }}
-              >
-                {compact(max.impressions * g)}
-              </span>
-            ))}
+        <div className="flex items-center gap-1">
+          <IconBtn
+            label="Save chart as image"
+            d="M3.5 4.5h13v11h-13zM3.5 13l4-4 3 3 2-2 4 4M12.5 7.5h.01"
+            onClick={() => {
+              if (svgRef.current)
+                download(
+                  `seerix-${metric}.svg`,
+                  "image/svg+xml",
+                  new XMLSerializer().serializeToString(svgRef.current),
+                );
+            }}
+          />
+          <IconBtn
+            label="Download CSV"
+            d="M6 14.5H5a3.5 3.5 0 0 1-.4-7A5 5 0 0 1 14.3 6a3.5 3.5 0 0 1 .7 6.9M10 10v7M7.5 14.5L10 17l2.5-2.5"
+            onClick={() =>
+              download(
+                `seerix-${metric}.csv`,
+                "text/csv",
+                ["from,to,clicks,impressions,position"]
+                  .concat(
+                    days.map(
+                      (d) =>
+                        `${d.date},${d.end},${d.clicks},${d.impressions},${d.position}`,
+                    ),
+                  )
+                  .join("\n"),
+              )
+            }
+          />
         </div>
-
-        <div />
-        <div className="relative mt-3 h-4 font-mono text-[10.5px] text-zinc-400">
-          {ticks.map(({ d, i }, k) => (
-            <span
-              key={d.date}
-              // Every third label on phones, so the dates never collide.
-              className={`absolute -translate-x-1/2 whitespace-nowrap first:translate-x-0 ${
-                k % 3 ? "hidden sm:inline" : ""
-              }`}
-              style={{ left: `${(i / (days.length - 1)) * 100}%` }}
-            >
-              {shortDate(d.date)}
-            </span>
-          ))}
-        </div>
-        <div />
       </div>
     </div>
   );

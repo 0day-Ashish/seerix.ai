@@ -22,11 +22,9 @@ import { domainColor } from "@/components/gap/kit";
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="border-r border-black/[0.06] px-5 py-3.5 last:border-r-0">
-      <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-zinc-500">
-        {label}
-      </p>
-      <p className="mt-1 font-display text-[22px] font-medium tracking-[-0.02em] text-black">
+    <div className="rounded-xl bg-zinc-50 px-4 py-3">
+      <p className="font-body text-[12.5px] text-zinc-500">{label}</p>
+      <p className="mt-1 font-body text-[22px] font-semibold tabular-nums tracking-[-0.01em] text-zinc-900">
         {value}
       </p>
     </div>
@@ -87,11 +85,11 @@ export default function Competitors() {
             {tracked.map((c) => (
               <li
                 key={c.competitor_id}
-                className="flex items-center justify-between gap-3 border-b border-black/[0.06] px-5 py-3 last:border-b-0"
+                className="flex items-center justify-between gap-3 border-b border-zinc-100 px-5 py-3 last:border-b-0 hover:bg-zinc-50/80"
               >
-                <span className="flex items-center gap-2.5 font-body text-[14px] text-black">
+                <span className="flex items-center gap-2.5 font-body text-[14px] text-zinc-900">
                   <span
-                    className="h-2 w-2"
+                    className="h-2 w-2 rounded-full"
                     style={{
                       background: domainColor[c.competitor_domain] ?? "#c9c6cc",
                     }}
@@ -99,8 +97,8 @@ export default function Competitors() {
                   {c.competitor_domain}
                 </span>
                 <span className="flex items-center gap-4">
-                  <span className="font-mono text-[11.5px] text-zinc-500">
-                    added {shortDate(c.created_at)}
+                  <span className="font-body text-[12.5px] text-zinc-500">
+                    Added {shortDate(c.created_at)}
                   </span>
                   <button
                     type="button"
@@ -110,7 +108,7 @@ export default function Competitors() {
                       );
                       setNote("");
                     }}
-                    className="font-body text-[12.5px] text-zinc-500 hover:text-black"
+                    className="rounded-lg px-2 py-1 font-body text-[12.5px] text-zinc-500 transition-colors hover:bg-red-50 hover:text-red-600"
                   >
                     Remove
                   </button>
@@ -138,11 +136,11 @@ export default function Competitors() {
                   type="button"
                   disabled={on}
                   onClick={() => track(s.domain)}
-                  className="border border-black/[0.14] bg-white px-3 py-1.5 text-left font-body text-[13px] text-black transition-colors hover:border-black/40 disabled:border-[#1f6b3a]/30 disabled:bg-[#e5f3ea] disabled:text-[#1f6b3a]"
+                  className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-left font-body text-[13px] font-medium text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:border-[#3b6fe0]/40 hover:bg-[#f5f8fe] hover:text-[#1a5fd0] disabled:border-emerald-200 disabled:bg-emerald-50 disabled:text-emerald-700 disabled:shadow-none"
                 >
                   {on ? "✓ " : "+ "}
                   {s.domain}
-                  <span className="ml-2 font-mono text-[11px] text-zinc-500">
+                  <span className="ml-2 font-normal text-[12px] text-zinc-500">
                     page one on {s.queries_seen} queries
                   </span>
                 </button>
@@ -159,21 +157,21 @@ export default function Competitors() {
       {intel.competitors.map((cp) => (
         <section
           key={cp.domain}
-          className="mt-4 border border-black/[0.12] bg-white"
+          className="mt-4 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
         >
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.08] px-5 py-4">
-            <h2 className="flex items-center gap-2.5 font-display text-[18px] text-black">
+          <div className="flex flex-wrap items-center justify-between gap-3 px-5 pb-3 pt-4">
+            <h2 className="flex items-center gap-2.5 font-body text-[16px] font-semibold text-zinc-900">
               <span
-                className="h-2.5 w-2.5"
+                className="h-2.5 w-2.5 rounded-full"
                 style={{ background: domainColor[cp.domain] }}
               />
               {cp.domain}
             </h2>
-            <span className="font-mono text-[11.5px] text-zinc-500">
-              captured {shortDate(cp.snapshot.captured_date)}
+            <span className="font-body text-[12.5px] text-zinc-500">
+              Captured {shortDate(cp.snapshot.captured_date)}
             </span>
           </div>
-          <div className="grid grid-cols-2 border-b border-black/[0.08] sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-2 border-b border-zinc-100 px-5 pb-4 sm:grid-cols-4">
             <Stat
               label="Domain rank"
               value={String(cp.snapshot.provider_rank)}
@@ -188,9 +186,9 @@ export default function Competitors() {
               value={fmt(cp.snapshot.ranked_keywords)}
             />
           </div>
-          <div className="grid lg:grid-cols-2 lg:divide-x lg:divide-black/[0.08]">
+          <div className="grid lg:grid-cols-2 lg:divide-x lg:divide-zinc-100">
             <div className="min-w-0">
-              <p className="px-5 pb-2 pt-4 font-body text-[13.5px] font-medium text-black">
+              <p className="px-5 pb-2 pt-4 font-body text-[13.5px] font-medium text-zinc-900">
                 They rank, you don&apos;t (or lower)
               </p>
               <DataTable
@@ -198,7 +196,7 @@ export default function Competitors() {
                 head={["Keyword", "Volume", "Them", "You"]}
                 align={["left", "right", "right", "right"]}
                 rows={cp.keyword_gap.map((g) => [
-                  <span key="k" className="text-black">
+                  <span key="k" className="text-zinc-900">
                     {g.keyword_text}
                   </span>,
                   fmt(g.search_volume),
@@ -207,8 +205,8 @@ export default function Competitors() {
                 ])}
               />
             </div>
-            <div className="min-w-0 border-t border-black/[0.08] lg:border-t-0">
-              <p className="px-5 pb-2 pt-4 font-body text-[13.5px] font-medium text-black">
+            <div className="min-w-0 border-t border-zinc-100 lg:border-t-0">
+              <p className="px-5 pb-2 pt-4 font-body text-[13.5px] font-medium text-zinc-900">
                 Their top keywords
               </p>
               <DataTable
@@ -216,12 +214,12 @@ export default function Competitors() {
                 head={["Keyword", "Pos", "Volume", "Page"]}
                 align={["left", "right", "right", "left"]}
                 rows={cp.top_keywords.map((k) => [
-                  <span key="k" className="text-black">
+                  <span key="k" className="text-zinc-900">
                     {k.keyword_text}
                   </span>,
                   k.position,
                   fmt(k.search_volume),
-                  <span key="u" className="font-mono text-[12px]">
+                  <span key="u" className="font-body text-[13px] text-zinc-500">
                     {k.ranking_url}
                   </span>,
                 ])}
@@ -251,7 +249,7 @@ export default function Competitors() {
             head={["Domain", "Rank", "Links to", "Total links", "Spam"]}
             align={["left", "right", "left", "right", "right"]}
             rows={intel.link_gap.map((d) => [
-              <span key="d" className="text-link">
+              <span key="d" className="font-medium text-link">
                 {d.source_domain}
               </span>,
               d.domain_rank,
@@ -275,7 +273,7 @@ export default function Competitors() {
             align={["left", "right", "right", "left"]}
             rows={intel.broken_targets.map((b) => [
               <div key="p">
-                <p className="font-mono text-[12px] text-black">
+                <p className="font-body text-[13px] text-zinc-900">
                   {b.target_url}
                 </p>
                 <p className="mt-0.5 font-body text-[12px] text-zinc-500">
@@ -295,7 +293,7 @@ export default function Competitors() {
             align={["left", "right", "right", "right"]}
             rows={intel.top_pages.map((t) => [
               <div key="p">
-                <p className="font-mono text-[12px] text-black">
+                <p className="font-body text-[13px] text-zinc-900">
                   {t.ranking_url}
                 </p>
                 <p className="mt-0.5 font-body text-[12px] text-zinc-500">
@@ -319,11 +317,11 @@ export default function Competitors() {
             {history.map(([dom, vals]) => (
               <li
                 key={dom}
-                className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 border-b border-black/[0.06] py-3 first:pt-0 last:border-b-0 last:pb-0 sm:grid-cols-[180px_auto_minmax(0,1fr)]"
+                className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 border-b border-zinc-100 py-3 first:pt-0 last:border-b-0 last:pb-0 sm:grid-cols-[180px_auto_minmax(0,1fr)]"
               >
-                <span className="flex items-center gap-2.5 font-body text-[14px] text-black">
+                <span className="flex items-center gap-2.5 font-body text-[14px] text-zinc-900">
                   <span
-                    className="h-2 w-2"
+                    className="h-2 w-2 rounded-full"
                     style={{ background: domainColor[dom] }}
                   />
                   {dom}
@@ -334,9 +332,9 @@ export default function Competitors() {
                   color={domainColor[dom]}
                   width={120}
                 />
-                <span className="col-span-2 font-mono text-[12px] text-zinc-500 sm:col-span-1">
+                <span className="col-span-2 font-body text-[13px] tabular-nums text-zinc-500 sm:col-span-1">
                   {fmt(vals[0])} →{" "}
-                  <span className="text-black">
+                  <span className="font-medium text-zinc-900">
                     {fmt(vals[vals.length - 1])}
                   </span>{" "}
                   referring domains

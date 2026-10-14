@@ -33,56 +33,60 @@ export type Day = {
 /** Search Console lags two days, so the series ends on 8 October. */
 const LAST_DAY = Date.UTC(2026, 9, 8);
 const DAY_MS = 86_400_000;
+/** Search Console keeps sixteen months, so that is all there is to show. */
+const HISTORY_DAYS = 487;
+
+export const LAST_DATE = new Date(LAST_DAY).toISOString().slice(0, 10);
 
 export const daily: Day[] = (() => {
   const r = rng(42);
   const out: Day[] = [];
-  for (let i = 179; i >= 0; i--) {
+  for (let i = HISTORY_DAYS - 1; i >= 0; i--) {
     const t = LAST_DAY - i * DAY_MS;
     const d = new Date(t);
     const weekend = d.getUTCDay() === 0 || d.getUTCDay() === 6;
-    const trend = 1 + (179 - i) / 260;
+    // Slow growth for the first ten months, quicker over the last six.
+    const trend =
+      i < 180 ? 1 + (179 - i) / 260 : Math.max(1 - (i - 179) / 620, 0.5);
+    // A gentle yearly swell, softest in December.
+    const season =
+      1 + 0.08 * Math.cos(((d.getUTCMonth() - 5) / 12) * 2 * Math.PI);
     // A dip over the last eleven days: the drop the alert strip reports.
     const dip = i < 11 ? 0.68 : 1;
     const impressions = Math.round(
-      (360 + r() * 140) * trend * dip * (weekend ? 0.62 : 1),
+      (360 + r() * 140) * trend * season * dip * (weekend ? 0.62 : 1),
     );
     const ctr = 0.019 + r() * 0.012;
     out.push({
       date: d.toISOString().slice(0, 10),
       impressions,
       clicks: Math.round(impressions * ctr * (i < 11 ? 0.82 : 1)),
-      position: Math.round((19.5 - (179 - i) / 60 + r() * 2.4) * 10) / 10,
+      position:
+        Math.round((Math.min(19.5 - (179 - i) / 60, 23.5) + r() * 2.4) * 10) /
+        10,
     });
   }
   return out;
 })();
 
-/** GET /metrics/summary: the window against the window before it. */
-export function summary(window: number) {
-  const cur = daily.slice(-window);
-  const prev = daily.slice(-window * 2, -window);
-  const sum = (a: Day[], k: "clicks" | "impressions") =>
-    a.reduce((n, d) => n + d[k], 0);
-  const clicks = sum(cur, "clicks");
-  const impressions = sum(cur, "impressions");
-  const clicks_prev = sum(prev, "clicks");
-  const impressions_prev = sum(prev, "impressions");
-  // Impression-weighted, as Search Console reports it.
-  const average_position =
-    cur.reduce((n, d) => n + d.position * d.impressions, 0) / impressions;
-  const prevPos =
-    prev.reduce((n, d) => n + d.position * d.impressions, 0) / impressions_prev;
-  return {
-    clicks,
-    clicks_prev,
-    impressions,
-    impressions_prev,
-    average_position,
-    average_position_prev: prevPos,
-    ctr: clicks / impressions,
-    ctr_prev: clicks_prev / impressions_prev,
+/** Totals for a run of days, against the run before it (null if missing). */
+export function summarize(cur: Day[], prev: (Day | null)[]) {
+  const full = prev.length > 0 && prev.every(Boolean);
+  const p = prev.filter((d): d is Day => d != null);
+  const tot = (a: Day[]) => {
+    const clicks = a.reduce((n, d) => n + d.clicks, 0);
+    const impressions = a.reduce((n, d) => n + d.impressions, 0);
+    return {
+      clicks,
+      impressions,
+      ctr: impressions ? clicks / impressions : 0,
+      // Impression-weighted, as Search Console reports it.
+      position: impressions
+        ? a.reduce((n, d) => n + d.position * d.impressions, 0) / impressions
+        : 0,
+    };
   };
+  return { cur: tot(cur), prev: full ? tot(p) : null };
 }
 
 /* ---------- GET /wins ---------------------------------------------------- */

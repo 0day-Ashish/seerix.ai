@@ -38,10 +38,12 @@ function matches(r: BacklinkRow) {
 function As({ value }: { value: number }) {
   return (
     <span className="inline-flex w-14 flex-col items-end gap-1">
-      <span className="font-mono text-[13px] text-black">{value}</span>
-      <span className="h-1 w-full bg-black/[0.08]">
+      <span className="font-body text-[13.5px] tabular-nums text-zinc-900">
+        {value}
+      </span>
+      <span className="h-1 w-full overflow-hidden rounded-full bg-zinc-100">
         <span
-          className="block h-full bg-[#141416]"
+          className="block h-full rounded-full bg-[#3b6fe0]"
           style={{ width: `${value}%` }}
         />
       </span>
@@ -59,29 +61,31 @@ function ReferringChart() {
   );
   const max = Math.max(...totals);
   return (
-    <div className="border border-black/[0.12] bg-white">
-      <div className="border-b border-black/[0.08] px-5 py-4">
-        <p className="font-display text-[16px] text-black">Referring domains</p>
-        <p className="mt-0.5 font-body text-[12px] text-zinc-500">
+    <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+      <div className="px-5 pb-3 pt-4">
+        <p className="font-body text-[15px] font-semibold text-zinc-900">
+          Referring domains
+        </p>
+        <p className="mt-0.5 font-body text-[12.5px] leading-[1.5] text-zinc-500">
           Unique domains linking to each site, in this set
         </p>
       </div>
-      <div className="flex flex-col gap-4 px-5 py-5">
+      <div className="flex flex-col gap-4 px-5 pb-5 pt-2">
         {domains.map((d, i) => (
           <div key={d}>
             <div className="flex items-baseline justify-between gap-3 font-body text-[13px]">
-              <span className="flex items-center gap-2 text-black">
+              <span className="flex items-center gap-2 text-zinc-900">
                 <Dot domain={d} />
                 {d}
               </span>
-              <span className="font-mono text-[12px] text-zinc-500">
-                <span className="text-black">{totals[i]}</span> domains ·{" "}
-                {links[i].toLocaleString("en-US")} links
+              <span className="font-body text-[12.5px] tabular-nums text-zinc-500">
+                <span className="font-medium text-zinc-900">{totals[i]}</span>{" "}
+                domains · {links[i].toLocaleString("en-US")} links
               </span>
             </div>
-            <div className="mt-2 h-3 bg-black/[0.05]">
+            <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-zinc-100">
               <div
-                className="h-full"
+                className="h-full rounded-full"
                 style={{
                   width: `${(totals[i] / max) * 100}%`,
                   background: domainColor[d],
@@ -97,22 +101,26 @@ function ReferringChart() {
 
 function Prospects({ rows }: { rows: BacklinkRow[] }) {
   return (
-    <div className="flex flex-col border border-black/[0.12] bg-white">
-      <div className="border-b border-black/[0.08] px-5 py-4">
-        <p className="font-display text-[16px] text-black">Best prospects</p>
-        <p className="mt-0.5 font-body text-[12px] text-zinc-500">
+    <div className="flex flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+      <div className="px-5 pb-3 pt-4">
+        <p className="font-body text-[15px] font-semibold text-zinc-900">
+          Best prospects
+        </p>
+        <p className="mt-0.5 font-body text-[12.5px] leading-[1.5] text-zinc-500">
           Link to every competitor, but not to you
         </p>
       </div>
       {rows.slice(0, 5).map((r) => (
         <div
           key={r.domain}
-          className="flex items-center justify-between gap-4 border-b border-black/[0.05] px-5 py-3 last:border-b-0"
+          className="flex items-center justify-between gap-4 border-t border-zinc-100 px-5 py-3"
         >
           <span className="truncate font-body text-[13px] text-link">
             {r.domain}
           </span>
-          <span className="font-mono text-[12px] text-zinc-500">AS {r.as}</span>
+          <span className="shrink-0 rounded-full bg-zinc-100 px-2 py-0.5 font-body text-[12px] font-medium tabular-nums text-zinc-700">
+            AS {r.as}
+          </span>
         </div>
       ))}
       {rows.length === 0 && (
@@ -196,14 +204,14 @@ export default function BacklinkGap() {
         />
       </section>
 
-      <section className="mt-8 border border-black/[0.12] bg-white">
-        <div className="flex flex-wrap items-center justify-between gap-3 px-4 pt-4">
-          <p className="font-display text-[18px] text-black">
+      <section className="mt-8 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-5 pt-4">
+          <p className="font-body text-[15px] font-semibold text-zinc-900">
             All referring domains
           </p>
           <button
             type="button"
-            className="border border-black/[0.14] px-3 py-1.5 font-body text-[13px] text-black hover:border-black/40"
+            className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-white px-3.5 font-body text-[13px] font-medium text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:bg-zinc-50"
           >
             Export
           </button>
@@ -220,7 +228,7 @@ export default function BacklinkGap() {
           />
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 border-b border-black/[0.08] p-4">
+        <div className="flex flex-wrap items-center gap-2 px-5 py-4">
           <input
             value={query}
             onChange={(e) => {
@@ -228,12 +236,12 @@ export default function BacklinkGap() {
               setPage(0);
             }}
             placeholder="Filter by domain"
-            className="w-full border border-black/[0.14] px-3 py-2 font-body text-[13px] outline-none focus:border-black sm:w-64"
+            className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[13px] text-zinc-900 placeholder:text-zinc-400 focus:border-[#1a5fd0] focus:outline-none sm:w-64"
           />
           {["Authority Score", "Link type", "Matches"].map((f) => (
             <span
               key={f}
-              className="border border-black/[0.14] px-3 py-2 font-body text-[13px] text-zinc-600"
+              className="rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[13px] text-zinc-700"
             >
               {f} ▾
             </span>
@@ -254,7 +262,7 @@ export default function BacklinkGap() {
         <div className="overflow-x-auto">
           <table className="w-full min-w-[760px] border-collapse">
             <thead>
-              <tr className="border-b border-black/[0.08] bg-[#f7f6f4]">
+              <tr className="border-y border-zinc-100 bg-zinc-50/70">
                 <th className="w-10 px-4 py-3" />
                 <th className="px-3 py-3 text-left">
                   <SortHeader
@@ -301,7 +309,7 @@ export default function BacklinkGap() {
                 return (
                   <tr
                     key={r.domain}
-                    className={`border-b border-black/[0.05] ${on ? "bg-black/[0.035]" : "hover:bg-black/[0.015]"}`}
+                    className={`border-b border-zinc-100 last:border-b-0 ${on ? "bg-[#f5f8fe]" : "hover:bg-zinc-50/80"}`}
                   >
                     <td className="px-4 py-3">
                       <input
@@ -316,7 +324,7 @@ export default function BacklinkGap() {
                           })
                         }
                         aria-label={`Select ${r.domain}`}
-                        className="h-4 w-4 accent-[#141416]"
+                        className="h-4 w-4 rounded accent-[#1a5fd0]"
                       />
                     </td>
                     <td className="px-3 py-3 font-body text-[13.5px] text-link">
@@ -325,16 +333,16 @@ export default function BacklinkGap() {
                     <td className="px-3 py-3 text-right">
                       <As value={r.as} />
                     </td>
-                    <td className="px-3 py-3 text-right font-mono text-[13px] text-black">
+                    <td className="px-3 py-3 text-right font-body text-[13.5px] tabular-nums text-zinc-900">
                       {matches(r)}/{domains.length}
                     </td>
                     {domains.map((d) => (
                       <td
                         key={d}
-                        className="px-3 py-3 text-right font-mono text-[13px]"
+                        className="px-3 py-3 text-right font-body text-[13.5px] tabular-nums"
                       >
                         {r.links[d] > 0 ? (
-                          <span className="inline-flex items-center gap-1.5 text-black">
+                          <span className="inline-flex items-center gap-1.5 text-zinc-900">
                             <Dot domain={d} />
                             {r.links[d]}
                           </span>

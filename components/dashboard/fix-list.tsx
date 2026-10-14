@@ -17,49 +17,51 @@ function FixRow({
 }) {
   return (
     <li
-      className={`grid gap-4 border-b border-black/[0.06] px-5 py-5 last:border-b-0 sm:grid-cols-[minmax(0,1fr)_auto] ${
-        done ? "bg-[#f7faf8]" : ""
+      className={`grid gap-4 border-b border-zinc-100 px-5 py-5 last:border-b-0 sm:grid-cols-[minmax(0,1fr)_auto] ${
+        done ? "bg-emerald-50/40" : ""
       }`}
     >
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="break-all font-mono text-[12px] text-zinc-500">
+          <span className="break-all font-body text-[12.5px] text-zinc-500">
             {fix.page}
           </span>
           <Tag>{fix.effort}</Tag>
         </div>
         <p
-          className={`mt-1.5 font-display text-[17px] leading-[1.35] tracking-[-0.01em] ${
+          className={`mt-1.5 font-body text-[16px] font-semibold leading-[1.4] tracking-[-0.01em] ${
             done
-              ? "text-zinc-500 line-through decoration-black/20"
-              : "text-black"
+              ? "text-zinc-500 line-through decoration-zinc-300"
+              : "text-zinc-900"
           }`}
         >
           {fix.title}
         </p>
-        <p className="mt-2 border-l border-black/20 pl-3 font-body text-[13.5px] leading-[1.6] text-zinc-600">
+        <p className="mt-2.5 rounded-xl bg-zinc-50 px-3.5 py-3 font-body text-[13.5px] leading-[1.6] text-zinc-600">
           {fix.evidence}
         </p>
-        <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 font-mono text-[11.5px] text-zinc-500">
+        <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 font-body text-[12.5px] text-zinc-500">
           <span className="flex items-center gap-2">
-            priority
-            <span className="h-1 w-12 bg-black/[0.08]">
+            Priority
+            <span className="h-1.5 w-12 overflow-hidden rounded-full bg-zinc-100">
               <span
-                className="block h-full bg-[#141416]"
+                className="block h-full rounded-full bg-[#3b6fe0]"
                 style={{ width: `${fix.priority_score}%` }}
               />
             </span>
-            <span className="text-black">{fix.priority_score}</span>
+            <span className="font-medium tabular-nums text-zinc-900">
+              {fix.priority_score}
+            </span>
           </span>
           <span>
-            confidence{" "}
-            <span className="text-black">
+            Confidence{" "}
+            <span className="font-medium tabular-nums text-zinc-900">
               {Math.round(fix.confidence_score * 100)}%
             </span>
           </span>
           <Link
             href={askHref(`why is this on my fix list: ${fix.title}`)}
-            className="font-body text-[12.5px] text-link hover:text-link-deep hover:underline hover:underline-offset-[3px]"
+            className="font-body text-[12.5px] font-medium text-link hover:text-link-deep"
           >
             Ask why
           </Link>
@@ -67,7 +69,7 @@ function FixRow({
       </div>
       <div className="sm:pt-5">
         {done ? (
-          <span className="inline-flex h-9 items-center gap-2 bg-[#e5f3ea] px-3.5 font-body text-[13px] text-[#1f6b3a]">
+          <span className="inline-flex h-9 items-center gap-2 rounded-lg bg-emerald-50 px-3.5 font-body text-[13px] font-medium text-emerald-700">
             ✓ Done · measuring
           </span>
         ) : (
@@ -116,16 +118,18 @@ export default function FixList() {
       {groups.map((g) => (
         <section
           key={g.key}
-          className="mt-6 border border-black/[0.12] bg-white"
+          className="mt-6 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
         >
-          <div className="flex items-baseline justify-between gap-3 border-b border-black/[0.08] px-5 py-4">
+          <div className="flex items-baseline justify-between gap-3 border-b border-zinc-100 px-5 py-4">
             <div>
-              <h2 className="font-display text-[17px] text-black">{g.label}</h2>
+              <h2 className="font-body text-[15px] font-semibold text-zinc-900">
+                {g.label}
+              </h2>
               <p className="mt-0.5 font-body text-[12.5px] text-zinc-500">
                 {g.hint}
               </p>
             </div>
-            <span className="font-mono text-[12px] text-zinc-500">
+            <span className="shrink-0 rounded-full bg-zinc-100 px-2 py-0.5 font-body text-[12px] font-medium tabular-nums text-zinc-700">
               {
                 g.items.filter((f) => !done.includes(f.recommendation_id))
                   .length

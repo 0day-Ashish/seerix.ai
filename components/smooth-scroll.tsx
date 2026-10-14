@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
@@ -19,10 +20,21 @@ if (typeof window !== "undefined") {
  * update on every Lenis frame, and Lenis is driven by GSAP's ticker rather
  * than its own rAF, which keeps both on one clock.
  *
+ * Off in the app (dashboard, gap tools, settings): Lenis catches the wheel
+ * for the whole page, so panels that scroll on their own -- the chat, wide
+ * tables, menus -- would stop scrolling.
+ *
  * Renders nothing; it exists for the effect.
  */
+const APP_ROUTES = /^\/(app|gap|settings)(\/|$)/;
+
 export default function SmoothScroll() {
+  const pathname = usePathname();
+  const inApp = APP_ROUTES.test(pathname);
+
   useEffect(() => {
+    if (inApp) return;
+
     // Respect a stated preference for less motion: smoothing a scroll is
     // exactly the kind of motion that setting is asking us not to add.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -53,7 +65,7 @@ export default function SmoothScroll() {
       gsap.ticker.lagSmoothing(500, 33);
       lenis.destroy();
     };
-  }, []);
+  }, [inApp]);
 
   return null;
 }

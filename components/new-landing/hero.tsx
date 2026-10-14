@@ -18,7 +18,13 @@ export default function Hero() {
           the headline and the product panel, and fades out toward the
           centre and down toward the waitlist form. */}
       <div className="pointer-events-none absolute right-0 top-0 h-[29rem] w-[48%] [-webkit-mask-image:radial-gradient(ellipse_at_top_right,black_25%,transparent_72%)] [mask-image:radial-gradient(ellipse_at_top_right,black_25%,transparent_72%)]">
-        <ScanField tone="light" cell={16} strength={0.16} findings={4} sweep={8} />
+        <ScanField
+          tone="light"
+          cell={16}
+          strength={0.16}
+          findings={4}
+          sweep={8}
+        />
       </div>
       {/* Clears the field off the panel without erasing it: the fade starts
           low and stops short of opaque, so the weave still reaches the
@@ -78,14 +84,9 @@ export default function Hero() {
           </p>
         </div>
 
-        {/* Bleeds past the section's bottom edge, as the reference does. The
-            rule closing the section is drawn here rather than on the section
-            itself, so it runs behind the panel instead of across it. */}
+        {/* Bleeds past the section's bottom edge, as the reference does. */}
         <div className="relative mt-3 sm:mt-5">
-          <div className="pointer-events-none absolute inset-x-[-100vw] bottom-0 border-b border-black/[0.07]" />
-          <div className="relative">
-            <HeroDashboard />
-          </div>
+          <HeroDashboard />
         </div>
       </div>
     </section>

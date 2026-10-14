@@ -2,8 +2,8 @@ import Link from "next/link";
 
 /* -------------------------------------------------------------------------
  * The dashboard kit: page title, framed cards, KPI tiles, deltas, tags,
- * sparklines and a ruled table. Square corners and ink; the signal
- * colour is kept for what needs attention.
+ * sparklines and a table. Soft corners, quiet greys and one blue for data
+ * and actions; orange only for what needs attention.
  * ---------------------------------------------------------------------- */
 
 export function PageTitle({
@@ -18,17 +18,11 @@ export function PageTitle({
   return (
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div className="min-w-0">
-        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-          <h1 className="heading-mark font-display text-[30px] font-medium tracking-[-0.025em] text-black">
-            {title}
-          </h1>
-          <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-zinc-400">
-            <span className="h-1.5 w-1.5 bg-zinc-300" />
-            Sample data
-          </span>
-        </div>
+        <h1 className="font-display text-[26px] font-semibold tracking-[-0.02em] text-zinc-900">
+          {title}
+        </h1>
         {description && (
-          <p className="mt-2 max-w-2xl font-body text-[14px] leading-[1.55] text-zinc-500">
+          <p className="mt-1 max-w-2xl font-body text-[14px] leading-[1.55] text-zinc-500">
             {description}
           </p>
         )}
@@ -56,12 +50,12 @@ export function Card({
 }) {
   return (
     <section
-      className={`min-w-0 border border-black/[0.12] bg-white ${className}`}
+      className={`min-w-0 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] ${className}`}
     >
       {title && (
-        <div className="flex flex-wrap items-start justify-between gap-3 border-b border-black/[0.08] px-5 py-4">
+        <div className="flex flex-wrap items-start justify-between gap-3 px-5 pb-3 pt-4">
           <div className="min-w-0">
-            <h2 className="font-display text-[17px] tracking-[-0.01em] text-black">
+            <h2 className="font-body text-[15px] font-semibold text-zinc-900">
               {title}
             </h2>
             {hint && (
@@ -73,7 +67,9 @@ export function Card({
           {action}
         </div>
       )}
-      <div className={flush ? "" : "px-5 py-4"}>{children}</div>
+      <div className={flush ? "" : `px-5 ${title ? "pb-5" : "py-5"}`}>
+        {children}
+      </div>
     </section>
   );
 }
@@ -94,10 +90,10 @@ export function Delta({
     suffix === "%" ? Math.round(value * 100) : Math.round(value * 10) / 10;
   return (
     <span
-      className={`font-mono text-[12px] ${good ? "text-[#1f6b3a]" : "text-signal-deep"}`}
+      className={`inline-flex items-center gap-0.5 font-body text-[12.5px] font-medium tabular-nums ${good ? "text-emerald-600" : "text-red-600"}`}
     >
-      {value >= 0 ? "+" : ""}
-      {shown}
+      {value >= 0 ? "↑" : "↓"}
+      {Math.abs(shown)}
       {suffix}
     </span>
   );
@@ -115,12 +111,10 @@ export function Kpi({
   sub?: string;
 }) {
   return (
-    <div className="border border-black/[0.12] bg-white px-4 py-3.5">
-      <p className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-zinc-500">
-        {label}
-      </p>
-      <p className="mt-2 flex items-baseline gap-2">
-        <span className="font-display text-[26px] font-medium tracking-[-0.02em] text-black">
+    <div className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3.5 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+      <p className="font-body text-[13px] text-zinc-500">{label}</p>
+      <p className="mt-1.5 flex items-baseline gap-2">
+        <span className="font-body text-[24px] font-semibold tabular-nums tracking-[-0.01em] text-zinc-900">
           {value}
         </span>
         {delta}
@@ -140,14 +134,14 @@ export function Tag({
   tone?: "neutral" | "signal" | "good" | "ink";
 }) {
   const styles = {
-    neutral: "border border-black/[0.12] text-zinc-600",
-    signal: "border border-signal/40 text-signal-deep",
-    good: "bg-[#e5f3ea] text-[#1f6b3a]",
-    ink: "bg-[#141416] text-white",
+    neutral: "bg-zinc-100 text-zinc-700",
+    signal: "bg-[#fff1ea] text-[#c2410c]",
+    good: "bg-emerald-50 text-emerald-700",
+    ink: "bg-[#eef3fd] text-[#1a5fd0]",
   }[tone];
   return (
     <span
-      className={`inline-flex shrink-0 items-center whitespace-nowrap px-1.5 py-0.5 font-mono text-[10.5px] uppercase tracking-[0.04em] ${styles}`}
+      className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2 py-0.5 font-body text-[12px] font-medium ${styles}`}
     >
       {children}
     </span>
@@ -161,7 +155,7 @@ export function Tag({
 export function Spark({
   points,
   higherIsBetter = false,
-  color = "#ff5a1f",
+  color = "#3b6fe0",
   width = 96,
   height = 24,
 }: {
@@ -173,7 +167,7 @@ export function Spark({
 }) {
   const vals = points.filter((v): v is number => v != null);
   if (!vals.length)
-    return <span className="font-mono text-[11px] text-zinc-400">no data</span>;
+    return <span className="font-body text-[12px] text-zinc-400">No data</span>;
   const mn = higherIsBetter ? Math.min(...vals) : 1;
   const mx = Math.max(...vals, higherIsBetter ? 0 : 10);
   const y = (v: number) => {
@@ -199,15 +193,16 @@ export function Spark({
       className="shrink-0"
       aria-hidden="true"
     >
-      <path d={d} fill="none" stroke={color} strokeWidth="1.5" />
+      <path
+        d={d}
+        fill="none"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
       {last != null && (
-        <rect
-          x={x(n - 1) - 2}
-          y={y(last) - 2}
-          width="4"
-          height="4"
-          fill={color}
-        />
+        <circle cx={x(n - 1)} cy={y(last)} r="2.25" fill={color} />
       )}
     </svg>
   );
@@ -230,11 +225,11 @@ export function DataTable({
     <div className="overflow-x-auto">
       <table className="w-full border-collapse text-left" style={{ minWidth }}>
         <thead>
-          <tr className="bg-[#f7f6f4]">
+          <tr>
             {head.map((h, i) => (
               <th
                 key={h + i}
-                className={`border-b border-black/[0.08] px-5 py-2.5 font-mono text-[10.5px] font-normal uppercase tracking-[0.08em] text-zinc-500 ${
+                className={`border-y border-zinc-100 bg-zinc-50/70 px-5 py-2.5 font-body text-[12.5px] font-medium text-zinc-500 ${
                   align?.[i] === "right" ? "text-right" : ""
                 }`}
               >
@@ -247,15 +242,13 @@ export function DataTable({
           {rows.map((r, i) => (
             <tr
               key={i}
-              className="border-b border-black/[0.05] last:border-b-0 hover:bg-black/[0.015]"
+              className="border-b border-zinc-100 last:border-b-0 hover:bg-zinc-50/80"
             >
               {r.map((c, j) => (
                 <td
                   key={j}
                   className={`px-5 py-3 align-top font-body text-[13.5px] text-zinc-700 ${
-                    align?.[j] === "right"
-                      ? "text-right font-mono text-[13px]"
-                      : ""
+                    align?.[j] === "right" ? "text-right tabular-nums" : ""
                   }`}
                 >
                   {c}
@@ -270,13 +263,15 @@ export function DataTable({
 }
 
 export function Mono({ children }: { children: React.ReactNode }) {
-  return <span className="font-mono text-[12.5px] text-black">{children}</span>;
+  return (
+    <span className="font-body text-[13.5px] text-zinc-900">{children}</span>
+  );
 }
 
 const buttonStyles = {
-  primary: "bg-[#141416] text-white hover:bg-[#36363B]",
+  primary: "bg-link text-white shadow-sm hover:bg-link-deep",
   secondary:
-    "border border-black/[0.16] bg-white text-black hover:border-black/40",
+    "border border-zinc-200 bg-white text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] hover:bg-zinc-50",
 };
 
 export function Btn({
@@ -290,7 +285,7 @@ export function Btn({
     <button
       type="button"
       {...props}
-      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 px-3.5 font-body text-[13px] font-medium transition-colors disabled:opacity-50 ${buttonStyles[variant]} ${className}`}
+      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-3.5 font-body text-[13px] font-medium transition-colors disabled:opacity-50 ${buttonStyles[variant]} ${className}`}
     />
   );
 }
@@ -307,7 +302,7 @@ export function BtnLink({
   return (
     <Link
       href={href}
-      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 px-3.5 font-body text-[13px] font-medium transition-colors ${buttonStyles[variant]}`}
+      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-3.5 font-body text-[13px] font-medium transition-colors ${buttonStyles[variant]}`}
     >
       {children}
     </Link>

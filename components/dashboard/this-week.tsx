@@ -17,7 +17,7 @@ const change = (cur: number, prev: number) =>
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-zinc-500">
+    <h3 className="font-body text-[13px] font-medium text-zinc-500">
       {children}
     </h3>
   );
@@ -26,7 +26,7 @@ function Label({ children }: { children: React.ReactNode }) {
 /** The plain-text email, set as a letter. */
 function Letter({ text }: { text: string }) {
   return (
-    <div className="whitespace-pre-wrap border border-black/[0.08] bg-[#fbfaf9] px-5 py-4 font-body text-[13.5px] leading-[1.7] text-zinc-700">
+    <div className="whitespace-pre-wrap rounded-xl border border-zinc-200 bg-zinc-50 px-5 py-4 font-body text-[13.5px] leading-[1.7] text-zinc-700">
       {text}
     </div>
   );
@@ -76,10 +76,10 @@ export default function ThisWeek() {
       <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
         <Card>
           <Label>The one thing to do</Label>
-          <p className="mt-2.5 font-display text-[20px] leading-[1.3] tracking-[-0.015em] text-black">
+          <p className="mt-2.5 font-body text-[19px] font-semibold leading-[1.35] tracking-[-0.01em] text-zinc-900">
             {i.topFix.title}
           </p>
-          <p className="mt-3 border-l border-black/20 pl-3 font-body text-[13.5px] leading-[1.6] text-zinc-600">
+          <p className="mt-3 rounded-xl bg-zinc-50 px-3.5 py-3 font-body text-[13.5px] leading-[1.6] text-zinc-600">
             {i.topFix.evidence}
           </p>
           <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -98,18 +98,24 @@ export default function ThisWeek() {
                 { m: i.topGainer, up: true },
                 { m: i.topLoser, up: false },
               ].map(({ m, up }) => (
-                <li key={m.page} className="flex items-start gap-3">
+                <li
+                  key={m.page}
+                  className="flex items-start gap-3 rounded-xl bg-zinc-50 px-3.5 py-3"
+                >
                   <span
-                    className={`mt-0.5 font-mono text-[13px] ${up ? "text-[#1f6b3a]" : "text-signal-deep"}`}
+                    className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full font-body text-[11px] font-semibold ${up ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"}`}
                   >
                     {up ? "↑" : "↓"}
                   </span>
                   <div className="min-w-0">
-                    <p className="break-all font-mono text-[12.5px] text-black">
+                    <p className="break-all font-body text-[13px] font-medium text-zinc-900">
                       {m.page}
                     </p>
                     <p className="mt-0.5 font-body text-[12.5px] text-zinc-500">
-                      {fmt(m.clicksPrev)} → {fmt(m.clicks)} clicks
+                      <span className="tabular-nums">
+                        {fmt(m.clicksPrev)} → {fmt(m.clicks)}
+                      </span>{" "}
+                      clicks
                     </p>
                   </div>
                 </li>
@@ -121,12 +127,14 @@ export default function ThisWeek() {
             {i.wins.map((w) => (
               <p
                 key={w.title}
-                className="mt-3 flex gap-2.5 font-body text-[13.5px] leading-[1.45] text-black"
+                className="mt-3 flex gap-2.5 font-body text-[13.5px] leading-[1.45] text-zinc-900"
               >
-                <span className="text-[#1f6b3a]">✓</span>
+                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[11px] text-emerald-700">
+                  ✓
+                </span>
                 <span>
                   {w.title}{" "}
-                  <span className="font-mono text-[12px] text-[#1f6b3a]">
+                  <span className="font-medium tabular-nums text-emerald-600">
                     +{Math.round(w.deltaPct * 100)}% clicks
                   </span>
                 </span>
@@ -143,9 +151,9 @@ export default function ThisWeek() {
             {i.alerts.map((a) => (
               <p
                 key={a.summary}
-                className="mt-3 flex gap-2.5 font-body text-[13.5px] text-black"
+                className="mt-3 flex items-start gap-2.5 rounded-xl bg-[#fff1ea] px-3.5 py-3 font-body text-[13.5px] text-zinc-900"
               >
-                <span className="text-signal-deep">⚠</span>
+                <span className="text-[#c2410c]">⚠</span>
                 {a.summary}
               </p>
             ))}
@@ -153,22 +161,22 @@ export default function ThisWeek() {
         </div>
       )}
 
-      <div className="mt-4 border border-black/[0.12] bg-white">
+      <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
         <button
           type="button"
           onClick={() => setEmail((v) => !v)}
           aria-expanded={email}
-          className="flex w-full items-center justify-between px-5 py-4 text-left"
+          className="flex w-full items-center justify-between px-5 py-4 text-left transition-colors hover:bg-zinc-50/80"
         >
-          <span className="font-display text-[17px] text-black">
+          <span className="font-body text-[15px] font-semibold text-zinc-900">
             Read it as the email
           </span>
-          <span className="font-mono text-[13px] text-zinc-500">
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-100 font-body text-[14px] text-zinc-500">
             {email ? "−" : "+"}
           </span>
         </button>
         {email && (
-          <div className="border-t border-black/[0.08] p-5">
+          <div className="border-t border-zinc-100 p-5">
             <Letter text={digest.text} />
           </div>
         )}
@@ -186,23 +194,23 @@ export default function ThisWeek() {
               return (
                 <li
                   key={r.report_id}
-                  className="border-b border-black/[0.06] last:border-b-0"
+                  className="border-b border-zinc-100 last:border-b-0"
                 >
                   <button
                     type="button"
                     onClick={() => setOpen(on ? null : r.report_id)}
                     aria-expanded={on}
-                    className="flex w-full flex-wrap items-center justify-between gap-3 px-5 py-3.5 text-left hover:bg-black/[0.015]"
+                    className="flex w-full flex-wrap items-center justify-between gap-3 px-5 py-3.5 text-left transition-colors hover:bg-zinc-50/80"
                   >
-                    <span className="font-body text-[14px] text-black">
+                    <span className="font-body text-[14px] text-zinc-900">
                       Week of {shortDate(r.period_start)} –{" "}
                       {shortDate(r.period_end)}
                     </span>
                     <span className="flex items-center gap-4">
-                      <span className="font-mono text-[11.5px] text-zinc-500">
-                        sent {shortDate(r.sent_at)}
+                      <span className="font-body text-[12.5px] text-zinc-500">
+                        Sent {shortDate(r.sent_at)}
                       </span>
-                      <span className="font-body text-[13px] text-link hover:underline hover:underline-offset-[3px]">
+                      <span className="font-body text-[13px] font-medium text-link hover:text-link-deep">
                         {on ? "Close" : "Open"}
                       </span>
                     </span>

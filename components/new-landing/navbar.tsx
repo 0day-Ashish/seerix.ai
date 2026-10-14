@@ -57,7 +57,7 @@ function Chevron({ className = "" }: { className?: string }) {
 
 function ArrowBox() {
   return (
-    <span className="flex h-4 w-4 shrink-0 items-center justify-center border border-black/15 text-zinc-500 transition-all duration-200 ease-out group-hover:border-[#36363B] group-hover:bg-[#36363B] group-hover:text-white">
+    <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded border border-black/15 text-zinc-500 transition-all duration-200 ease-out group-hover:border-[#36363B] group-hover:bg-[#36363B] group-hover:text-white">
       <svg
         className="h-2.5 w-2.5 transition-transform duration-200 ease-out group-hover:translate-x-px"
         viewBox="0 0 16 16"
@@ -136,7 +136,7 @@ function ProductsMenu() {
 
       {open && (
         <div className="absolute left-1/2 top-full z-50 w-[min(40rem,calc(100vw-3rem))] -translate-x-1/2 pt-2">
-          <div className="relative overflow-hidden border border-black/10 shadow-lg shadow-black/5">
+          <div className="relative overflow-hidden rounded-2xl border border-black/10 shadow-lg shadow-black/5">
             <video
               className="absolute inset-0 h-full w-full object-cover"
               src="/assets/Emerald.mp4"
@@ -153,10 +153,12 @@ function ProductsMenu() {
                 {productColumns.map((column) => (
                   <div
                     key={column.title}
-                    className="flex flex-col border border-black/[0.06] bg-white p-3.5"
+                    className="flex flex-col rounded-xl border border-black/[0.06] bg-white p-3.5"
                   >
                     <div className="flex items-center gap-2.5 pb-4">
-                      <span className={`h-2.5 w-2.5 ${column.swatch}`} />
+                      <span
+                        className={`h-2.5 w-2.5 rounded-full ${column.swatch}`}
+                      />
                       <span className="font-body text-[12px] font-medium text-black">
                         {column.title}
                       </span>
@@ -183,10 +185,10 @@ function ProductsMenu() {
 
               <Link
                 href={featured.href}
-                className="group mt-1.5 flex items-center justify-between gap-3 border border-black/[0.06] bg-white p-2.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-black/[0.14] hover:shadow-md hover:shadow-black/10"
+                className="group mt-1.5 flex items-center justify-between gap-3 rounded-xl border border-black/[0.06] bg-white p-2.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-black/[0.14] hover:shadow-md hover:shadow-black/10"
               >
                 <span className="flex items-center gap-3">
-                  <span className="flex h-7 w-7 items-center justify-center border border-black/10 bg-white">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-black/10 bg-white">
                     <SeerixMark size={16} animated={false} />
                   </span>
                   <span className="font-body text-[12px] font-medium text-black">
@@ -309,13 +311,13 @@ export default function Navbar() {
             <div className="flex shrink-0 items-center gap-2">
               <Link
                 href="#demo"
-                className="hidden h-10 items-center bg-[#141416] px-4 font-mono text-[14px] uppercase tracking-[0.04em] text-white transition-colors hover:bg-[#36363B] sm:flex"
+                className="hidden h-10 items-center rounded-xl bg-[#141416] px-4 font-mono text-[14px] uppercase tracking-[0.04em] text-white transition-colors hover:bg-[#36363B] sm:flex"
               >
                 See demo
               </Link>
               <Link
                 href="/contact"
-                className="hidden h-10 items-center border border-black/[0.18] bg-white px-4 font-mono text-[14px] uppercase tracking-[0.04em] text-black transition-colors hover:border-black/50 lg:flex"
+                className="hidden h-10 items-center rounded-xl border border-black/[0.18] bg-white px-4 font-mono text-[14px] uppercase tracking-[0.04em] text-black transition-colors hover:border-black/50 lg:flex"
               >
                 Contact us
               </Link>
@@ -329,7 +331,7 @@ export default function Navbar() {
                 aria-expanded={menuOpen}
                 aria-controls="mobile-menu"
                 aria-label={menuOpen ? "Close menu" : "Open menu"}
-                className="flex h-11 w-11 items-center justify-center border border-black/[0.09] bg-white text-zinc-500 transition-colors hover:border-black/[0.16] hover:text-black lg:hidden"
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-black/[0.09] bg-white text-zinc-500 transition-colors hover:border-black/[0.16] hover:text-black lg:hidden"
               >
                 <MenuIcon open={menuOpen} />
               </button>
@@ -378,7 +380,9 @@ export default function Navbar() {
                 {productColumns.map((column) => (
                   <div key={column.title} className="mt-5">
                     <div className="flex items-center gap-2.5">
-                      <span className={`h-2.5 w-2.5 ${column.swatch}`} />
+                      <span
+                        className={`h-2.5 w-2.5 rounded-full ${column.swatch}`}
+                      />
                       <span className="font-body text-[12px] font-medium text-black">
                         {column.title}
                       </span>

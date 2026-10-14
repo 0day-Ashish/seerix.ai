@@ -58,7 +58,7 @@ function MarketChips() {
       {markets.map(([code, on]) => (
         <span
           key={code}
-          className={`border px-1.5 py-0.5 font-mono text-[11px] ${
+          className={`rounded-md border px-1.5 py-0.5 font-mono text-[11px] ${
             on
               ? "border-signal/40 bg-signal-soft text-signal-deep"
               : "border-black/[0.08] text-zinc-400"
@@ -167,7 +167,7 @@ export default function Stats() {
           </p>
         </div>
 
-        <dl className="mt-12 grid overflow-hidden border border-black/[0.08] sm:grid-cols-2 lg:grid-cols-4">
+        <dl className="mt-12 grid overflow-hidden rounded-3xl border border-black/[0.08] sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
             <div
               key={stat.label}

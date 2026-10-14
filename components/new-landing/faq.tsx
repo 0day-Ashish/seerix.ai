@@ -158,16 +158,16 @@ export default function Faq() {
                 product's own question bar, routed to a person. */}
             <Link
               href="/contact"
-              className="group mt-10 block bg-[#1c1c21] p-5 transition-transform duration-200 hover:-translate-y-0.5"
+              className="group mt-10 block rounded-2xl bg-[#1c1c21] p-5 transition-transform duration-200 hover:-translate-y-0.5"
             >
               <p className="font-body text-[13px] text-white/45">
                 Not on the list?
               </p>
-              <span className="mt-3 flex items-center justify-between gap-3 bg-white/[0.06] px-4 py-3 ring-1 ring-white/[0.08]">
+              <span className="mt-3 flex items-center justify-between gap-3 rounded-xl bg-white/[0.06] px-4 py-3 ring-1 ring-white/[0.08]">
                 <span className="font-body text-[14px] text-white/60">
                   Ask the people who built it
                 </span>
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center bg-signal text-white transition-transform duration-200 group-hover:translate-x-0.5">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-signal text-white transition-transform duration-200 group-hover:translate-x-0.5">
                   <svg
                     className="h-3.5 w-3.5"
                     viewBox="0 0 16 16"
