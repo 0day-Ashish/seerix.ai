@@ -7,9 +7,9 @@ import SettingsSidebar from "@/components/settings/sidebar";
  */
 export default function SettingsLayout({ children }: LayoutProps<"/settings">) {
   return (
-    <div data-app className="flex min-h-dvh flex-col bg-[#fbfaf9] lg:flex-row">
+    <div data-app className="flex min-h-dvh flex-col bg-[#f7f8fa] lg:flex-row">
       <SettingsSidebar />
-      <main className="min-w-0 flex-1 px-5 pb-20 pt-8 sm:px-10 lg:px-16 lg:pt-14">
+      <main className="min-w-0 flex-1 px-5 pb-20 pt-7 sm:px-8 lg:px-12 lg:pt-10">
         <div className="mx-auto max-w-4xl">{children}</div>
       </main>
     </div>

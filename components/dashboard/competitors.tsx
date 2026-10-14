@@ -15,9 +15,9 @@ import {
   Card,
   DataTable,
   PageTitle,
-  Spark,
   askHref,
 } from "@/components/dashboard/kit";
+import MultiLineChart from "@/components/dashboard/multi-line-chart";
 import { domainColor } from "@/components/gap/kit";
 
 function Stat({ label, value }: { label: string; value: string }) {
@@ -59,6 +59,13 @@ export default function Competitors() {
     setNote(`Tracking ${domain}. Its profile pull has started.`);
   };
 
+  const months = [...new Set(intel.backlink_history.map((h) => h.month))].map(
+    (m) =>
+      new Date(m + "-01T00:00:00Z").toLocaleDateString("en-US", {
+        month: "short",
+        timeZone: "UTC",
+      }),
+  );
   const history = Object.entries(
     intel.backlink_history.reduce<Record<string, number[]>>((m, h) => {
       (m[h.target_domain] ??= []).push(h.referring_domains);
@@ -311,37 +318,17 @@ export default function Competitors() {
       <div className="mt-4">
         <Card
           title="Referring domains over time"
-          hint="You against them, April to September."
+          hint="You against them, April to September. Hover for each month; click a site below to hide it."
         >
-          <ul className="flex flex-col">
-            {history.map(([dom, vals]) => (
-              <li
-                key={dom}
-                className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 border-b border-zinc-100 py-3 first:pt-0 last:border-b-0 last:pb-0 sm:grid-cols-[180px_auto_minmax(0,1fr)]"
-              >
-                <span className="flex items-center gap-2.5 font-body text-[14px] text-zinc-900">
-                  <span
-                    className="h-2 w-2 rounded-full"
-                    style={{ background: domainColor[dom] }}
-                  />
-                  {dom}
-                </span>
-                <Spark
-                  points={vals}
-                  higherIsBetter
-                  color={domainColor[dom]}
-                  width={120}
-                />
-                <span className="col-span-2 font-body text-[13px] tabular-nums text-zinc-500 sm:col-span-1">
-                  {fmt(vals[0])} →{" "}
-                  <span className="font-medium text-zinc-900">
-                    {fmt(vals[vals.length - 1])}
-                  </span>{" "}
-                  referring domains
-                </span>
-              </li>
-            ))}
-          </ul>
+          <MultiLineChart
+            unit="referring domains"
+            labels={months}
+            series={history.map(([dom, vals]) => ({
+              name: dom,
+              color: domainColor[dom] ?? "#a1a1aa",
+              values: vals,
+            }))}
+          />
         </Card>
       </div>
     </div>

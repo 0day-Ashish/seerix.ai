@@ -47,17 +47,17 @@ export default function SettingsSidebar() {
   }, [pathname]);
 
   return (
-    <aside className="border-b border-black/[0.08] bg-[#f5f4f2] lg:sticky lg:top-0 lg:h-dvh lg:w-[264px] lg:shrink-0 lg:overflow-y-auto lg:border-b-0 lg:border-r">
-      <div className="px-4 pb-4 pt-5 lg:px-5 lg:pb-10 lg:pt-6">
+    <aside className="border-b border-zinc-200/80 bg-white lg:sticky lg:top-0 lg:h-dvh lg:w-[240px] lg:shrink-0 lg:overflow-y-auto lg:border-b-0 lg:border-r">
+      <div className="px-4 pb-3 pt-5 lg:pb-10">
         <Link
           href="/app"
-          className="inline-flex items-center gap-1.5 px-1 font-body text-[13px] text-zinc-500 transition-colors hover:text-black"
+          className="inline-flex items-center gap-1.5 rounded-lg px-1.5 py-1 font-body text-[13px] text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
         >
           <NavIcon d="M10 3.5L5.5 8l4.5 4.5" />
           Back to dashboard
         </Link>
 
-        <h1 className="mt-4 px-1 font-display text-[22px] font-medium tracking-[-0.02em] text-black">
+        <h1 className="mt-3 px-1.5 font-display text-[20px] font-semibold tracking-[-0.02em] text-zinc-900">
           Settings
         </h1>
 
@@ -65,11 +65,11 @@ export default function SettingsSidebar() {
           {/* One scrolling row on phones; stacked groups from lg. */}
           <div
             ref={stripRef}
-            className="flex gap-1 overflow-x-auto pb-1 [scrollbar-width:none] lg:block lg:overflow-visible [&::-webkit-scrollbar]:hidden"
+            className="flex gap-0.5 overflow-x-auto pb-1 [scrollbar-width:none] lg:block lg:overflow-visible [&::-webkit-scrollbar]:hidden"
           >
             {settingsGroups.map((group) => (
-              <div key={group.label} className="contents lg:mb-7 lg:block">
-                <p className="hidden px-2.5 pb-2 font-mono text-[10px] uppercase tracking-[0.12em] text-zinc-400 lg:block">
+              <div key={group.label} className="contents lg:mb-5 lg:block">
+                <p className="hidden px-2.5 pb-1.5 font-body text-[12px] font-medium text-zinc-400 lg:block">
                   {group.label}
                 </p>
                 {group.items.map((item) => {
@@ -80,15 +80,15 @@ export default function SettingsSidebar() {
                       key={item.slug}
                       href={href}
                       aria-current={on ? "page" : undefined}
-                      className={`flex shrink-0 items-center gap-2.5 px-2.5 py-1.5 font-body text-[13.5px] transition-colors lg:py-2 ${
+                      className={`flex shrink-0 items-center gap-2.5 rounded-lg px-2.5 py-[7px] font-body text-[13.5px] transition-colors ${
                         on
-                          ? "bg-black/[0.06] text-black"
-                          : "text-zinc-600 hover:bg-black/[0.03] hover:text-black"
+                          ? "bg-[#eef3fd] font-medium text-[#1a5fd0]"
+                          : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
                       }`}
                     >
                       <NavIcon
                         d={item.icon}
-                        className={on ? "text-signal-deep" : "text-zinc-500"}
+                        className={on ? "text-[#1a5fd0]" : "text-zinc-400"}
                       />
                       <span className="whitespace-nowrap">{item.label}</span>
                     </Link>

@@ -24,6 +24,7 @@ import {
   type Grain,
   type Preset,
 } from "@/components/dashboard/range";
+import Breakdowns from "@/components/dashboard/breakdowns";
 import RangePicker from "@/components/dashboard/range-picker";
 import TrafficChart, {
   type Metric,
@@ -184,6 +185,10 @@ export default function Overview() {
             />
           </div>
         </Card>
+      </div>
+
+      <div className="mt-4">
+        <Breakdowns cur={s} prev={sp} />
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">

@@ -140,6 +140,22 @@ export default function DashboardShell({
   const router = useRouter();
   const stripRef = useRef<HTMLElement>(null);
   const [siteId, setSiteId] = useState(sites[0].site_id);
+  // Desktop only: the sidebar can shrink to its icons. Kept per viewer.
+  const [slim, setSlim] = useState(false);
+
+  useEffect(() => {
+    try {
+      setSlim(localStorage.getItem("seerix-sidebar") === "slim");
+    } catch {}
+  }, []);
+
+  const toggleSlim = () =>
+    setSlim((v) => {
+      try {
+        localStorage.setItem("seerix-sidebar", v ? "wide" : "slim");
+      } catch {}
+      return !v;
+    });
 
   useEffect(() => {
     const strip = stripRef.current;
@@ -151,14 +167,53 @@ export default function DashboardShell({
 
   return (
     <div data-app className="flex min-h-dvh flex-col bg-[#f7f8fa] lg:flex-row">
-      <aside className="border-b border-zinc-200/80 bg-white lg:sticky lg:top-0 lg:h-dvh lg:w-[220px] lg:shrink-0 lg:border-b-0 lg:border-r">
-        <div className="flex h-full flex-col px-4 pb-3 pt-5 lg:pb-5">
-          <Link href="/" className="flex items-center gap-2 px-1">
-            <SeerixMark size={24} animated={false} />
-            <span className="font-display text-[19px] font-semibold tracking-[-0.02em] text-zinc-900">
-              seerix
-            </span>
-          </Link>
+      <aside
+        className={`border-b border-zinc-200/80 bg-white transition-[width] duration-200 ease-out lg:sticky lg:top-0 lg:h-dvh lg:shrink-0 lg:border-b-0 lg:border-r ${
+          slim ? "lg:w-[68px]" : "lg:w-[220px]"
+        }`}
+      >
+        <div
+          className={`flex h-full flex-col px-4 pb-3 pt-5 lg:pb-5 ${slim ? "lg:px-3" : ""}`}
+        >
+          <div
+            className={`flex items-center justify-between gap-2 ${
+              slim ? "lg:flex-col lg:gap-3" : ""
+            }`}
+          >
+            <Link href="/" className="flex items-center gap-2 px-1">
+              <SeerixMark size={24} animated={false} />
+              <span
+                className={`font-display text-[19px] font-semibold tracking-[-0.02em] text-zinc-900 ${
+                  slim ? "lg:hidden" : ""
+                }`}
+              >
+                seerix
+              </span>
+            </Link>
+            <button
+              type="button"
+              onClick={toggleSlim}
+              aria-label={slim ? "Expand sidebar" : "Collapse sidebar"}
+              aria-expanded={!slim}
+              title={slim ? "Expand sidebar" : "Collapse sidebar"}
+              className="hidden h-8 w-8 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-800 lg:flex"
+            >
+              <svg
+                className="h-[18px] w-[18px]"
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="2.5" y="3.5" width="15" height="13" rx="2.5" />
+                <path d="M7.5 3.5v13" />
+                <path d={slim ? "M11 8l2 2-2 2" : "M13 8l-2 2 2 2"} />
+              </svg>
+            </button>
+          </div>
 
           <nav
             ref={stripRef}
@@ -176,9 +231,10 @@ export default function DashboardShell({
                   key={n.href}
                   href={n.href}
                   aria-current={on ? "page" : undefined}
-                  className={`flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-lg px-2.5 py-[7px] font-body text-[13.5px] transition-colors ${
-                    last ? "lg:mt-auto" : ""
-                  } ${
+                  title={slim ? n.label : undefined}
+                  className={`relative flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-lg px-2.5 py-[7px] font-body text-[13.5px] transition-colors ${
+                    slim ? "lg:justify-center lg:px-0 lg:py-2" : ""
+                  } ${last ? "lg:mt-auto" : ""} ${
                     on
                       ? "bg-[#eef3fd] font-medium text-[#1a5fd0]"
                       : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
@@ -187,9 +243,15 @@ export default function DashboardShell({
                   <span className={on ? "text-[#1a5fd0]" : "text-zinc-400"}>
                     <NavIcon d={n.d} />
                   </span>
-                  {n.label}
+                  <span className={slim ? "lg:sr-only" : ""}>{n.label}</span>
                   {n.count ? (
-                    <span className="ml-auto rounded-full bg-zinc-100 px-1.5 font-body text-[11px] font-medium text-zinc-600">
+                    <span
+                      className={`ml-auto rounded-full bg-zinc-100 px-1.5 font-body text-[11px] font-medium text-zinc-600 ${
+                        slim
+                          ? "lg:absolute lg:right-1 lg:top-0.5 lg:ml-0 lg:bg-[#3b6fe0] lg:px-1 lg:text-[9.5px] lg:leading-[14px] lg:text-white"
+                          : ""
+                      }`}
+                    >
                       {n.count}
                     </span>
                   ) : null}

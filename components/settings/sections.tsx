@@ -52,7 +52,7 @@ function Profile() {
       <Panel title="Your details" footer={<Button>Save changes</Button>}>
         <Row label="Photo" hint="Shown to your team.">
           <div className="flex items-center gap-4">
-            <span className="flex h-12 w-12 items-center justify-center bg-[#141416] font-display text-[18px] text-white">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#eef3fd] font-body text-[18px] font-semibold text-[#1a5fd0]">
               A
             </span>
             <Button variant="secondary">Upload</Button>
@@ -109,7 +109,7 @@ function Affiliate() {
       />
       <Panel title="Your referral link">
         <div className="flex flex-col gap-3 py-5 sm:flex-row">
-          <Input readOnly value={link} className="font-mono text-[13px]" />
+          <Input readOnly value={link} className="text-[13.5px]" />
           <Button
             onClick={() => {
               navigator.clipboard?.writeText(link);
@@ -121,20 +121,18 @@ function Affiliate() {
           </Button>
         </div>
       </Panel>
-      <section className="mt-8 grid border border-black/[0.12] sm:grid-cols-3">
+      <section className="mt-6 grid gap-3 sm:grid-cols-3">
         {[
           ["Clicks", "0"],
           ["Sign-ups", "0"],
           ["Paying", "0"],
-        ].map(([l, v], i) => (
+        ].map(([l, v]) => (
           <div
             key={l}
-            className={`p-6 ${i > 0 ? "border-t border-black/[0.12] sm:border-l sm:border-t-0" : ""}`}
+            className="rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] px-5 py-4"
           >
-            <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-zinc-500">
-              {l}
-            </p>
-            <p className="mt-3 font-display text-[36px] tracking-[-0.03em] text-black">
+            <p className="font-body text-[13px] text-zinc-500">{l}</p>
+            <p className="mt-1.5 font-body text-[26px] font-semibold tabular-nums tracking-[-0.01em] text-zinc-900">
               {v}
             </p>
           </div>
@@ -149,12 +147,12 @@ function Affiliate() {
           ].map((s, i) => (
             <li
               key={s}
-              className="flex gap-4 border-b border-black/[0.06] py-4 last:border-b-0"
+              className="flex items-center gap-3.5 border-b border-zinc-100 py-3.5 last:border-b-0"
             >
-              <span className="font-mono text-[13px] text-signal-deep">
-                0{i + 1}
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#eef3fd] font-body text-[12px] font-semibold tabular-nums text-[#1a5fd0]">
+                {i + 1}
               </span>
-              <span className="font-body text-[15px] text-zinc-700">{s}</span>
+              <span className="font-body text-[14px] text-zinc-700">{s}</span>
             </li>
           ))}
         </ol>
@@ -207,22 +205,22 @@ function Learn() {
         title="Getting started"
         description={`${done} of ${guides.length} complete`}
       >
-        <div className="mb-2 mt-3 h-1.5 bg-black/[0.07]">
+        <div className="mb-2 mt-4 h-1.5 overflow-hidden rounded-full bg-zinc-100">
           <div
-            className="h-full bg-signal"
+            className="h-full rounded-full bg-[#3b6fe0]"
             style={{ width: `${(done / guides.length) * 100}%` }}
           />
         </div>
         {guides.map(([title, body, time, complete]) => (
           <div
             key={title}
-            className="flex items-center gap-4 border-b border-black/[0.06] py-4 last:border-b-0"
+            className="flex items-center gap-4 border-b border-zinc-100 py-3.5 last:border-b-0"
           >
             <span
-              className={`flex h-5 w-5 shrink-0 items-center justify-center border ${
+              className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${
                 complete
-                  ? "border-signal bg-signal text-white"
-                  : "border-black/[0.2]"
+                  ? "border-[#1a5fd0] bg-[#1a5fd0] text-white"
+                  : "border-zinc-300"
               }`}
             >
               {complete && (
@@ -242,7 +240,7 @@ function Learn() {
             </span>
             <span className="min-w-0 flex-1">
               <span
-                className={`block font-body text-[15px] ${complete ? "text-zinc-500 line-through" : "text-black"}`}
+                className={`block font-body text-[14px] font-medium ${complete ? "text-zinc-400 line-through" : "text-zinc-900"}`}
               >
                 {title}
               </span>
@@ -250,7 +248,7 @@ function Learn() {
                 {body}
               </span>
             </span>
-            <span className="shrink-0 font-mono text-[12px] text-zinc-400">
+            <span className="shrink-0 font-body text-[12.5px] tabular-nums text-zinc-400">
               {time}
             </span>
           </div>
@@ -286,7 +284,6 @@ function Knowledge() {
           <Textarea
             rows={4}
             defaultValue={"/pricing\n/integrations\n/signup"}
-            className="font-mono text-[13px]"
           />
         </Row>
         <Row
@@ -296,11 +293,7 @@ function Knowledge() {
           <Input defaultValue="acme, acme pm, acmeapp" />
         </Row>
         <Row label="Competitors" hint="Domains to track in your SERPs.">
-          <Textarea
-            rows={3}
-            defaultValue={"rivalpm.com\nboardly.io"}
-            className="font-mono text-[13px]"
-          />
+          <Textarea rows={3} defaultValue={"rivalpm.com\nboardly.io"} />
         </Row>
       </Panel>
     </>
@@ -344,27 +337,31 @@ function Integrations() {
         title="Integrations"
         description="Connect the tools Seerix reads from and reports to."
       />
-      <section className="mt-8 grid border border-black/[0.12] sm:grid-cols-2">
-        {items.map(([name, body, state], i) => (
+      <section className="mt-6 grid gap-3 sm:grid-cols-2">
+        {items.map(([name, body, state]) => (
           <div
             key={name}
-            className={`flex flex-col gap-4 p-6 ${i > 0 ? "border-t border-black/[0.12]" : ""} ${
-              i === 1 ? "sm:border-t-0" : ""
-            } ${i % 2 === 1 ? "sm:border-l" : ""}`}
+            className="rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] flex flex-col gap-4 p-5"
           >
             <div className="flex items-start justify-between gap-3">
-              <span className="flex h-11 w-11 items-center justify-center border border-black/[0.08] bg-white">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-zinc-200 bg-white">
                 {/* Plain <img>: tiny static SVGs gain nothing from the
                     image optimiser, which also refuses SVG by default. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={logos[name]} alt={`${name} logo`} className="h-6 w-6 object-contain" />
+                <img
+                  src={logos[name]}
+                  alt={`${name} logo`}
+                  className="h-6 w-6 object-contain"
+                />
               </span>
               {state === "connected" && <Badge tone="good">Connected</Badge>}
               {state === "soon" && <Badge>Soon</Badge>}
             </div>
             <div>
-              <p className="font-body text-[16px] text-black">{name}</p>
-              <p className="mt-1 font-body text-[14px] leading-[1.5] text-zinc-500">
+              <p className="font-body text-[15px] font-semibold text-zinc-900">
+                {name}
+              </p>
+              <p className="mt-0.5 font-body text-[13.5px] leading-[1.5] text-zinc-500">
                 {body}
               </p>
             </div>
@@ -372,7 +369,7 @@ function Integrations() {
               {state === "connected" ? (
                 <Button variant="secondary">Manage</Button>
               ) : state === "soon" ? (
-                <Button variant="secondary" disabled className="opacity-50">
+                <Button variant="secondary" disabled className="opacity-60">
                   Coming soon
                 </Button>
               ) : (
@@ -412,7 +409,6 @@ function ExclusionLists() {
             placeholder={kind === "Query" ? "acme login" : "/blog/tag/*"}
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            className="font-mono text-[13px]"
           />
           <Button
             onClick={() => {
@@ -429,7 +425,7 @@ function ExclusionLists() {
         <Table
           head={["Rule", "Type", ""]}
           rows={rules.map((r, i) => [
-            <span key="v" className="font-mono text-[13px] text-black">
+            <span key="v" className="font-medium text-zinc-900">
               {r.value}
             </span>,
             r.kind,
@@ -466,10 +462,10 @@ function Scheduled() {
         <Table
           head={["Job", "Runs", "Target", "On"]}
           rows={jobs.map(([job, when, target, on]) => [
-            <span key="j" className="text-black">
+            <span key="j" className="font-medium text-zinc-900">
               {job}
             </span>,
-            <span key="w" className="font-mono text-[13px]">
+            <span key="w" className="tabular-nums">
               {when}
             </span>,
             target,
@@ -510,8 +506,11 @@ function Team() {
         <Table
           head={["Name", "Email", "Role", "Status"]}
           rows={members.map(([n, e, r, s]) => [
-            <span key="n" className="flex items-center gap-3 text-black">
-              <span className="flex h-7 w-7 items-center justify-center bg-[#141416] text-[12px] text-white">
+            <span
+              key="n"
+              className="flex items-center gap-3 font-medium text-zinc-900"
+            >
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#eef3fd] text-[12px] font-semibold text-[#1a5fd0]">
                 {n[0]}
               </span>
               {n}
@@ -551,10 +550,10 @@ function Projects() {
         <Table
           head={["Site", "Search Console property", "Market", "Created"]}
           rows={rows.map(([site, prop, market, created]) => [
-            <span key="s" className="text-black">
+            <span key="s" className="font-medium text-zinc-900">
               {site}
             </span>,
-            <span key="p" className="font-mono text-[13px]">
+            <span key="p" className="text-zinc-600">
               {prop}
             </span>,
             market,
@@ -580,7 +579,7 @@ function Domains() {
           head={["Domain", "Status", "Added"]}
           rows={[
             [
-              <span key="a" className="text-black">
+              <span key="a" className="font-medium text-zinc-900">
                 acme.com
               </span>,
               <Badge key="b" tone="good">
@@ -589,7 +588,7 @@ function Domains() {
               "12 Mar 2026",
             ],
             [
-              <span key="a" className="text-black">
+              <span key="a" className="font-medium text-zinc-900">
                 acme.de
               </span>,
               <Badge key="b" tone="signal">
@@ -604,17 +603,17 @@ function Domains() {
         title="Verify acme.de"
         description="Add this TXT record at your DNS provider. It can take up to an hour to be seen."
       >
-        <div className="grid gap-3 py-5 sm:grid-cols-[6rem_minmax(0,1fr)]">
+        <div className="grid gap-2 py-5 sm:grid-cols-[6rem_minmax(0,1fr)] sm:items-center sm:gap-3">
           {[
             ["Type", "TXT"],
             ["Host", "@"],
             ["Value", "seerix-verification=7f3c91e2b4a8"],
           ].map(([k, v]) => (
             <div key={k} className="contents">
-              <span className="font-mono text-[12px] uppercase tracking-[0.08em] text-zinc-500">
+              <span className="font-body text-[13px] font-medium text-zinc-500">
                 {k}
               </span>
-              <span className="break-all bg-[#f7f6f4] px-3 py-2 font-mono text-[13px] text-black">
+              <span className="break-all rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 font-mono text-[13px] text-zinc-900">
                 {v}
               </span>
             </div>
@@ -643,13 +642,16 @@ function Developers() {
           rows={[
             [
               "Reporting script",
-              <span key="k" className="font-mono text-[13px]">
+              <span
+                key="k"
+                className="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-[12.5px] text-zinc-700"
+              >
                 sk_live_••••••••3f9a
               </span>,
               "2 Aug 2026",
               "Today",
               <div key="r" className="text-right">
-                <Button variant="ghost">Revoke</Button>
+                <Button variant="danger-ghost">Revoke</Button>
               </div>,
             ],
           ]}
@@ -661,17 +663,14 @@ function Developers() {
         footer={<Button>Add endpoint</Button>}
       >
         <Row label="Endpoint URL">
-          <Input
-            placeholder="https://example.com/seerix-webhook"
-            className="font-mono text-[13px]"
-          />
+          <Input placeholder="https://example.com/seerix-webhook" />
         </Row>
         <Row label="Events">
           <div className="flex flex-wrap gap-2">
             {["finding.created", "fix.verified", "report.ready"].map((e) => (
               <span
                 key={e}
-                className="border border-black/[0.14] px-2 py-1 font-mono text-[12px] text-zinc-700"
+                className="rounded-full bg-zinc-100 px-2.5 py-0.5 font-mono text-[12px] text-zinc-700"
               >
                 {e}
               </span>
@@ -693,38 +692,45 @@ function Billing() {
         title="Billing"
         description="Your plan, payment method and billing details."
       />
-      <section className="mt-8 grid border border-black/[0.12] lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
-        <div className="bg-[#141416] p-7 text-white">
-          <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-white/60">
+      <section className="mt-6 grid overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+        <div className="bg-[#f5f8fe] p-6 sm:p-7">
+          <p className="flex items-center gap-2 font-body text-[13px] font-medium text-zinc-500">
             Current plan
+            <span className="rounded-full bg-[#eef3fd] px-2 py-0.5 text-[12px] text-[#1a5fd0]">
+              Active
+            </span>
           </p>
-          <p className="mt-3 flex items-baseline gap-2 font-display">
-            <span className="text-[40px] tracking-[-0.03em]">Growth</span>
-            <span className="text-[18px] text-white/60">$99/mo</span>
+          <p className="mt-2 flex items-baseline gap-2">
+            <span className="font-display text-[34px] font-semibold tracking-[-0.02em] text-zinc-900">
+              Growth
+            </span>
+            <span className="font-body text-[16px] tabular-nums text-zinc-500">
+              $99/mo
+            </span>
           </p>
-          <p className="mt-2 font-body text-[14px] text-white/65">
+          <p className="mt-1.5 font-body text-[14px] text-zinc-600">
             Renews on 1 Nov 2026. Month to month, cancel anytime.
           </p>
-          <div className="mt-6 flex gap-3">
+          <div className="mt-5 flex flex-wrap gap-2.5">
             <Link
               href="/pricing"
-              className="inline-flex h-10 items-center bg-signal px-4 font-body text-[14px] font-medium text-white hover:bg-signal-deep"
+              className="inline-flex h-9 items-center rounded-lg bg-link px-3.5 font-body text-[13.5px] font-medium text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] transition-colors hover:bg-link-deep"
             >
               Change plan
             </Link>
             <button
               type="button"
-              className="inline-flex h-10 items-center border border-white/25 px-4 font-body text-[14px] text-white hover:border-white/60"
+              className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-white px-3.5 font-body text-[13.5px] font-medium text-red-600 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:bg-red-50"
             >
               Cancel plan
             </button>
           </div>
         </div>
-        <div className="border-t border-black/[0.12] p-7 lg:border-l lg:border-t-0">
-          <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-500">
+        <div className="border-t border-zinc-100 p-6 sm:p-7 lg:border-l lg:border-t-0">
+          <p className="font-body text-[13px] font-medium text-zinc-500">
             Included
           </p>
-          <ul className="mt-4 flex flex-col gap-2.5 font-body text-[15px] text-black">
+          <ul className="mt-3 flex flex-col gap-2.5 font-body text-[14px] text-zinc-800">
             {[
               "5 sites",
               "500 AI questions a month",
@@ -732,7 +738,7 @@ function Billing() {
               "Competitor tracking",
             ].map((x) => (
               <li key={x} className="flex gap-3">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-signal" />
+                <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#3b6fe0]" />
                 {x}
               </li>
             ))}
@@ -744,13 +750,13 @@ function Billing() {
         footer={<Button variant="secondary">Update</Button>}
       >
         <div className="flex items-center gap-4 py-5">
-          <span className="flex h-9 w-14 items-center justify-center border border-black/[0.14] font-mono text-[11px] text-zinc-600">
+          <span className="flex h-9 w-14 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-zinc-50 font-body text-[11px] font-semibold tracking-wide text-zinc-600">
             VISA
           </span>
-          <span className="font-body text-[15px] text-black">
+          <span className="font-body text-[14px] font-medium text-zinc-900">
             Visa ending 4242
           </span>
-          <span className="font-body text-[14px] text-zinc-500">
+          <span className="font-body text-[13.5px] tabular-nums text-zinc-500">
             Expires 08/28
           </span>
         </div>
@@ -789,10 +795,10 @@ function Invoices() {
           head={["Date", "Invoice", "Amount", "Status", ""]}
           rows={rows.map(([d, n, a, s]) => [
             d,
-            <span key="n" className="font-mono text-[13px]">
+            <span key="n" className="tabular-nums">
               {n}
             </span>,
-            <span key="a" className="text-black">
+            <span key="a" className="font-medium tabular-nums text-zinc-900">
               {a}
             </span>,
             <Badge key="s" tone="good">
@@ -833,13 +839,13 @@ function Usage() {
         <Meter label="Sites" used={3} limit={5} />
       </Panel>
       <Panel title="AI questions per day">
-        <div className="flex h-40 items-end gap-1.5 py-5">
+        <div className="flex h-40 items-end gap-1 py-5 sm:gap-1.5">
           {daily.map((v, i) => (
             <span
               key={i}
               title={`${v} questions`}
               style={{ height: `${(v / max) * 100}%` }}
-              className={`flex-1 ${i === daily.length - 1 ? "bg-signal" : "bg-[#141416]/80"}`}
+              className={`flex-1 rounded-t-[4px] ${i === daily.length - 1 ? "bg-[#1a5fd0]" : "bg-[#3b6fe0]/55"}`}
             />
           ))}
         </div>

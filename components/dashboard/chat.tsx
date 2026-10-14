@@ -4,10 +4,17 @@ import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import {
+  alerts,
   cannedAnswer,
+  crawl,
+  fmt,
+  LAST_DATE,
+  rankings,
+  shortDate,
   type Answer,
   type Message,
 } from "@/components/dashboard/data";
+import { Btn, PageTitle } from "@/components/dashboard/kit";
 import SeerixMark from "@/components/new-landing/seerix-mark";
 
 /* -------------------------------------------------------------------------
@@ -520,37 +527,24 @@ function Thinking() {
 type Msg = Message & { id: number; live?: boolean };
 
 const STARTERS = [
-  {
-    q: "What changed this week?",
-    sub: "A plain summary of the last 7 days",
-    d: "M2.5 3.5h11v10h-11zM2.5 6.5h11M5.5 2v3M10.5 2v3",
-  },
-  {
-    q: "Which of my keywords moved the most?",
-    sub: "Biggest gains and drops on Google",
-    d: "M2 12l4-4 3 3 5-6M10.5 5H14v3.5",
-  },
-  {
-    q: "Which pages are close to page one?",
-    sub: "Quick wins worth a small push",
-    d: "M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6z",
-  },
-  {
-    q: "Who should I get links from?",
-    sub: "Sites that link to competitors, not you",
-    d: "M6.5 9.5l3-3M7 4.5l1-1a2.5 2.5 0 0 1 3.5 3.5l-1 1M9 11.5l-1 1A2.5 2.5 0 0 1 4.5 9l1-1",
-  },
-];
-
-const SOURCES = ["Search Console", "Rankings", "Page changes", "Backlinks"];
-const RANGES = [
-  "Last 7 days",
-  "Last 28 days",
-  "Last 3 months",
-  "Last 16 months",
+  "What changed this week?",
+  "Which of my keywords moved the most?",
+  "Which pages are close to page one?",
+  "Who should I get links from?",
 ];
 
 let nextId = 1;
+
+/** The newest alert that can be asked about, as an opening question. */
+const worth = alerts
+  .filter((a) => a.action.startsWith("ask:"))
+  .map((a) => {
+    const q = a.action.slice(4);
+    return {
+      summary: a.summary,
+      question: q.charAt(0).toUpperCase() + q.slice(1) + "?",
+    };
+  })[0];
 
 /**
  * The consultant. Opens empty on a few starter questions; until the chat
@@ -558,12 +552,9 @@ let nextId = 1;
  */
 export default function Chat({ ask }: { ask?: string }) {
   const [msgs, setMsgs] = useState<Msg[]>([]);
-  const [title, setTitle] = useState("New chat");
   const [thinking, setThinking] = useState(false);
   const [streaming, setStreaming] = useState(false);
   const [text, setText] = useState("");
-  const [sources, setSources] = useState<string[]>(SOURCES.slice(0, 3));
-  const [range, setRange] = useState(RANGES[1]);
   const [atBottom, setAtBottom] = useState(true);
   const scroller = useRef<HTMLDivElement>(null);
   const box = useRef<HTMLTextAreaElement>(null);
@@ -574,10 +565,7 @@ export default function Chat({ ask }: { ask?: string }) {
   const send = (q: string) => {
     const t = q.trim();
     if (!t || busy) return;
-    setMsgs((m) => {
-      if (!m.length) setTitle(t);
-      return [...m, { role: "user", text: t, id: nextId++ }];
-    });
+    setMsgs((m) => [...m, { role: "user", text: t, id: nextId++ }]);
     setThinking(true);
     setAtBottom(true);
     timer.current = setTimeout(() => {
@@ -599,7 +587,6 @@ export default function Chat({ ask }: { ask?: string }) {
     stop();
     setStreaming(false);
     setMsgs([]);
-    setTitle("New chat");
     setTimeout(() => box.current?.focus(), 0);
   };
 
@@ -627,7 +614,7 @@ export default function Chat({ ask }: { ask?: string }) {
     const el = box.current;
     if (!el) return;
     el.style.height = "0px";
-    el.style.height = `${Math.min(el.scrollHeight, 200)}px`;
+    el.style.height = `${Math.min(el.scrollHeight, 160)}px`;
   }, [text]);
 
   const submit = () => {
@@ -637,29 +624,21 @@ export default function Chat({ ask }: { ask?: string }) {
   };
 
   return (
-    <div className="flex h-[calc(100dvh-200px)] min-h-[480px] gap-4 lg:h-[calc(100dvh-130px)]">
-      {/* The conversation */}
-      <section className="relative flex min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-        <header className="flex items-center justify-between gap-3 border-b border-zinc-100 px-4 py-3 sm:px-6">
-          <div className="min-w-0">
-            <h1 className="truncate font-body text-[15px] font-semibold text-zinc-900">
-              {title}
-            </h1>
-            <p className="truncate font-body text-[12.5px] text-zinc-500">
-              arddev.in · answers cite your own data
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={newChat}
-            disabled={msgs.length === 0 && !thinking}
-            className="flex h-8 shrink-0 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-2.5 font-body text-[12.5px] font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-40"
-          >
-            <Icon d={ICON.plus} className="h-3.5 w-3.5" />
-            New chat
-          </button>
-        </header>
+    <div>
+      <PageTitle
+        title="Chat"
+        description="Ask about your traffic, rankings, links or content. Every answer shows its reasoning and the data behind it."
+        action={
+          msgs.length > 0 || thinking ? (
+            <Btn onClick={newChat}>
+              <Icon d={ICON.plus} className="h-3.5 w-3.5" />
+              New chat
+            </Btn>
+          ) : undefined
+        }
+      />
 
+      <section className="relative mt-6 flex h-[calc(100dvh-330px)] min-h-[440px] flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] lg:h-[calc(100dvh-240px)]">
         <div
           ref={scroller}
           onScroll={(e) => {
@@ -667,40 +646,72 @@ export default function Chat({ ask }: { ask?: string }) {
             setAtBottom(el.scrollHeight - el.scrollTop - el.clientHeight < 80);
           }}
           data-lenis-prevent
-          className="flex-1 overscroll-contain overflow-y-auto"
+          className="flex-1 overflow-y-auto overscroll-contain"
         >
           {msgs.length === 0 && !thinking ? (
-            <div className="mx-auto flex min-h-full max-w-2xl flex-col items-center justify-center px-5 py-10 text-center">
-              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white ring-1 ring-zinc-200">
-                <SeerixMark size={24} animated={false} />
-              </span>
-              <h2 className="mt-4 font-display text-[22px] font-semibold tracking-[-0.02em] text-zinc-900">
-                What do you want to know about arddev.in?
-              </h2>
-              <p className="mt-1.5 font-body text-[14px] text-zinc-500">
-                Ask in your own words. Every answer shows the data behind it.
-              </p>
-              <div className="mt-7 grid w-full gap-2.5 sm:grid-cols-2">
-                {STARTERS.map((s) => (
+            <div className="flex min-h-full items-center justify-center px-5 py-8">
+              <div className="w-full max-w-md">
+                {/* What Seerix is answering from, and how fresh it is. */}
+                <p className="font-body text-[13px] font-medium text-zinc-900">
+                  Seerix has read your latest data
+                </p>
+                <ul className="mt-3 divide-y divide-zinc-100 rounded-xl border border-zinc-200">
+                  {[
+                    [
+                      "Search Console",
+                      "16 months of data",
+                      `to ${shortDate(LAST_DATE)}`,
+                    ],
+                    [
+                      "Rankings",
+                      `${rankings.length} keywords`,
+                      "checked weekly",
+                    ],
+                    [
+                      "Site crawl",
+                      `${fmt(crawl.url_crawled_count)} pages`,
+                      shortDate(crawl.crawl_completed_at),
+                    ],
+                  ].map(([name, what, when]) => (
+                    <li
+                      key={name}
+                      className="flex items-center gap-3 px-3.5 py-2.5 font-body text-[13px]"
+                    >
+                      <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-500" />
+                      <span className="w-[7.5rem] shrink-0 font-medium text-zinc-800">
+                        {name}
+                      </span>
+                      <span className="min-w-0 flex-1 truncate text-zinc-500">
+                        {what}
+                      </span>
+                      <span className="hidden shrink-0 text-[12px] text-zinc-400 sm:inline">
+                        {when}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* The one thing most worth asking about right now. */}
+                {worth && (
                   <button
-                    key={s.q}
                     type="button"
-                    onClick={() => send(s.q)}
-                    className="group flex items-start gap-3 rounded-xl border border-zinc-200 bg-white p-3.5 text-left transition-colors hover:border-[#3b6fe0]/40 hover:bg-[#f5f8fe]"
+                    onClick={() => send(worth.question)}
+                    className="group mt-4 flex w-full items-start gap-3 rounded-xl bg-[#f5f8fe] px-4 py-3.5 text-left transition-colors hover:bg-[#eef3fd]"
                   >
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-500 group-hover:bg-white group-hover:text-[#1a5fd0]">
-                      <Icon d={s.d} />
+                    <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-amber-400" />
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-body text-[12px] font-medium text-[#1a5fd0]">
+                        Worth asking
+                      </span>
+                      <span className="mt-0.5 block font-body text-[13.5px] leading-[1.5] text-zinc-800">
+                        {worth.summary}
+                      </span>
                     </span>
-                    <span>
-                      <span className="block font-body text-[13.5px] font-medium text-zinc-900">
-                        {s.q}
-                      </span>
-                      <span className="block font-body text-[12.5px] text-zinc-500">
-                        {s.sub}
-                      </span>
+                    <span className="mt-4 shrink-0 font-body text-[12.5px] font-medium text-[#1a5fd0] transition-transform group-hover:translate-x-0.5">
+                      Ask why →
                     </span>
                   </button>
-                ))}
+                )}
               </div>
             </div>
           ) : (
@@ -750,25 +761,38 @@ export default function Chat({ ask }: { ask?: string }) {
               });
             }}
             aria-label="Jump to latest"
-            className="absolute bottom-[150px] left-1/2 flex h-9 w-9 -translate-x-1/2 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-600 shadow-[0_6px_16px_-6px_rgba(15,23,42,0.25)] hover:text-zinc-900"
+            className="absolute bottom-[132px] left-1/2 flex h-9 w-9 -translate-x-1/2 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-600 shadow-[0_6px_16px_-6px_rgba(15,23,42,0.25)] hover:text-zinc-900"
           >
             <Icon d={ICON.arrowDown} />
           </button>
         )}
 
-        {/* Composer */}
-        <div className="px-3 pb-3 pt-1 sm:px-6 sm:pb-4">
+        {/* Starter questions, then the box. */}
+        <div className="border-t border-zinc-100 bg-white p-3 sm:p-4">
+          <div className="mb-3 flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {STARTERS.map((q) => (
+              <button
+                key={q}
+                type="button"
+                onClick={() => send(q)}
+                disabled={busy}
+                className="shrink-0 rounded-full border border-zinc-200 bg-white px-3 py-1 font-body text-[12.5px] text-zinc-600 transition-colors hover:border-[#3b6fe0]/40 hover:bg-[#f5f8fe] hover:text-[#1a5fd0] disabled:opacity-50"
+              >
+                {q}
+              </button>
+            ))}
+          </div>
           <form
             onSubmit={(e) => {
               e.preventDefault();
               submit();
             }}
-            className="mx-auto max-w-3xl rounded-2xl border border-zinc-200 bg-white shadow-[0_4px_16px_-8px_rgba(15,23,42,0.12)] transition-shadow focus-within:border-[#3b6fe0]/50 focus-within:shadow-[0_0_0_4px_rgba(59,111,224,0.08)]"
+            className="flex items-end gap-2"
           >
             <textarea
               ref={box}
               rows={1}
-              // The whole box shows focus; the site-wide ring would double it.
+              // The box shows focus with its border; the site-wide ring would double it.
               style={{ outline: "none" }}
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -782,87 +806,29 @@ export default function Chat({ ask }: { ask?: string }) {
                   submit();
                 }
               }}
-              placeholder="Ask about your traffic, rankings, links or content…"
+              placeholder="Ask about your traffic, rankings, links, content…"
               aria-label="Question"
-              className="block max-h-[200px] w-full resize-none bg-transparent px-4 pb-1 pt-3.5 font-body text-[14.5px] leading-[1.55] text-zinc-900 placeholder:text-zinc-400 focus:outline-none"
+              className="block min-h-11 min-w-0 flex-1 resize-none rounded-xl border border-zinc-200 bg-white px-3.5 py-2.5 font-body text-[14px] leading-[1.5] text-zinc-900 shadow-[0_1px_2px_rgba(15,23,42,0.04)] placeholder:text-zinc-400 focus:border-[#1a5fd0] focus:ring-2 focus:ring-[#1a5fd0]/15"
             />
-            <div className="flex items-center gap-2 px-2.5 pb-2.5 pt-1">
-              <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <label className="relative shrink-0">
-                  <span className="sr-only">Date range</span>
-                  <select
-                    value={range}
-                    onChange={(e) => setRange(e.target.value)}
-                    className="h-7 cursor-pointer appearance-none rounded-full border border-zinc-200 bg-white pl-2.5 pr-7 font-body text-[12px] text-zinc-700 hover:bg-zinc-50 focus:outline-none"
-                  >
-                    {RANGES.map((r) => (
-                      <option key={r}>{r}</option>
-                    ))}
-                  </select>
-                  <svg
-                    className="pointer-events-none absolute right-2 top-1/2 h-3 w-3 -translate-y-1/2 text-zinc-400"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    aria-hidden="true"
-                  >
-                    <path d="M4 6l4 4 4-4" />
-                  </svg>
-                </label>
-                {SOURCES.map((s) => {
-                  const on = sources.includes(s);
-                  return (
-                    <button
-                      key={s}
-                      type="button"
-                      aria-pressed={on}
-                      onClick={() =>
-                        setSources((cur) =>
-                          on
-                            ? cur.length > 1
-                              ? cur.filter((x) => x !== s)
-                              : cur
-                            : [...cur, s],
-                        )
-                      }
-                      className={`flex h-7 shrink-0 items-center gap-1 rounded-full border px-2.5 font-body text-[12px] transition-colors ${
-                        on
-                          ? "border-[#3b6fe0]/30 bg-[#eef3fd] text-[#1a5fd0]"
-                          : "border-zinc-200 bg-white text-zinc-500 hover:bg-zinc-50"
-                      }`}
-                    >
-                      {on && <Icon d={ICON.check} className="h-3 w-3" />}
-                      {s}
-                    </button>
-                  );
-                })}
-              </div>
-              {thinking ? (
-                <button
-                  type="button"
-                  onClick={stop}
-                  aria-label="Stop"
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-white transition-colors hover:bg-zinc-700"
-                >
-                  <Icon d={ICON.stop} className="h-3.5 w-3.5 fill-current" />
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  disabled={busy || !text.trim()}
-                  aria-label="Send"
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-link text-white transition-colors hover:bg-link-deep disabled:bg-zinc-200 disabled:text-zinc-400"
-                >
-                  <Icon d={ICON.send} />
-                </button>
-              )}
-            </div>
+            {thinking ? (
+              <button
+                type="button"
+                onClick={stop}
+                className="flex h-11 shrink-0 items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 font-body text-[14px] font-medium text-zinc-800 hover:bg-zinc-50"
+              >
+                <Icon d={ICON.stop} className="h-3 w-3 fill-current" />
+                Stop
+              </button>
+            ) : (
+              <button
+                type="submit"
+                disabled={busy || !text.trim()}
+                className="h-11 shrink-0 rounded-xl bg-link px-5 font-body text-[14px] font-medium text-white shadow-sm transition-colors hover:bg-link-deep disabled:opacity-40"
+              >
+                Ask
+              </button>
+            )}
           </form>
-          <p className="mt-2 text-center font-body text-[11.5px] text-zinc-400">
-            Enter to send · Shift + Enter for a new line · Seerix only answers
-            from your data
-          </p>
         </div>
       </section>
     </div>

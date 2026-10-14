@@ -4,7 +4,8 @@ import { useState } from "react";
 
 /* -------------------------------------------------------------------------
  * The settings kit: page header, framed panels, labelled rows, inputs,
- * toggles, buttons and tables. Square corners, the site's ink and signal.
+ * toggles, buttons and tables. Soft corners, quiet greys and the dashboard's
+ * blue for actions; red for anything destructive.
  * ---------------------------------------------------------------------- */
 
 export function PageHeader({
@@ -17,12 +18,12 @@ export function PageHeader({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-4 border-b border-black/[0.08] pb-7 sm:flex-row sm:items-end sm:justify-between">
-      <div>
-        <h2 className="font-display text-[30px] font-medium tracking-[-0.025em] text-black">
+    <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div className="min-w-0">
+        <h2 className="font-display text-[26px] font-semibold tracking-[-0.02em] text-zinc-900">
           {title}
         </h2>
-        <p className="mt-2 max-w-xl font-body text-[15px] leading-[1.55] text-zinc-500">
+        <p className="mt-1 max-w-xl font-body text-[14px] leading-[1.55] text-zinc-500">
           {description}
         </p>
       </div>
@@ -46,23 +47,27 @@ export function Panel({
 }) {
   return (
     <section
-      className={`mt-8 border bg-white ${
-        tone === "danger" ? "border-signal/40" : "border-black/[0.12]"
+      className={`mt-6 overflow-hidden rounded-2xl border bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] ${
+        tone === "danger" ? "border-red-200" : "border-zinc-200/80"
       }`}
     >
-      <div className="border-b border-black/[0.08] px-6 py-5">
-        <h3 className="font-display text-[18px] tracking-[-0.01em] text-black">
+      <div className="border-b border-zinc-100 px-5 py-4 sm:px-6">
+        <h3
+          className={`font-body text-[15px] font-semibold ${
+            tone === "danger" ? "text-red-700" : "text-zinc-900"
+          }`}
+        >
           {title}
         </h3>
         {description && (
-          <p className="mt-1 font-body text-[14px] leading-[1.5] text-zinc-500">
+          <p className="mt-0.5 font-body text-[13px] leading-[1.5] text-zinc-500">
             {description}
           </p>
         )}
       </div>
-      <div className="px-6 py-2">{children}</div>
+      <div className="px-5 py-1 sm:px-6">{children}</div>
       {footer && (
-        <div className="flex items-center justify-end gap-3 border-t border-black/[0.08] bg-[#f7f6f4] px-6 py-3.5">
+        <div className="flex items-center justify-end gap-3 border-t border-zinc-100 bg-zinc-50/70 px-5 py-3 sm:px-6">
           {footer}
         </div>
       )}
@@ -81,9 +86,11 @@ export function Row({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-3 border-b border-black/[0.06] py-5 last:border-b-0 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] sm:items-center sm:gap-8">
+    <div className="grid gap-3 border-b border-zinc-100 py-4 last:border-b-0 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] sm:items-center sm:gap-8">
       <div>
-        <p className="font-body text-[15px] text-black">{label}</p>
+        <p className="font-body text-[14px] font-medium text-zinc-900">
+          {label}
+        </p>
         {hint && (
           <p className="mt-0.5 font-body text-[13px] leading-[1.5] text-zinc-500">
             {hint}
@@ -96,7 +103,7 @@ export function Row({
 }
 
 const field =
-  "w-full border border-black/[0.16] bg-white px-3.5 py-2.5 font-body text-[15px] text-black placeholder:text-zinc-400 transition-colors hover:border-black/30 focus:border-black focus:outline-none disabled:bg-[#f7f6f4] disabled:text-zinc-500";
+  "w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[14px] text-zinc-900 shadow-[0_1px_2px_rgba(15,23,42,0.04)] placeholder:text-zinc-400 transition-colors hover:border-zinc-300 focus:border-[#1a5fd0] focus:outline-none disabled:bg-zinc-50 disabled:text-zinc-500 disabled:shadow-none";
 
 export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return <input {...props} className={`${field} ${props.className ?? ""}`} />;
@@ -128,7 +135,7 @@ export function Select({
         ))}
       </select>
       <svg
-        className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500"
+        className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500"
         viewBox="0 0 16 16"
         fill="none"
         stroke="currentColor"
@@ -158,12 +165,12 @@ export function Toggle({
       aria-checked={on}
       aria-label={label}
       onClick={() => setOn((v) => !v)}
-      className={`relative h-6 w-11 shrink-0 transition-colors duration-200 ${
-        on ? "bg-signal" : "bg-black/[0.15]"
+      className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
+        on ? "bg-link" : "bg-zinc-200"
       }`}
     >
       <span
-        className={`absolute top-1 h-4 w-4 bg-white transition-transform duration-200 ${
+        className={`absolute left-0 top-1 h-4 w-4 rounded-full bg-white shadow-[0_1px_2px_rgba(15,23,42,0.2)] transition-transform duration-200 ${
           on ? "translate-x-6" : "translate-x-1"
         }`}
       />
@@ -176,21 +183,23 @@ export function Button({
   className = "",
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "secondary" | "danger" | "ghost";
+  variant?: "primary" | "secondary" | "danger" | "danger-ghost" | "ghost";
 }) {
   const styles = {
-    primary: "bg-[#141416] text-white hover:bg-[#36363B]",
+    primary:
+      "bg-link text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] hover:bg-link-deep",
     secondary:
-      "border border-black/[0.16] bg-white text-black hover:border-black/40",
+      "border border-zinc-200 bg-white text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] hover:bg-zinc-50",
     danger:
-      "border border-signal/50 bg-white text-signal-deep hover:bg-signal-soft",
-    ghost: "text-zinc-600 hover:bg-black/[0.04] hover:text-black",
+      "bg-red-600 text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] hover:bg-red-700",
+    "danger-ghost": "text-red-600 hover:bg-red-50 hover:text-red-700",
+    ghost: "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900",
   }[variant];
   return (
     <button
       type="button"
       {...props}
-      className={`inline-flex h-10 shrink-0 items-center justify-center gap-2 px-4 font-body text-[14px] font-medium transition-colors ${styles} ${className}`}
+      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-3.5 font-body text-[13.5px] font-medium transition-colors disabled:cursor-not-allowed ${styles} ${className}`}
     />
   );
 }
@@ -203,13 +212,13 @@ export function Badge({
   tone?: "neutral" | "good" | "signal";
 }) {
   const styles = {
-    neutral: "border border-black/[0.14] text-zinc-600",
-    good: "bg-[#e5f3ea] text-[#1f6b3a]",
-    signal: "bg-signal-soft text-signal-deep",
+    neutral: "bg-zinc-100 text-zinc-700",
+    good: "bg-emerald-50 text-emerald-700",
+    signal: "bg-[#fff1ea] text-[#c2410c]",
   }[tone];
   return (
     <span
-      className={`inline-flex items-center px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.06em] ${styles}`}
+      className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2 py-0.5 font-body text-[12px] font-medium ${styles}`}
     >
       {children}
     </span>
@@ -225,14 +234,14 @@ export function Table({
   rows: React.ReactNode[][];
 }) {
   return (
-    <div className="-mx-6 overflow-x-auto">
+    <div className="-mx-5 overflow-x-auto sm:-mx-6">
       <table className="w-full min-w-[560px] border-collapse text-left">
         <thead>
           <tr>
             {head.map((h, i) => (
               <th
                 key={h + i}
-                className="border-b border-black/[0.08] px-6 py-3 font-mono text-[11px] font-normal uppercase tracking-[0.1em] text-zinc-500"
+                className="whitespace-nowrap border-b border-zinc-100 bg-zinc-50/70 px-5 py-2.5 font-body text-[12.5px] font-medium text-zinc-500 sm:px-6"
               >
                 {h}
               </th>
@@ -243,12 +252,12 @@ export function Table({
           {rows.map((r, i) => (
             <tr
               key={i}
-              className="border-b border-black/[0.06] last:border-b-0"
+              className="border-b border-zinc-100 transition-colors last:border-b-0 hover:bg-zinc-50/80"
             >
               {r.map((c, j) => (
                 <td
                   key={j}
-                  className="px-6 py-4 font-body text-[14px] text-zinc-700"
+                  className="px-5 py-3 font-body text-[13.5px] text-zinc-700 sm:px-6"
                 >
                   {c}
                 </td>
@@ -261,7 +270,7 @@ export function Table({
   );
 }
 
-/** A usage meter: label, used of limit, and a bar that turns signal near the cap. */
+/** A usage meter: label, used of limit, and a bar that turns amber near the cap. */
 export function Meter({
   label,
   used,
@@ -275,17 +284,19 @@ export function Meter({
 }) {
   const pct = Math.min(100, Math.round((used / limit) * 100));
   return (
-    <div className="border-b border-black/[0.06] py-5 last:border-b-0">
+    <div className="border-b border-zinc-100 py-4 last:border-b-0">
       <div className="flex items-baseline justify-between gap-4">
-        <p className="font-body text-[15px] text-black">{label}</p>
-        <p className="font-mono text-[13px] text-zinc-600">
+        <p className="font-body text-[14px] font-medium text-zinc-900">
+          {label}
+        </p>
+        <p className="font-body text-[13px] tabular-nums text-zinc-600">
           {used.toLocaleString("en-US")} / {limit.toLocaleString("en-US")}
           {unit ? ` ${unit}` : ""}
         </p>
       </div>
-      <div className="mt-3 h-2 bg-black/[0.07]">
+      <div className="mt-2.5 h-2 overflow-hidden rounded-full bg-zinc-100">
         <div
-          className={`h-full ${pct >= 80 ? "bg-signal" : "bg-[#141416]"}`}
+          className={`h-full rounded-full ${pct >= 80 ? "bg-amber-400" : "bg-[#3b6fe0]"}`}
           style={{ width: `${pct}%` }}
         />
       </div>
@@ -296,8 +307,8 @@ export function Meter({
 /** The note shown on pages whose figures are sample data until the app is wired up. */
 export function DemoNote() {
   return (
-    <p className="mt-6 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-zinc-400">
-      <span className="h-1.5 w-1.5 bg-signal" />
+    <p className="mt-6 flex items-center gap-2 font-body text-[12.5px] text-zinc-400">
+      <span className="h-1.5 w-1.5 rounded-full bg-zinc-300" />
       Sample data
     </p>
   );

@@ -89,6 +89,168 @@ export function summarize(cur: Day[], prev: (Day | null)[]) {
   return { cur: tot(cur), prev: full ? tot(p) : null };
 }
 
+/* ---------- GET /metrics/breakdown --------------------------------------- */
+
+/**
+ * How the site's traffic splits by query, page, country and device. Each
+ * row is a share of the period's total and how much it grew, so the numbers
+ * follow whatever range the overview is showing. `pos` is its usual Google
+ * position. New rankings had nothing in the period before.
+ */
+export type BreakdownDef = {
+  key: string;
+  label: string;
+  share: number;
+  growth: number;
+  pos: number;
+  /** Flag emoji for countries, or a device name for the icon. */
+  icon?: string;
+  /** Subdomain a page lives on ("www"); none for the bare domain. */
+  host?: string;
+};
+
+export const breakdowns: Record<
+  | "queries"
+  | "pages"
+  | "groups"
+  | "countries"
+  | "devices"
+  | "newQueries"
+  | "newPages",
+  BreakdownDef[]
+> = {
+  // Queries add up to less than the total: Google hides rare searches.
+  queries: [
+    ["nextjs seo checklist", 0.14, 0.62, 6.8],
+    ["ard dev", 0.09, 1.15, 1.2],
+    ["hire nextjs developer", 0.07, 1.42, 11.4],
+    ["arddev", 0.06, 1.08, 1.1],
+    ["nextjs development company", 0.05, 1.21, 9.6],
+    ["website redesign cost", 0.04, 1.65, 14.2],
+    ["fintech dashboard design", 0.035, 0.88, 8.3],
+    ["nextjs vs gatsby", 0.03, 0.94, 7.5],
+    ["core web vitals nextjs", 0.025, 1.3, 10.1],
+    ["headless cms nextjs", 0.02, 1.02, 12.7],
+    ["react agency india", 0.018, 1.74, 15.3],
+    ["nextjs ecommerce", 0.015, 0.71, 18.9],
+    ["seo for nextjs app router", 0.012, 2.1, 13.4],
+    ["nextjs agency", 0.01, 1.12, 16.8],
+  ].map(([label, share, growth, pos]) => ({
+    key: label as string,
+    label: label as string,
+    share: share as number,
+    growth: growth as number,
+    pos: pos as number,
+  })),
+  pages: [
+    ["", "/", 0.17, 1.1, 3.4],
+    ["www", "/blog/nextjs-seo-checklist", 0.22, 0.64, 6.2],
+    ["www", "/", 0.09, 1.5, 3.9],
+    ["www", "/services/nextjs-development", 0.12, 1.38, 9.8],
+    ["www", "/pricing", 0.08, 1.22, 7.1],
+    ["www", "/case-studies/fintech-dashboard", 0.07, 0.9, 8.6],
+    ["www", "/blog/core-web-vitals", 0.06, 1.27, 10.4],
+    ["www", "/services/web-development", 0.05, 1.05, 12.2],
+    ["www", "/blog/headless-cms", 0.045, 0.97, 13.1],
+    ["www", "/blog/nextjs-vs-gatsby", 0.04, 0.92, 7.9],
+    ["docs", "/getting-started", 0.03, 1.8, 9.2],
+    ["www", "/about", 0.03, 1.0, 4.2],
+    ["www", "/contact", 0.025, 1.15, 5.6],
+    ["www", "/assets/case-study.pdf", 0.01, 2.4, 14.6],
+  ].map(([host, label, share, growth, pos]) => ({
+    key: `${host}${label}`,
+    label: label as string,
+    host: (host as string) || undefined,
+    share: share as number,
+    growth: growth as number,
+    pos: pos as number,
+  })),
+  // Pages grouped by what they are, as set up in Settings.
+  groups: [
+    ["Homepage", 0.26, 1.24, 3.6],
+    ["Blog", 0.38, 0.72, 8.1],
+    ["Services", 0.17, 1.33, 10.6],
+    ["Case studies", 0.08, 0.9, 8.6],
+    ["Docs subdomain", 0.04, 1.8, 9.2],
+    ["Company pages", 0.055, 1.06, 4.8],
+    ["Downloads", 0.015, 2.4, 14.6],
+  ].map(([label, share, growth, pos]) => ({
+    key: label as string,
+    label: label as string,
+    share: share as number,
+    growth: growth as number,
+    pos: pos as number,
+  })),
+  countries: [
+    ["India", "🇮🇳", 0.36, 1.32, 9.1],
+    ["United States", "🇺🇸", 0.21, 0.86, 14.8],
+    ["United Kingdom", "🇬🇧", 0.08, 1.05, 13.2],
+    ["Canada", "🇨🇦", 0.05, 0.92, 15.6],
+    ["Germany", "🇩🇪", 0.04, 1.18, 17.3],
+    ["Australia", "🇦🇺", 0.04, 0.78, 16.1],
+    ["Pakistan", "🇵🇰", 0.035, 1.9, 8.4],
+    ["Singapore", "🇸🇬", 0.03, 1.1, 12.5],
+    ["Philippines", "🇵🇭", 0.025, 1.4, 11.9],
+    ["France", "🇫🇷", 0.02, 0.7, 19.2],
+    ["Brazil", "🇧🇷", 0.02, 0.55, 18.4],
+    ["Japan", "🇯🇵", 0.015, 1.6, 20.1],
+    ["Indonesia", "🇮🇩", 0.015, 1.25, 13.7],
+    ["Sri Lanka", "🇱🇰", 0.01, 2.2, 10.3],
+    ["Netherlands", "🇳🇱", 0.01, 0.95, 17.8],
+  ].map(([label, icon, share, growth, pos]) => ({
+    key: label as string,
+    label: label as string,
+    icon: icon as string,
+    share: share as number,
+    growth: growth as number,
+    pos: pos as number,
+  })),
+  devices: [
+    ["Desktop", 0.58, 0.94, 11.2],
+    ["Mobile", 0.4, 1.14, 13.6],
+    ["Tablet", 0.02, 0.8, 15.9],
+  ].map(([label, share, growth, pos]) => ({
+    key: label as string,
+    label: label as string,
+    icon: label as string,
+    share: share as number,
+    growth: growth as number,
+    pos: pos as number,
+  })),
+  newQueries: [
+    ["nextjs app router seo", 0.012, 1, 18.4],
+    ["nextjs sitemap generator", 0.008, 1, 21.7],
+    ["arddev reviews", 0.006, 1, 4.1],
+    ["fintech ui kit", 0.005, 1, 26.3],
+    ["nextjs image seo", 0.004, 1, 23.8],
+    ["seo checklist 2026", 0.003, 1, 31.2],
+    ["nextjs i18n seo", 0.002, 1, 28.5],
+    ["ard dev agency", 0.002, 1, 3.6],
+    ["nextjs robots txt", 0.001, 1, 34.9],
+    ["headless cms comparison", 0.001, 1, 38.2],
+  ].map(([label, share, growth, pos]) => ({
+    key: label as string,
+    label: label as string,
+    share: share as number,
+    growth: growth as number,
+    pos: pos as number,
+  })),
+  newPages: [
+    ["/blog/app-router-seo", 0.014, 1, 17.6],
+    ["/blog/nextjs-sitemap", 0.009, 1, 20.4],
+    ["/case-studies/ui-kit", 0.006, 1, 24.1],
+    ["/blog/image-seo", 0.004, 1, 22.9],
+    ["/services/seo-audit", 0.003, 1, 27.5],
+    ["/blog/i18n-seo", 0.002, 1, 29.8],
+  ].map(([label, share, growth, pos]) => ({
+    key: label as string,
+    label: label as string,
+    share: share as number,
+    growth: growth as number,
+    pos: pos as number,
+  })),
+};
+
 /* ---------- GET /wins ---------------------------------------------------- */
 
 export const wins = {
@@ -731,7 +893,17 @@ export const intel = {
     Array.from({ length: 6 }, (_, i) => ({
       target_domain,
       month: `2026-0${4 + i}`,
-      referring_domains: Math.round(from + ((to - from) * i) / 5),
+      // A steady climb with a little month-to-month wobble.
+      referring_domains:
+        i === 0 || i === 5
+          ? i === 0
+            ? from
+            : to
+          : Math.round(
+              from +
+                ((to - from) * i) / 5 +
+                [0, -4, 3, -2, 5, 0][i] * (from > 300 ? 2 : 1),
+            ),
     })),
   ),
 };
