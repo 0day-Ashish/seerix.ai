@@ -32,8 +32,8 @@ const PAGE = 12;
 const intentStyle: Record<string, string> = {
   I: "bg-[#e7eefb] text-[#2a55a8]",
   N: "bg-[#efe9f7] text-[#6a3fa0]",
-  C: "bg-[#fbf1dc] text-[#8a5a00]",
-  T: "bg-[#e5f3ea] text-[#1f6b3a]",
+  C: "bg-warn-soft text-warn-deep",
+  T: "bg-good-soft text-good-deep",
 };
 const intentName: Record<string, string> = {
   I: "Informational",
@@ -63,12 +63,12 @@ function compact(n: number) {
 function Kd({ kd }: { kd: number }) {
   const c =
     kd >= 70
-      ? "#dc2626"
+      ? "#be3a36"
       : kd >= 50
-        ? "#f97316"
+        ? "#c2622a"
         : kd >= 30
-          ? "#f59e0b"
-          : "#10b981";
+          ? "#b06a1f"
+          : "#2f7d5b";
   return (
     <span className="inline-flex items-center gap-1.5 tabular-nums">
       {kd}
@@ -89,7 +89,7 @@ function Opportunities({
   note: string;
 }) {
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+    <div className="flex flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
       <div className="px-5 pb-3 pt-4">
         <p className="font-body text-[15px] font-semibold text-zinc-900">
           {title}
@@ -107,7 +107,7 @@ function Opportunities({
           key={r.keyword}
           className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 border-b border-zinc-100 px-5 py-2.5 last:border-b-0"
         >
-          <span className="truncate font-body text-[13px] text-link">
+          <span className="truncate font-body text-[13px] text-signal">
             {r.keyword}
           </span>
           <span className="font-body text-[13px] tabular-nums text-zinc-700">
@@ -124,15 +124,40 @@ function Opportunities({
   );
 }
 
-/** Three-circle overlap, with each domain's keyword count in its legend. */
+/**
+ * A three-circle Venn: one circle per site, each named beside it, with the
+ * number of keywords written in every region -- only one site, any two, or
+ * all three.
+ */
 function Overlap() {
-  const counts = domains.map(
-    (d) => keywordRows.filter((r) => r.positions[d] > 0).length,
-  );
-  const shared = keywordRows.filter((r) => keywordTab(r, "Shared")).length;
+  const [a, b, c] = domains;
+  const count = (has: [boolean, boolean, boolean]) =>
+    keywordRows.filter((r) =>
+      domains.every((d, i) => r.positions[d] > 0 === has[i]),
+    ).length;
+  const shared = count([true, true, true]);
+
+  // Circle centres and radius on a 300 x 230 canvas.
+  const R = 64;
+  const circles: [string, number, number][] = [
+    [a, 116, 92],
+    [b, 184, 92],
+    [c, 150, 150],
+  ];
+  // Where each region's number sits.
+  const regions: [[boolean, boolean, boolean], number, number, string][] = [
+    [[true, false, false], 86, 80, `Only ${a}`],
+    [[false, true, false], 214, 80, `Only ${b}`],
+    [[false, false, true], 150, 192, `Only ${c}`],
+    [[true, true, false], 150, 68, `${a} and ${b}`],
+    [[true, false, true], 116, 138, `${a} and ${c}`],
+    [[false, true, true], 184, 138, `${b} and ${c}`],
+    [[true, true, true], 150, 112, "All three"],
+  ];
+
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-      <div className="px-5 pb-3 pt-4">
+    <div className="flex flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
+      <div className="px-5 pb-1 pt-4">
         <p className="font-body text-[15px] font-semibold text-zinc-900">
           Keyword overlap
         </p>
@@ -140,36 +165,79 @@ function Overlap() {
           {shared} keywords all three rank for
         </p>
       </div>
-      <div className="flex flex-1 items-center justify-center p-4">
-        <svg viewBox="0 0 220 180" className="h-40 w-auto" aria-hidden="true">
-          {[
-            [85, 72, "arddev.in"],
-            [135, 72, "pixelforge.dev"],
-            [110, 112, "buildstack.io"],
-          ].map(([cx, cy, d]) => (
+      <div className="flex flex-1 items-center justify-center px-2 py-2">
+        <svg
+          viewBox="0 0 300 230"
+          className="h-52 w-full max-w-[300px]"
+          role="img"
+          aria-label={`Keyword overlap. ${regions
+            .map(([has, , , name]) => `${name}: ${count(has)}`)
+            .join(". ")}.`}
+        >
+          {circles.map(([d, cx, cy]) => (
             <circle
-              key={d as string}
-              cx={cx as number}
-              cy={cy as number}
-              r="52"
-              fill={domainColor[d as string]}
-              fillOpacity="0.16"
-              stroke={domainColor[d as string]}
-              strokeWidth="1.5"
+              key={d}
+              cx={cx}
+              cy={cy}
+              r={R}
+              fill={domainColor[d]}
+              fillOpacity="0.12"
+              stroke={domainColor[d]}
+              strokeWidth={d === a ? 2 : 1.5}
             />
           ))}
+          {regions.map(([has, x, y, name]) => (
+            <text
+              key={name}
+              x={x}
+              y={y + 5}
+              textAnchor="middle"
+              fontSize={name === "All three" ? 17 : 14}
+              fontWeight={name === "All three" ? 700 : 600}
+              fill="#18181b"
+              className="font-body"
+            >
+              <title>{`${name}: ${count(has)} keywords`}</title>
+              {count(has)}
+            </text>
+          ))}
+          {/* Site names, outside their circles. */}
           <text
-            x="110"
-            y="88"
-            textAnchor="middle"
-            className="fill-zinc-900 font-body text-[13px] font-semibold"
+            x="52"
+            y="22"
+            fontSize="12"
+            fill={domainColor[a]}
+            className="font-body"
+            fontWeight="600"
           >
-            {shared}
+            {a}
+          </text>
+          <text
+            x="248"
+            y="22"
+            textAnchor="end"
+            fontSize="12"
+            fill={domainColor[b]}
+            className="font-body"
+            fontWeight="600"
+          >
+            {b}
+          </text>
+          <text
+            x="150"
+            y="226"
+            textAnchor="middle"
+            fontSize="12"
+            fill={domainColor[c]}
+            className="font-body"
+            fontWeight="600"
+          >
+            {c}
           </text>
         </svg>
       </div>
       <div className="flex flex-wrap gap-x-5 gap-y-1 border-t border-zinc-100 px-5 py-3">
-        {domains.map((d, i) => (
+        {domains.map((d) => (
           <span
             key={d}
             className="flex items-center gap-2 font-body text-[12px] text-zinc-600"
@@ -177,7 +245,7 @@ function Overlap() {
             <Dot domain={d} />
             {d}
             <span className="font-medium tabular-nums text-zinc-900">
-              {counts[i]}
+              {keywordRows.filter((r) => r.positions[d] > 0).length}
             </span>
           </span>
         ))}
@@ -278,14 +346,14 @@ export default function KeywordGap() {
         <Overlap />
       </section>
 
-      <section className="mt-8 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+      <section className="mt-8 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
         <div className="flex flex-wrap items-center justify-between gap-3 px-5 pt-4">
           <p className="font-body text-[15px] font-semibold text-zinc-900">
             All keyword details
           </p>
           <button
             type="button"
-            className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-white px-3.5 font-body text-[13px] font-medium text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:bg-zinc-50"
+            className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-white px-3.5 font-body text-[13px] font-medium text-zinc-800 transition-colors hover:bg-zinc-50"
           >
             Export
           </button>
@@ -310,7 +378,7 @@ export default function KeywordGap() {
               setPage(0);
             }}
             placeholder="Filter by keyword"
-            className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[13px] text-zinc-900 placeholder:text-zinc-400 focus:border-[#1a5fd0] focus:outline-none sm:w-64"
+            className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[13px] text-zinc-900 placeholder:text-zinc-400 focus:border-signal focus:outline-none sm:w-64"
           />
           {["Positions", "Volume", "KD", "Intent"].map((f) => (
             <span
@@ -325,7 +393,7 @@ export default function KeywordGap() {
               {picked.size} selected ·{" "}
               <button
                 type="button"
-                className="text-link hover:text-link-deep hover:underline hover:underline-offset-[3px]"
+                className="text-signal hover:text-signal-deep hover:underline hover:underline-offset-[3px]"
               >
                 Add to fix list
               </button>
@@ -398,7 +466,7 @@ export default function KeywordGap() {
                 return (
                   <tr
                     key={r.keyword}
-                    className={`border-b border-zinc-100 last:border-b-0 ${on ? "bg-[#f5f8fe]" : "hover:bg-zinc-50/80"}`}
+                    className={`border-b border-zinc-100 last:border-b-0 ${on ? "bg-signal-soft/50" : "hover:bg-zinc-50/80"}`}
                   >
                     <td className="px-4 py-3">
                       <input
@@ -413,10 +481,10 @@ export default function KeywordGap() {
                           })
                         }
                         aria-label={`Select ${r.keyword}`}
-                        className="h-4 w-4 rounded accent-[#1a5fd0]"
+                        className="h-4 w-4 rounded accent-signal"
                       />
                     </td>
-                    <td className="px-3 py-3 font-body text-[13.5px] text-link">
+                    <td className="px-3 py-3 font-body text-[13.5px] text-signal">
                       {r.keyword}
                     </td>
                     <td className="px-3 py-3">

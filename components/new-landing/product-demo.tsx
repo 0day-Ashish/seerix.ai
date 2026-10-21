@@ -36,7 +36,7 @@ function Score({ value, tone = "signal" }: { value: number; tone?: string }) {
       ? "#2f8a4f"
       : tone === "flat"
         ? "#a1a1aa"
-        : `rgba(255,90,31,${0.25 + (value / 100) * 0.75})`;
+        : `rgba(90,88,209,${0.25 + (value / 100) * 0.75})`;
   return (
     <span className="inline-flex items-center gap-2.5">
       <span
@@ -315,10 +315,13 @@ export default function ProductDemo() {
                   key={active}
                   onAnimationEnd={next}
                   className="absolute inset-x-0 bottom-0 h-[2px] origin-left rounded-full bg-[#141416]"
+                  // Longhands only: React warns when the shorthand and the
+                  // play state are mixed on the same element.
                   style={{
-                    animation: still
-                      ? "none"
-                      : `seerix-tab-fill ${HOLD}ms linear both`,
+                    animationName: still ? "none" : "seerix-tab-fill",
+                    animationDuration: `${HOLD}ms`,
+                    animationTimingFunction: "linear",
+                    animationFillMode: "both",
                     animationPlayState: playing ? "running" : "paused",
                   }}
                 />

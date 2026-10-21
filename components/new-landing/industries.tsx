@@ -67,7 +67,7 @@ export default function Industries() {
               style={{ animation: "seerix-breathe 9s ease-in-out infinite" }}
             />
             <span
-              className="absolute -bottom-[35%] left-[28%] h-[55%] w-[32%] rounded-full bg-[#d9430d] blur-[110px]"
+              className="absolute -bottom-[35%] left-[28%] h-[55%] w-[32%] rounded-full bg-[#4542b8] blur-[110px]"
               style={{
                 animation: "seerix-breathe 13s ease-in-out infinite reverse",
               }}

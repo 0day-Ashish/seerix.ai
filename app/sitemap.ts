@@ -19,6 +19,10 @@ const routes: {
 }[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/pricing", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/product/diagnose", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/product/prioritize", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/product/watch", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/product/create", changeFrequency: "monthly", priority: 0.8 },
   { path: "/contact", changeFrequency: "monthly", priority: 0.7 },
   { path: "/seerixbot", changeFrequency: "monthly", priority: 0.5 },
   { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },

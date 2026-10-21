@@ -30,6 +30,15 @@ export default function Health() {
   const warnings = issues
     .filter((i) => i.severity === "warning")
     .reduce((n, i) => n + i.count, 0);
+  const errorTypes = issues.filter((i) => i.severity === "error").length;
+  const warningTypes = issues.filter((i) => i.severity === "warning").length;
+  // Everything the crawler reached for, including what it could not read.
+  const reachable =
+    crawl.url_crawled_count + crawl.url_failed_count + crawl.url_blocked_count;
+  const blockedPct = (
+    ((crawl.url_failed_count + crawl.url_blocked_count) / reachable) *
+    100
+  ).toFixed(1);
   const when = new Date(crawl.crawl_completed_at).toLocaleString("en-GB", {
     day: "numeric",
     month: "short",
@@ -42,7 +51,7 @@ export default function Health() {
     <div>
       <PageTitle
         title="Technical health"
-        description={`${fmt(crawl.url_crawled_count)} pages crawled · ${crawl.url_failed_count} failed · ${crawl.url_blocked_count} blocked · ${when} UTC`}
+        description="What SeerixBot found on its last pass of the site. Errors first, then what is worth a look."
         action={
           <Btn
             variant="primary"
@@ -55,12 +64,33 @@ export default function Health() {
       />
 
       <div className="mt-7 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Kpi label="Pages crawled" value={fmt(crawl.url_crawled_count)} />
-        <Kpi label="Errors" value={String(errors)} />
-        <Kpi label="Warnings" value={String(warnings)} />
+        <Kpi
+          label="Pages crawled"
+          value={fmt(crawl.url_crawled_count)}
+          sub={`of ${fmt(reachable)} reachable · ${when} UTC`}
+        />
+        <Kpi
+          label="Errors"
+          value={String(errors)}
+          sub={
+            errorTypes
+              ? `across ${errorTypes} ${errorTypes === 1 ? "type" : "types"} · fix first`
+              : "nothing broken"
+          }
+        />
+        <Kpi
+          label="Warnings"
+          value={String(warnings)}
+          sub={
+            warningTypes
+              ? `across ${warningTypes} ${warningTypes === 1 ? "type" : "types"} · worth a look`
+              : "none outstanding"
+          }
+        />
         <Kpi
           label="Failed / blocked"
           value={`${crawl.url_failed_count} / ${crawl.url_blocked_count}`}
+          sub={`${blockedPct}% of the site unreachable`}
         />
       </div>
 

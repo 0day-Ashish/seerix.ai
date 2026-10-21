@@ -25,12 +25,26 @@
      found, the step you're on, the figure that matters -- never as
      decoration. `signal` is for marks and fills; `signal-deep` is the
      same hue darkened enough for small text on white. */
-  --color-signal: #ff5a1f;
-  --color-signal-deep: #d9430d;
-  --color-signal-soft: #fff1ea;
+  --color-signal: #5a58d1;
+  --color-signal-deep: #4542b8;
+  --color-signal-soft: #efeefc;
   /* Links in the app: one blue, so anything clickable reads as clickable. */
   --color-link: #1a5fd0;
   --color-link-deep: #134aa6;
+
+  /* Status. Semantic, not brand: these keep red/amber/green readable at a
+     glance. Desaturated a step from the stock Tailwind hues so they sit with
+     the brand greys instead of shouting over them. Each has a `-deep` for
+     small text on white and a `-soft` wash for the chip behind it. */
+  --color-warn: #b06a1f;
+  --color-warn-deep: #8a5110;
+  --color-warn-soft: #fcf2e6;
+  --color-danger: #be3a36;
+  --color-danger-deep: #9b2b28;
+  --color-danger-soft: #fdeeed;
+  --color-good: #2f7d5b;
+  --color-good-deep: #246348;
+  --color-good-soft: #eaf4ef;
 
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -74,12 +88,24 @@ body {
   border-radius: 4px;
 }
 
-/* In the app (dashboard, gap tools, settings) the ring is a soft blue halo
-   rather than orange. Fields already turn their border blue on focus, so
-   they get no ring at all. */
+/* The app (dashboard, gap tools, settings) is set in Inter throughout --
+   body and headings alike -- as product UI reads best in one screen face.
+   The marketing site keeps Space Grotesk and DM Sans. */
+[data-app] {
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-body);
+  /* Inter's alternates: a straight-tailed 1 and an open 4, clearer in
+     tables of figures. */
+  font-feature-settings: "cv01", "cv02", "ss03";
+}
+
+/* In the app (dashboard, gap tools, settings) the ring is a soft halo in the
+   signal hue rather than an outline, so it matches the marketing site's focus
+   treatment. Fields already turn their border on focus, so they get no ring. */
 [data-app] :focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgb(59 111 224 / 0.28);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-signal) 28%, transparent);
 }
 [data-app] :is(input, select, textarea):focus-visible {
   box-shadow: none;

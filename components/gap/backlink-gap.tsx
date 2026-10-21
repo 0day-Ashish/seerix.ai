@@ -43,7 +43,7 @@ function As({ value }: { value: number }) {
       </span>
       <span className="h-1 w-full overflow-hidden rounded-full bg-zinc-100">
         <span
-          className="block h-full rounded-full bg-[#3b6fe0]"
+          className="block h-full rounded-full bg-signal"
           style={{ width: `${value}%` }}
         />
       </span>
@@ -61,7 +61,7 @@ function ReferringChart() {
   );
   const max = Math.max(...totals);
   return (
-    <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+    <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
       <div className="px-5 pb-3 pt-4">
         <p className="font-body text-[15px] font-semibold text-zinc-900">
           Referring domains
@@ -101,7 +101,7 @@ function ReferringChart() {
 
 function Prospects({ rows }: { rows: BacklinkRow[] }) {
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+    <div className="flex flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
       <div className="px-5 pb-3 pt-4">
         <p className="font-body text-[15px] font-semibold text-zinc-900">
           Best prospects
@@ -115,7 +115,7 @@ function Prospects({ rows }: { rows: BacklinkRow[] }) {
           key={r.domain}
           className="flex items-center justify-between gap-4 border-t border-zinc-100 px-5 py-3"
         >
-          <span className="truncate font-body text-[13px] text-link">
+          <span className="truncate font-body text-[13px] text-signal">
             {r.domain}
           </span>
           <span className="shrink-0 rounded-full bg-zinc-100 px-2 py-0.5 font-body text-[12px] font-medium tabular-nums text-zinc-700">
@@ -204,14 +204,14 @@ export default function BacklinkGap() {
         />
       </section>
 
-      <section className="mt-8 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+      <section className="mt-8 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
         <div className="flex flex-wrap items-center justify-between gap-3 px-5 pt-4">
           <p className="font-body text-[15px] font-semibold text-zinc-900">
             All referring domains
           </p>
           <button
             type="button"
-            className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-white px-3.5 font-body text-[13px] font-medium text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:bg-zinc-50"
+            className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-white px-3.5 font-body text-[13px] font-medium text-zinc-800 transition-colors hover:bg-zinc-50"
           >
             Export
           </button>
@@ -236,7 +236,7 @@ export default function BacklinkGap() {
               setPage(0);
             }}
             placeholder="Filter by domain"
-            className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[13px] text-zinc-900 placeholder:text-zinc-400 focus:border-[#1a5fd0] focus:outline-none sm:w-64"
+            className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[13px] text-zinc-900 placeholder:text-zinc-400 focus:border-signal focus:outline-none sm:w-64"
           />
           {["Authority Score", "Link type", "Matches"].map((f) => (
             <span
@@ -251,7 +251,7 @@ export default function BacklinkGap() {
               {picked.size} selected ·{" "}
               <button
                 type="button"
-                className="text-link hover:text-link-deep hover:underline hover:underline-offset-[3px]"
+                className="text-signal hover:text-signal-deep hover:underline hover:underline-offset-[3px]"
               >
                 Add to outreach list
               </button>
@@ -309,7 +309,7 @@ export default function BacklinkGap() {
                 return (
                   <tr
                     key={r.domain}
-                    className={`border-b border-zinc-100 last:border-b-0 ${on ? "bg-[#f5f8fe]" : "hover:bg-zinc-50/80"}`}
+                    className={`border-b border-zinc-100 last:border-b-0 ${on ? "bg-signal-soft/50" : "hover:bg-zinc-50/80"}`}
                   >
                     <td className="px-4 py-3">
                       <input
@@ -324,10 +324,10 @@ export default function BacklinkGap() {
                           })
                         }
                         aria-label={`Select ${r.domain}`}
-                        className="h-4 w-4 rounded accent-[#1a5fd0]"
+                        className="h-4 w-4 rounded accent-signal"
                       />
                     </td>
-                    <td className="px-3 py-3 font-body text-[13.5px] text-link">
+                    <td className="px-3 py-3 font-body text-[13.5px] text-signal">
                       {r.domain}
                     </td>
                     <td className="px-3 py-3 text-right">

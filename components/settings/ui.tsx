@@ -47,14 +47,14 @@ export function Panel({
 }) {
   return (
     <section
-      className={`mt-6 overflow-hidden rounded-2xl border bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] ${
-        tone === "danger" ? "border-red-200" : "border-zinc-200/80"
+      className={`mt-6 overflow-hidden rounded-2xl border bg-white ${
+        tone === "danger" ? "border-danger/30" : "border-zinc-200/80"
       }`}
     >
       <div className="border-b border-zinc-100 px-5 py-4 sm:px-6">
         <h3
           className={`font-body text-[15px] font-semibold ${
-            tone === "danger" ? "text-red-700" : "text-zinc-900"
+            tone === "danger" ? "text-danger-deep" : "text-zinc-900"
           }`}
         >
           {title}
@@ -103,7 +103,7 @@ export function Row({
 }
 
 const field =
-  "w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[14px] text-zinc-900 shadow-[0_1px_2px_rgba(15,23,42,0.04)] placeholder:text-zinc-400 transition-colors hover:border-zinc-300 focus:border-[#1a5fd0] focus:outline-none disabled:bg-zinc-50 disabled:text-zinc-500 disabled:shadow-none";
+  "w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[14px] text-zinc-900 placeholder:text-zinc-400 transition-colors hover:border-zinc-300 focus:border-signal focus:outline-none disabled:bg-zinc-50 disabled:text-zinc-500 disabled:shadow-none";
 
 export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return <input {...props} className={`${field} ${props.className ?? ""}`} />;
@@ -166,7 +166,7 @@ export function Toggle({
       aria-label={label}
       onClick={() => setOn((v) => !v)}
       className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
-        on ? "bg-link" : "bg-zinc-200"
+        on ? "bg-signal" : "bg-zinc-200"
       }`}
     >
       <span
@@ -187,12 +187,12 @@ export function Button({
 }) {
   const styles = {
     primary:
-      "bg-link text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] hover:bg-link-deep",
+      "bg-signal text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] hover:bg-signal-deep",
     secondary:
-      "border border-zinc-200 bg-white text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] hover:bg-zinc-50",
+      "border border-zinc-200 bg-white text-zinc-800 hover:bg-zinc-50",
     danger:
-      "bg-red-600 text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] hover:bg-red-700",
-    "danger-ghost": "text-red-600 hover:bg-red-50 hover:text-red-700",
+      "bg-danger text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] hover:bg-danger-deep",
+    "danger-ghost": "text-danger-deep hover:bg-danger-soft hover:text-danger-deep",
     ghost: "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900",
   }[variant];
   return (
@@ -213,8 +213,8 @@ export function Badge({
 }) {
   const styles = {
     neutral: "bg-zinc-100 text-zinc-700",
-    good: "bg-emerald-50 text-emerald-700",
-    signal: "bg-[#fff1ea] text-[#c2410c]",
+    good: "bg-good-soft text-good-deep",
+    signal: "bg-warn-soft text-warn-deep",
   }[tone];
   return (
     <span
@@ -296,7 +296,7 @@ export function Meter({
       </div>
       <div className="mt-2.5 h-2 overflow-hidden rounded-full bg-zinc-100">
         <div
-          className={`h-full rounded-full ${pct >= 80 ? "bg-amber-400" : "bg-[#3b6fe0]"}`}
+          className={`h-full rounded-full ${pct >= 80 ? "bg-warn" : "bg-signal"}`}
           style={{ width: `${pct}%` }}
         />
       </div>

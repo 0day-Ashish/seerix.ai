@@ -119,7 +119,7 @@ function Change({ v, m }: { v: number | "new" | null; m: Metric }) {
   if (v == null) return null;
   if (v === "new")
     return (
-      <span className="rounded-full bg-emerald-50 px-1.5 py-px text-[11.5px] font-medium text-emerald-700">
+      <span className="rounded-full bg-good-soft px-1.5 py-px text-[11.5px] font-medium text-good-deep">
         New
       </span>
     );
@@ -132,7 +132,7 @@ function Change({ v, m }: { v: number | "new" | null; m: Metric }) {
       : `${Math.round(Math.abs(v) * 100)}%`;
   return (
     <span
-      className={`text-[12px] font-medium tabular-nums ${good ? "text-emerald-600" : "text-red-600"}`}
+      className={`text-[12px] font-medium tabular-nums ${good ? "text-good-deep" : "text-danger-deep"}`}
     >
       {good ? "↑" : "↓"}
       {n}
@@ -208,7 +208,7 @@ function Segmented<T extends string>({
           {o.label}
           {dots.includes(o.key) && o.key !== value && (
             <span
-              className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-[#3b6fe0]"
+              className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-signal"
               aria-label="has items"
             />
           )}
@@ -241,7 +241,7 @@ function MetricPicker({
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="flex h-7 items-center gap-1 rounded-md px-1.5 font-body text-[13px] font-medium text-link hover:bg-[#eef3fd]"
+        className="flex h-7 items-center gap-1 rounded-md px-1.5 font-body text-[13px] font-medium text-signal hover:bg-signal-soft"
       >
         {METRICS.find((m) => m.key === value)!.label}
         <svg
@@ -271,7 +271,7 @@ function MetricPicker({
                 setOpen(false);
               }}
               className={`block w-full rounded-lg px-2.5 py-1.5 text-left font-body text-[13px] hover:bg-zinc-100 ${
-                m.key === value ? "font-medium text-[#1a5fd0]" : "text-zinc-700"
+                m.key === value ? "font-medium text-signal" : "text-zinc-700"
               }`}
             >
               {m.label}
@@ -384,7 +384,7 @@ function BreakdownCard({
   };
 
   return (
-    <section className="flex min-w-0 flex-col rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+    <section className="flex min-w-0 flex-col rounded-2xl border border-zinc-200/80 bg-white">
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-5 pb-3 pt-4">
         <h2 className="flex items-center gap-1.5 font-body text-[15px] font-semibold text-zinc-900">
           {title}
@@ -458,7 +458,7 @@ function BreakdownCard({
               aria-hidden="true"
             >
               <span
-                className="block h-full rounded-lg bg-[#eef3fd] transition-[width] duration-500 group-hover:bg-[#e4ecfc]"
+                className="block h-full rounded-lg bg-signal-soft transition-[width] duration-500 group-hover:bg-signal-soft"
                 style={{
                   width: `${Math.max(bar(r.cur[metric]), 0.02) * 100}%`,
                 }}
@@ -482,8 +482,8 @@ function BreakdownCard({
                   }
                   className={`-m-1 shrink-0 rounded-md p-1 transition-colors ${
                     stars.includes(r.key)
-                      ? "text-amber-400 hover:text-amber-500"
-                      : "text-zinc-300 opacity-0 hover:text-amber-400 focus-visible:opacity-100 group-hover:opacity-100"
+                      ? "text-warn hover:text-warn-deep"
+                      : "text-zinc-300 opacity-0 hover:text-warn focus-visible:opacity-100 group-hover:opacity-100"
                   }`}
                 >
                   <svg

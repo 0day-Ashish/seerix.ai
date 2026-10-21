@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
+  account,
   fmt,
   insights,
   pct,
@@ -10,13 +11,7 @@ import {
   summarize,
   wins,
 } from "@/components/dashboard/data";
-import {
-  BtnLink,
-  Card,
-  DataTable,
-  Delta,
-  PageTitle,
-} from "@/components/dashboard/kit";
+import { BtnLink, Card, DataTable, Delta } from "@/components/dashboard/kit";
 import {
   bucket,
   periods,
@@ -49,7 +44,7 @@ function Score({ value, max = 100 }: { value: number; max?: number }) {
     <span className="inline-flex w-20 items-center justify-end gap-2.5">
       <span className="h-1.5 w-10 overflow-hidden rounded-full bg-zinc-100">
         <span
-          className="block h-full rounded-full bg-[#3b6fe0]"
+          className="block h-full rounded-full bg-signal"
           style={{ width: `${(value / max) * 100}%` }}
         />
       </span>
@@ -62,6 +57,23 @@ export default function Overview() {
   const [preset, setPreset] = useState<Preset>("28d");
   const [grain, setGrain] = useState<Grain>("day");
   const [metric, setMetric] = useState<Metric>("clicks");
+  const [hello, setHello] = useState<{ date: string; greet: string } | null>(
+    null,
+  );
+
+  useEffect(() => {
+    const now = new Date();
+    const h = now.getHours();
+    setHello({
+      date: now.toLocaleDateString("en-GB", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+      }),
+      greet:
+        h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening",
+    });
+  }, []);
   const per = useMemo(() => periods(preset), [preset]);
   const { cur: s, prev: sp } = useMemo(
     () => summarize(per.cur, per.prev),
@@ -74,24 +86,28 @@ export default function Overview() {
     label: string;
     value: string;
     delta: React.ReactNode;
+    was: string | null;
   }[] = [
     {
       key: "clicks",
       label: "Clicks",
       value: fmt(s.clicks),
       delta: <Delta value={change(s.clicks, sp?.clicks)} />,
+      was: sp ? fmt(sp.clicks) : null,
     },
     {
       key: "impressions",
       label: "Impressions",
       value: fmt(s.impressions),
       delta: <Delta value={change(s.impressions, sp?.impressions)} />,
+      was: sp ? fmt(sp.impressions) : null,
     },
     {
       key: "ctr",
       label: "Click-through rate",
       value: pct(s.ctr, 1),
       delta: <Delta value={change(s.ctr, sp?.ctr)} />,
+      was: sp ? pct(sp.ctr, 1) : null,
     },
     {
       key: "position",
@@ -100,79 +116,92 @@ export default function Overview() {
       delta: (
         <Delta value={sp ? s.position - sp.position : null} invert suffix="" />
       ),
+      was: sp ? sp.position.toFixed(1) : null,
     },
   ];
 
   return (
     <div>
-      <PageTitle
-        title="Overview"
-        description="How arddev.in is doing on Google, compared with the period before."
-        action={
-          <RangePicker
-            preset={preset}
-            grain={grain}
-            onPreset={(p) => {
-              setPreset(p);
-              // A long range by day is a blur; switch to weeks for it.
-              if (["6m", "8m", "12m", "16m"].includes(p) && grain === "day")
-                setGrain("week");
-              if (["day", "7d", "14d"].includes(p) && grain !== "day")
-                setGrain("day");
-            }}
-            onGrain={setGrain}
-          />
-        }
-      />
+      {/* Date and greeting, as Suresign opens. Set after mount, so the
+          server and the browser agree on the hour. */}
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="min-w-0">
+          <p className="min-h-5 font-body text-[14px] text-zinc-500">
+            {hello?.date}
+          </p>
+          <h1 className="mt-1.5 font-body text-[32px] font-medium tracking-[-0.025em] text-zinc-900 sm:text-[36px]">
+            {hello ? `${hello.greet}, ${account.first_name}` : "Overview"}
+          </h1>
+          <p className="mt-1 font-body text-[15px] text-zinc-500">
+            How arddev.in is doing on Google, compared with the period before.
+          </p>
+        </div>
+        <RangePicker
+          preset={preset}
+          grain={grain}
+          onPreset={(p) => {
+            setPreset(p);
+            // A long range by day is a blur; switch to weeks for it.
+            if (["6m", "8m", "12m", "16m"].includes(p) && grain === "day")
+              setGrain("week");
+            if (["day", "7d", "14d"].includes(p) && grain !== "day")
+              setGrain("day");
+          }}
+          onGrain={setGrain}
+        />
+      </div>
 
-      <div className="mt-6">
-        <Card flush>
-          <div
-            role="tablist"
-            aria-label="Metric"
-            className="grid grid-cols-2 border-b border-zinc-100 lg:grid-cols-4"
-          >
-            {tiles.map((t) => {
-              const on = t.key === metric;
-              return (
-                <button
-                  key={t.key}
-                  type="button"
-                  role="tab"
-                  aria-selected={on}
-                  onClick={() => setMetric(t.key)}
-                  className={`relative px-5 py-4 text-left transition-colors ${
-                    on ? "bg-[#f5f8fe]" : "hover:bg-zinc-50"
-                  }`}
+      <div
+        role="tablist"
+        aria-label="Metric"
+        className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4"
+      >
+        {tiles.map((t) => {
+          const on = t.key === metric;
+          return (
+            <button
+              key={t.key}
+              type="button"
+              role="tab"
+              aria-selected={on}
+              onClick={() => setMetric(t.key)}
+              className={`rounded-2xl border px-5 py-4 text-left transition-colors ${
+                on
+                  ? "border-zinc-200 bg-zinc-100/80"
+                  : "border-zinc-200/80 bg-white hover:bg-zinc-50"
+              }`}
+            >
+              <span className="flex items-center gap-2 font-body text-[14px] text-zinc-600">
+                <svg
+                  className={`h-4 w-4 ${on ? "text-signal" : "text-zinc-400"}`}
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
                 >
-                  <span className="flex items-center gap-2 font-body text-[13px] text-zinc-500">
-                    <svg
-                      className={`h-4 w-4 ${on ? "text-[#3b6fe0]" : "text-zinc-400"}`}
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d={ICONS[t.key]} />
-                    </svg>
-                    {t.label}
-                  </span>
-                  <span className="mt-1.5 flex items-baseline gap-2">
-                    <span className="font-body text-[26px] font-semibold tabular-nums tracking-[-0.01em] text-zinc-900">
-                      {t.value}
-                    </span>
-                    {t.delta}
-                  </span>
-                  <span
-                    className={`absolute inset-x-0 bottom-0 h-0.5 ${on ? "bg-[#3b6fe0]" : ""}`}
-                  />
-                </button>
-              );
-            })}
-          </div>
+                  <path d={ICONS[t.key]} />
+                </svg>
+                {t.label}
+              </span>
+              <span className="mt-1 flex items-baseline gap-2">
+                <span className="font-body text-[30px] font-medium tabular-nums tracking-[-0.02em] text-zinc-900 sm:text-[34px]">
+                  {t.value}
+                </span>
+                {t.delta}
+              </span>
+              <span className="mt-0.5 block font-body text-[13px] text-zinc-500">
+                {t.was ? `${t.was} the period before` : "No earlier data"}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="mt-3">
+        <Card flush>
           <div className="px-3 pb-3 pt-5 sm:px-5">
             {/* Keyed so a new range, grain or metric draws the line in again. */}
             <TrafficChart
@@ -222,7 +251,7 @@ export default function Overview() {
                 key={w.title}
                 className="flex gap-3 rounded-xl bg-zinc-50 px-3.5 py-3"
               >
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[11px] text-emerald-700">
+                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-good-soft text-[11px] text-good-deep">
                   ✓
                 </span>
                 <div className="min-w-0">
@@ -231,7 +260,7 @@ export default function Overview() {
                   </p>
                   <p className="mt-1 font-body text-[12.5px] text-zinc-500">
                     Clicks{" "}
-                    <span className="font-medium text-emerald-600">
+                    <span className="font-medium text-good-deep">
                       ↑{Math.round(w.clicks_delta_pct * 100)}%
                     </span>{" "}
                     · verified {shortDate(w.verified_at)}

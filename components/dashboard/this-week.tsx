@@ -103,7 +103,7 @@ export default function ThisWeek() {
                   className="flex items-start gap-3 rounded-xl bg-zinc-50 px-3.5 py-3"
                 >
                   <span
-                    className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full font-body text-[11px] font-semibold ${up ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"}`}
+                    className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full font-body text-[11px] font-semibold ${up ? "bg-good-soft text-good-deep" : "bg-danger-soft text-danger-deep"}`}
                   >
                     {up ? "↑" : "↓"}
                   </span>
@@ -129,12 +129,12 @@ export default function ThisWeek() {
                 key={w.title}
                 className="mt-3 flex gap-2.5 font-body text-[13.5px] leading-[1.45] text-zinc-900"
               >
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[11px] text-emerald-700">
+                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-good-soft text-[11px] text-good-deep">
                   ✓
                 </span>
                 <span>
                   {w.title}{" "}
-                  <span className="font-medium tabular-nums text-emerald-600">
+                  <span className="font-medium tabular-nums text-good-deep">
                     +{Math.round(w.deltaPct * 100)}% clicks
                   </span>
                 </span>
@@ -151,9 +151,9 @@ export default function ThisWeek() {
             {i.alerts.map((a) => (
               <p
                 key={a.summary}
-                className="mt-3 flex items-start gap-2.5 rounded-xl bg-[#fff1ea] px-3.5 py-3 font-body text-[13.5px] text-zinc-900"
+                className="mt-3 flex items-start gap-2.5 rounded-xl bg-warn-soft px-3.5 py-3 font-body text-[13.5px] text-zinc-900"
               >
-                <span className="text-[#c2410c]">⚠</span>
+                <span className="text-warn-deep">⚠</span>
                 {a.summary}
               </p>
             ))}
@@ -161,7 +161,7 @@ export default function ThisWeek() {
         </div>
       )}
 
-      <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+      <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
         <button
           type="button"
           onClick={() => setEmail((v) => !v)}
@@ -210,7 +210,7 @@ export default function ThisWeek() {
                       <span className="font-body text-[12.5px] text-zinc-500">
                         Sent {shortDate(r.sent_at)}
                       </span>
-                      <span className="font-body text-[13px] font-medium text-link hover:text-link-deep">
+                      <span className="font-body text-[13px] font-medium text-signal hover:text-signal-deep">
                         {on ? "Close" : "Open"}
                       </span>
                     </span>

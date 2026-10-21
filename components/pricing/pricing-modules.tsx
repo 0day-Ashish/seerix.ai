@@ -15,33 +15,37 @@ type Module = {
 
 function DiagnoseSketch() {
   return (
-    <div className="w-[70%] bg-white p-3 shadow-[0_6px_18px_-8px_rgba(0,0,0,0.35)]">
+    <div className="w-[70%] rounded-xl bg-white p-3 shadow-[0_6px_18px_-8px_rgba(0,0,0,0.35)]">
       <div className="flex h-10 items-end gap-[3px]">
         {[70, 74, 68, 76, 72, 78, 50, 42, 38, 40].map((h, i) => (
           <span
             key={i}
             style={{ height: `${h}%` }}
-            className={`flex-1 ${i > 5 ? "bg-signal" : "bg-black/[0.12]"}`}
+            className={`flex-1 rounded-t-[2px] ${i > 5 ? "bg-signal" : "bg-black/[0.12]"}`}
           />
         ))}
       </div>
-      <span className="mt-2 block h-1.5 w-3/4 bg-black/[0.18]" />
-      <span className="mt-1.5 block h-1.5 w-1/2 bg-black/[0.10]" />
+      <span className="mt-2 block h-1.5 w-3/4 rounded-full bg-black/[0.18]" />
+      <span className="mt-1.5 block h-1.5 w-1/2 rounded-full bg-black/[0.10]" />
     </div>
   );
 }
 
 function PrioritizeSketch() {
   return (
-    <div className="w-[70%] bg-white shadow-[0_6px_18px_-8px_rgba(0,0,0,0.35)]">
+    <div className="w-[70%] overflow-hidden rounded-xl bg-white shadow-[0_6px_18px_-8px_rgba(0,0,0,0.35)]">
       {[0, 1, 2, 3].map((r) => (
         <div
           key={r}
           className="flex items-center gap-2 border-b border-black/[0.06] px-3 py-2 last:border-0"
         >
           <span className="font-mono text-[9px] text-zinc-400">{r + 1}</span>
-          <span className={`h-1.5 flex-1 ${r === 0 ? "bg-black/30" : "bg-black/[0.10]"}`} />
-          <span className={`h-3 w-6 ${r === 0 ? "bg-signal" : "bg-black/[0.08]"}`} />
+          <span
+            className={`h-1.5 flex-1 rounded-full ${r === 0 ? "bg-black/30" : "bg-black/[0.10]"}`}
+          />
+          <span
+            className={`h-3 w-6 rounded-[3px] ${r === 0 ? "bg-signal" : "bg-black/[0.08]"}`}
+          />
         </div>
       ))}
     </div>
@@ -54,12 +58,14 @@ function WatchSketch() {
       {["new", "", ""].map((tag, i) => (
         <div
           key={i}
-          className={`flex items-center gap-2 bg-white px-3 py-2 shadow-[0_6px_18px_-10px_rgba(0,0,0,0.35)] ${
+          className={`flex items-center gap-2 rounded-lg bg-white px-3 py-2 shadow-[0_6px_18px_-10px_rgba(0,0,0,0.35)] ${
             tag ? "ring-1 ring-signal/50" : ""
           }`}
         >
-          <span className={`h-2 w-2 ${tag ? "bg-signal" : "bg-black/[0.15]"}`} />
-          <span className="h-1.5 flex-1 bg-black/[0.14]" />
+          <span
+            className={`h-2 w-2 rounded-full ${tag ? "bg-signal" : "bg-black/[0.15]"}`}
+          />
+          <span className="h-1.5 flex-1 rounded-full bg-black/[0.14]" />
         </div>
       ))}
     </div>
@@ -72,12 +78,14 @@ function CreateSketch() {
       {[1, 0, 0].map((pick, i) => (
         <div
           key={i}
-          className={`flex items-center justify-between gap-2 px-3 py-2 shadow-[0_6px_18px_-10px_rgba(0,0,0,0.35)] ${
+          className={`flex items-center justify-between gap-2 rounded-lg px-3 py-2 shadow-[0_6px_18px_-10px_rgba(0,0,0,0.35)] ${
             pick ? "bg-signal-soft ring-1 ring-signal/50" : "bg-white"
           }`}
         >
-          <span className="h-1.5 w-2/3 bg-black/[0.16]" />
-          <span className="font-mono text-[9px] text-zinc-500">{[42, 36, 41][i]}/60</span>
+          <span className="h-1.5 w-2/3 rounded-full bg-black/[0.16]" />
+          <span className="font-mono text-[9px] text-zinc-500">
+            {[42, 36, 41][i]}/60
+          </span>
         </div>
       ))}
     </div>
@@ -148,21 +156,17 @@ export default function PricingModules() {
           What every plan runs
         </h2>
 
-        <div className="mt-10 grid border border-black/[0.12] sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {modules.map((m, index) => {
             const lit = index === 0;
             return (
               <article
                 key={m.name}
-                className={`flex flex-col p-4 ${
-                  index > 0 ? "border-t border-black/[0.12] sm:border-t-0" : ""
-                } ${index % 2 === 1 ? "sm:border-l sm:border-black/[0.12]" : ""} ${
-                  index > 1 ? "sm:border-t sm:border-black/[0.12] lg:border-t-0" : ""
-                } ${index > 0 ? "lg:border-l lg:border-black/[0.12]" : ""}`}
+                className="flex flex-col rounded-3xl border border-black/[0.08] bg-white p-3 sm:p-4"
               >
                 <div
                   aria-hidden="true"
-                  className={`relative flex aspect-square flex-col justify-between overflow-hidden p-4 ${
+                  className={`relative flex aspect-square flex-col justify-between overflow-hidden rounded-2xl p-4 ${
                     lit ? "bg-[#2a2a30] text-white" : "bg-[#f3f2ef] text-black"
                   }`}
                 >
@@ -175,13 +179,20 @@ export default function PricingModules() {
                       className="object-cover [transform:scaleY(-1)]"
                     />
                   )}
-                  <div className="relative flex justify-center pt-2">{m.visual}</div>
+                  {lit && (
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1c1c21]/70 via-transparent to-transparent" />
+                  )}
+                  <div className="relative flex justify-center pt-2">
+                    {m.visual}
+                  </div>
                   <div className="relative">
                     <p className="font-display text-[30px] font-medium leading-none tracking-[-0.03em]">
                       {m.name}
                     </p>
                     <p className="mt-2 flex items-baseline gap-1.5">
-                      <span className="font-display text-[18px]">{m.allowance}</span>
+                      <span className="font-display text-[18px]">
+                        {m.allowance}
+                      </span>
                       <span
                         className={`font-body text-[12px] ${lit ? "text-white/75" : "text-zinc-500"}`}
                       >
@@ -191,8 +202,10 @@ export default function PricingModules() {
                   </div>
                 </div>
 
-                <p className="mt-5 font-body text-[15px] text-black">{m.summary}</p>
-                <ul className="mt-3">
+                <p className="mt-5 px-1 font-body text-[15px] text-black">
+                  {m.summary}
+                </p>
+                <ul className="mt-3 px-1">
                   {m.points.map((point) => (
                     <li
                       key={point}
@@ -205,7 +218,7 @@ export default function PricingModules() {
                 <div className="flex-1" />
                 <Link
                   href="/#demo"
-                  className="mt-4 flex h-10 items-center justify-center bg-[#141416] font-body text-[14px] font-medium text-white transition-colors hover:bg-[#36363B]"
+                  className="mt-4 flex h-11 items-center justify-center rounded-xl bg-[#1c1c21] font-body text-[14px] font-medium text-white transition-colors hover:bg-[#36363B]"
                 >
                   See it work
                 </Link>

@@ -6,9 +6,9 @@ import { domains } from "@/components/gap/data";
 
 /** One colour per compared domain: you in blue, competitors in amber and green. */
 export const domainColor: Record<string, string> = {
-  "arddev.in": "#3b6fe0",
-  "pixelforge.dev": "#f59e0b",
-  "buildstack.io": "#10b981",
+  "arddev.in": "#5a58d1",
+  "pixelforge.dev": "#b06a1f",
+  "buildstack.io": "#2f7d5b",
 };
 
 export function Dot({ domain }: { domain: string }) {
@@ -49,12 +49,12 @@ export function DomainBar({
         {description}
       </p>
 
-      <div className="mt-6 rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+      <div className="mt-6 rounded-2xl border border-zinc-200/80 bg-white p-4">
         <div className="grid gap-3 md:grid-cols-[repeat(3,minmax(0,1fr))_auto]">
           {values.map((v, i) => (
             <label
               key={i}
-              className="flex min-w-0 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 transition-colors focus-within:border-[#1a5fd0]"
+              className="flex min-w-0 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 transition-colors focus-within:border-signal"
             >
               <Dot domain={domains[i]} />
               <span className="shrink-0 font-body text-[12.5px] font-medium text-zinc-500">
@@ -74,7 +74,7 @@ export function DomainBar({
           ))}
           <button
             type="button"
-            className="h-10 rounded-lg bg-link px-6 font-body text-[14px] font-medium text-white shadow-sm transition-colors hover:bg-link-deep"
+            className="h-10 rounded-lg bg-signal px-6 font-body text-[14px] font-medium text-white shadow-sm transition-colors hover:bg-signal-deep"
           >
             Compare
           </button>
@@ -82,7 +82,7 @@ export function DomainBar({
         <div className="mt-3 flex flex-wrap items-center gap-3 font-body text-[13px] text-zinc-500">
           <button
             type="button"
-            className="text-link hover:text-link-deep hover:underline hover:underline-offset-[3px]"
+            className="text-signal hover:text-signal-deep hover:underline hover:underline-offset-[3px]"
           >
             + Add up to 2 competitors
           </button>
@@ -124,7 +124,7 @@ export function Tabs<T extends string>({
             aria-selected={on}
             onClick={() => onChange(t)}
             className={`-mb-px flex shrink-0 flex-col items-start rounded-t-lg border-b-2 px-4 py-2.5 text-left transition-colors ${
-              on ? "border-[#3b6fe0]" : "border-transparent hover:bg-zinc-50"
+              on ? "border-signal" : "border-transparent hover:bg-zinc-50"
             }`}
           >
             <span
@@ -133,7 +133,7 @@ export function Tabs<T extends string>({
               {t}
             </span>
             <span
-              className={`font-body text-[15px] font-semibold tabular-nums ${on ? "text-[#1a5fd0]" : "text-zinc-400"}`}
+              className={`font-body text-[15px] font-semibold tabular-nums ${on ? "text-signal" : "text-zinc-400"}`}
             >
               {counts[t]}
             </span>
@@ -166,7 +166,7 @@ export function SortHeader({
       } ${align === "right" ? "justify-end" : ""}`}
     >
       {label}
-      <span className={active ? "text-[#1a5fd0]" : "opacity-0"}>
+      <span className={active ? "text-signal" : "opacity-0"}>
         {dir === "asc" ? "↑" : "↓"}
       </span>
     </button>
@@ -204,7 +204,7 @@ export function Pager({
               type="button"
               disabled={disabled}
               onClick={() => onPage(target)}
-              className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 font-medium text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-white"
+              className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 font-medium text-zinc-800 transition-colors hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-white"
             >
               {l}
             </button>

@@ -77,7 +77,7 @@ export default function ScanField({
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const ink = tone === "light" ? "28,28,33" : "255,255,255";
-    const signal = "255,90,31";
+    const signal = "90,88,209";
 
     let w = 0;
     let h = 0;

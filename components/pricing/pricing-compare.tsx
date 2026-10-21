@@ -1,9 +1,5 @@
 import SectionHeader from "@/components/new-landing/section-header";
-import {
-  compareGroups,
-  plans,
-  type Cell,
-} from "@/components/pricing/plans";
+import { compareGroups, plans, type Cell } from "@/components/pricing/plans";
 
 function Tick() {
   return (
@@ -63,7 +59,7 @@ export default function PricingCompare() {
             keeps the 720px table from widening the document itself: the sticky
             header row otherwise escapes the scroll container and counts toward
             the page's scroll width, so the whole page pans sideways. */}
-        <div className="mt-10 overflow-x-auto border border-black/[0.12] contain-[paint]">
+        <div className="mt-10 overflow-x-auto rounded-2xl border border-black/[0.10] bg-white contain-[paint]">
           <table className="w-full min-w-[720px] border-collapse text-left">
             <caption className="sr-only">
               Feature comparison across the Starter, Growth and Agency plans
@@ -77,7 +73,7 @@ export default function PricingCompare() {
               <tr className="bg-zinc-50">
                 <th
                   scope="col"
-                  className="w-[34%] border-b border-black/[0.12] px-4 py-4 font-body text-[13px] font-medium text-zinc-400"
+                  className="w-[34%] border-b border-black/[0.10] px-4 py-4 font-body text-[13px] font-medium text-zinc-400"
                 >
                   Features
                 </th>
@@ -85,12 +81,18 @@ export default function PricingCompare() {
                   <th
                     key={plan.id}
                     scope="col"
-                    className="border-b border-l border-black/[0.12] px-4 py-4 text-center"
+                    className={`border-b border-l border-black/[0.10] px-4 py-4 text-center ${
+                      plan.featured ? "bg-signal-soft" : ""
+                    }`}
                   >
                     <span className="block font-display text-[16px] font-medium tracking-[-0.02em] text-black">
                       {plan.name}
                     </span>
-                    <span className="mt-0.5 block font-body text-[13px] text-zinc-400">
+                    <span
+                      className={`mt-0.5 block font-body text-[13px] ${
+                        plan.featured ? "text-signal-deep" : "text-zinc-400"
+                      }`}
+                    >
                       {plan.price}
                       {plan.cadence}
                     </span>
@@ -118,7 +120,11 @@ export default function PricingCompare() {
                     <td
                       key={plan.id}
                       aria-hidden="true"
-                      className="border-l border-black/[0.08] px-4 pb-3 pt-9 text-center font-body text-[12px] text-zinc-300"
+                      className={`border-l border-black/[0.08] px-4 pb-3 pt-9 text-center font-body text-[12px] ${
+                        plan.featured
+                          ? "bg-signal-soft/50 text-signal-deep/60"
+                          : "text-zinc-300"
+                      }`}
                     >
                       {plan.name}
                     </td>
@@ -144,7 +150,9 @@ export default function PricingCompare() {
                     {plans.map((plan) => (
                       <td
                         key={plan.id}
-                        className="border-l border-black/[0.08] px-4 py-4 text-center align-top"
+                        className={`border-l border-black/[0.08] px-4 py-4 text-center align-top ${
+                          plan.featured ? "bg-signal-soft/50" : ""
+                        }`}
                       >
                         <Value value={row.values[plan.id]} />
                       </td>

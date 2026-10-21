@@ -2,8 +2,9 @@ import Link from "next/link";
 
 /* -------------------------------------------------------------------------
  * The dashboard kit: page title, framed cards, KPI tiles, deltas, tags,
- * sparklines and a table. Soft corners, quiet greys and one blue for data
- * and actions; orange only for what needs attention.
+ * sparklines and a table, after Suresign: thin borders and no shadows,
+ * pill buttons, quiet greys and one bright blue; orange only for what needs
+ * attention.
  * ---------------------------------------------------------------------- */
 
 export function PageTitle({
@@ -18,11 +19,11 @@ export function PageTitle({
   return (
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div className="min-w-0">
-        <h1 className="font-display text-[26px] font-semibold tracking-[-0.02em] text-zinc-900">
+        <h1 className="font-body text-[30px] font-medium tracking-[-0.025em] text-zinc-900 sm:text-[32px]">
           {title}
         </h1>
         {description && (
-          <p className="mt-1 max-w-2xl font-body text-[14px] leading-[1.55] text-zinc-500">
+          <p className="mt-1.5 max-w-2xl font-body text-[15px] leading-[1.55] text-zinc-500">
             {description}
           </p>
         )}
@@ -50,12 +51,12 @@ export function Card({
 }) {
   return (
     <section
-      className={`min-w-0 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] ${className}`}
+      className={`min-w-0 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white ${className}`}
     >
       {title && (
         <div className="flex flex-wrap items-start justify-between gap-3 px-5 pb-3 pt-4">
           <div className="min-w-0">
-            <h2 className="font-body text-[15px] font-semibold text-zinc-900">
+            <h2 className="font-body text-[16px] font-medium text-zinc-900">
               {title}
             </h2>
             {hint && (
@@ -90,7 +91,7 @@ export function Delta({
     suffix === "%" ? Math.round(value * 100) : Math.round(value * 10) / 10;
   return (
     <span
-      className={`inline-flex items-center gap-0.5 font-body text-[12.5px] font-medium tabular-nums ${good ? "text-emerald-600" : "text-red-600"}`}
+      className={`inline-flex items-center gap-0.5 font-body text-[12.5px] font-medium tabular-nums ${good ? "text-good-deep" : "text-danger-deep"}`}
     >
       {value >= 0 ? "↑" : "↓"}
       {Math.abs(shown)}
@@ -111,16 +112,16 @@ export function Kpi({
   sub?: string;
 }) {
   return (
-    <div className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3.5 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-      <p className="font-body text-[13px] text-zinc-500">{label}</p>
-      <p className="mt-1.5 flex items-baseline gap-2">
-        <span className="font-body text-[24px] font-semibold tabular-nums tracking-[-0.01em] text-zinc-900">
+    <div className="rounded-2xl border border-zinc-200/80 bg-white px-5 py-4">
+      <p className="font-body text-[14px] text-zinc-600">{label}</p>
+      <p className="mt-1 flex items-baseline gap-2">
+        <span className="font-body text-[30px] font-medium tabular-nums tracking-[-0.02em] text-zinc-900">
           {value}
         </span>
         {delta}
       </p>
       {sub && (
-        <p className="mt-0.5 font-body text-[12px] text-zinc-500">{sub}</p>
+        <p className="mt-0.5 font-body text-[13px] text-zinc-500">{sub}</p>
       )}
     </div>
   );
@@ -135,9 +136,9 @@ export function Tag({
 }) {
   const styles = {
     neutral: "bg-zinc-100 text-zinc-700",
-    signal: "bg-[#fff1ea] text-[#c2410c]",
-    good: "bg-emerald-50 text-emerald-700",
-    ink: "bg-[#eef3fd] text-[#1a5fd0]",
+    signal: "bg-warn-soft text-warn-deep",
+    good: "bg-good-soft text-good-deep",
+    ink: "bg-signal-soft text-signal",
   }[tone];
   return (
     <span
@@ -155,7 +156,7 @@ export function Tag({
 export function Spark({
   points,
   higherIsBetter = false,
-  color = "#3b6fe0",
+  color = "#5a58d1",
   width = 96,
   height = 24,
 }: {
@@ -229,7 +230,7 @@ export function DataTable({
             {head.map((h, i) => (
               <th
                 key={h + i}
-                className={`border-y border-zinc-100 bg-zinc-50/70 px-5 py-2.5 font-body text-[12.5px] font-medium text-zinc-500 ${
+                className={`border-y border-zinc-100 bg-zinc-50/60 px-5 py-2.5 font-body text-[12.5px] font-normal text-zinc-500 ${
                   align?.[i] === "right" ? "text-right" : ""
                 }`}
               >
@@ -269,9 +270,8 @@ export function Mono({ children }: { children: React.ReactNode }) {
 }
 
 const buttonStyles = {
-  primary: "bg-link text-white shadow-sm hover:bg-link-deep",
-  secondary:
-    "border border-zinc-200 bg-white text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] hover:bg-zinc-50",
+  primary: "bg-signal text-white hover:bg-signal-deep",
+  secondary: "border border-zinc-200 bg-white text-zinc-800 hover:bg-zinc-50",
 };
 
 export function Btn({
@@ -285,7 +285,7 @@ export function Btn({
     <button
       type="button"
       {...props}
-      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-3.5 font-body text-[13px] font-medium transition-colors disabled:opacity-50 ${buttonStyles[variant]} ${className}`}
+      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-full px-4 font-body text-[13.5px] transition-colors disabled:opacity-50 ${buttonStyles[variant]} ${className}`}
     />
   );
 }
@@ -302,7 +302,7 @@ export function BtnLink({
   return (
     <Link
       href={href}
-      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-3.5 font-body text-[13px] font-medium transition-colors ${buttonStyles[variant]}`}
+      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-full px-4 font-body text-[13.5px] transition-colors ${buttonStyles[variant]}`}
     >
       {children}
     </Link>

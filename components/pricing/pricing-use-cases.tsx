@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Button from "@/components/new-landing/button";
 import { useState } from "react";
 
 type UseCase = {
@@ -152,8 +152,10 @@ export default function PricingUseCases() {
                   role="tab"
                   aria-selected={on}
                   onClick={() => setActive(i)}
-                  className={`flex shrink-0 items-center gap-3 px-4 py-3 text-left font-body text-[16px] transition-colors ${
-                    on ? "bg-zinc-100 text-black" : "text-zinc-500 hover:text-black"
+                  className={`flex shrink-0 items-center gap-3 rounded-xl px-4 py-3 text-left font-body text-[16px] transition-colors ${
+                    on
+                      ? "bg-signal-soft text-signal-deep"
+                      : "text-zinc-500 hover:bg-zinc-50 hover:text-black"
                   }`}
                 >
                   <Icon d={u.icon} />
@@ -167,7 +169,7 @@ export default function PricingUseCases() {
           <div
             role="tabpanel"
             key={uc.name}
-            className="grid animate-[seerix-fade-in_0.35s_ease-out] gap-6 border border-black/[0.10] p-6 shadow-[0_20px_50px_-35px_rgba(0,0,0,0.35)] sm:p-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]"
+            className="grid animate-[seerix-fade-in_0.35s_ease-out] gap-6 rounded-3xl border border-black/[0.08] bg-white p-6 shadow-[0_20px_50px_-35px_rgba(0,0,0,0.35)] sm:p-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]"
           >
             <div className="flex min-w-0 flex-col">
               <h3 className="font-display text-[30px] font-medium tracking-[-0.03em] text-black">
@@ -185,33 +187,32 @@ export default function PricingUseCases() {
                 {uc.tags.map((t) => (
                   <span
                     key={t}
-                    className="bg-zinc-100 px-2.5 py-1.5 font-mono text-[12px] text-zinc-700"
+                    className="rounded-full bg-zinc-100 px-3 py-1.5 font-body text-[13px] text-zinc-700"
                   >
                     {t}
                   </span>
                 ))}
               </div>
               <div className="flex-1" />
-              <div className="mt-8 bg-zinc-50 p-5">
+              <div className="mt-8 rounded-2xl border border-black/[0.06] bg-zinc-50 p-5">
                 <p className="flex items-baseline justify-between gap-4">
                   <span className="font-display text-[18px] text-black">
                     Fits the {uc.plan.name} plan
                   </span>
                   <span className="font-display text-[26px] tracking-[-0.02em] text-black">
                     {uc.plan.price}
-                    <span className="ml-1 font-body text-[13px] text-zinc-500">/mo</span>
+                    <span className="ml-1 font-body text-[13px] text-zinc-500">
+                      /mo
+                    </span>
                   </span>
                 </p>
-                <Link
-                  href="/#demo"
-                  className="mt-4 flex h-11 items-center justify-center bg-[#141416] font-body text-[15px] font-medium text-white transition-colors hover:bg-[#36363B]"
-                >
+                <Button href="/#demo" className="mt-4 w-full font-medium">
                   See it on your site
-                </Link>
+                </Button>
               </div>
             </div>
 
-            <div className="flex min-w-0 flex-col border border-black/[0.08]">
+            <div className="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-black/[0.08]">
               <div className="relative aspect-[6/5] overflow-hidden bg-[#2a2a30]">
                 <Image
                   src="/assets/Silver mist-2048x1428.png"
@@ -220,7 +221,7 @@ export default function PricingUseCases() {
                   sizes="(min-width: 1024px) 30vw, 100vw"
                   className="object-cover [transform:scaleX(-1)]"
                 />
-                <div className="absolute inset-x-5 bottom-5 bg-white p-4">
+                <div className="absolute inset-x-5 bottom-5 rounded-xl bg-white p-4 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.35)]">
                   <p className="font-mono text-[11px] tracking-[0.08em] text-zinc-500">
                     ASKED
                   </p>
@@ -230,7 +231,9 @@ export default function PricingUseCases() {
                 </div>
               </div>
               <div className="flex-1 bg-zinc-50 p-5">
-                <p className="font-body text-[13px] text-zinc-500">Example diagnosis</p>
+                <p className="font-body text-[13px] text-zinc-500">
+                  Example diagnosis
+                </p>
                 <p className="mt-2 font-display text-[19px] leading-snug tracking-[-0.01em] text-black">
                   {uc.example.answer}
                 </p>

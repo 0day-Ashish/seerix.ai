@@ -14,7 +14,7 @@ const filters: ("All" | ChangeKind)[] = ["All", "New", "Improved", "Fixed"];
 const tagStyle: Record<ChangeKind, string> = {
   New: "bg-signal text-white",
   Improved: "bg-[#141416] text-white",
-  Fixed: "border border-black/[0.18] text-zinc-700",
+  Fixed: "border border-black/[0.12] bg-white text-zinc-700",
 };
 
 function formatDate(iso: string) {
@@ -48,7 +48,7 @@ function Check() {
 function Sketch({ kind }: { kind: NonNullable<Entry["sketch"]> }) {
   if (kind === "diagnosis") {
     return (
-      <div className="bg-white p-4 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.4)]">
+      <div className="rounded-xl bg-white p-4 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.4)]">
         <p className="font-mono text-[11px] tracking-[0.08em] text-zinc-500">
           FIX VERIFIED &middot; /PRICING
         </p>
@@ -57,7 +57,7 @@ function Sketch({ kind }: { kind: NonNullable<Entry["sketch"]> }) {
             <span
               key={i}
               style={{ height: `${h}%` }}
-              className={`flex-1 ${i === 5 ? "bg-signal" : i > 5 ? "bg-black/30" : "bg-black/[0.12]"}`}
+              className={`flex-1 rounded-t-[3px] ${i === 5 ? "bg-signal" : i > 5 ? "bg-black/30" : "bg-black/[0.12]"}`}
             />
           ))}
         </div>
@@ -77,12 +77,12 @@ function Sketch({ kind }: { kind: NonNullable<Entry["sketch"]> }) {
         ].map(([t, fresh]) => (
           <div
             key={String(t)}
-            className={`flex items-center gap-3 bg-white px-3.5 py-2.5 shadow-[0_8px_24px_-16px_rgba(0,0,0,0.4)] ${
+            className={`flex items-center gap-3 rounded-xl bg-white px-3.5 py-2.5 shadow-[0_8px_24px_-16px_rgba(0,0,0,0.4)] ${
               fresh ? "ring-1 ring-signal/50" : ""
             }`}
           >
             <span
-              className={`h-2 w-2 shrink-0 ${fresh ? "bg-signal" : "bg-black/[0.15]"}`}
+              className={`h-2 w-2 shrink-0 rounded-full ${fresh ? "bg-signal" : "bg-black/[0.15]"}`}
             />
             <span className="truncate font-body text-[13px] text-black">
               {t}
@@ -101,7 +101,7 @@ function Sketch({ kind }: { kind: NonNullable<Entry["sketch"]> }) {
       ].map(([t, n, pick]) => (
         <div
           key={String(t)}
-          className={`flex items-center justify-between gap-3 px-3.5 py-2.5 shadow-[0_8px_24px_-16px_rgba(0,0,0,0.4)] ${
+          className={`flex items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 shadow-[0_8px_24px_-16px_rgba(0,0,0,0.4)] ${
             pick ? "bg-signal-soft ring-1 ring-signal/50" : "bg-white"
           }`}
         >
@@ -132,9 +132,7 @@ export default function ChangelogList() {
         aria-label="Filter releases"
         className="flex flex-wrap items-center gap-2"
       >
-        <span className="mr-2 font-mono text-[11px] uppercase tracking-[0.1em] text-zinc-500">
-          Show
-        </span>
+        <span className="mr-2 font-body text-[14px] text-zinc-500">Show</span>
         {filters.map((f) => {
           const on = f === filter;
           return (
@@ -144,10 +142,10 @@ export default function ChangelogList() {
               role="tab"
               aria-selected={on}
               onClick={() => setFilter(f)}
-              className={`border px-2.5 py-1.5 font-mono text-[12px] transition-colors ${
+              className={`rounded-full border px-3.5 py-1.5 font-body text-[14px] transition-colors ${
                 on
                   ? "border-[#141416] bg-[#141416] text-white"
-                  : "border-black/[0.12] text-zinc-700 hover:border-black/40 hover:text-black"
+                  : "border-black/[0.1] bg-white text-zinc-700 hover:border-black/30 hover:text-black"
               }`}
             >
               {f}
@@ -180,7 +178,7 @@ export default function ChangelogList() {
             >
               <div className="min-w-0">
                 <span
-                  className={`inline-block px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.08em] ${tagStyle[e.kind]}`}
+                  className={`inline-block rounded-full px-2.5 py-0.5 font-body text-[13px] font-medium ${tagStyle[e.kind]}`}
                 >
                   {e.kind}
                 </span>
@@ -203,7 +201,10 @@ export default function ChangelogList() {
               </div>
 
               {e.sketch && (
-                <div aria-hidden="true" className="self-start bg-[#f3f2ef] p-5">
+                <div
+                  aria-hidden="true"
+                  className="self-start rounded-2xl bg-[#f3f2ef] p-5"
+                >
                   <Sketch kind={e.sketch} />
                 </div>
               )}

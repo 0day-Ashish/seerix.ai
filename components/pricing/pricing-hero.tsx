@@ -1,7 +1,15 @@
 import Link from "next/link";
 
+import Button from "@/components/new-landing/button";
+
 /** The verticals Seerix is set up for, linking to their use-case panel. */
-const useCases = ["SaaS", "E-commerce", "Publishers", "Local services", "Agencies"];
+const useCases = [
+  "SaaS",
+  "E-commerce",
+  "Publishers",
+  "Local services",
+  "Agencies",
+];
 
 /**
  * The pricing page's opener: one line of promise, the way in, and the
@@ -20,22 +28,19 @@ export default function PricingHero() {
         </p>
 
         <div className="mt-9 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <Link
-            href="/#demo"
-            className="flex h-12 w-full items-center justify-center bg-[#141416] px-8 font-body text-[16px] font-medium text-white transition-colors hover:bg-[#36363B] sm:w-56"
-          >
+          <Button href="/#demo" className="w-full font-medium sm:w-56">
             Get started
-          </Link>
+          </Button>
 
           <div className="flex flex-wrap items-center gap-2">
-            <span className="mr-2 font-mono text-[11px] uppercase tracking-[0.1em] text-zinc-500">
+            <span className="mr-2 font-body text-[13px] text-zinc-500">
               Use cases
             </span>
             {useCases.map((label) => (
               <Link
                 key={label}
                 href="#use-cases"
-                className="border border-black/[0.12] px-2.5 py-1.5 font-mono text-[12px] text-zinc-700 transition-colors hover:border-black/40 hover:text-black"
+                className="rounded-full border border-black/[0.1] bg-white px-3.5 py-1.5 font-body text-[13px] text-zinc-700 transition-colors hover:border-signal/40 hover:bg-signal-soft hover:text-signal-deep"
               >
                 {label}
               </Link>

@@ -87,7 +87,7 @@ const columns: Column[] = [
   {
     job: "Diagnose",
     href: "/#how-it-works",
-    tile: "bg-[#ffd9c7] text-[#7a2a08]",
+    tile: "bg-[#e3e2fb] text-[#2f2d8a]",
     items: [
       { label: "Traffic-drop diagnosis", icon: "drop" },
       { label: "Algorithm update check", icon: "layers" },

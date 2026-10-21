@@ -54,7 +54,6 @@ export default function ContactFaq() {
             <p className="mt-5 font-body text-[17px] leading-[1.6] text-zinc-500">
               Who reads it, how fast, and what we do with it.
             </p>
-
           </div>
 
           <div>
@@ -62,7 +61,10 @@ export default function ContactFaq() {
               const open = openIndex === index;
 
               return (
-                <div key={faq.question} className="border-b border-black/[0.07]">
+                <div
+                  key={faq.question}
+                  className="border-b border-black/[0.07]"
+                >
                   <button
                     type="button"
                     aria-expanded={open}

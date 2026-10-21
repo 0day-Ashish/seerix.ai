@@ -81,7 +81,7 @@ function ConnectPanel() {
 
 /** Step 02: a crawled page, with what changed on it highlighted. */
 function StudyPanel() {
-  const mark = " rounded bg-signal-soft px-0.5 text-[#7a2a08]";
+  const mark = " rounded bg-signal-soft px-0.5 text-[#2f2d8a]";
   return (
     <>
       <div className="absolute inset-x-[6%] top-[14%] rounded-xl bg-white p-5 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.5)] sm:p-6">

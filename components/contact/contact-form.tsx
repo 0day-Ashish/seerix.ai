@@ -17,13 +17,13 @@ const initialState: ContactState = { status: "idle" };
 
 /** One border treatment across text, select and area, on the grey panel. */
 const fieldBase =
-  "w-full border bg-transparent px-4 py-3.5 font-body text-[16px] text-black transition-colors duration-200 placeholder:text-zinc-400 focus:outline-none";
+  "w-full rounded-xl border bg-white px-4 py-3.5 font-body text-[16px] text-black transition-[border-color,box-shadow] duration-200 placeholder:text-zinc-400 focus:outline-none focus:ring-4 focus:ring-signal/15";
 
 function fieldClass(invalid: boolean) {
   return `${fieldBase} ${
     invalid
       ? "border-signal focus:border-signal"
-      : "border-black/[0.22] hover:border-black/40 focus:border-black"
+      : "border-black/[0.12] hover:border-black/30 focus:border-signal hover:focus:border-signal"
   }`;
 }
 
@@ -39,7 +39,7 @@ function Label({
   return (
     <label
       htmlFor={htmlFor}
-      className="font-mono text-[14px] uppercase tracking-[0.04em] text-black"
+      className="font-body text-[14px] font-medium text-black"
     >
       {children}
       {required && "*"}
@@ -68,7 +68,8 @@ export default function ContactForm() {
   // Tracks only whether the required fields are filled, to wake the button.
   const [filled, setFilled] = useState<Record<string, boolean>>({});
 
-  const panel = "border border-black/[0.12] bg-[#f3f2ef] p-8 sm:p-14";
+  const panel =
+    "rounded-3xl border border-black/[0.08] bg-[#f3f2ef] p-6 sm:p-12";
 
   if (state.status === "success") {
     return (
@@ -128,7 +129,7 @@ export default function ContactForm() {
       {state.status === "error" && state.message && (
         <p
           role="alert"
-          className="mt-6 border border-signal/40 bg-signal-soft px-4 py-3 font-body text-[14px] text-signal-deep"
+          className="mt-6 rounded-xl border border-signal/40 bg-signal-soft px-4 py-3 font-body text-[14px] text-signal-deep"
         >
           {state.message}
         </p>
@@ -236,15 +237,15 @@ export default function ContactForm() {
         type="submit"
         disabled={pending}
         aria-disabled={!ready}
-        // The site's dark button: the same ink and hover as the navbar's
-        // "See demo". Until the form is ready it sits slightly dimmed.
-        className={`group mt-10 inline-flex h-14 items-center gap-3 bg-[#141416] px-8 font-mono text-[18px] uppercase tracking-[0.04em] text-white transition-all duration-200 hover:bg-[#36363B] disabled:opacity-60 ${
+        // The homepage's raised primary button. Until the form is ready it
+        // sits slightly dimmed.
+        className={`group mt-10 inline-flex h-12 translate-y-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-b from-[#4a4a51] to-[#36363B] px-7 font-body text-[16px] font-medium text-white transition-all duration-150 ease-out [box-shadow:0_3px_0_0_#1c1c21,0_4px_10px_rgba(0,0,0,0.18)] hover:-translate-y-0.5 hover:from-[#55555d] hover:to-[#3f3f45] hover:[box-shadow:0_5px_0_0_#1c1c21,0_9px_16px_rgba(0,0,0,0.22)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#1c1c21,0_2px_4px_rgba(0,0,0,0.15)] disabled:opacity-60 ${
           ready ? "opacity-100" : "opacity-75"
         }`}
       >
         {pending ? "Sending" : "Submit"}
         <svg
-          className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-0.5"
+          className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
           viewBox="0 0 20 20"
           fill="none"
           stroke="currentColor"

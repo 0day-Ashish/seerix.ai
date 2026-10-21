@@ -48,7 +48,11 @@ export default function LegalPage({
           <p className="mt-5 font-body text-[17px] leading-[1.6] text-zinc-500">
             {lede}
           </p>
-          <p className="mt-6 font-mono text-[13px] uppercase tracking-[0.06em] text-zinc-400">
+          <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-black/[0.08] bg-zinc-50 px-3 py-1 font-body text-[13px] text-zinc-500">
+            <span
+              aria-hidden="true"
+              className="h-1.5 w-1.5 rounded-full bg-signal"
+            />
             Last updated {updated}
           </p>
         </div>
@@ -102,7 +106,7 @@ export default function LegalPage({
               </section>
             ))}
 
-            <p className="mt-10 font-body text-[15px] leading-[1.7] text-zinc-400">
+            <p className="mt-10 rounded-2xl border border-black/[0.08] bg-[#f3f2ef] px-5 py-4 font-body text-[15px] leading-[1.7] text-zinc-500">
               Questions about any of this? Write to{" "}
               <Link
                 href="mailto:hello@seerix.ai"

@@ -18,10 +18,10 @@ const productColumns = [
     title: "What it does",
     swatch: "bg-signal",
     items: [
-      { label: "Diagnose", href: "#features" },
-      { label: "Prioritize", href: "#features" },
-      { label: "Watch", href: "#features" },
-      { label: "Create", href: "#features" },
+      { label: "Diagnose", href: "/product/diagnose" },
+      { label: "Prioritize", href: "/product/prioritize" },
+      { label: "Watch", href: "/product/watch" },
+      { label: "Create", href: "/product/create" },
     ],
   },
   {
@@ -311,13 +311,13 @@ export default function Navbar() {
             <div className="flex shrink-0 items-center gap-2">
               <Link
                 href="#demo"
-                className="hidden h-10 items-center rounded-xl bg-[#141416] px-4 font-mono text-[14px] uppercase tracking-[0.04em] text-white transition-colors hover:bg-[#36363B] sm:flex"
+                className="hidden h-10 items-center rounded-xl bg-[#141416] px-4 font-body text-[14.5px] font-medium text-white transition-colors hover:bg-[#36363B] sm:flex"
               >
                 See demo
               </Link>
               <Link
                 href="/contact"
-                className="hidden h-10 items-center rounded-xl border border-black/[0.18] bg-white px-4 font-mono text-[14px] uppercase tracking-[0.04em] text-black transition-colors hover:border-black/50 lg:flex"
+                className="hidden h-10 items-center rounded-xl border border-black/[0.18] bg-white px-4 font-body text-[14.5px] font-medium text-black transition-colors hover:border-black/50 lg:flex"
               >
                 Contact us
               </Link>

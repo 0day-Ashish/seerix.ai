@@ -68,33 +68,28 @@ export default function LegalContents({ items }: LegalContentsProps) {
   }, [items]);
 
   return (
-    <nav aria-label="On this page" className="lg:sticky lg:top-28 lg:self-start">
+    <nav
+      aria-label="On this page"
+      className="lg:sticky lg:top-28 lg:self-start"
+    >
       <h2 className="font-body text-[13px] font-medium tracking-[0.02em] text-zinc-400">
         On this page
       </h2>
 
-      {/* The rule runs the length of the list; each entry lights its own
-          segment of it when active. */}
-      <ul className="mt-4 flex flex-col border-l border-black/[0.07]">
+      {/* The entry being read sits on a soft indigo pill. */}
+      <ul className="mt-4 flex flex-col gap-0.5">
         {items.map((item) => {
           const active = item.slug === activeSlug;
 
           return (
-            <li key={item.slug} className="relative">
-              {/* Sits on top of the list's rule rather than shifting it. */}
-              <span
-                aria-hidden="true"
-                className={`absolute -left-px top-0 h-full w-px transition-colors duration-200 ${
-                  active ? "bg-signal" : "bg-transparent"
-                }`}
-              />
+            <li key={item.slug}>
               <Link
                 href={`#${item.slug}`}
                 aria-current={active ? "location" : undefined}
-                className={`block py-1.5 pl-4 font-body text-[14px] leading-snug transition-colors duration-200 ${
+                className={`flex items-center gap-2.5 rounded-lg px-3 py-1.5 font-body text-[14px] leading-snug transition-colors duration-200 ${
                   active
-                    ? "font-medium text-black"
-                    : "text-zinc-500 hover:text-black"
+                    ? "bg-signal-soft font-medium text-signal-deep"
+                    : "text-zinc-500 hover:bg-zinc-50 hover:text-black"
                 }`}
               >
                 {item.heading}

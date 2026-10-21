@@ -83,7 +83,7 @@ const RECOMMENDED: Rec[] = [
     body: "Access expires in 6 days",
     cta: "Reconnect",
     d: I.google,
-    tone: "bg-[#fff1ea] text-[#c2410c]",
+    tone: "bg-warn-soft text-warn-deep",
     href: "/settings/integrations",
   },
   {
@@ -99,7 +99,7 @@ const RECOMMENDED: Rec[] = [
     body: "Track who moves on your searches",
     cta: "Add",
     d: I.people,
-    tone: "bg-amber-50 text-amber-700",
+    tone: "bg-warn-soft text-warn-deep",
     href: "/app/competitors",
   },
   {
@@ -107,7 +107,7 @@ const RECOMMENDED: Rec[] = [
     body: "Marked done 9 days ago, ready to check",
     cta: "Verify",
     d: I.check,
-    tone: "bg-emerald-50 text-emerald-700",
+    tone: "bg-good-soft text-good-deep",
     ask: "Did the /pricing title fix work?",
   },
   {
@@ -115,7 +115,7 @@ const RECOMMENDED: Rec[] = [
     body: "Choose who gets it on Mondays",
     cta: "Set up",
     d: I.calendar,
-    tone: "bg-[#eef3fd] text-[#1a5fd0]",
+    tone: "bg-signal-soft text-signal",
     href: "/settings/scheduled",
   },
   {
@@ -228,7 +228,7 @@ export default function ChatWelcome({
           e.preventDefault();
           onSubmit();
         }}
-        className="mt-7 w-full rounded-2xl border border-zinc-200 bg-white shadow-[0_8px_30px_-12px_rgba(15,23,42,0.18)] transition-shadow focus-within:border-[#3b6fe0]/50 focus-within:shadow-[0_0_0_4px_rgba(59,111,224,0.08),0_8px_30px_-12px_rgba(15,23,42,0.18)]"
+        className="mt-7 w-full rounded-2xl border border-zinc-200 bg-white shadow-[0_8px_30px_-12px_rgba(15,23,42,0.18)] transition-shadow focus-within:border-signal/50 focus-within:shadow-[0_0_0_4px_rgba(44,71,242,0.08),0_8px_30px_-12px_rgba(15,23,42,0.18)]"
       >
         <textarea
           ref={box}
@@ -300,7 +300,7 @@ export default function ChatWelcome({
           <div className="ml-auto flex items-center gap-1.5">
             <label className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 font-body text-[13px] text-zinc-500 hover:bg-zinc-50">
               <span className="hidden sm:inline">Deep check</span>
-              <span className="hidden rounded bg-[#eef3fd] px-1 text-[10px] font-semibold tracking-wide text-[#1a5fd0] sm:inline">
+              <span className="hidden rounded bg-signal-soft px-1 text-[10px] font-semibold tracking-wide text-signal sm:inline">
                 BETA
               </span>
               <button
@@ -311,7 +311,7 @@ export default function ChatWelcome({
                 title="Slower, reads more of your data"
                 onClick={() => setDeep(!deep)}
                 className={`relative h-5 w-9 shrink-0 rounded-full p-0 transition-colors ${
-                  deep ? "bg-link" : "bg-zinc-200"
+                  deep ? "bg-signal" : "bg-zinc-200"
                 }`}
               >
                 <span
@@ -335,7 +335,7 @@ export default function ChatWelcome({
               aria-label={listening ? "Stop listening" : "Ask by voice"}
               className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors disabled:opacity-40 ${
                 listening
-                  ? "bg-red-50 text-red-600"
+                  ? "bg-danger-soft text-danger-deep"
                   : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900"
               }`}
             >
@@ -348,7 +348,7 @@ export default function ChatWelcome({
               type="submit"
               disabled={!text.trim()}
               aria-label="Send"
-              className="flex h-9 w-9 items-center justify-center rounded-lg bg-link text-white transition-colors hover:bg-link-deep disabled:bg-zinc-100 disabled:text-zinc-400"
+              className="flex h-9 w-9 items-center justify-center rounded-lg bg-signal text-white transition-colors hover:bg-signal-deep disabled:bg-zinc-100 disabled:text-zinc-400"
             >
               <Icon d={I.send} />
             </button>
@@ -368,7 +368,7 @@ export default function ChatWelcome({
             <Icon d={c.d} className="h-4 w-4 text-zinc-500" />
             {c.label}
             {c.tag && (
-              <span className="rounded-full bg-[#eef3fd] px-1.5 text-[10.5px] font-semibold uppercase tracking-wide text-[#1a5fd0]">
+              <span className="rounded-full bg-signal-soft px-1.5 text-[10.5px] font-semibold uppercase tracking-wide text-signal">
                 {c.tag}
               </span>
             )}
@@ -378,7 +378,7 @@ export default function ChatWelcome({
 
       {/* Two cards */}
       <div className="mt-12 grid w-full gap-4 md:grid-cols-2">
-        <section className="min-w-0 rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+        <section className="min-w-0 rounded-2xl border border-zinc-200/80 bg-white p-5">
           <h2 className="font-body text-[16px] font-semibold text-zinc-900">
             Recommended
           </h2>
@@ -420,7 +420,7 @@ export default function ChatWelcome({
           </ul>
         </section>
 
-        <section className="flex min-w-0 flex-col rounded-2xl border border-zinc-200/80 bg-[#fafbfc] p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+        <section className="flex min-w-0 flex-col rounded-2xl border border-zinc-200/80 bg-[#fafbfc] p-6">
           {more === "done" ? (
             <div className="animate-[seerix-fade-in_0.35s_ease-out]">
               <h2 className="font-body text-[16px] font-semibold text-zinc-900">
@@ -432,10 +432,10 @@ export default function ChatWelcome({
                     <button
                       type="button"
                       onClick={() => onAsk(q)}
-                      className="group flex w-full items-start justify-between gap-3 rounded-xl border border-zinc-200 bg-white px-3.5 py-3 text-left font-body text-[13.5px] leading-[1.45] text-zinc-800 transition-colors hover:border-[#3b6fe0]/40 hover:bg-[#f5f8fe]"
+                      className="group flex w-full items-start justify-between gap-3 rounded-xl border border-zinc-200 bg-white px-3.5 py-3 text-left font-body text-[13.5px] leading-[1.45] text-zinc-800 transition-colors hover:border-signal/40 hover:bg-signal-soft/50"
                     >
                       {q}
-                      <span className="shrink-0 text-[#1a5fd0] transition-transform group-hover:translate-x-0.5">
+                      <span className="shrink-0 text-signal transition-transform group-hover:translate-x-0.5">
                         →
                       </span>
                     </button>
@@ -448,7 +448,7 @@ export default function ChatWelcome({
             </div>
           ) : (
             <div className="m-auto flex flex-col items-center py-6 text-center">
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#eef3fd] text-[#1a5fd0]">
+              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-signal-soft text-signal">
                 <Icon d={I.bulb} className="h-5 w-5" />
               </span>
               <h2 className="mt-4 font-body text-[17px] font-semibold text-zinc-900">
@@ -465,10 +465,10 @@ export default function ChatWelcome({
                   setMore("loading");
                   setTimeout(() => setMore("done"), 1600);
                 }}
-                className="mt-5 flex h-10 items-center gap-2 rounded-xl border border-[#3b6fe0]/40 bg-white px-4 font-body text-[13.5px] font-medium text-[#1a5fd0] transition-colors hover:bg-[#f5f8fe] disabled:opacity-70"
+                className="mt-5 flex h-10 items-center gap-2 rounded-xl border border-signal/40 bg-white px-4 font-body text-[13.5px] font-medium text-signal transition-colors hover:bg-signal-soft/50 disabled:opacity-70"
               >
                 {more === "loading" && (
-                  <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#3b6fe0]/25 border-t-[#3b6fe0]" />
+                  <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-signal/25 border-t-signal" />
                 )}
                 {more === "loading"
                   ? "Looking at your data…"

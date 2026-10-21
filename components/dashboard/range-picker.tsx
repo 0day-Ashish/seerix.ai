@@ -56,7 +56,7 @@ export default function RangePicker({
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="flex h-9 items-center gap-2.5 rounded-lg border border-zinc-200 bg-white pl-3 pr-2.5 font-body text-[13px] text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] hover:bg-zinc-50"
+        className="flex h-9 items-center gap-2.5 rounded-lg border border-zinc-200 bg-white pl-3 pr-2.5 font-body text-[13px] text-zinc-800 hover:bg-zinc-50"
       >
         <svg
           className="h-4 w-4 text-zinc-400"
@@ -128,12 +128,12 @@ export default function RangePicker({
                       setOpen(false);
                     }}
                     className={`block w-full rounded-lg px-2.5 py-1.5 text-left font-body text-[13.5px] transition-colors hover:bg-zinc-100 ${
-                      on ? "bg-[#eef3fd]" : ""
+                      on ? "bg-signal-soft" : ""
                     }`}
                   >
                     <span
                       className={
-                        on ? "font-semibold text-[#1a5fd0]" : "text-zinc-800"
+                        on ? "font-semibold text-signal" : "text-zinc-800"
                       }
                     >
                       {p.label}

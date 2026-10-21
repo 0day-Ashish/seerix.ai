@@ -43,7 +43,7 @@ function Change({ value }: { value: number | null }) {
   if (value === 0) return <span className="text-zinc-400">=</span>;
   return (
     <span
-      className={`font-medium tabular-nums ${value > 0 ? "text-emerald-600" : "text-red-600"}`}
+      className={`font-medium tabular-nums ${value > 0 ? "text-good-deep" : "text-danger-deep"}`}
     >
       {value > 0 ? "↑" : "↓"}
       {Math.abs(value)}
@@ -71,6 +71,10 @@ export default function Rankings() {
     (r) => r.latest_position != null && r.latest_position <= 10,
   ).length;
   const ai = rankings.filter((r) => r.ai_overview).length;
+  const moved = rankings.filter((r) => r.change != null && r.change !== 0).length;
+  /** A count as a share of everything tracked, for the tiles' context lines. */
+  const pctOf = (n: number) =>
+    rankings.length ? Math.round((n / rankings.length) * 100) : 0;
 
   return (
     <div>
@@ -89,10 +93,26 @@ export default function Rankings() {
       />
 
       <div className="mt-7 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Kpi label="Tracked queries" value={String(rankings.length)} />
-        <Kpi label="Ranking anywhere" value={String(ranking)} />
-        <Kpi label="In the top 10" value={String(top10)} />
-        <Kpi label="With an AI Overview" value={String(ai)} />
+        <Kpi
+          label="Tracked queries"
+          value={String(rankings.length)}
+          sub={`${moved} moved since last week`}
+        />
+        <Kpi
+          label="Ranking anywhere"
+          value={String(ranking)}
+          sub={`${pctOf(ranking)}% of those tracked`}
+        />
+        <Kpi
+          label="In the top 10"
+          value={String(top10)}
+          sub={`${pctOf(top10)}% of those tracked`}
+        />
+        <Kpi
+          label="With an AI Overview"
+          value={String(ai)}
+          sub={`${pctOf(ai)}% show one above the results`}
+        />
       </div>
 
       <div className="mt-4">
@@ -109,13 +129,13 @@ export default function Rankings() {
                   aria-pressed={on}
                   className={`flex h-8 shrink-0 items-center gap-2 rounded-full px-3 font-body text-[13px] transition-colors ${
                     on
-                      ? "bg-[#eef3fd] font-medium text-[#1a5fd0]"
+                      ? "bg-signal-soft font-medium text-signal"
                       : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
                   }`}
                 >
                   {f}
                   <span
-                    className={`rounded-full px-1.5 text-[11.5px] tabular-nums ${on ? "bg-white text-[#1a5fd0]" : "bg-zinc-100 text-zinc-500"}`}
+                    className={`rounded-full px-1.5 text-[11.5px] tabular-nums ${on ? "bg-white text-signal" : "bg-zinc-100 text-zinc-500"}`}
                   >
                     {n}
                   </span>

@@ -3,10 +3,10 @@ import Link from "next/link";
 
 import { plans, type PlanId } from "@/components/pricing/plans";
 
-function Check() {
+function Check({ dark }: { dark?: boolean }) {
   return (
     <svg
-      className="mt-[5px] h-3.5 w-3.5 shrink-0 text-black"
+      className={`mt-[5px] h-3.5 w-3.5 shrink-0 ${dark ? "text-signal" : "text-black"}`}
       viewBox="0 0 16 16"
       fill="none"
       stroke="currentColor"
@@ -52,36 +52,34 @@ const evidence: Record<PlanId, string[]> = {
 };
 
 /**
- * The three plans in one frame, split by rules. At lg each column is a
- * subgrid over four shared rows, so the card, button, allowances and evidence
- * start on the same line in every column however long each list runs.
- *
- * The three plans in one frame, split by rules. Each column opens on a tinted
- * card with the tier, price and promise, then the call to action, then what
- * the plan includes and the evidence it draws on. The first card carries the
- * image, the way into the rest.
+ * The three plans as separate rounded cards, Growth featured as on the
+ * homepage. At lg each card is a subgrid over four shared rows, so the
+ * header, button, allowances and evidence start on the same line in every
+ * card however long each list runs. The featured card carries the image.
  */
 export default function PricingPlans() {
   return (
     <section id="plans" className="bg-white px-6 pb-24">
-      <div className="mx-auto grid max-w-7xl border border-black/[0.12] lg:grid-cols-3 lg:grid-rows-[auto_auto_auto_1fr]">
-        {plans.map((plan, index) => {
-          const lit = index === 0;
+      <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-3 lg:grid-rows-[auto_auto_auto_1fr]">
+        {plans.map((plan) => {
+          const dark = Boolean(plan.featured);
           return (
             <article
               key={plan.id}
-              className={`flex flex-col p-4 lg:row-span-4 lg:grid lg:grid-rows-subgrid lg:gap-0 ${
-                index > 0
-                  ? "border-t border-black/[0.12] lg:border-l lg:border-t-0"
-                  : ""
+              className={`flex flex-col rounded-3xl p-4 lg:row-span-4 lg:grid lg:grid-rows-subgrid lg:gap-0 ${
+                dark
+                  ? "bg-[linear-gradient(160deg,#4a4a51_0%,#36363b_35%,#1c1c21_100%)] text-white shadow-[0_30px_70px_-30px_rgba(0,0,0,0.55)] lg:-my-3 lg:py-7"
+                  : "border border-black/[0.08] bg-white"
               }`}
             >
               <div
-                className={`relative min-h-[12rem] overflow-hidden p-6 ${
-                  lit ? "bg-[#2a2a30] text-white" : "bg-[#f3f2ef] text-black"
+                className={`relative min-h-[12rem] overflow-hidden rounded-2xl p-6 ${
+                  dark
+                    ? "bg-[#2a2a30] text-white ring-1 ring-white/[0.08]"
+                    : "bg-[#f3f2ef] text-black"
                 }`}
               >
-                {lit && (
+                {dark && (
                   <>
                     <Image
                       src="/assets/Silver mist-2048x1428.png"
@@ -94,19 +92,26 @@ export default function PricingPlans() {
                   </>
                 )}
                 <div className="relative">
-                  <p
-                    className={`font-mono text-[12px] uppercase tracking-[0.12em] ${
-                      lit ? "text-white/80" : "text-zinc-500"
-                    }`}
-                  >
-                    {tier[plan.id]}
-                  </p>
+                  <div className="flex items-center justify-between gap-3">
+                    <p
+                      className={`font-mono text-[12px] uppercase tracking-[0.12em] ${
+                        dark ? "text-white/80" : "text-zinc-500"
+                      }`}
+                    >
+                      {tier[plan.id]}
+                    </p>
+                    {dark && (
+                      <span className="rounded-full bg-signal px-2.5 py-0.5 font-body text-[12px] font-medium text-white">
+                        Most popular
+                      </span>
+                    )}
+                  </div>
                   <p className="mt-2 flex items-baseline gap-2 font-display">
                     <span className="text-[36px] font-medium leading-none tracking-[-0.035em]">
                       {plan.name}
                     </span>
                     <span
-                      className={`text-[18px] ${lit ? "text-white/80" : "text-zinc-500"}`}
+                      className={`text-[18px] ${dark ? "text-white/80" : "text-zinc-500"}`}
                     >
                       {plan.price}
                       {plan.cadence}
@@ -114,7 +119,7 @@ export default function PricingPlans() {
                   </p>
                   <p
                     className={`mt-4 max-w-sm font-body text-[14px] leading-[1.55] ${
-                      lit ? "text-white/85" : "text-zinc-600"
+                      dark ? "text-white/85" : "text-zinc-600"
                     }`}
                   >
                     {plan.subtitle}
@@ -124,20 +129,32 @@ export default function PricingPlans() {
 
               <Link
                 href={plan.href}
-                className="mt-4 flex h-11 items-center justify-center bg-[#141416] font-body text-[15px] font-medium text-white transition-colors hover:bg-[#36363B]"
+                className={`mt-4 flex h-11 items-center justify-center rounded-xl font-body text-[15px] font-medium text-white transition-colors duration-200 ${
+                  dark
+                    ? "bg-signal hover:bg-signal-deep"
+                    : "bg-[#1c1c21] hover:bg-[#36363B]"
+                }`}
               >
                 {plan.cta}
               </Link>
 
-              <div className="mt-6 border-t border-black/[0.08] pt-6">
-                <p className="font-body text-[14px] text-zinc-500">
+              <div
+                className={`mx-2 mt-6 border-t pt-6 ${
+                  dark ? "border-white/[0.08]" : "border-black/[0.08]"
+                }`}
+              >
+                <p
+                  className={`font-body text-[14px] ${dark ? "text-white/60" : "text-zinc-500"}`}
+                >
                   {lead[plan.id]}
                 </p>
                 <ul className="mt-3 flex flex-col gap-2.5">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex gap-3">
-                      <Check />
-                      <span className="font-body text-[16px] leading-[1.5] text-black">
+                      <Check dark={dark} />
+                      <span
+                        className={`font-body text-[16px] leading-[1.5] ${dark ? "text-white" : "text-black"}`}
+                      >
                         {feature}
                       </span>
                     </li>
@@ -145,13 +162,23 @@ export default function PricingPlans() {
                 </ul>
               </div>
 
-              <div className="mt-8 border-t border-black/[0.08] pt-6">
-                <p className="font-body text-[14px] text-zinc-500">Evidence</p>
+              <div
+                className={`mx-2 mt-8 border-t pb-2 pt-6 ${
+                  dark ? "border-white/[0.08]" : "border-black/[0.08]"
+                }`}
+              >
+                <p
+                  className={`font-body text-[14px] ${dark ? "text-white/60" : "text-zinc-500"}`}
+                >
+                  Evidence
+                </p>
                 <ul className="mt-3 flex flex-col gap-2.5">
                   {evidence[plan.id].map((item) => (
                     <li key={item} className="flex gap-3">
-                      <Check />
-                      <span className="font-body text-[16px] leading-[1.5] text-black">
+                      <Check dark={dark} />
+                      <span
+                        className={`font-body text-[16px] leading-[1.5] ${dark ? "text-white" : "text-black"}`}
+                      >
                         {item}
                       </span>
                     </li>

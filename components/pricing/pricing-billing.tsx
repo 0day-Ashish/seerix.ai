@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Button from "@/components/new-landing/button";
 
 import ScanField from "@/components/new-landing/scan-field";
 
@@ -49,7 +49,7 @@ const columns = [
 export function PricingBilling() {
   return (
     <section className="bg-white px-6 pb-24">
-      <div className="mx-auto grid max-w-7xl gap-10 bg-[#f6f5f2] p-8 sm:p-12 lg:grid-cols-[minmax(0,1.1fr)_repeat(3,minmax(0,1fr))]">
+      <div className="mx-auto grid max-w-7xl gap-10 rounded-3xl bg-[#f6f5f2] p-8 sm:p-12 lg:grid-cols-[minmax(0,1.1fr)_repeat(3,minmax(0,1fr))]">
         <div>
           <h2 className="font-display text-[34px] font-medium leading-[1.1] tracking-[-0.03em] text-black">
             How billing works
@@ -58,12 +58,9 @@ export function PricingBilling() {
             A flat monthly fee against the plan&rsquo;s allowances. A month that
             needs a lot of digging never turns into a surprise line item.
           </p>
-          <Link
-            href="#compare"
-            className="mt-6 inline-flex h-11 items-center bg-[#141416] px-6 font-body text-[15px] font-medium text-white transition-colors hover:bg-[#36363B]"
-          >
+          <Button href="#compare" className="mt-6 px-6 font-medium">
             Compare plans
-          </Link>
+          </Button>
         </div>
 
         {columns.map((col) => (
@@ -107,12 +104,9 @@ export function PricingCloser() {
           Connect your Search Console and ask your first question. Plans from
           $39 a month.
         </p>
-        <Link
-          href="/#demo"
-          className="mt-8 inline-flex h-11 items-center bg-[#141416] px-6 font-body text-[15px] font-medium text-white transition-colors hover:bg-[#36363B]"
-        >
+        <Button href="/#demo" className="mt-8 px-6 font-medium">
           Get started
-        </Link>
+        </Button>
       </div>
     </section>
   );

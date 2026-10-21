@@ -115,7 +115,7 @@ export default function Competitors() {
                       );
                       setNote("");
                     }}
-                    className="rounded-lg px-2 py-1 font-body text-[12.5px] text-zinc-500 transition-colors hover:bg-red-50 hover:text-red-600"
+                    className="rounded-lg px-2 py-1 font-body text-[12.5px] text-zinc-500 transition-colors hover:bg-danger-soft hover:text-danger-deep"
                   >
                     Remove
                   </button>
@@ -143,7 +143,7 @@ export default function Competitors() {
                   type="button"
                   disabled={on}
                   onClick={() => track(s.domain)}
-                  className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-left font-body text-[13px] font-medium text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:border-[#3b6fe0]/40 hover:bg-[#f5f8fe] hover:text-[#1a5fd0] disabled:border-emerald-200 disabled:bg-emerald-50 disabled:text-emerald-700 disabled:shadow-none"
+                  className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-left font-body text-[13px] font-medium text-zinc-800 transition-colors hover:border-signal/40 hover:bg-signal-soft/50 hover:text-signal disabled:border-good/30 disabled:bg-good-soft disabled:text-good-deep disabled:shadow-none"
                 >
                   {on ? "✓ " : "+ "}
                   {s.domain}
@@ -164,7 +164,7 @@ export default function Competitors() {
       {intel.competitors.map((cp) => (
         <section
           key={cp.domain}
-          className="mt-4 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+          className="mt-4 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white"
         >
           <div className="flex flex-wrap items-center justify-between gap-3 px-5 pb-3 pt-4">
             <h2 className="flex items-center gap-2.5 font-body text-[16px] font-semibold text-zinc-900">
@@ -256,7 +256,7 @@ export default function Competitors() {
             head={["Domain", "Rank", "Links to", "Total links", "Spam"]}
             align={["left", "right", "left", "right", "right"]}
             rows={intel.link_gap.map((d) => [
-              <span key="d" className="font-medium text-link">
+              <span key="d" className="font-medium text-signal">
                 {d.source_domain}
               </span>,
               d.domain_rank,
