@@ -21,6 +21,8 @@ export type ProductPageProps = {
   visual: ReactNode;
   /** What the job actually does, as a numbered list. */
   capabilities: Capability[];
+  /** How the job runs, in three beats; the dark band. */
+  steps: { label: string; body: string }[];
   /** The three evidence lines under the capabilities. */
   proof: { figure: string; unit?: string; label: string }[];
   /** Where the reader goes next, as a pair of sibling pages. */
@@ -43,6 +45,7 @@ export default function ProductPage({
   lede,
   visual,
   capabilities,
+  steps,
   proof,
   next,
 }: ProductPageProps) {
@@ -51,7 +54,7 @@ export default function ProductPage({
       {/* Opener: copy left, the job running on the right. */}
       <section className="bg-white px-6 pb-16 pt-20 sm:pt-28">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-14">
             <div>
               <p className="font-mono text-[12px] tracking-[0.04em] text-zinc-400">
                 {job.toUpperCase()}
@@ -115,18 +118,46 @@ export default function ProductPage({
         </div>
       </section>
 
-      <SectionDivider />
+      {/* How it runs. The one dark section on the page: it breaks a long
+          run of grey-on-white into two halves and gives the mechanism its
+          own register, rather than a third list in the same texture. */}
+      <section className="bg-[#1c1c21] px-6 py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl">
+          <p className="font-mono text-[12px] tracking-[0.04em] text-white/40">
+            HOW IT RUNS
+          </p>
+          <h2 className="mt-4 max-w-3xl font-display text-[32px] font-medium leading-[1.15] tracking-[-0.03em] text-white sm:text-[40px]">
+            Three beats, every time you ask.
+          </h2>
+
+          <ol className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-3">
+            {steps.map((step, index) => (
+              <li key={step.label} className="border-t border-white/[0.14] pt-5">
+                <span className="font-mono text-[12px] text-signal">
+                  0{index + 1}
+                </span>
+                <h3 className="mt-3 font-display text-[19px] font-medium leading-snug tracking-[-0.02em] text-white">
+                  {step.label}
+                </h3>
+                <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-white/55">
+                  {step.body}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
 
       {/* The evidence row: the same ledger treatment the numbers section uses. */}
       <section className="bg-white px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
-          <dl className="grid overflow-hidden rounded-3xl border border-black/[0.08] sm:grid-cols-3">
+          <dl className="grid overflow-hidden rounded-3xl border border-black/[0.07] bg-[#faf9f8] sm:grid-cols-3">
             {proof.map((item, index) => (
               <div
                 key={item.label}
-                className={`flex flex-col p-6 sm:p-7 ${
+                className={`flex flex-col p-7 sm:p-8 ${
                   index > 0 ? "border-t sm:border-l sm:border-t-0" : ""
-                } border-black/[0.08]`}
+                } border-black/[0.07]`}
               >
                 <dt className="flex flex-wrap items-baseline gap-x-2">
                   <span className="font-display text-[40px] font-medium leading-none tracking-[-0.04em] text-black sm:text-[46px]">

@@ -24,6 +24,7 @@ export default function DiagnosePage() {
       lede={product.lede}
       visual={<DiagnoseVisual />}
       capabilities={product.capabilities}
+      steps={product.steps}
       proof={product.proof}
       next={siblingsOf("diagnose")}
     />

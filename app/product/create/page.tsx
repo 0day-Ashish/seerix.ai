@@ -24,6 +24,7 @@ export default function CreatePage() {
       lede={product.lede}
       visual={<CreateVisual />}
       capabilities={product.capabilities}
+      steps={product.steps}
       proof={product.proof}
       next={siblingsOf("create")}
     />

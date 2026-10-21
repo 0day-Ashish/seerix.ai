@@ -24,6 +24,7 @@ export default function WatchPage() {
       lede={product.lede}
       visual={<WatchVisual />}
       capabilities={product.capabilities}
+      steps={product.steps}
       proof={product.proof}
       next={siblingsOf("watch")}
     />

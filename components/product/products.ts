@@ -17,6 +17,12 @@ export type Product = {
   headline: string;
   lede: string;
   capabilities: { label: string; body: string; soon?: boolean }[];
+  /**
+   * How the job actually runs, in three beats. Rendered as the dark band
+   * between the capability list and the proof row, so the page changes
+   * register once rather than running as one long sheet of prose.
+   */
+  steps: { label: string; body: string }[];
   proof: { figure: string; unit?: string; label: string }[];
   /** Page <title> and description. */
   title: string;
@@ -55,6 +61,20 @@ export const products: Record<ProductKey, Product> = {
       {
         label: "Evidence on every answer",
         body: "Each diagnosis carries the rows that produced it and an honest confidence score, so you can check the reasoning instead of trusting it.",
+      },
+    ],
+    steps: [
+      {
+        label: "Assemble the evidence",
+        body: "Search Console rows for the page and window, the SERP snapshots either side of it, and the crawl record of what changed on the page.",
+      },
+      {
+        label: "Rule causes out",
+        body: "Demand, ranking and click-through are tested separately, and every confirmed Google update is checked against your own dates before it can be blamed.",
+      },
+      {
+        label: "State it, with receipts",
+        body: "One sentence naming the cause, the rows it rests on, and a confidence score that drops when the evidence is thin.",
       },
     ],
     proof: [
@@ -101,6 +121,20 @@ export const products: Record<ProductKey, Product> = {
         body: "Thin data lowers the score and says so. Seerix never rounds uncertainty up to sound decisive.",
       },
     ],
+    steps: [
+      {
+        label: "Find what is worth doing",
+        body: "Striking-distance queries, internal link gaps and decaying pages are collected from your own data rather than from a generic audit checklist.",
+      },
+      {
+        label: "Score each one",
+        body: "Estimated impact, the effort to ship it and the confidence behind both, multiplied into a single number between 0 and 100.",
+      },
+      {
+        label: "Order the list",
+        body: "The work arrives sorted, with the evidence attached to each row, so the first item is the one worth opening first.",
+      },
+    ],
     proof: [
       { figure: "6–15", label: "the position band where a small ranking move earns the most clicks." },
       { figure: "3", unit: "inputs", label: "behind every score: impact, effort and confidence." },
@@ -142,6 +176,20 @@ export const products: Record<ProductKey, Product> = {
       {
         label: "Background, always",
         body: "Monitoring runs continuously and never draws on your AI question allowance.",
+      },
+    ],
+    steps: [
+      {
+        label: "Capture on a schedule",
+        body: "SERP snapshots, Search Console pulls and crawls run continuously, so a change has a before and an after rather than only a now.",
+      },
+      {
+        label: "Notice the move",
+        body: "Position, clicks and impressions are compared against their own baselines, so normal weekly noise never fires an alert.",
+      },
+      {
+        label: "Explain it on arrival",
+        body: "The alert carries the diagnosis already worked out: what moved, what else changed at the same moment, and what it is worth.",
       },
     ],
     proof: [
@@ -186,6 +234,20 @@ export const products: Record<ProductKey, Product> = {
       {
         label: "Checked before it ships",
         body: "Length, duplication and keyword placement are checked as the suggestion is made, not after you have published it.",
+      },
+    ],
+    steps: [
+      {
+        label: "Read the brief from your data",
+        body: "The query, the page that ranks for it, what the results above it cover and the gap between them become the brief.",
+      },
+      {
+        label: "Draft against the rule",
+        body: "Every piece follows a stated rule -- the title pattern, the intent, the length the SERP rewards -- rather than a generic prompt.",
+      },
+      {
+        label: "Cite the rule it followed",
+        body: "The draft arrives with the reasoning attached, so you can check the decision instead of trusting the output.",
       },
     ],
     proof: [

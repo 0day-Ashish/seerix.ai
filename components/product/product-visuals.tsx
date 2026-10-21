@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import AppFrame from "@/components/product/app-frame";
+
 /**
  * The animated panel at the head of each product page.
  *
@@ -18,10 +20,6 @@ import { useEffect, useRef, useState } from "react";
  * Decorative: the copy beside each panel carries the same meaning in prose.
  */
 
-const frame =
-  "overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-[0_24px_60px_-28px_rgba(0,0,0,0.18)]";
-const header = "border-b border-black/[0.06] px-5 py-3.5";
-const headerText = "font-body text-[13px] text-zinc-400";
 const mono = "font-mono text-[11px] tracking-[0.01em]";
 
 /** Steps a loop forward on an interval, holding still for reduced motion. */
@@ -61,15 +59,11 @@ export function DiagnoseVisual() {
   ];
 
   return (
-    <div aria-hidden="true" className={frame}>
-      <div className={header}>
-        <p className={headerText}>Why did /pricing lose traffic last week?</p>
-      </div>
-
-      <div className="px-5 py-6 sm:px-7">
+    <AppFrame active="chat" title="Why did /pricing lose traffic last week?">
+      <div>
         {/* The drop itself. The late bars carry the signal colour once the
             loop reaches them. */}
-        <div className="flex h-24 items-end gap-1.5">
+        <div className="flex h-32 items-end gap-1.5">
           {bars.map((h, i) => (
             <span
               key={i}
@@ -80,7 +74,11 @@ export function DiagnoseVisual() {
                 transitionDelay: `${i * 30}ms`,
               }}
               className={`w-full flex-1 rounded-[3px] transition-colors duration-500 ${
-                step >= 1 && i > 6 ? "bg-signal" : "bg-black/[0.10]"
+                step >= 1 && i > 6
+                  ? "bg-signal"
+                  : // Before the drop the bars are solid enough to read as a
+                    // level, so the fall after it has something to fall from.
+                    "bg-zinc-300"
               }`}
             />
           ))}
@@ -128,7 +126,7 @@ export function DiagnoseVisual() {
           })}
         </div>
       </div>
-    </div>
+    </AppFrame>
   );
 }
 
@@ -149,12 +147,8 @@ export function PrioritizeVisual() {
   ];
 
   return (
-    <div aria-hidden="true" className={frame}>
-      <div className={header}>
-        <p className={headerText}>Fix list · scored by impact × effort</p>
-      </div>
-
-      <div className="px-5 py-6 sm:px-7">
+    <AppFrame active="fix-list" title="Fix list">
+      <div>
         <div className="flex flex-col gap-2.5">
           {fixes.map((fix, i) => {
             const scored = step >= i + 1;
@@ -201,7 +195,7 @@ export function PrioritizeVisual() {
           })}
         </div>
       </div>
-    </div>
+    </AppFrame>
   );
 }
 
@@ -215,17 +209,13 @@ export function WatchVisual() {
 
   // Position 1 is top, so the path is drawn inverted: lower rank sits lower.
   const ranks = [4, 4, 5, 4, 6, 9, 11, 11];
-  const x = (i: number) => 8 + (i * 84) / (ranks.length - 1);
+  const x = (i: number) => 8 + (i * 184) / (ranks.length - 1);
   const y = (r: number) => 8 + ((r - 1) * 44) / 12;
   const alerted = step >= 6;
 
   return (
-    <div aria-hidden="true" className={frame}>
-      <div className={header}>
-        <p className={headerText}>Tracking · &ldquo;seo audit tool&rdquo;</p>
-      </div>
-
-      <div className="px-5 py-6 sm:px-7">
+    <AppFrame active="rankings" title="Tracking &middot; &ldquo;seo audit tool&rdquo;">
+      <div>
         <div className="flex items-center justify-between">
           <span className={`${mono} text-zinc-400`}>POSITION</span>
           <span
@@ -238,15 +228,15 @@ export function WatchVisual() {
         </div>
 
         <svg
-          viewBox="0 0 100 60"
-          className="mt-3 h-28 w-full"
+          viewBox="0 0 200 60"
+          className="mt-3 h-32 w-full"
           fill="none"
         >
           {[0, 1, 2].map((g) => (
             <line
               key={g}
               x1="0"
-              x2="100"
+              x2="200"
               y1={10 + g * 18}
               y2={10 + g * 18}
               stroke="currentColor"
@@ -296,7 +286,7 @@ export function WatchVisual() {
           </span>
         </div>
       </div>
-    </div>
+    </AppFrame>
   );
 }
 
@@ -327,12 +317,8 @@ export function CreateVisual() {
   ];
 
   return (
-    <div aria-hidden="true" className={frame}>
-      <div className={header}>
-        <p className={headerText}>Rewrite title · /seo-audit-tool</p>
-      </div>
-
-      <div className="px-5 py-6 sm:px-7">
+    <AppFrame active="keywords" title="Rewrite title &middot; /seo-audit-tool">
+      <div>
         <div className="flex flex-col gap-2.5">
           {variants.map((v, i) => {
             const on = step === i;
@@ -369,6 +355,6 @@ export function CreateVisual() {
           })}
         </div>
       </div>
-    </div>
+    </AppFrame>
   );
 }

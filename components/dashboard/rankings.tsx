@@ -3,13 +3,13 @@
 import { useMemo, useState } from "react";
 
 import { rankings, type Ranking } from "@/components/dashboard/data";
+import RankingsTrend from "@/components/dashboard/rankings-trend";
 import {
   BtnLink,
   Card,
   DataTable,
   Kpi,
   PageTitle,
-  Spark,
   Tag,
   askHref,
 } from "@/components/dashboard/kit";
@@ -116,6 +116,15 @@ export default function Rankings() {
       </div>
 
       <div className="mt-4">
+        <Card
+          title="How the tracked set is moving"
+          hint="Eight weeks across every query above, not one line each."
+        >
+          <RankingsTrend rows={rankings} />
+        </Card>
+      </div>
+
+      <div className="mt-4">
         <Card flush>
           <div className="flex gap-1 overflow-x-auto border-b border-zinc-100 px-4 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {FILTERS.map((f) => {
@@ -150,11 +159,10 @@ export default function Rankings() {
               "Position",
               "Change",
               "Best",
-              "Trend · 8w",
               "Page",
               "Features",
             ]}
-            align={["left", "right", "right", "right", "left", "left", "left"]}
+            align={["left", "right", "right", "right", "left", "left"]}
             rows={rows.map((r) => [
               <div key="k" className="flex flex-col items-start gap-1">
                 <span className="font-medium text-zinc-900">{r.keyword}</span>
@@ -172,7 +180,6 @@ export default function Rankings() {
               </span>,
               <Change key="c" value={r.change} />,
               <span key="b">{r.best_position ?? "—"}</span>,
-              <Spark key="s" points={r.history.map((h) => h.p)} />,
               <span
                 key="u"
                 className="whitespace-nowrap font-body text-[13px] text-zinc-500"

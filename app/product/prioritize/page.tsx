@@ -24,6 +24,7 @@ export default function PrioritizePage() {
       lede={product.lede}
       visual={<PrioritizeVisual />}
       capabilities={product.capabilities}
+      steps={product.steps}
       proof={product.proof}
       next={siblingsOf("prioritize")}
     />
