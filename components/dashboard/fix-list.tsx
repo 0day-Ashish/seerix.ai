@@ -45,7 +45,7 @@ function FixRow({
             Priority
             <span className="h-1.5 w-12 overflow-hidden rounded-full bg-zinc-100">
               <span
-                className="block h-full rounded-full bg-signal"
+                className="block h-full rounded-full bg-signal-bright"
                 style={{ width: `${fix.priority_score}%` }}
               />
             </span>
@@ -87,11 +87,6 @@ function FixRow({
 export default function FixList() {
   const [done, setDone] = useState<string[]>([]);
   const all = [...fixList.do_now, ...fixList.monitor];
-  // The best score waiting, so the first tile says how urgent "do now" is.
-  const topScore = fixList.do_now.reduce(
-    (n, f) => Math.max(n, f.priority_score),
-    0,
-  );
   const groups = [
     {
       key: "do_now",
@@ -115,29 +110,15 @@ export default function FixList() {
       />
 
       <div className="mt-7 grid grid-cols-3 gap-3">
-        <Kpi
-          label="Do now"
-          value={String(fixList.do_now.length)}
-          sub={
-            topScore ? `highest priority ${topScore} of 100` : "nothing waiting"
-          }
-        />
-        <Kpi
-          label="Monitor"
-          value={String(fixList.monitor.length)}
-          sub="lower impact, still worth doing"
-        />
-        <Kpi
-          label="Measuring"
-          value={String(done.length)}
-          sub={done.length ? "marked done, awaiting proof" : "none marked done"}
-        />
+        <Kpi label="Do now" value={String(fixList.do_now.length)} />
+        <Kpi label="Monitor" value={String(fixList.monitor.length)} />
+        <Kpi label="Measuring" value={String(done.length)} sub="marked done" />
       </div>
 
       {groups.map((g) => (
         <section
           key={g.key}
-          className="mt-6 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white"
+          className="mt-6 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
         >
           <div className="flex items-baseline justify-between gap-3 border-b border-zinc-100 px-5 py-4">
             <div>

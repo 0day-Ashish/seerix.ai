@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import SectionHeader from "@/components/new-landing/section-header";
@@ -64,18 +65,14 @@ const plans: Plan[] = [
 ];
 
 /** Twenty squares, the plan's sites lit: the three cards read as a scale. */
-function SiteGrid({ sites, featured }: { sites: number; featured?: boolean }) {
+function SiteGrid({ sites }: { sites: number }) {
   return (
     <div aria-hidden="true" className="grid grid-cols-10 gap-1">
       {Array.from({ length: 20 }, (_, i) => (
         <span
           key={i}
-          className={`aspect-square rounded-[4px] ${
-            i < sites
-              ? "bg-signal"
-              : featured
-                ? "bg-white/[0.08]"
-                : "bg-black/[0.06]"
+          className={`aspect-square ${
+            i < sites ? "bg-signal-bright" : "bg-white/[0.10]"
           }`}
         />
       ))}
@@ -104,103 +101,104 @@ export default function Pricing() {
             return (
               <article
                 key={plan.name}
-                className={`flex flex-col rounded-3xl p-7 sm:p-8 ${
+                className={`relative flex flex-col overflow-hidden rounded-3xl p-7 sm:p-8 ${
                   dark
-                    ? "bg-[linear-gradient(160deg,#4a4a51_0%,#36363b_35%,#1c1c21_100%)] text-white shadow-[0_30px_70px_-30px_rgba(0,0,0,0.55)] lg:-my-3 lg:py-11"
+                    ? "bg-[#cfe8d8] text-zinc-900 shadow-[0_30px_70px_-30px_rgba(10,40,25,0.45)] lg:-my-3 lg:py-11"
                     : "border border-black/[0.08] bg-white"
                 }`}
               >
+                {/* The brand gradient fills the featured card, as it does on
+                    the pricing route. The copy is dark against it. */}
+                {dark && (
+                  <Image
+                    src="/assets/bg-gradient.png"
+                    alt=""
+                    fill
+                    sizes="(min-width: 1024px) 33vw, 100vw"
+                    className="object-cover"
+                  />
+                )}
                 {/* Plan name, and the badge where it applies. */}
-                <div className="flex items-center justify-between gap-3">
+                <div className="relative flex items-center justify-between gap-3">
                   <p
                     className={`font-mono text-[12px] uppercase tracking-[0.08em] ${
-                      dark ? "text-white/55" : "text-zinc-500"
+                      dark ? "text-zinc-600" : "text-zinc-500"
                     }`}
                   >
                     0{index + 1} &middot; {plan.name}
                   </p>
                   {dark && (
-                    <span className="rounded-full bg-signal px-2.5 py-0.5 font-body text-[12px] font-medium text-white">
+                    <span className="rounded-full bg-signal-bright px-2.5 py-0.5 font-body text-[12px] font-medium text-signal-ink">
                       Most popular
                     </span>
                   )}
                 </div>
 
-                <p className="mt-8 flex items-baseline gap-1.5">
+                <p className="relative mt-8 flex items-baseline gap-1.5">
                   <span
                     className={`font-display text-[52px] font-semibold leading-none tracking-[-0.045em] ${
-                      dark ? "text-white" : "text-black"
+                      dark ? "text-zinc-900" : "text-black"
                     }`}
                   >
                     {plan.price}
                   </span>
                   <span
                     className={`font-body text-[15px] ${
-                      dark ? "text-white/50" : "text-zinc-400"
+                      dark ? "text-zinc-600" : "text-zinc-400"
                     }`}
                   >
                     {plan.cadence}
                   </span>
                 </p>
                 <p
-                  className={`mt-3 font-body text-[15px] ${
-                    dark ? "text-white/65" : "text-zinc-500"
+                  className={`relative mt-3 font-body text-[15px] ${
+                    dark ? "text-zinc-700" : "text-zinc-500"
                   }`}
                 >
                   {plan.subtitle}
                 </p>
 
                 {/* Scale, before the figures. */}
-                <div
-                  className={`mt-8 rounded-2xl p-4 ${
-                    dark
-                      ? "bg-white/[0.04] ring-1 ring-white/[0.08]"
-                      : "bg-zinc-50 ring-1 ring-black/[0.05]"
-                  }`}
-                >
+                <div className="relative mt-8 bg-signal-ink p-4">
                   <div className="mb-3 flex items-baseline justify-between">
                     <span
-                      className={`font-body text-[13px] ${
-                        dark ? "text-white/60" : "text-zinc-500"
-                      }`}
+                      className="font-body text-[13px] text-white/50"
                     >
                       Sites
                     </span>
                     <span
-                      className={`font-mono text-[13px] ${
-                        dark ? "text-white" : "text-black"
-                      }`}
+                      className="font-mono text-[13px] text-white/85"
                     >
                       {plan.sites}
                     </span>
                   </div>
-                  <SiteGrid sites={plan.sites} featured={dark} />
+                  <SiteGrid sites={plan.sites} />
                 </div>
 
                 {/* The spec sheet. */}
-                <dl className="mt-6 flex-1">
+                <dl className="relative mt-6 flex-1">
                   {plan.specs.map((spec) => (
                     <div
                       key={spec.label}
                       className={`flex items-baseline justify-between gap-4 border-b py-3 ${
-                        dark ? "border-white/[0.08]" : "border-black/[0.06]"
+                        dark ? "border-black/[0.10]" : "border-black/[0.06]"
                       }`}
                     >
                       <dt
                         className={`font-body text-[14px] ${
-                          dark ? "text-white/70" : "text-zinc-600"
+                          dark ? "text-zinc-700" : "text-zinc-600"
                         }`}
                       >
                         {spec.label}
                       </dt>
                       <dd
                         className={`shrink-0 font-mono text-[13px] ${
-                          dark ? "text-white" : "text-black"
+                          dark ? "text-zinc-900" : "text-black"
                         }`}
                       >
                         {spec.value === "Yes" ? (
                           <svg
-                            className={`h-3.5 w-3.5 ${dark ? "text-signal" : "text-[#1c1c21]"}`}
+                            className={`h-3.5 w-3.5 ${dark ? "text-signal-deep" : "text-[#1c1c21]"}`}
                             viewBox="0 0 16 16"
                             fill="none"
                             stroke="currentColor"
@@ -222,11 +220,8 @@ export default function Pricing() {
 
                 <Link
                   href="#demo"
-                  className={`mt-8 flex h-12 items-center justify-center gap-2 rounded-xl font-body text-[15px] font-medium transition-colors duration-200 ${
-                    dark
-                      ? "bg-signal text-white hover:bg-signal-deep"
-                      : "bg-[#1c1c21] text-white hover:bg-[#36363B]"
-                  }`}
+                  // The mint fill with a dark label, matching every other CTA.
+                  className="relative mt-8 flex h-12 translate-y-0 items-center justify-center gap-2 rounded-xl font-body text-[15px] font-medium bg-signal-bright text-signal-ink transition-all duration-150 ease-out [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:bg-signal-bright hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)]"
                 >
                   See demo
                   <svg

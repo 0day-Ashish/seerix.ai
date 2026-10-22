@@ -8,7 +8,14 @@
  */
 
 /** The signed-in person, for the chat's greeting. */
-export const account = { first_name: "Ashish" };
+export const account = {
+  first_name: "Ashish",
+  /** Shown in the sidebar's account row; `first_name` still greets in chat. */
+  full_name: "Ashish Das",
+  email: "ashish@arddev.in",
+  /** Fallback for the avatar when there is no picture to show. */
+  initials: "AD",
+};
 
 export const site = { site_id: "site_arddev", site_name: "arddev.in" };
 export const sites = [site];

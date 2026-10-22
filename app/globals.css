@@ -21,13 +21,20 @@
   --color-amakusa-deep: #1c1c21;
   --color-amakusa-ink: #23232a;
 
-  /* Signal: the one accent. Used for what the product flags -- the cause it
-     found, the step you're on, the figure that matters -- never as
-     decoration. `signal` is for marks and fills; `signal-deep` is the
-     same hue darkened enough for small text on white. */
-  --color-signal: #5a58d1;
-  --color-signal-deep: #4542b8;
-  --color-signal-soft: #efeefc;
+  /* Signal: the one accent, and one hue. `signal-bright` is the brand mint
+     exactly as the buttons carry it; the others are that same hue darkened
+     only as far as contrast demands, so nothing here is a different green.
+     The mint reads 1.6:1 on white, so it is for fills with a dark label;
+     `signal` (4.7:1) carries marks and small text, `signal-deep` (6.6:1)
+     carries text that has to hold at any size, and `signal-edge` is the
+     solid offset under a raised button. */
+  --color-signal-bright: #5ce49b;
+  --color-signal-edge: #2aa56a;
+  --color-signal: #11854e;
+  --color-signal-deep: #0c6b3e;
+  --color-signal-soft: #e6f7ee;
+  /* The label on a mint fill, and the ground the footer settles into. */
+  --color-signal-ink: #0a0a0b;
   /* Links in the app: one blue, so anything clickable reads as clickable. */
   --color-link: #1a5fd0;
   --color-link-deep: #134aa6;

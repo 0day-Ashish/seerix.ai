@@ -50,7 +50,7 @@ function noise(x: number, y: number) {
  *
  * A grid of square cells, each sized by a slowly drifting value -- a halftone
  * of data. A vertical band sweeps across it; where the band passes a hot cell
- * that cell lights in signal orange, holds, and fades. It is the product in
+ * that cell lights in the signal green, holds, and fades. It is the product in
  * one motion: the data, the scan through it, the finding it flags.
  *
  * Drawn on a 2D canvas, paused when off screen or in a hidden tab, and a single
@@ -77,7 +77,7 @@ export default function ScanField({
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const ink = tone === "light" ? "28,28,33" : "255,255,255";
-    const signal = "90,88,209";
+    const signal = "17,133,78";
 
     let w = 0;
     let h = 0;

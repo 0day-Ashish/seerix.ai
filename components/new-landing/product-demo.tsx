@@ -36,7 +36,7 @@ function Score({ value, tone = "signal" }: { value: number; tone?: string }) {
       ? "#2f8a4f"
       : tone === "flat"
         ? "#a1a1aa"
-        : `rgba(90,88,209,${0.25 + (value / 100) * 0.75})`;
+        : `rgba(17,133,78,${0.25 + (value / 100) * 0.75})`;
   return (
     <span className="inline-flex items-center gap-2.5">
       <span
@@ -207,7 +207,7 @@ const demos: Demo[] = [
       [22, "stackhq.io", "40", "0", "No change"],
     ].map(([s, d, sh, beat, move]) => [
       <Score key="s" value={s as number} />,
-      <span key="d" className="text-link">
+      <span key="d" className="text-signal">
         {d}
       </span>,
       <span key="sh" className="font-mono text-[12px]">
@@ -305,11 +305,11 @@ export default function ProductDemo() {
               aria-controls="product-demo-panel"
               onClick={() => setActive(i)}
               className={`relative min-w-[150px] flex-1 px-4 pb-4 pt-2 text-center font-body text-[14px] transition-colors sm:text-[16px] ${
-                on ? "text-black" : "text-zinc-400 hover:text-zinc-700"
+                on ? "text-black" : "text-zinc-700 hover:text-black"
               }`}
             >
               {d.tab}
-              <span className="absolute inset-x-0 bottom-0 h-px bg-black/[0.08]" />
+              <span className="absolute inset-x-0 bottom-0 h-px bg-black/[0.14]" />
               {on && (
                 <span
                   key={active}
@@ -332,7 +332,11 @@ export default function ProductDemo() {
       </div>
 
       {/* The window. Fixed height on desktop so switching never jumps. */}
-      <div className="mt-6 overflow-hidden rounded-2xl border border-black/[0.1] bg-white shadow-[0_30px_70px_-40px_rgba(0,0,0,0.35)]">
+      {/* The app window in a black bezel, as the hero dashboard is framed:
+          on the green ground a hairline border disappeared, and the device
+          frame reads as a screen rather than a floating card. */}
+      <div className="mt-6 rounded-[20px] bg-[#1c1c21] p-2 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.5)] ring-1 ring-black/40 sm:rounded-[24px] sm:p-2.5">
+        <div className="overflow-hidden rounded-xl bg-white sm:rounded-2xl">
         <div
           key={active}
           id="product-demo-panel"
@@ -374,7 +378,7 @@ export default function ProductDemo() {
 
               <div style={rise(0.45)} className="mt-6">
                 <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.1em] text-zinc-400">
-                  <span className="h-1.5 w-1.5 rounded-full bg-signal" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-signal-bright" />
                   Seerix
                 </p>
                 <p className="mt-2 font-body text-[14px] leading-[1.65] text-zinc-700">
@@ -390,7 +394,7 @@ export default function ProductDemo() {
                   <span className="font-mono text-[11px] text-zinc-400">
                     Search Console · 16 months
                   </span>
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-signal/40 text-signal-deep">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-signal-bright/40 text-signal-deep">
                     <Icon d="M8 12.5v-9M4.5 7L8 3.5 11.5 7" />
                   </span>
                 </div>
@@ -481,6 +485,7 @@ export default function ProductDemo() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

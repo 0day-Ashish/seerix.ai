@@ -16,7 +16,7 @@ const links = [
 const productColumns = [
   {
     title: "What it does",
-    swatch: "bg-signal",
+    swatch: "bg-signal-bright",
     items: [
       { label: "Diagnose", href: "/product/diagnose" },
       { label: "Prioritize", href: "/product/prioritize" },
@@ -311,7 +311,7 @@ export default function Navbar() {
             <div className="flex shrink-0 items-center gap-2">
               <Link
                 href="#demo"
-                className="hidden h-10 items-center rounded-xl bg-[#141416] px-4 font-body text-[14.5px] font-medium text-white transition-colors hover:bg-[#36363B] sm:flex"
+                className="hidden h-10 translate-y-0 items-center rounded-xl px-4 font-body text-[14.5px] font-medium bg-signal-bright text-signal-ink transition-all duration-150 ease-out [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:bg-signal-bright hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)] sm:flex"
               >
                 See demo
               </Link>

@@ -21,7 +21,7 @@ function DiagnoseSketch() {
           <span
             key={i}
             style={{ height: `${h}%` }}
-            className={`flex-1 rounded-t-[2px] ${i > 5 ? "bg-signal" : "bg-black/[0.12]"}`}
+            className={`flex-1 rounded-t-[2px] ${i > 5 ? "bg-signal-bright" : "bg-black/[0.12]"}`}
           />
         ))}
       </div>
@@ -44,7 +44,7 @@ function PrioritizeSketch() {
             className={`h-1.5 flex-1 rounded-full ${r === 0 ? "bg-black/30" : "bg-black/[0.10]"}`}
           />
           <span
-            className={`h-3 w-6 rounded-[3px] ${r === 0 ? "bg-signal" : "bg-black/[0.08]"}`}
+            className={`h-3 w-6 rounded-[3px] ${r === 0 ? "bg-signal-bright" : "bg-black/[0.08]"}`}
           />
         </div>
       ))}
@@ -59,11 +59,11 @@ function WatchSketch() {
         <div
           key={i}
           className={`flex items-center gap-2 rounded-lg bg-white px-3 py-2 shadow-[0_6px_18px_-10px_rgba(0,0,0,0.35)] ${
-            tag ? "ring-1 ring-signal/50" : ""
+            tag ? "ring-1 ring-signal-bright/50" : ""
           }`}
         >
           <span
-            className={`h-2 w-2 rounded-full ${tag ? "bg-signal" : "bg-black/[0.15]"}`}
+            className={`h-2 w-2 rounded-full ${tag ? "bg-signal-bright" : "bg-black/[0.15]"}`}
           />
           <span className="h-1.5 flex-1 rounded-full bg-black/[0.14]" />
         </div>
@@ -79,7 +79,7 @@ function CreateSketch() {
         <div
           key={i}
           className={`flex items-center justify-between gap-2 rounded-lg px-3 py-2 shadow-[0_6px_18px_-10px_rgba(0,0,0,0.35)] ${
-            pick ? "bg-signal-soft ring-1 ring-signal/50" : "bg-white"
+            pick ? "bg-signal-soft ring-1 ring-signal-bright/50" : "bg-white"
           }`}
         >
           <span className="h-1.5 w-2/3 rounded-full bg-black/[0.16]" />

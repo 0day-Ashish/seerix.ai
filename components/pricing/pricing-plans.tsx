@@ -6,7 +6,7 @@ import { plans, type PlanId } from "@/components/pricing/plans";
 function Check({ dark }: { dark?: boolean }) {
   return (
     <svg
-      className={`mt-[5px] h-3.5 w-3.5 shrink-0 ${dark ? "text-signal" : "text-black"}`}
+      className={`mt-[5px] h-3.5 w-3.5 shrink-0 ${dark ? "text-signal-deep" : "text-black"}`}
       viewBox="0 0 16 16"
       fill="none"
       stroke="currentColor"
@@ -66,42 +66,42 @@ export default function PricingPlans() {
           return (
             <article
               key={plan.id}
-              className={`flex flex-col rounded-3xl p-4 lg:row-span-4 lg:grid lg:grid-rows-subgrid lg:gap-0 ${
+              className={`relative flex flex-col overflow-hidden rounded-3xl p-4 lg:row-span-4 lg:grid lg:grid-rows-subgrid lg:gap-0 ${
                 dark
-                  ? "bg-[linear-gradient(160deg,#4a4a51_0%,#36363b_35%,#1c1c21_100%)] text-white shadow-[0_30px_70px_-30px_rgba(0,0,0,0.55)] lg:-my-3 lg:py-7"
+                  ? "bg-[#cfe8d8] text-zinc-900 shadow-[0_30px_70px_-30px_rgba(10,40,25,0.45)] lg:-my-3 lg:py-7"
                   : "border border-black/[0.08] bg-white"
               }`}
             >
+              {/* The brand gradient fills the whole featured card, so it
+                  reads as one green panel rather than a green inset in grey.
+                  The copy is dark against it, as on the industries panel. */}
+              {dark && (
+                <Image
+                  src="/assets/bg-gradient.png"
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 33vw, 100vw"
+                  className="object-cover"
+                />
+              )}
               <div
                 className={`relative min-h-[12rem] overflow-hidden rounded-2xl p-6 ${
                   dark
-                    ? "bg-[#2a2a30] text-white ring-1 ring-white/[0.08]"
+                    ? "text-zinc-900 ring-1 ring-black/[0.07]"
                     : "bg-[#f3f2ef] text-black"
                 }`}
               >
-                {dark && (
-                  <>
-                    <Image
-                      src="/assets/Silver mist-2048x1428.png"
-                      alt=""
-                      fill
-                      sizes="(min-width: 1024px) 33vw, 100vw"
-                      className="object-cover [transform:scaleX(-1)]"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#1c1c21]/80 via-[#1c1c21]/40 to-transparent" />
-                  </>
-                )}
                 <div className="relative">
                   <div className="flex items-center justify-between gap-3">
                     <p
                       className={`font-mono text-[12px] uppercase tracking-[0.12em] ${
-                        dark ? "text-white/80" : "text-zinc-500"
+                        dark ? "text-zinc-700" : "text-zinc-500"
                       }`}
                     >
                       {tier[plan.id]}
                     </p>
                     {dark && (
-                      <span className="rounded-full bg-signal px-2.5 py-0.5 font-body text-[12px] font-medium text-white">
+                      <span className="rounded-full bg-signal-bright px-2.5 py-0.5 font-body text-[12px] font-medium text-signal-ink">
                         Most popular
                       </span>
                     )}
@@ -111,7 +111,7 @@ export default function PricingPlans() {
                       {plan.name}
                     </span>
                     <span
-                      className={`text-[18px] ${dark ? "text-white/80" : "text-zinc-500"}`}
+                      className={`text-[18px] ${dark ? "text-zinc-700" : "text-zinc-500"}`}
                     >
                       {plan.price}
                       {plan.cadence}
@@ -119,7 +119,7 @@ export default function PricingPlans() {
                   </p>
                   <p
                     className={`mt-4 max-w-sm font-body text-[14px] leading-[1.55] ${
-                      dark ? "text-white/85" : "text-zinc-600"
+                      dark ? "text-zinc-700" : "text-zinc-600"
                     }`}
                   >
                     {plan.subtitle}
@@ -129,22 +129,20 @@ export default function PricingPlans() {
 
               <Link
                 href={plan.href}
-                className={`mt-4 flex h-11 items-center justify-center rounded-xl font-body text-[15px] font-medium text-white transition-colors duration-200 ${
-                  dark
-                    ? "bg-signal hover:bg-signal-deep"
-                    : "bg-[#1c1c21] hover:bg-[#36363B]"
-                }`}
+                // The mint fill with a dark label, as the shared Button
+                // carries it, so a CTA reads the same wherever it appears.
+                className="relative mt-4 flex h-11 translate-y-0 items-center justify-center rounded-xl font-body text-[15px] font-medium bg-signal-bright text-signal-ink transition-all duration-150 ease-out [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:bg-signal-bright hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)]"
               >
                 {plan.cta}
               </Link>
 
               <div
-                className={`mx-2 mt-6 border-t pt-6 ${
-                  dark ? "border-white/[0.08]" : "border-black/[0.08]"
+                className={`relative mx-2 mt-6 border-t pt-6 ${
+                  dark ? "border-black/[0.12]" : "border-black/[0.08]"
                 }`}
               >
                 <p
-                  className={`font-body text-[14px] ${dark ? "text-white/60" : "text-zinc-500"}`}
+                  className={`font-body text-[14px] ${dark ? "text-zinc-700" : "text-zinc-500"}`}
                 >
                   {lead[plan.id]}
                 </p>
@@ -153,7 +151,7 @@ export default function PricingPlans() {
                     <li key={feature} className="flex gap-3">
                       <Check dark={dark} />
                       <span
-                        className={`font-body text-[16px] leading-[1.5] ${dark ? "text-white" : "text-black"}`}
+                        className={`font-body text-[16px] leading-[1.5] ${dark ? "text-zinc-900" : "text-black"}`}
                       >
                         {feature}
                       </span>
@@ -163,12 +161,12 @@ export default function PricingPlans() {
               </div>
 
               <div
-                className={`mx-2 mt-8 border-t pb-2 pt-6 ${
-                  dark ? "border-white/[0.08]" : "border-black/[0.08]"
+                className={`relative mx-2 mt-8 border-t pb-2 pt-6 ${
+                  dark ? "border-black/[0.12]" : "border-black/[0.08]"
                 }`}
               >
                 <p
-                  className={`font-body text-[14px] ${dark ? "text-white/60" : "text-zinc-500"}`}
+                  className={`font-body text-[14px] ${dark ? "text-zinc-700" : "text-zinc-500"}`}
                 >
                   Evidence
                 </p>
@@ -177,7 +175,7 @@ export default function PricingPlans() {
                     <li key={item} className="flex gap-3">
                       <Check dark={dark} />
                       <span
-                        className={`font-body text-[16px] leading-[1.5] ${dark ? "text-white" : "text-black"}`}
+                        className={`font-body text-[16px] leading-[1.5] ${dark ? "text-zinc-900" : "text-black"}`}
                       >
                         {item}
                       </span>

@@ -86,7 +86,7 @@ function StudyPanel() {
     <>
       <div className="absolute inset-x-[6%] top-[14%] rounded-xl bg-white p-5 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.5)] sm:p-6">
         <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.1em] text-zinc-500">
-          <span className="h-2 w-2 rounded-full bg-signal" />3 CHANGES FOUND
+          <span className="h-2 w-2 rounded-full bg-signal-bright" />3 CHANGES FOUND
         </p>
         <p className="mt-3 font-display text-[22px] tracking-[-0.02em] text-black">
           acme.com/pricing
@@ -120,7 +120,7 @@ function AskPanel() {
           up, what was ruled out, and how sure it is. */}
       <div className="absolute inset-x-[6%] bottom-[8%] top-[22%] flex flex-col overflow-hidden rounded-xl bg-white p-4 sm:p-5 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.5)]">
         <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.1em] text-zinc-500">
-          <span className="h-2 w-2 rounded-full bg-signal" />
+          <span className="h-2 w-2 rounded-full bg-signal-bright" />
           ANSWER
         </p>
         <p className="mt-2.5 font-display text-[15px] leading-snug tracking-[-0.01em] text-black sm:text-[19px]">
@@ -153,7 +153,7 @@ function AskPanel() {
 
         <div className="mt-auto flex items-center gap-3 pt-3">
           <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-black/[0.08]">
-            <span className="block h-full w-[82%] rounded-full bg-signal" />
+            <span className="block h-full w-[82%] rounded-full bg-signal-bright" />
           </span>
           <span className="shrink-0 font-mono text-[11.5px] text-zinc-600">
             82% sure
@@ -283,7 +283,7 @@ export default function HowItWorks() {
               className="rounded-2xl border border-black/[0.12] p-6"
             >
               <p className="flex items-center gap-2 font-mono text-[13px] tracking-[0.08em] text-black">
-                <span className="h-2 w-2 rounded-full bg-signal" />
+                <span className="h-2 w-2 rounded-full bg-signal-bright" />
                 {fact.label}
               </p>
               <p className="mt-3 font-body text-[16px] leading-[1.55] text-zinc-600">

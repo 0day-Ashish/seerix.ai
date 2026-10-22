@@ -6,7 +6,7 @@ import { domains } from "@/components/gap/data";
 
 /** One colour per compared domain: you in blue, competitors in amber and green. */
 export const domainColor: Record<string, string> = {
-  "arddev.in": "#5a58d1",
+  "arddev.in": "#11854e",
   "pixelforge.dev": "#b06a1f",
   "buildstack.io": "#2f7d5b",
 };
@@ -54,7 +54,7 @@ export function DomainBar({
           {values.map((v, i) => (
             <label
               key={i}
-              className="flex min-w-0 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 transition-colors focus-within:border-signal"
+              className="flex min-w-0 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 transition-colors focus-within:border-signal-bright"
             >
               <Dot domain={domains[i]} />
               <span className="shrink-0 font-body text-[12.5px] font-medium text-zinc-500">
@@ -74,7 +74,7 @@ export function DomainBar({
           ))}
           <button
             type="button"
-            className="h-10 rounded-lg bg-signal px-6 font-body text-[14px] font-medium text-white shadow-sm transition-colors hover:bg-signal-deep"
+            className="h-10 rounded-lg bg-signal-bright px-6 font-body text-[14px] font-medium text-signal-ink shadow-sm transition-colors hover:bg-signal-bright"
           >
             Compare
           </button>
@@ -124,7 +124,7 @@ export function Tabs<T extends string>({
             aria-selected={on}
             onClick={() => onChange(t)}
             className={`-mb-px flex shrink-0 flex-col items-start rounded-t-lg border-b-2 px-4 py-2.5 text-left transition-colors ${
-              on ? "border-signal" : "border-transparent hover:bg-zinc-50"
+              on ? "border-signal-bright" : "border-transparent hover:bg-zinc-50"
             }`}
           >
             <span

@@ -6,8 +6,8 @@ import { fmt } from "@/components/dashboard/data";
 
 export type Series = { name: string; color: string; values: number[] };
 
-const H = 280;
-const PAD = { top: 12, right: 8, bottom: 28, left: 44 };
+const H = 260;
+const PAD = { top: 16, right: 56, bottom: 28, left: 44 };
 
 /** A round top for the scale, split into four equal steps. */
 function niceMax(v: number) {
@@ -68,9 +68,6 @@ export default function MultiLineChart({
   }, []);
 
   const shown = series.filter((s) => !hidden.includes(s.name));
-  // The first series is the user's own site; it carries the area fill, and
-  // loses it along with its line when hidden from the legend.
-  const own = shown.find((s) => s.name === series[0]?.name);
   const hi = niceMax(Math.max(...shown.flatMap((s) => s.values), 1));
   const ticks = [0, 1, 2, 3, 4].map((i) => (hi * i) / 4);
   const n = labels.length;
@@ -78,6 +75,13 @@ export default function MultiLineChart({
   const ih = H - PAD.top - PAD.bottom;
   const x = (i: number) => PAD.left + (n > 1 ? (i / (n - 1)) * iw : iw / 2);
   const y = (v: number) => PAD.top + (1 - v / hi) * ih;
+
+  // End labels can't overlap: push them apart by at least 14px.
+  const ends = shown
+    .map((s) => ({ s, y: y(s.values[n - 1]) }))
+    .sort((a, b) => a.y - b.y);
+  for (let i = 1; i < ends.length; i++)
+    if (ends[i].y - ends[i - 1].y < 14) ends[i].y = ends[i - 1].y + 14;
 
   const onMove = (e: React.PointerEvent<SVGSVGElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
@@ -99,15 +103,6 @@ export default function MultiLineChart({
             aria-label={`${unit} over time for ${series.map((s) => s.name).join(", ")}`}
           >
             <defs>
-              {/* Only the first series -- the user's own site -- is filled,
-                  exactly as the overview chart fills its single line. Filling
-                  the competitors too turned the plot into one muddy wash. */}
-              {own && (
-                <linearGradient id="mlc-fill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stopColor={own.color} stopOpacity="0.14" />
-                  <stop offset="1" stopColor={own.color} stopOpacity="0.01" />
-                </linearGradient>
-              )}
               <clipPath id="mlc-clip">
                 <rect x="0" y="0" width={PAD.left + iw * p + 4} height={H} />
               </clipPath>
@@ -140,9 +135,7 @@ export default function MultiLineChart({
                 key={l + i}
                 x={x(i)}
                 y={H - 8}
-                textAnchor={
-                  x(i) > PAD.left + iw - 24 ? "end" : "middle"
-                }
+                textAnchor="middle"
                 fill="#71717a"
                 fontSize="12"
                 className="font-body"
@@ -152,54 +145,50 @@ export default function MultiLineChart({
             ))}
 
             <g clipPath="url(#mlc-clip)">
-              {own && (
-                <path
-                  d={`${own.values
-                    .map(
-                      (v, i) =>
-                        `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(v).toFixed(1)}`,
-                    )
-                    .join("")}L${x(n - 1).toFixed(1)} ${(PAD.top + ih).toFixed(1)}L${x(0).toFixed(1)} ${(PAD.top + ih).toFixed(1)}Z`}
-                  fill="url(#mlc-fill)"
-                  stroke="none"
-                />
-              )}
-              {shown.map((s) => {
-                const line = s.values
-                  .map(
-                    (v, i) =>
-                      `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(v).toFixed(1)}`,
-                  )
-                  .join("");
-                return (
-                  <g key={s.name}>
-                    <path
-                      d={line}
-                      fill="none"
+              {shown.map((s) => (
+                <g key={s.name}>
+                  <path
+                    d={s.values
+                      .map(
+                        (v, i) =>
+                          `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(v).toFixed(1)}`,
+                      )
+                      .join("")}
+                    fill="none"
+                    stroke={s.color}
+                    strokeWidth="2"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                  />
+                  {s.values.map((v, i) => (
+                    <circle
+                      key={i}
+                      cx={x(i)}
+                      cy={y(v)}
+                      r={hover === i ? 4.5 : 3}
+                      fill="white"
                       stroke={s.color}
                       strokeWidth="2"
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
                     />
-                    {/* Only the hovered point and the last one carry a dot:
-                        a marker on every month turned the lines into beads. */}
-                    {s.values.map((v, i) =>
-                      hover === i || (hover == null && i === n - 1) ? (
-                        <circle
-                          key={i}
-                          cx={x(i)}
-                          cy={y(v)}
-                          r={hover === i ? 4.5 : 3.5}
-                          fill="white"
-                          stroke={s.color}
-                          strokeWidth="2"
-                        />
-                      ) : null,
-                    )}
-                  </g>
-                );
-              })}
+                  ))}
+                </g>
+              ))}
             </g>
+
+            {p === 1 &&
+              ends.map(({ s, y: ly }) => (
+                <text
+                  key={s.name}
+                  x={PAD.left + iw + 10}
+                  y={ly + 4}
+                  fill={s.color}
+                  fontSize="12"
+                  fontWeight="600"
+                  className="font-body"
+                >
+                  {fmt(s.values[n - 1])}
+                </text>
+              ))}
 
             {hover != null && (
               <line
@@ -245,10 +234,7 @@ export default function MultiLineChart({
         )}
       </div>
 
-      {/* Legend: the overview chart's inline run rather than a row of cards,
-          so the two charts read as one family. Still a button each, because
-          clicking one hides its line. */}
-      <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 font-body text-[12.5px] text-zinc-500">
+      <div className="mt-4 flex flex-wrap gap-2">
         {series.map((s) => {
           const off = hidden.includes(s.name);
           const first = s.values[0];
@@ -269,28 +255,26 @@ export default function MultiLineChart({
                       : h,
                 )
               }
-              className={`flex items-center gap-2 transition-opacity hover:text-zinc-900 ${
-                off ? "opacity-40" : ""
+              className={`flex items-center gap-2.5 rounded-xl border px-3 py-2 text-left font-body transition-colors ${
+                off
+                  ? "border-zinc-200 bg-white opacity-50 hover:opacity-80"
+                  : "border-zinc-200 bg-white hover:bg-zinc-50"
               }`}
             >
               <span
-                className="h-0.5 w-4 rounded-full"
+                className="h-2.5 w-2.5 rounded-full"
                 style={{ background: off ? "#d4d4d8" : s.color }}
               />
-              <span className="text-zinc-700">{s.name}</span>
-              <span className="tabular-nums">
-                {fmt(first)} &rarr; {fmt(last)}
+              <span className="text-[13px] font-medium text-zinc-900">
+                {s.name}
+              </span>
+              <span className="text-[12.5px] tabular-nums text-zinc-500">
+                {fmt(first)} → {fmt(last)}
               </span>
               <span
-                className={`tabular-nums ${
-                  off
-                    ? ""
-                    : growth >= 0
-                      ? "text-good-deep"
-                      : "text-danger-deep"
-                }`}
+                className={`text-[12px] font-medium tabular-nums ${growth >= 0 ? "text-good-deep" : "text-danger-deep"}`}
               >
-                {growth >= 0 ? "\u2191" : "\u2193"}
+                {growth >= 0 ? "↑" : "↓"}
                 {Math.abs(Math.round(growth * 100))}%
               </span>
             </button>

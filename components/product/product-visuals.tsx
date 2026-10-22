@@ -75,7 +75,7 @@ export function DiagnoseVisual() {
               }}
               className={`w-full flex-1 rounded-[3px] transition-colors duration-500 ${
                 step >= 1 && i > 6
-                  ? "bg-signal"
+                  ? "bg-signal-bright"
                   : // Before the drop the bars are solid enough to read as a
                     // level, so the fall after it has something to fall from.
                     "bg-zinc-300"
@@ -102,7 +102,7 @@ export function DiagnoseVisual() {
                       !tested
                         ? "bg-black/[0.12]"
                         : cause.hit
-                          ? "bg-signal"
+                          ? "bg-signal-bright"
                           : "bg-black/[0.18]"
                     }`}
                   />
@@ -168,7 +168,7 @@ export function PrioritizeVisual() {
                 <span className="hidden h-1.5 w-24 shrink-0 overflow-hidden rounded-full bg-black/[0.08] sm:block">
                   <span
                     style={{ width: scored ? `${fix.score}%` : "0%" }}
-                    className="block h-full rounded-full bg-signal transition-[width] duration-700 ease-out"
+                    className="block h-full rounded-full bg-signal-bright transition-[width] duration-700 ease-out"
                   />
                 </span>
 
@@ -264,7 +264,7 @@ export function WatchVisual() {
             cy={y(ranks[step])}
             r="2.4"
             className={`transition-all duration-500 ${
-              alerted ? "fill-danger" : "fill-signal"
+              alerted ? "fill-danger" : "fill-signal-bright"
             }`}
           />
         </svg>
@@ -327,7 +327,7 @@ export function CreateVisual() {
                 key={v.cite}
                 className={`rounded-lg border px-3.5 py-3 transition-all duration-500 ${
                   on
-                    ? "border-signal/40 bg-signal-soft"
+                    ? "border-signal-bright/40 bg-signal-soft"
                     : "border-black/[0.07] bg-white"
                 }`}
               >

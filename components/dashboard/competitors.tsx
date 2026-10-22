@@ -143,7 +143,7 @@ export default function Competitors() {
                   type="button"
                   disabled={on}
                   onClick={() => track(s.domain)}
-                  className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-left font-body text-[13px] font-medium text-zinc-800 transition-colors hover:border-signal/40 hover:bg-signal-soft/50 hover:text-signal disabled:border-good/30 disabled:bg-good-soft disabled:text-good-deep disabled:shadow-none"
+                  className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-left font-body text-[13px] font-medium text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:border-signal-bright/40 hover:bg-signal-soft hover:text-signal-deep disabled:border-good-soft disabled:bg-good-soft disabled:text-good-deep disabled:shadow-none"
                 >
                   {on ? "✓ " : "+ "}
                   {s.domain}
@@ -164,7 +164,7 @@ export default function Competitors() {
       {intel.competitors.map((cp) => (
         <section
           key={cp.domain}
-          className="mt-4 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white"
+          className="mt-4 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
         >
           <div className="flex flex-wrap items-center justify-between gap-3 px-5 pb-3 pt-4">
             <h2 className="flex items-center gap-2.5 font-body text-[16px] font-semibold text-zinc-900">

@@ -12,7 +12,7 @@ const filters: ("All" | ChangeKind)[] = ["All", "New", "Improved", "Fixed"];
 
 /** New gets the signal; the other kinds stay quiet. */
 const tagStyle: Record<ChangeKind, string> = {
-  New: "bg-signal text-white",
+  New: "bg-signal-bright text-signal-ink",
   Improved: "bg-[#141416] text-white",
   Fixed: "border border-black/[0.12] bg-white text-zinc-700",
 };
@@ -57,7 +57,7 @@ function Sketch({ kind }: { kind: NonNullable<Entry["sketch"]> }) {
             <span
               key={i}
               style={{ height: `${h}%` }}
-              className={`flex-1 rounded-t-[3px] ${i === 5 ? "bg-signal" : i > 5 ? "bg-black/30" : "bg-black/[0.12]"}`}
+              className={`flex-1 rounded-t-[3px] ${i === 5 ? "bg-signal-bright" : i > 5 ? "bg-black/30" : "bg-black/[0.12]"}`}
             />
           ))}
         </div>
@@ -78,11 +78,11 @@ function Sketch({ kind }: { kind: NonNullable<Entry["sketch"]> }) {
           <div
             key={String(t)}
             className={`flex items-center gap-3 rounded-xl bg-white px-3.5 py-2.5 shadow-[0_8px_24px_-16px_rgba(0,0,0,0.4)] ${
-              fresh ? "ring-1 ring-signal/50" : ""
+              fresh ? "ring-1 ring-signal-bright/50" : ""
             }`}
           >
             <span
-              className={`h-2 w-2 shrink-0 rounded-full ${fresh ? "bg-signal" : "bg-black/[0.15]"}`}
+              className={`h-2 w-2 shrink-0 rounded-full ${fresh ? "bg-signal-bright" : "bg-black/[0.15]"}`}
             />
             <span className="truncate font-body text-[13px] text-black">
               {t}
@@ -102,7 +102,7 @@ function Sketch({ kind }: { kind: NonNullable<Entry["sketch"]> }) {
         <div
           key={String(t)}
           className={`flex items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 shadow-[0_8px_24px_-16px_rgba(0,0,0,0.4)] ${
-            pick ? "bg-signal-soft ring-1 ring-signal/50" : "bg-white"
+            pick ? "bg-signal-soft ring-1 ring-signal-bright/50" : "bg-white"
           }`}
         >
           <span className="truncate font-body text-[13px] text-black">{t}</span>

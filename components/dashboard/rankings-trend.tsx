@@ -17,7 +17,8 @@ import type { Ranking } from "@/components/dashboard/data";
  * means ranking improved.
  * ---------------------------------------------------------------------- */
 
-const SIGNAL = "#5a58d1";
+/** `signal`, as a literal because SVG needs a value. */
+const SIGNAL = "#11854e";
 const H = 220;
 const PAD = { top: 12, right: 40, bottom: 28, left: 44 };
 

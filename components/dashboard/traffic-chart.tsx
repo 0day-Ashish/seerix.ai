@@ -7,7 +7,8 @@ import type { Grain, Point } from "@/components/dashboard/range";
 
 export type Metric = "clicks" | "impressions" | "ctr" | "position";
 
-const BLUE = "#5a58d1";
+/** The chart line: `signal`, as a literal because SVG needs a value. */
+const BLUE = "#11854e";
 const H = 280;
 const PAD = { top: 12, right: 8, bottom: 28, left: 44 };
 const DRAW_MS = 1000;

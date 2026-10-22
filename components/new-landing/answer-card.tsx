@@ -78,7 +78,7 @@ export default function AnswerCard({
               }`}
             >
               <span className="flex min-w-0 items-center gap-2.5">
-                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-signal" />
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-signal-bright" />
                 <span className="shrink-0 font-body text-[13px] text-white/85">
                   {row.source}
                 </span>
@@ -108,7 +108,7 @@ export default function AnswerCard({
                   key={index}
                   className={`h-1.5 w-4 rounded-full ${
                     index < diagnosis.confidence
-                      ? "bg-signal"
+                      ? "bg-signal-bright"
                       : "bg-white/[0.12]"
                   }`}
                 />

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { BlockReveal } from "@/components/new-landing/block-reveal";
@@ -36,63 +37,34 @@ export default function Industries() {
       <div className="mx-auto max-w-7xl">
         {/* Dark panel: the one inverted block on the page, so the section
             reads as a break between the FAQ and the closing CTA. */}
-        <div className="relative overflow-hidden rounded-3xl bg-[#1c1c21] px-7 py-12 sm:px-12 sm:py-16">
-          {/* Moving gradient: two lights orbiting the panel's centre in
-              opposite directions at different speeds, so their overlap keeps
-              shifting, over a signal glow that slowly breathes. Each orbit is a
-              full-panel layer rotated about the middle with its light set off
-              to one side. Transforms and opacity only; the reduced-motion rule
-              holds it still. */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0"
-          >
-            {/* Grey light, clockwise. */}
-            <div
-              className="absolute inset-[-25%]"
-              style={{ animation: "seerix-orbit 48s linear infinite" }}
-            >
-              <span className="absolute left-[10%] top-[12%] h-[45%] w-[38%] rounded-full bg-[#7a7a82] opacity-45 blur-[100px]" />
-            </div>
-            {/* Second grey light, counter-clockwise and slower. */}
-            <div
-              className="absolute inset-[-25%]"
-              style={{ animation: "seerix-orbit 70s linear infinite reverse" }}
-            >
-              <span className="absolute bottom-[15%] right-[12%] h-[40%] w-[34%] rounded-full bg-[#888084] opacity-30 blur-[110px]" />
-            </div>
-            {/* Signal glow, breathing in place at the lower right. */}
-            <span
-              className="absolute -bottom-[40%] right-[8%] h-[90%] w-[55%] rounded-full bg-signal blur-[120px]"
-              style={{ animation: "seerix-breathe 9s ease-in-out infinite" }}
-            />
-            <span
-              className="absolute -bottom-[35%] left-[28%] h-[55%] w-[32%] rounded-full bg-[#4542b8] blur-[110px]"
-              style={{
-                animation: "seerix-breathe 13s ease-in-out infinite reverse",
-              }}
-            />
-          </div>
-          {/* Holds the copy on the left on the darkest ground. */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#1c1c21]/75 via-[#1c1c21]/20 to-transparent" />
-
+        <div className="relative overflow-hidden rounded-3xl bg-[#cfe8d8] px-7 py-12 sm:px-12 sm:py-16">
+          {/* The brand gradient, shown as it is. The copy is set dark
+              against it: zinc-900 clears 6.7:1 even on the image's deepest
+              green, where white would have sat at 1.9:1. */}
+          <Image
+            src="/assets/bg-gradient.png"
+            alt=""
+            fill
+            sizes="(min-width: 1280px) 1280px, 100vw"
+            className="object-cover"
+          />
           <div className="relative grid gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
             {/* Heading parks alongside the grid while it scrolls past. */}
             <div className="lg:sticky lg:top-28 lg:self-start">
-              <h2 className="heading-mark font-display text-[34px] font-medium leading-[1.15] tracking-[-0.03em] text-white sm:text-[44px]">
+              <h2 className="heading-mark font-display text-[34px] font-medium leading-[1.15] tracking-[-0.03em] text-zinc-900 sm:text-[44px]">
                 <BlockReveal>
                   Built for sites where search traffic is the business.
                 </BlockReveal>
               </h2>
 
-              <p className="mt-5 max-w-sm font-body text-[16px] leading-[1.6] text-white/45">
+              <p className="mt-5 max-w-sm font-body text-[16px] leading-[1.6] text-zinc-700">
                 Seerix makes no assumptions about your vertical. Every diagnosis
                 is assembled from your own data, whatever you sell.
               </p>
 
               <Link
                 href="#demo"
-                className="group mt-8 inline-flex items-center gap-2 font-body text-[15px] text-white transition-colors duration-200 hover:text-white/60"
+                className="group mt-8 inline-flex items-center gap-2 font-body text-[15px] text-zinc-900 transition-colors duration-200 hover:text-zinc-700"
               >
                 See demo
                 <svg
@@ -116,12 +88,12 @@ export default function Industries() {
               {industries.map((industry) => (
                 <div
                   key={industry.name}
-                  className="border-t border-white/10 py-7 sm:[&:nth-child(even)]:border-l sm:[&:nth-child(even)]:pl-7 sm:[&:nth-child(odd)]:pr-7"
+                  className="border-t border-black/15 py-7 sm:[&:nth-child(even)]:border-l sm:[&:nth-child(even)]:pl-7 sm:[&:nth-child(odd)]:pr-7"
                 >
-                  <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-white">
+                  <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-zinc-900">
                     {industry.name}
                   </h3>
-                  <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-white/45">
+                  <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-700">
                     {industry.body}
                   </p>
                 </div>
@@ -130,18 +102,18 @@ export default function Industries() {
               {/* An odd number of industries leaves the last cell empty, so it
                   closes the table rather than sitting blank: the list is not
                   meant to be exhaustive, and this is where you say so. */}
-              <div className="group border-t border-white/10 py-7 sm:border-l sm:pl-7">
-                <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-white/55">
+              <div className="group border-t border-black/15 py-7 sm:border-l sm:pl-7">
+                <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-zinc-800">
                   Not listed here?
                 </h3>
-                <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-white/35">
+                <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-600">
                   The vertical never changes the method. Connect a property and
                   Seerix reads what your market actually does.
                 </p>
 
                 <Link
                   href="/contact"
-                  className="mt-4 inline-flex items-center gap-2 font-body text-[15px] text-white/70 transition-colors duration-200 hover:text-white"
+                  className="mt-4 inline-flex items-center gap-2 font-body text-[15px] text-zinc-800 transition-colors duration-200 hover:text-zinc-900"
                 >
                   Ask about your case
                   <svg

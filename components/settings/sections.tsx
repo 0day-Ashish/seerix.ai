@@ -129,7 +129,7 @@ function Affiliate() {
         ].map(([l, v]) => (
           <div
             key={l}
-            className="rounded-2xl border border-zinc-200/80 bg-white px-5 py-4"
+            className="rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] px-5 py-4"
           >
             <p className="font-body text-[13px] text-zinc-500">{l}</p>
             <p className="mt-1.5 font-body text-[26px] font-semibold tabular-nums tracking-[-0.01em] text-zinc-900">
@@ -207,7 +207,7 @@ function Learn() {
       >
         <div className="mb-2 mt-4 h-1.5 overflow-hidden rounded-full bg-zinc-100">
           <div
-            className="h-full rounded-full bg-signal"
+            className="h-full rounded-full bg-signal-bright"
             style={{ width: `${(done / guides.length) * 100}%` }}
           />
         </div>
@@ -219,7 +219,7 @@ function Learn() {
             <span
               className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${
                 complete
-                  ? "border-signal bg-signal text-white"
+                  ? "border-signal-bright bg-signal-bright text-signal-ink"
                   : "border-zinc-300"
               }`}
             >
@@ -341,7 +341,7 @@ function Integrations() {
         {items.map(([name, body, state]) => (
           <div
             key={name}
-            className="rounded-2xl border border-zinc-200/80 bg-white flex flex-col gap-4 p-5"
+            className="rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] flex flex-col gap-4 p-5"
           >
             <div className="flex items-start justify-between gap-3">
               <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-zinc-200 bg-white">
@@ -692,8 +692,8 @@ function Billing() {
         title="Billing"
         description="Your plan, payment method and billing details."
       />
-      <section className="mt-6 grid overflow-hidden rounded-2xl border border-zinc-200/80 bg-white lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
-        <div className="bg-signal-soft/50 p-6 sm:p-7">
+      <section className="mt-6 grid overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+        <div className="bg-signal-soft p-6 sm:p-7">
           <p className="flex items-center gap-2 font-body text-[13px] font-medium text-zinc-500">
             Current plan
             <span className="rounded-full bg-signal-soft px-2 py-0.5 text-[12px] text-signal">
@@ -714,13 +714,13 @@ function Billing() {
           <div className="mt-5 flex flex-wrap gap-2.5">
             <Link
               href="/pricing"
-              className="inline-flex h-9 items-center rounded-lg bg-signal px-3.5 font-body text-[13.5px] font-medium text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] transition-colors hover:bg-signal-deep"
+              className="inline-flex h-9 items-center rounded-lg bg-signal-bright px-3.5 font-body text-[13.5px] font-medium text-signal-ink shadow-[0_1px_2px_rgba(15,23,42,0.08)] transition-colors hover:bg-signal-bright"
             >
               Change plan
             </Link>
             <button
               type="button"
-              className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-white px-3.5 font-body text-[13.5px] font-medium text-danger-deep transition-colors hover:bg-danger-soft"
+              className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-white px-3.5 font-body text-[13.5px] font-medium text-danger-deep shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:bg-danger-soft"
             >
               Cancel plan
             </button>
@@ -738,7 +738,7 @@ function Billing() {
               "Competitor tracking",
             ].map((x) => (
               <li key={x} className="flex gap-3">
-                <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-signal" />
+                <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-signal-bright" />
                 {x}
               </li>
             ))}
@@ -845,7 +845,7 @@ function Usage() {
               key={i}
               title={`${v} questions`}
               style={{ height: `${(v / max) * 100}%` }}
-              className={`flex-1 rounded-t-[4px] ${i === daily.length - 1 ? "bg-signal" : "bg-signal/55"}`}
+              className={`flex-1 rounded-t-[4px] ${i === daily.length - 1 ? "bg-signal-bright" : "bg-signal-bright/55"}`}
             />
           ))}
         </div>

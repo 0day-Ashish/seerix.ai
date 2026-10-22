@@ -17,13 +17,13 @@ const initialState: ContactState = { status: "idle" };
 
 /** One border treatment across text, select and area, on the grey panel. */
 const fieldBase =
-  "w-full rounded-xl border bg-white px-4 py-3.5 font-body text-[16px] text-black transition-[border-color,box-shadow] duration-200 placeholder:text-zinc-400 focus:outline-none focus:ring-4 focus:ring-signal/15";
+  "w-full rounded-xl border bg-white px-4 py-3.5 font-body text-[16px] text-black transition-[border-color,box-shadow] duration-200 placeholder:text-zinc-400 focus:outline-none focus:ring-4 focus:ring-signal-bright/15";
 
 function fieldClass(invalid: boolean) {
   return `${fieldBase} ${
     invalid
-      ? "border-signal focus:border-signal"
-      : "border-black/[0.12] hover:border-black/30 focus:border-signal hover:focus:border-signal"
+      ? "border-signal-bright focus:border-signal-bright"
+      : "border-black/[0.12] hover:border-black/30 focus:border-signal-bright hover:focus:border-signal-bright"
   }`;
 }
 
@@ -75,7 +75,7 @@ export default function ContactForm() {
     return (
       <div role="status" className={panel}>
         <h2 className="flex items-center gap-4 font-display text-[36px] tracking-[-0.03em] text-black">
-          <span className="h-3 w-3 rounded-full bg-signal" />
+          <span className="h-3 w-3 rounded-full bg-signal-bright" />
           Message sent
         </h2>
         <p className="mt-5 max-w-lg font-body text-[16px] leading-[1.65] text-zinc-600">
@@ -121,7 +121,7 @@ export default function ContactForm() {
       <h2 className="flex items-center gap-4 font-display text-[36px] tracking-[-0.03em] text-black sm:text-[42px]">
         <span
           aria-hidden="true"
-          className="h-3 w-3 shrink-0 rounded-full bg-signal"
+          className="h-3 w-3 shrink-0 rounded-full bg-signal-bright"
         />
         Contact us
       </h2>
@@ -129,7 +129,7 @@ export default function ContactForm() {
       {state.status === "error" && state.message && (
         <p
           role="alert"
-          className="mt-6 rounded-xl border border-signal/40 bg-signal-soft px-4 py-3 font-body text-[14px] text-signal-deep"
+          className="mt-6 rounded-xl border border-signal-bright/40 bg-signal-soft px-4 py-3 font-body text-[14px] text-signal-deep"
         >
           {state.message}
         </p>

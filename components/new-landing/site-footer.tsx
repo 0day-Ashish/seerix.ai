@@ -6,6 +6,10 @@ import FooterLinks from "@/components/new-landing/footer-links";
 import StrokeText from "@/components/new-landing/StrokeText";
 import { ParticleDissolve } from "@/components/new-landing/ui/particle-dissolve";
 
+/** The footer ground. The dissolve above it settles into the same value, so
+ *  the two must change together or a seam shows at the join. */
+const FOOT = "#0a0a0b";
+
 /** The short legal run in the bottom bar, beside the status readout. */
 const legalLinks = [
   { label: "Privacy", href: "/privacy" },
@@ -21,9 +25,12 @@ const legalLinks = [
 export default function SiteFooter() {
   return (
     <section className="mt-auto">
-      <ParticleDissolve />
-      {/* Amakusa Black, matching the tone the dissolve settles into. */}
-      <div className="relative overflow-hidden bg-[#36363B] px-6 pb-[34vw] pt-12 sm:pb-[260px]">
+      <ParticleDissolve baseColor={FOOT} />
+      {/* Near-black, matching the tone the dissolve settles into. */}
+      <div
+        className="relative overflow-hidden px-6 pb-[34vw] pt-12 sm:pb-[260px]"
+        style={{ background: FOOT }}
+      >
         <div className="relative z-10">
           {/* Tagline left, office and socials in the middle, link columns
               right; they stack on mobile. */}
@@ -45,8 +52,8 @@ export default function SiteFooter() {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
               <span className="flex items-center gap-2 font-body text-[13px] text-white/40">
                 <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4ade80] opacity-60" />
-                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#4ade80]" />
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal-bright opacity-60" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-signal-bright" />
                 </span>
                 All systems operational
               </span>

@@ -21,7 +21,7 @@ function HistoryStrip() {
             key={i}
             style={{ height: `${h}%` }}
             className={`flex-1  ${
-              i === heights.length - 1 ? "bg-signal" : "bg-black/[0.12]"
+              i === heights.length - 1 ? "bg-signal-bright" : "bg-black/[0.12]"
             }`}
           />
         ))}
@@ -60,7 +60,7 @@ function MarketChips() {
           key={code}
           className={`rounded-md border px-1.5 py-0.5 font-mono text-[11px] ${
             on
-              ? "border-signal/40 bg-signal-soft text-signal-deep"
+              ? "border-signal-bright/40 bg-signal-soft text-signal-deep"
               : "border-black/[0.08] text-zinc-400"
           }`}
         >
@@ -76,7 +76,7 @@ function UsageMeter() {
   return (
     <div aria-hidden="true">
       <div className="flex h-2 overflow-hidden rounded-full bg-black/[0.08]">
-        <span className="h-full w-[31%] rounded-full bg-signal" />
+        <span className="h-full w-[31%] rounded-full bg-signal-bright" />
       </div>
       <div className="mt-2 flex justify-between font-mono text-[11px] text-zinc-400">
         <span>
@@ -96,7 +96,7 @@ function PriceCompare() {
       className="flex flex-col gap-2 font-mono text-[11px]"
     >
       <div className="flex items-center gap-2">
-        <span className="h-2 w-[19.5%] shrink-0 rounded-full bg-signal" />
+        <span className="h-2 w-[19.5%] shrink-0 rounded-full bg-signal-bright" />
         <span className="text-signal-deep">Seerix, a month</span>
       </div>
       <div className="flex items-center gap-2">

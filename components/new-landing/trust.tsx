@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
@@ -178,13 +179,22 @@ export default function Trust() {
             {pillars.map((pillar) => (
               <article
                 key={pillar.title}
-                className="flex min-h-[26rem] w-[82vw] shrink-0 flex-col justify-between rounded-3xl bg-[#1c1c21] p-7 sm:w-[27rem] lg:h-[min(30rem,calc(100dvh-21rem))] lg:w-[30rem] lg:p-11"
+                className="relative flex min-h-[26rem] w-[82vw] shrink-0 flex-col justify-between overflow-hidden rounded-3xl bg-[#cfe8d8] p-7 sm:w-[27rem] lg:h-[min(30rem,calc(100dvh-21rem))] lg:w-[30rem] lg:p-11"
               >
-                <h3 className="font-display text-[22px] font-medium leading-snug tracking-[-0.02em] text-white lg:text-[26px]">
+                {/* The brand gradient, shown as it is. The copy and the
+                    card's visual are set dark against it. */}
+                <Image
+                  src="/assets/bg-gradient.png"
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 30rem, 82vw"
+                  className="object-cover"
+                />
+                <h3 className="relative font-display text-[22px] font-medium leading-snug tracking-[-0.02em] text-zinc-900 lg:text-[26px]">
                   {pillar.title}
                 </h3>
-                <div className="my-6">{pillar.visual}</div>
-                <p className="font-body text-[15px] leading-[1.7] text-white/55 lg:text-[16px]">
+                <div className="relative my-6">{pillar.visual}</div>
+                <p className="relative font-body text-[15px] leading-[1.7] text-zinc-700 lg:text-[16px]">
                   {pillar.body}
                 </p>
               </article>

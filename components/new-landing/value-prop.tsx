@@ -190,7 +190,7 @@ function DitherBlocks({ edge }: { edge: "top" | "bottom" }) {
         className={`absolute right-[11%] top-0 h-[38%] w-[11%] opacity-80 ${dither.small} ${move} group-hover/dither:h-full group-hover/dither:opacity-100`}
       />
       <div
-        className={`absolute bottom-0 left-[43%] h-[20%] w-[11%] bg-signal ${move} group-hover/dither:h-[42%]`}
+        className={`absolute bottom-0 left-[43%] h-[20%] w-[11%] bg-signal-bright ${move} group-hover/dither:h-[42%]`}
       />
     </div>
   );

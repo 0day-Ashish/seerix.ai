@@ -167,7 +167,7 @@ export default function Faq() {
                 <span className="font-body text-[14px] text-white/60">
                   Ask the people who built it
                 </span>
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-signal text-white transition-transform duration-200 group-hover:translate-x-0.5">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-signal-bright text-signal-ink transition-transform duration-200 group-hover:translate-x-0.5">
                   <svg
                     className="h-3.5 w-3.5"
                     viewBox="0 0 16 16"
@@ -222,7 +222,7 @@ export default function Faq() {
                         <span
                           aria-hidden="true"
                           className={`mt-1 w-[2px] shrink-0 self-stretch rounded-full transition-colors duration-300 ${
-                            isOpen ? "bg-signal" : "bg-transparent"
+                            isOpen ? "bg-signal-bright" : "bg-transparent"
                           }`}
                         />
                         {faq.question}
@@ -231,7 +231,7 @@ export default function Faq() {
                         aria-hidden="true"
                         className={`relative mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors duration-200 ${
                           isOpen
-                            ? "border-signal bg-signal text-white"
+                            ? "border-signal-bright bg-signal-bright text-signal-ink"
                             : "border-black/[0.12] text-zinc-500 group-hover:border-black/[0.3] group-hover:text-black"
                         }`}
                       >

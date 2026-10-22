@@ -157,15 +157,15 @@ function Reasoning({ a }: { a: Answer }) {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white py-1 pl-2 pr-3 font-body text-[12.5px] text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-zinc-900"
+        className="inline-flex items-center gap-1.5 font-body text-[12.5px] text-zinc-400 transition-colors hover:text-zinc-700"
       >
         <Icon
           d={ICON.chevron}
-          className={`h-3.5 w-3.5 text-zinc-400 transition-transform ${open ? "rotate-90" : ""}`}
+          className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-90" : ""}`}
         />
         How Seerix worked this out
         {conf && (
-          <span className="ml-1 rounded-full bg-good-soft px-1.5 py-px text-[11.5px] font-medium tabular-nums text-good-deep">
+          <span className="ml-1 font-body text-[12.5px] tabular-nums text-zinc-400">
             {Math.round(a.confidence_score! * 100)}% sure
           </span>
         )}
@@ -262,8 +262,8 @@ function Blocks({ a, onAsk }: { a: Answer; onAsk: (q: string) => void }) {
               <p className="mt-0.5 text-[12.5px] text-zinc-500">
                 {it.numbers} · {it.cause}
               </p>
-              <p className="mt-2 flex gap-2 rounded-lg bg-signal-soft/50 px-3 py-2 text-[13px] text-zinc-800">
-                <span className="text-signal">Fix</span>
+              <p className="mt-2 flex gap-2 rounded-lg bg-signal-soft px-3 py-2 text-[13px] text-zinc-800">
+                <span className="text-signal-deep">Fix</span>
                 {it.fix}
               </p>
             </div>
@@ -297,7 +297,7 @@ function Blocks({ a, onAsk }: { a: Answer; onAsk: (q: string) => void }) {
           <ol className="flex flex-col gap-1.5">
             {a.recommended_actions.map((r, i) => (
               <li key={r.action_text} className="flex gap-2.5 text-[14px]">
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-signal-soft text-[11px] font-semibold text-signal">
+                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-signal-soft text-[11px] font-semibold text-signal-deep">
                   {i + 1}
                 </span>
                 <span>
@@ -314,7 +314,7 @@ function Blocks({ a, onAsk }: { a: Answer; onAsk: (q: string) => void }) {
           {a.suggested_actions.map((s) => {
             const label = done[s.action];
             const cls =
-              "inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1.5 font-body text-[12.5px] font-medium text-zinc-800 transition-colors hover:border-signal/40 hover:bg-signal-soft/50 hover:text-signal";
+              "inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1.5 font-body text-[12.5px] font-medium text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:border-signal-bright/40 hover:bg-signal-soft hover:text-signal-deep";
             if (s.action === "open_rankings")
               return (
                 <Link key={s.action} href="/app/rankings" className={cls}>
@@ -337,7 +337,7 @@ function Blocks({ a, onAsk }: { a: Answer; onAsk: (q: string) => void }) {
                         : "Added to fix list",
                   }));
                 }}
-                className={`${cls} disabled:border-good/30 disabled:bg-good-soft disabled:text-good-deep disabled:shadow-none`}
+                className={`${cls} disabled:border-good-soft disabled:bg-good-soft disabled:text-good-deep disabled:shadow-none`}
               >
                 {label ? (
                   <>
@@ -388,14 +388,6 @@ function ActionBtn({
   );
 }
 
-function SeerixAvatar() {
-  return (
-    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white ring-1 ring-zinc-200">
-      <SeerixMark size={16} animated={false} />
-    </span>
-  );
-}
-
 function AiMessage({
   a,
   live,
@@ -428,12 +420,10 @@ function AiMessage({
   }, [streaming]);
 
   return (
-    <div className="flex gap-3.5">
-      <SeerixAvatar />
-      <div className="min-w-0 flex-1 pt-1">
-        <p className="mb-2 font-body text-[13px] font-semibold text-zinc-900">
-          Seerix
-        </p>
+    // The reply sits on the page rather than in a bubble: the grey block
+    // above it is the question, so the answer needs no frame of its own.
+    <div className="min-w-0">
+      <div className="min-w-0">
         <div className="font-body text-[14.5px] leading-[1.7] text-zinc-700">
           {!streaming && <Reasoning a={a} />}
           <Rich
@@ -442,7 +432,7 @@ function AiMessage({
             }
           />
           {streaming && (
-            <span className="ml-0.5 inline-block h-4 w-1.5 translate-y-0.5 animate-pulse rounded-full bg-signal" />
+            <span className="ml-0.5 inline-block h-4 w-1.5 translate-y-0.5 animate-pulse rounded-full bg-signal-bright" />
           )}
           {!streaming && <Blocks a={a} onAsk={onAsk} />}
         </div>
@@ -496,12 +486,8 @@ function AiMessage({
 /** Three dots bouncing in turn while Seerix works on the answer. */
 function Thinking() {
   return (
-    <div className="flex gap-3.5">
-      <SeerixAvatar />
-      <div className="pt-1">
-        <p className="mb-2 font-body text-[13px] font-semibold text-zinc-900">
-          Seerix
-        </p>
+    <div className="min-w-0">
+      <div>
         <span
           role="status"
           aria-label="Seerix is thinking"
@@ -694,7 +680,7 @@ export default function Chat({
         }
       />
 
-      <section className="relative mt-6 flex h-[calc(100dvh-330px)] min-h-[440px] flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white lg:h-[calc(100dvh-240px)]">
+      <section className="relative mt-6 flex h-[calc(100dvh-330px)] min-h-[440px] flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] lg:h-[calc(100dvh-240px)]">
         <div
           ref={scroller}
           onScroll={(e) => {
@@ -708,14 +694,12 @@ export default function Chat({
             <div className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-8 sm:px-6">
               {msgs.map((m, i) =>
                 m.role === "user" ? (
-                  <div
+                  <p
                     key={m.id}
-                    className="flex animate-[seerix-fade-in_0.25s_ease-out] justify-end"
+                    className="animate-[seerix-fade-in_0.25s_ease-out] whitespace-pre-wrap rounded-xl bg-zinc-100 px-4 py-3 font-body text-[14.5px] leading-[1.55] text-zinc-900"
                   >
-                    <p className="max-w-[80%] whitespace-pre-wrap rounded-2xl rounded-br-md bg-zinc-100 px-4 py-2.5 font-body text-[14.5px] leading-[1.55] text-zinc-900">
-                      {m.text}
-                    </p>
-                  </div>
+                    {m.text}
+                  </p>
                 ) : (
                   <AiMessage
                     key={m.id}
@@ -766,7 +750,7 @@ export default function Chat({
                 type="button"
                 onClick={() => send(q)}
                 disabled={busy}
-                className="shrink-0 rounded-full border border-zinc-200 bg-white px-3 py-1 font-body text-[12.5px] text-zinc-600 transition-colors hover:border-signal/40 hover:bg-signal-soft/50 hover:text-signal disabled:opacity-50"
+                className="shrink-0 rounded-full border border-zinc-200 bg-white px-3 py-1 font-body text-[12.5px] text-zinc-600 transition-colors hover:border-signal-bright/40 hover:bg-signal-soft hover:text-signal-deep disabled:opacity-50"
               >
                 {q}
               </button>
@@ -798,7 +782,7 @@ export default function Chat({
               }}
               placeholder="Ask about your traffic, rankings, links, content…"
               aria-label="Question"
-              className="block min-h-11 min-w-0 flex-1 resize-none rounded-xl border border-zinc-200 bg-white px-3.5 py-2.5 font-body text-[14px] leading-[1.5] text-zinc-900 placeholder:text-zinc-400 focus:border-signal focus:ring-2 focus:ring-signal/15"
+              className="block min-h-11 min-w-0 flex-1 resize-none rounded-xl border border-zinc-200 bg-white px-3.5 py-2.5 font-body text-[14px] leading-[1.5] text-zinc-900 shadow-[0_1px_2px_rgba(15,23,42,0.04)] placeholder:text-zinc-400 focus:border-signal-bright focus:ring-2 focus:ring-signal-bright/15"
             />
             {thinking ? (
               <button
@@ -813,7 +797,7 @@ export default function Chat({
               <button
                 type="submit"
                 disabled={busy || !text.trim()}
-                className="h-11 shrink-0 rounded-xl bg-signal px-5 font-body text-[14px] font-medium text-white shadow-sm transition-colors hover:bg-signal-deep disabled:opacity-40"
+                className="h-11 shrink-0 rounded-xl bg-signal-bright px-5 font-body text-[14px] font-medium text-signal-ink shadow-sm transition-colors hover:bg-signal-bright disabled:opacity-40"
               >
                 Ask
               </button>

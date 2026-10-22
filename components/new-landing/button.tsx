@@ -26,8 +26,11 @@ const sizes = {
  * as a drop shadow.
  */
 const variants = {
+  // The brand mint, carried as a flat fill with a dark label -- the way the
+  // mint is meant to be used. White on it reaches only 1.6:1; near-black
+  // reaches 12.3:1. The solid press edge is the same hue darkened.
   primary:
-    "bg-gradient-to-b from-[#4a4a51] to-[#36363B] text-white [box-shadow:0_3px_0_0_#1c1c21,0_4px_10px_rgba(0,0,0,0.18)] hover:-translate-y-0.5 hover:from-[#55555d] hover:to-[#3f3f45] hover:[box-shadow:0_5px_0_0_#1c1c21,0_9px_16px_rgba(0,0,0,0.22)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#1c1c21,0_2px_4px_rgba(0,0,0,0.15)]",
+    "bg-signal-bright text-signal-ink [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:bg-signal-bright hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)]",
   secondary:
     "border border-black/[0.09] bg-white text-zinc-700 [box-shadow:0_3px_0_0_#e4e4e7,0_4px_10px_rgba(0,0,0,0.07)] hover:-translate-y-0.5 hover:border-black/[0.16] hover:text-black hover:[box-shadow:0_5px_0_0_#e4e4e7,0_9px_16px_rgba(0,0,0,0.10)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#e4e4e7,0_2px_4px_rgba(0,0,0,0.07)]",
 };

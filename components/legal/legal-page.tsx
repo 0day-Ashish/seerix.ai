@@ -51,7 +51,7 @@ export default function LegalPage({
           <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-black/[0.08] bg-zinc-50 px-3 py-1 font-body text-[13px] text-zinc-500">
             <span
               aria-hidden="true"
-              className="h-1.5 w-1.5 rounded-full bg-signal"
+              className="h-1.5 w-1.5 rounded-full bg-signal-bright"
             />
             Last updated {updated}
           </p>

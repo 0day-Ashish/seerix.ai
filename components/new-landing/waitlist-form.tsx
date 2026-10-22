@@ -83,7 +83,7 @@ export default function WaitlistForm() {
         <button
           type="submit"
           disabled={pending}
-          className="group inline-flex h-10 shrink-0 translate-y-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-b from-[#4a4a51] to-[#36363B] px-4 font-body text-[14px] text-white transition-all duration-150 ease-out [box-shadow:0_3px_0_0_#1c1c21,0_4px_10px_rgba(0,0,0,0.18)] hover:-translate-y-0.5 hover:from-[#55555d] hover:to-[#3f3f45] hover:[box-shadow:0_5px_0_0_#1c1c21,0_9px_16px_rgba(0,0,0,0.22)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#1c1c21,0_2px_4px_rgba(0,0,0,0.15)] disabled:pointer-events-none disabled:opacity-60 sm:h-11 sm:px-5 sm:text-[15px]"
+          className="group inline-flex h-10 shrink-0 translate-y-0 items-center justify-center gap-2 rounded-xl bg-signal-bright px-4 font-body text-[14px] text-signal-ink transition-all duration-150 ease-out [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:bg-signal-bright hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)] disabled:pointer-events-none disabled:opacity-60 sm:h-11 sm:px-5 sm:text-[15px]"
         >
           {pending ? "Joining..." : "Join waitlist"}
           {!pending && (

@@ -85,7 +85,7 @@ export default function AppFrame({ active, title, children }: AppFrameProps) {
             </span>
           </span>
 
-          <span className="mt-3.5 flex h-7 items-center justify-center gap-1.5 rounded-full bg-signal text-[11.5px] text-white">
+          <span className="mt-3.5 flex h-7 items-center justify-center gap-1.5 rounded-full bg-signal-bright text-[11.5px] text-signal-ink">
             <Icon d="M8 3.5v9M3.5 8h9" />
             Ask Seerix
           </span>

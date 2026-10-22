@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { crawl, fmt, issues, type Issue } from "@/components/dashboard/data";
-import { Btn, Card, Kpi, PageTitle, Tag } from "@/components/dashboard/kit";
+import { Btn, Card, PageTitle, Tag } from "@/components/dashboard/kit";
 
 const SEVERITY: Record<
   Issue["severity"],
@@ -24,21 +24,30 @@ const label = (t: string) =>
 export default function Health() {
   const [open, setOpen] = useState<string | null>(issues[0].issue_type);
   const [crawling, setCrawling] = useState(false);
+  const [tab, setTab] = useState<"all" | "error" | "warning" | "blocked">(
+    "all",
+  );
   const errors = issues
     .filter((i) => i.severity === "error")
     .reduce((n, i) => n + i.count, 0);
   const warnings = issues
     .filter((i) => i.severity === "warning")
     .reduce((n, i) => n + i.count, 0);
-  const errorTypes = issues.filter((i) => i.severity === "error").length;
-  const warningTypes = issues.filter((i) => i.severity === "warning").length;
-  // Everything the crawler reached for, including what it could not read.
-  const reachable =
-    crawl.url_crawled_count + crawl.url_failed_count + crawl.url_blocked_count;
-  const blockedPct = (
-    ((crawl.url_failed_count + crawl.url_blocked_count) / reachable) *
-    100
-  ).toFixed(1);
+  const tabs = [
+    { key: "all" as const, label: "Pages crawled", value: fmt(crawl.url_crawled_count) },
+    { key: "error" as const, label: "Errors", value: String(errors) },
+    { key: "warning" as const, label: "Warnings", value: String(warnings) },
+    {
+      key: "blocked" as const,
+      label: "Failed / blocked",
+      value: `${crawl.url_failed_count} / ${crawl.url_blocked_count}`,
+    },
+  ];
+  // "blocked" counts URLs rather than issues, so it has no rows to filter to;
+  // it falls back to the whole list.
+  const shown = issues.filter(
+    (i) => tab === "all" || tab === "blocked" || i.severity === tab,
+  );
   const when = new Date(crawl.crawl_completed_at).toLocaleString("en-GB", {
     day: "numeric",
     month: "short",
@@ -51,7 +60,7 @@ export default function Health() {
     <div>
       <PageTitle
         title="Technical health"
-        description="What SeerixBot found on its last pass of the site. Errors first, then what is worth a look."
+        description={`${fmt(crawl.url_crawled_count)} pages crawled · ${crawl.url_failed_count} failed · ${crawl.url_blocked_count} blocked · ${when} UTC`}
         action={
           <Btn
             variant="primary"
@@ -63,35 +72,40 @@ export default function Health() {
         }
       />
 
-      <div className="mt-7 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Kpi
-          label="Pages crawled"
-          value={fmt(crawl.url_crawled_count)}
-          sub={`of ${fmt(reachable)} reachable · ${when} UTC`}
-        />
-        <Kpi
-          label="Errors"
-          value={String(errors)}
-          sub={
-            errorTypes
-              ? `across ${errorTypes} ${errorTypes === 1 ? "type" : "types"} · fix first`
-              : "nothing broken"
-          }
-        />
-        <Kpi
-          label="Warnings"
-          value={String(warnings)}
-          sub={
-            warningTypes
-              ? `across ${warningTypes} ${warningTypes === 1 ? "type" : "types"} · worth a look`
-              : "none outstanding"
-          }
-        />
-        <Kpi
-          label="Failed / blocked"
-          value={`${crawl.url_failed_count} / ${crawl.url_blocked_count}`}
-          sub={`${blockedPct}% of the site unreachable`}
-        />
+      {/* Notion-style tabs: an underlined row rather than four cards, and
+          each one filters the list below instead of only reporting. */}
+      <div
+        role="tablist"
+        aria-label="Crawl"
+        className="mt-7 flex gap-6 overflow-x-auto border-b border-zinc-200/80 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {tabs.map((t) => {
+          const on = t.key === tab;
+          return (
+            <button
+              key={t.key}
+              type="button"
+              role="tab"
+              aria-selected={on}
+              onClick={() => setTab(t.key)}
+              className={`relative shrink-0 whitespace-nowrap pb-3 font-body text-[14px] transition-colors ${
+                on ? "text-zinc-900" : "text-zinc-500 hover:text-zinc-800"
+              }`}
+            >
+              {t.label}
+              <span
+                className={`ml-2 font-body text-[13px] tabular-nums ${
+                  on ? "text-zinc-900" : "text-zinc-400"
+                }`}
+              >
+                {t.value}
+              </span>
+              {on && (
+                <span className="absolute inset-x-0 -bottom-px h-[2px] rounded-full bg-signal-bright" />
+              )}
+            </button>
+          );
+        })}
       </div>
 
       <div className="mt-4">
@@ -101,7 +115,7 @@ export default function Health() {
           flush
         >
           <ul>
-            {issues.map((i) => {
+            {shown.map((i) => {
               const on = open === i.issue_type;
               const s = SEVERITY[i.severity];
               return (

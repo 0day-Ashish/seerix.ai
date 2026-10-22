@@ -161,7 +161,7 @@ export default function ThisWeek() {
         </div>
       )}
 
-      <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
+      <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
         <button
           type="button"
           onClick={() => setEmail((v) => !v)}

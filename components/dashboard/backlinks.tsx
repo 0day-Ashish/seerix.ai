@@ -19,7 +19,7 @@ import { Card, DataTable, Kpi, PageTitle } from "@/components/dashboard/kit";
  * ---------------------------------------------------------------------- */
 
 const TODAY = Date.UTC(2026, 9, 13);
-const PAGE = 10;
+const PAGE = 20;
 
 /** The staging app's four views, as Semrush-style preset cards. */
 const PRESETS = [
@@ -173,7 +173,7 @@ function Segments<T extends string>({
     <div
       role="radiogroup"
       aria-label={label}
-      className="flex shrink-0 gap-0.5 rounded-lg border border-zinc-200 bg-white p-0.5"
+      className="flex shrink-0 gap-0.5 rounded-lg border border-zinc-200 bg-white p-0.5 shadow-[0_1px_2px_rgba(15,23,42,0.05)]"
     >
       {options.map((o) => {
         const on = o === value;
@@ -230,7 +230,7 @@ function Th({
           {label}
           <svg
             viewBox="0 0 16 16"
-            className={`h-3.5 w-3.5 shrink-0 ${active ? "text-signal" : "text-zinc-300"} ${
+            className={`h-3.5 w-3.5 shrink-0 ${active ? "text-signal-deep" : "text-zinc-300"} ${
               active && sort.dir === "asc" ? "rotate-180" : ""
             }`}
             fill="none"
@@ -390,7 +390,7 @@ export default function Backlinks() {
       </div>
 
       {/* Presets */}
-      <div className="mt-4 grid grid-cols-2 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white lg:grid-cols-4">
+      <div className="mt-4 grid grid-cols-2 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] lg:grid-cols-4">
         {PRESETS.map((p, i) => {
           const on = p.key === preset;
           const n = backlinks.filter(p.test).length;
@@ -407,18 +407,18 @@ export default function Backlinks() {
                 i % 2 ? "border-l border-zinc-100" : ""
               } ${i > 1 ? "border-t border-zinc-100 lg:border-t-0" : ""} ${
                 i === 2 ? "lg:border-l" : ""
-              } ${on ? "bg-signal-soft/50" : "bg-white hover:bg-zinc-50/80"}`}
+              } ${on ? "bg-signal-soft" : "bg-white hover:bg-zinc-50/80"}`}
             >
               <span className="flex items-center gap-2">
                 <span
-                  className={`font-body text-[15px] font-semibold ${on ? "text-signal" : "text-zinc-900"}`}
+                  className={`font-body text-[15px] font-semibold ${on ? "text-signal-deep" : "text-zinc-900"}`}
                 >
                   {p.label}
                 </span>
                 <span
                   className={`rounded-full px-2 py-0.5 font-body text-[12px] font-medium tabular-nums ${
                     on
-                      ? "bg-signal-soft text-signal"
+                      ? "bg-signal-soft text-signal-deep"
                       : "bg-zinc-100 text-zinc-600"
                   }`}
                 >
@@ -430,14 +430,14 @@ export default function Backlinks() {
               </span>
               <span
                 aria-hidden="true"
-                className={`absolute inset-x-0 bottom-0 h-0.5 ${on ? "bg-signal" : ""}`}
+                className={`absolute inset-x-0 bottom-0 h-0.5 ${on ? "bg-signal-bright" : ""}`}
               />
             </button>
           );
         })}
       </div>
 
-      <section className="mt-4 min-w-0 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
+      <section className="mt-4 min-w-0 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
         {/* Title row */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-100 px-5 py-4">
           <h2 className="font-body text-[15px] font-semibold text-zinc-900">
@@ -458,7 +458,7 @@ export default function Backlinks() {
                   : rows,
               )
             }
-            className="inline-flex h-9 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3.5 font-body text-[13px] font-medium text-zinc-800 transition-colors hover:bg-zinc-50"
+            className="inline-flex h-9 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3.5 font-body text-[13px] font-medium text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:bg-zinc-50"
           >
             <svg
               viewBox="0 0 16 16"
@@ -490,7 +490,7 @@ export default function Backlinks() {
               }}
               placeholder="Filter by title or URL"
               aria-label="Filter by title or URL"
-              className="h-9 min-w-0 flex-1 rounded-l-lg border border-zinc-200 bg-white px-3 font-body text-[13.5px] text-zinc-900 placeholder:text-zinc-400 focus:border-signal focus:outline-none sm:w-[300px] sm:flex-none"
+              className="h-9 min-w-0 flex-1 rounded-l-lg border border-zinc-200 bg-white px-3 font-body text-[13.5px] text-zinc-900 placeholder:text-zinc-400 focus:border-signal-bright focus:outline-none sm:w-[300px] sm:flex-none"
             />
             <button
               type="submit"
@@ -537,7 +537,7 @@ export default function Backlinks() {
               type="button"
               aria-expanded={menu}
               onClick={() => setMenu((m) => !m)}
-              className="inline-flex h-9 items-center gap-1.5 rounded-lg px-2.5 font-body text-[13px] font-medium text-signal transition-colors hover:bg-signal-soft/50 hover:text-signal-deep"
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg px-2.5 font-body text-[13px] font-medium text-signal transition-colors hover:bg-signal-soft hover:text-signal-deep"
             >
               <span className="text-[17px] leading-none">+</span> Add filter
             </button>
@@ -565,7 +565,7 @@ export default function Backlinks() {
                               setMenu(false);
                               reset();
                             }}
-                            className="rounded-full border border-zinc-200 px-2.5 py-1 font-body text-[12.5px] text-zinc-800 transition-colors hover:border-signal hover:bg-signal-soft/50 hover:text-signal"
+                            className="rounded-full border border-zinc-200 px-2.5 py-1 font-body text-[12.5px] text-zinc-800 transition-colors hover:border-signal-bright hover:bg-signal-soft hover:text-signal-deep"
                           >
                             {o.label}
                           </button>
@@ -581,7 +581,7 @@ export default function Backlinks() {
           {extraChips.map(([k, v]) => (
             <span
               key={k}
-              className="inline-flex h-8 items-center gap-1.5 rounded-full bg-signal-soft pl-3 pr-1 font-body text-[12.5px] font-medium text-signal"
+              className="inline-flex h-8 items-center gap-1.5 rounded-full bg-signal-soft pl-3 pr-1 font-body text-[12.5px] font-medium text-signal-deep"
             >
               {k === "mobile" ? "Mobile friendly" : String(v)}
               <button
@@ -591,7 +591,7 @@ export default function Backlinks() {
                   setExtra((e) => ({ ...e, [k]: undefined }));
                   reset();
                 }}
-                className="flex h-6 w-6 items-center justify-center rounded-full text-[15px] leading-none text-signal/70 transition-colors hover:bg-white hover:text-signal"
+                className="flex h-6 w-6 items-center justify-center rounded-full text-[15px] leading-none text-signal-deep/70 transition-colors hover:bg-white hover:text-signal-deep"
               >
                 ×
               </button>
@@ -620,7 +620,7 @@ export default function Backlinks() {
                       })
                     }
                     aria-label="Select all on this page"
-                    className="h-4 w-4 rounded accent-signal"
+                    className="h-4 w-4 rounded accent-signal-bright"
                   />
                 </th>
                 <Th
@@ -674,7 +674,7 @@ export default function Backlinks() {
                   <tr
                     key={b.source_page_url}
                     className={`border-b border-zinc-100 align-top transition-colors last:border-b-0 ${
-                      on ? "bg-signal-soft/50" : "hover:bg-zinc-50/80"
+                      on ? "bg-signal-soft" : "hover:bg-zinc-50/80"
                     }`}
                   >
                     <td className="px-4 py-4">
@@ -691,7 +691,7 @@ export default function Backlinks() {
                           })
                         }
                         aria-label={`Select ${b.source_title}`}
-                        className="h-4 w-4 rounded accent-signal"
+                        className="h-4 w-4 rounded accent-signal-bright"
                       />
                     </td>
                     <td className="px-4 py-4 text-right font-body text-[14px] font-medium tabular-nums text-zinc-900">
@@ -788,7 +788,7 @@ export default function Backlinks() {
                   type="button"
                   disabled={target < 0 || target >= pages}
                   onClick={() => setPage(target)}
-                  className="h-8 rounded-lg border border-zinc-200 bg-white px-3 font-medium text-zinc-800 transition-colors hover:bg-zinc-50 disabled:pointer-events-none disabled:opacity-40"
+                  className="h-8 rounded-lg border border-zinc-200 bg-white px-3 font-medium text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors hover:bg-zinc-50 disabled:pointer-events-none disabled:opacity-40"
                 >
                   {l}
                 </button>
@@ -835,7 +835,7 @@ export default function Backlinks() {
                 </span>
                 <span className="h-1.5 overflow-hidden rounded-full bg-zinc-100">
                   <span
-                    className="block h-full rounded-full bg-signal"
+                    className="block h-full rounded-full bg-signal-bright"
                     style={{
                       width: `${(a.referring_domains / anchors[0].referring_domains) * 100}%`,
                     }}

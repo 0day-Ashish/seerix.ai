@@ -378,7 +378,7 @@ export default function KeywordGap() {
               setPage(0);
             }}
             placeholder="Filter by keyword"
-            className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[13px] text-zinc-900 placeholder:text-zinc-400 focus:border-signal focus:outline-none sm:w-64"
+            className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[13px] text-zinc-900 placeholder:text-zinc-400 focus:border-signal-bright focus:outline-none sm:w-64"
           />
           {["Positions", "Volume", "KD", "Intent"].map((f) => (
             <span
@@ -481,7 +481,7 @@ export default function KeywordGap() {
                           })
                         }
                         aria-label={`Select ${r.keyword}`}
-                        className="h-4 w-4 rounded accent-signal"
+                        className="h-4 w-4 rounded accent-signal-bright"
                       />
                     </td>
                     <td className="px-3 py-3 font-body text-[13.5px] text-signal">

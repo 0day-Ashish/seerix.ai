@@ -40,7 +40,7 @@ export default function PricingHero() {
               <Link
                 key={label}
                 href="#use-cases"
-                className="rounded-full border border-black/[0.1] bg-white px-3.5 py-1.5 font-body text-[13px] text-zinc-700 transition-colors hover:border-signal/40 hover:bg-signal-soft hover:text-signal-deep"
+                className="rounded-full border border-black/[0.1] bg-white px-3.5 py-1.5 font-body text-[13px] text-zinc-700 transition-colors hover:border-signal-bright/40 hover:bg-signal-soft hover:text-signal-deep"
               >
                 {label}
               </Link>

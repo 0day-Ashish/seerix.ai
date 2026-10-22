@@ -168,47 +168,42 @@ const evidence = [
 function Screen({ s }: { s: Scene }) {
   const typing = s.typed > 0 && s.typed < QUESTION.length;
   return (
-    <div data-app className="flex h-full w-full bg-[#f5f5f6] font-body">
-      {/* Sidebar: the real app's, pills on the page ground rather than a
-          bordered rail. */}
-      <aside className="flex w-[260px] shrink-0 flex-col px-4 pb-3 pt-5">
-        <div className="flex items-center gap-1">
-          <span className="mr-auto flex items-center gap-2 px-2">
-            <SeerixMark size={24} animated={false} />
+    <div data-app className="flex h-full w-full bg-[#f7f8fa] font-body">
+      {/* Sidebar: the app's own -- a bordered white rail with a flat nav,
+          not pills on the page ground. */}
+      <aside className="flex w-[220px] shrink-0 flex-col border-r border-zinc-200/80 bg-white px-3 pb-3 pt-4">
+        <div className="flex items-center gap-1 px-1.5">
+          <span className="mr-auto flex items-center gap-2">
+            <SeerixMark size={22} animated={false} />
             <span
               style={{ fontFamily: "var(--font-space-grotesk)" }}
-              className="text-[19px] font-semibold tracking-[-0.02em] text-zinc-900"
+              className="text-[17px] font-semibold tracking-[-0.02em] text-zinc-900"
             >
               seerix
             </span>
           </span>
           <Icon
-            d="M8 2.5a5.5 5.5 0 0 0-5.5 5.5v3l-1 1.5h13l-1-1.5V8A5.5 5.5 0 0 0 8 2.5zM6.5 14h3"
-            className="h-[18px] w-[18px] text-zinc-500"
+            d="M3 3h10v10H3zM6.5 3v10"
+            className="h-[17px] w-[17px] text-zinc-400"
           />
         </div>
 
-        <span className="mt-5 flex h-10 items-center justify-center gap-2 rounded-full bg-signal text-[14.5px] text-white shadow-[0_1px_2px_rgba(44,71,242,0.3)]">
-          <Icon d="M8 3.5v9M3.5 8h9" className="h-4 w-4" />
-          Ask Seerix
-        </span>
-
-        <nav className="mt-5 flex flex-col gap-0.5">
+        <nav className="mt-6 flex flex-col gap-0.5">
           {nav.map((n) => (
             <span
               key={n.label}
-              className={`relative flex items-center gap-3 rounded-full px-3.5 py-2 text-[14.5px] ${
+              className={`relative flex items-center gap-2.5 rounded-lg px-2.5 py-[7px] text-[13.5px] ${
                 n.on
-                  ? "bg-white text-zinc-900 shadow-[0_0_0_1px_rgba(24,24,27,0.08),0_1px_2px_rgba(24,24,27,0.05)]"
+                  ? "bg-signal-soft font-medium text-signal-deep"
                   : "text-zinc-600"
               }`}
             >
-              <span className={n.on ? "text-signal" : "text-zinc-500"}>
+              <span className={n.on ? "text-signal-deep" : "text-zinc-400"}>
                 <Icon d={n.d} className="h-4 w-4" />
               </span>
               {n.label}
               {n.count ? (
-                <span className="ml-auto rounded-full bg-zinc-200/70 px-1.5 text-[11.5px] text-zinc-600">
+                <span className="ml-auto rounded-full bg-zinc-100 px-1.5 text-[11px] font-medium text-zinc-600">
                   {n.count}
                 </span>
               ) : null}
@@ -216,41 +211,60 @@ function Screen({ s }: { s: Scene }) {
           ))}
         </nav>
 
-        <div className="mt-auto rounded-2xl border border-zinc-200 bg-white px-4 py-3.5">
-          <p className="flex items-center justify-between text-[13px]">
-            <span className="text-zinc-500">Growth plan</span>
-            <span className="text-signal">See plans</span>
-          </p>
-          <p className="mt-1.5 text-[14px] text-zinc-900">
-            212 of 500 questions this month
-          </p>
-          <span className="mt-3 block h-1 overflow-hidden rounded-full bg-zinc-100">
-            <span className="block h-full w-[42%] rounded-full bg-signal" />
-          </span>
+        {/* Recent chats, as the rail carries them under the tabs. */}
+        <div className="mt-6 border-t border-zinc-200/70 pt-4">
+          <p className="px-2.5 text-[12.5px] text-zinc-400">Recent chats</p>
+          {[
+            ["Which pages are clos…", "Yesterday"],
+            ["Did the /pricing title fi…", "Monday"],
+            ["Who should I get links…", "Friday"],
+          ].map(([title, when]) => (
+            <p key={title} className="mt-2.5 px-2.5">
+              <span className="block truncate text-[13px] text-zinc-700">
+                {title}
+              </span>
+              <span className="block text-[12px] text-zinc-400">{when}</span>
+            </p>
+          ))}
         </div>
 
-        <p className="mt-3 flex items-center gap-2.5 px-3.5 py-2 text-[14.5px] text-zinc-600">
+        <p className="mt-auto flex items-center gap-2.5 border-t border-zinc-200/70 px-2.5 pt-3 text-[13.5px] text-zinc-600">
           <Icon
             d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2"
-            className="h-4 w-4 text-zinc-500"
+            className="h-4 w-4 text-zinc-400"
           />
           Settings
         </p>
-        <p className="mt-2 flex items-center gap-2.5 px-2 py-1 text-[13px]">
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-signal text-[12px] font-medium text-white">
-            A
+        <p className="mt-3 flex items-center gap-2.5 px-1.5 text-[13px]">
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-signal-bright text-[11.5px] font-medium text-signal-ink">
+            AD
           </span>
-          <span>
-            <span className="block font-medium text-zinc-900">Ashish</span>
-            <span className="block text-[12px] text-zinc-500">
-              arddev.in · Owner
+          <span className="min-w-0">
+            <span className="block truncate font-medium text-zinc-900">
+              Ashish Das
+            </span>
+            <span className="block truncate text-[12px] text-zinc-500">
+              ashish@arddev.in
             </span>
           </span>
         </p>
       </aside>
 
       {/* Main: the Chat page, in a white rounded panel as the app renders it. */}
-      <main className="relative flex-1 overflow-hidden rounded-l-2xl border-l border-t border-zinc-200 bg-white px-8 pt-16">
+      {/* Main: the app's top bar over a plain body, not an inset panel. */}
+      <div className="relative flex min-w-0 flex-1 flex-col">
+        <div className="flex items-center justify-between gap-3 border-b border-zinc-200/80 bg-white px-6 py-3">
+          <p className="flex items-center gap-2 text-[13px] text-zinc-500">
+            <span className="h-2 w-2 rounded-full bg-signal-bright" />
+            Google data updated this morning
+          </p>
+          <span className="flex h-9 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 text-[13.5px] text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)]">
+            arddev.in
+            <Icon d="M4 6l4 4 4-4" className="h-3.5 w-3.5 text-zinc-500" />
+          </span>
+        </div>
+
+      <main className="relative flex-1 overflow-hidden px-8 pt-12">
         <div className="mx-auto w-full max-w-[760px]">
           <h3 className="text-center font-display text-[38px] font-medium tracking-[-0.03em] text-zinc-900">
             Welcome back, Ashish.
@@ -259,7 +273,7 @@ function Screen({ s }: { s: Scene }) {
           {/* The prompt: what the camera zooms to and what gets typed into. */}
           <div
             className={`mt-7 rounded-2xl bg-white p-4 ring-2 transition-[box-shadow,opacity] duration-300 ${
-              s.typed > 0 ? "ring-signal" : "ring-signal/40"
+              s.typed > 0 ? "ring-signal-bright" : "ring-signal-bright/40"
             } ${s.answer ? "pointer-events-none -translate-y-2 opacity-0" : "opacity-100"}`}
           >
             <p className="h-6 text-[15px]">
@@ -303,7 +317,7 @@ function Screen({ s }: { s: Scene }) {
               <span
                 className={`flex h-8 w-8 items-center justify-center rounded-full transition-all duration-150 ${
                   s.typed === QUESTION.length
-                    ? "bg-signal text-white"
+                    ? "bg-signal-bright text-signal-ink"
                     : "bg-zinc-100 text-zinc-400"
                 } ${s.sending ? "scale-90" : "scale-100"}`}
               >
@@ -386,7 +400,7 @@ function Screen({ s }: { s: Scene }) {
                   Seerix finds three more questions worth asking in about a
                   minute.
                 </p>
-                <span className="mt-4 rounded-full border border-signal/40 px-4 py-2 text-[13px] text-signal-deep">
+                <span className="mt-4 rounded-full border border-signal-bright/40 px-4 py-2 text-[13px] text-signal-deep">
                   Get more suggestions
                 </span>
               </div>
@@ -415,7 +429,7 @@ function Screen({ s }: { s: Scene }) {
                     }`}
                   >
                     <span className="flex items-center gap-3 text-[13px]">
-                      <span className="h-1.5 w-1.5 rounded-full bg-signal" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-signal-bright" />
                       {e.source}
                       <span className="font-mono text-[12px] text-white/45">
                         {e.detail}
@@ -436,7 +450,7 @@ function Screen({ s }: { s: Scene }) {
                   {[0, 1, 2, 3, 4].map((i) => (
                     <span
                       key={i}
-                      className={`h-1.5 w-5 rounded-sm ${i < 4 ? "bg-signal" : "bg-white/15"}`}
+                      className={`h-1.5 w-5 rounded-sm ${i < 4 ? "bg-signal-bright" : "bg-white/15"}`}
                     />
                   ))}
                 </span>
@@ -446,6 +460,7 @@ function Screen({ s }: { s: Scene }) {
           </div>
         </div>
       </main>
+      </div>
     </div>
   );
 }

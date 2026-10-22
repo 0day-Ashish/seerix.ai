@@ -43,7 +43,7 @@ function As({ value }: { value: number }) {
       </span>
       <span className="h-1 w-full overflow-hidden rounded-full bg-zinc-100">
         <span
-          className="block h-full rounded-full bg-signal"
+          className="block h-full rounded-full bg-signal-bright"
           style={{ width: `${value}%` }}
         />
       </span>
@@ -236,7 +236,7 @@ export default function BacklinkGap() {
               setPage(0);
             }}
             placeholder="Filter by domain"
-            className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[13px] text-zinc-900 placeholder:text-zinc-400 focus:border-signal focus:outline-none sm:w-64"
+            className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[13px] text-zinc-900 placeholder:text-zinc-400 focus:border-signal-bright focus:outline-none sm:w-64"
           />
           {["Authority Score", "Link type", "Matches"].map((f) => (
             <span
@@ -324,7 +324,7 @@ export default function BacklinkGap() {
                           })
                         }
                         aria-label={`Select ${r.domain}`}
-                        className="h-4 w-4 rounded accent-signal"
+                        className="h-4 w-4 rounded accent-signal-bright"
                       />
                     </td>
                     <td className="px-3 py-3 font-body text-[13.5px] text-signal">

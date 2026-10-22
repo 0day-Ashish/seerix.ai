@@ -47,17 +47,17 @@ export default function SettingsSidebar() {
   }, [pathname]);
 
   return (
-    <aside className="lg:sticky lg:top-0 lg:h-dvh lg:w-[260px] lg:shrink-0 lg:overflow-y-auto">
+    <aside className="border-b border-zinc-200/80 bg-white lg:sticky lg:top-0 lg:h-dvh lg:w-[240px] lg:shrink-0 lg:overflow-y-auto lg:border-b-0 lg:border-r">
       <div className="px-4 pb-3 pt-5 lg:pb-10">
         <Link
           href="/app"
-          className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-body text-[13.5px] text-zinc-500 transition-colors hover:bg-white hover:text-zinc-900"
+          className="inline-flex items-center gap-1.5 rounded-lg px-1.5 py-1 font-body text-[13px] text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
         >
           <NavIcon d="M10 3.5L5.5 8l4.5 4.5" />
           Back to dashboard
         </Link>
 
-        <h1 className="mt-3 px-3 font-body text-[22px] font-medium tracking-[-0.02em] text-zinc-900">
+        <h1 className="mt-3 px-1.5 font-display text-[20px] font-semibold tracking-[-0.02em] text-zinc-900">
           Settings
         </h1>
 
@@ -69,7 +69,7 @@ export default function SettingsSidebar() {
           >
             {settingsGroups.map((group) => (
               <div key={group.label} className="contents lg:mb-5 lg:block">
-                <p className="hidden px-3.5 pb-1 font-body text-[12.5px] text-zinc-500 lg:block">
+                <p className="hidden px-2.5 pb-1.5 font-body text-[12px] font-medium text-zinc-400 lg:block">
                   {group.label}
                 </p>
                 {group.items.map((item) => {
@@ -80,15 +80,15 @@ export default function SettingsSidebar() {
                       key={item.slug}
                       href={href}
                       aria-current={on ? "page" : undefined}
-                      className={`flex shrink-0 items-center gap-3 rounded-full px-3.5 py-2 font-body text-[14px] transition-colors ${
+                      className={`flex shrink-0 items-center gap-2.5 rounded-lg px-2.5 py-[7px] font-body text-[13.5px] transition-colors ${
                         on
-                          ? "bg-white text-zinc-900 shadow-[0_0_0_1px_rgba(24,24,27,0.08),0_1px_2px_rgba(24,24,27,0.05)]"
-                          : "text-zinc-600 hover:bg-white/70 hover:text-zinc-900"
+                          ? "bg-signal-soft font-medium text-signal"
+                          : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
                       }`}
                     >
                       <NavIcon
                         d={item.icon}
-                        className={on ? "text-signal" : "text-zinc-500"}
+                        className={on ? "text-signal" : "text-zinc-400"}
                       />
                       <span className="whitespace-nowrap">{item.label}</span>
                     </Link>

@@ -29,7 +29,7 @@ export function ContactOpener() {
             <Link
               key={label}
               href="#form"
-              className="rounded-full border border-black/[0.1] bg-white px-3.5 py-1.5 font-body text-[14px] text-zinc-700 transition-colors hover:border-signal/40 hover:bg-signal-soft hover:text-signal-deep"
+              className="rounded-full border border-black/[0.1] bg-white px-3.5 py-1.5 font-body text-[14px] text-zinc-700 transition-colors hover:border-signal-bright/40 hover:bg-signal-soft hover:text-signal-deep"
             >
               {label}
             </Link>
@@ -161,7 +161,7 @@ export function ContactRoutes() {
                           : "bg-white text-zinc-600 ring-1 ring-black/[0.06]"
                       }`}
                     >
-                      <span className="h-1.5 w-1.5 rounded-full bg-signal" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-signal-bright" />
                       {route.reply}
                     </p>
                   </div>
