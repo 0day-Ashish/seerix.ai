@@ -714,7 +714,7 @@ function Billing() {
           <div className="mt-5 flex flex-wrap gap-2.5">
             <Link
               href="/pricing"
-              className="inline-flex h-9 items-center rounded-lg bg-signal-bright px-3.5 font-body text-[13.5px] font-medium text-signal-ink shadow-[0_1px_2px_rgba(15,23,42,0.08)] transition-colors hover:bg-signal-bright"
+              className="inline-flex h-9 translate-y-0 items-center rounded-lg bg-signal-bright px-3.5 font-body text-[13.5px] font-medium text-signal-ink transition-all duration-150 ease-out translate-y-0 [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)]"
             >
               Change plan
             </Link>

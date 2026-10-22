@@ -348,7 +348,7 @@ export default function ChatWelcome({
               type="submit"
               disabled={!text.trim()}
               aria-label="Send"
-              className="flex h-9 w-9 items-center justify-center rounded-lg bg-signal-bright text-signal-ink transition-colors hover:bg-signal-bright disabled:bg-zinc-100 disabled:text-zinc-400"
+              className="flex h-9 w-9 items-center justify-center rounded-lg bg-signal-bright text-signal-ink disabled:bg-zinc-100 disabled:text-zinc-400 translate-y-0 transition-all duration-150 ease-out [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)] disabled:translate-y-0 disabled:shadow-none"
             >
               <Icon d={I.send} />
             </button>

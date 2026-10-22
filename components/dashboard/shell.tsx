@@ -393,10 +393,10 @@ export default function DashboardShell({
         </div>
       </aside>
 
-      <div className="min-w-0 flex-1">
-        <header className="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-zinc-200/80 bg-white/90 px-5 py-3 backdrop-blur-md sm:px-8 lg:px-10">
-          <p className="hidden items-center gap-2 font-body text-[13px] text-zinc-500 sm:flex">
-            <span className="h-2 w-2 rounded-full bg-good" />
+      <div className="min-w-0 flex-1 bg-signal-ink">
+        <header className="relative sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-white/10 bg-signal-ink px-5 py-3 sm:px-8 lg:px-10">
+          <p className="hidden items-center gap-2 font-body text-[13px] text-white/60 sm:flex">
+            <span className="h-2 w-2 rounded-full bg-signal-bright" />
             Google data updated this morning
           </p>
           <div className="ml-auto flex items-center gap-2">
@@ -409,17 +409,23 @@ export default function DashboardShell({
                   if (e.target.value === "__add__") return;
                   setSiteId(e.target.value);
                 }}
-                className="h-9 cursor-pointer appearance-none rounded-lg border border-zinc-200 bg-white pl-3 pr-9 font-body text-[13.5px] text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] hover:bg-zinc-50 focus:border-signal-bright focus:outline-none"
+                className="h-9 translate-y-0 cursor-pointer appearance-none rounded-xl border border-white/[0.14] bg-[#1b1b1d] pl-3.5 pr-9 font-body text-[13.5px] text-white/85 transition-all duration-150 ease-out [box-shadow:0_3px_0_0_#000,0_4px_10px_rgba(0,0,0,0.35)] hover:-translate-y-0.5 hover:border-white/25 hover:text-white hover:[box-shadow:0_5px_0_0_#000,0_9px_16px_rgba(0,0,0,0.4)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#000,0_2px_4px_rgba(0,0,0,0.3)] focus:outline-none"
               >
                 {sites.map((s) => (
-                  <option key={s.site_id} value={s.site_id}>
+                  <option
+                    key={s.site_id}
+                    value={s.site_id}
+                    className="bg-[#1b1b1d] text-white/85"
+                  >
                     {s.site_name}
                   </option>
                 ))}
-                <option value="__add__">+ Add another site…</option>
+                <option value="__add__" className="bg-[#1b1b1d] text-white/85">
+                  + Add another site…
+                </option>
               </select>
               <svg
-                className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500"
+                className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white/50"
                 viewBox="0 0 16 16"
                 fill="none"
                 stroke="currentColor"
@@ -430,10 +436,26 @@ export default function DashboardShell({
               </svg>
             </label>
           </div>
+          {/* The curve where the content meets the chrome. It hangs off the
+              sticky header rather than sitting on <main>, which scrolls away
+              and took the corner with it. */}
+          <span
+            aria-hidden="true"
+            // A concave corner: black everywhere except inside the circle,
+            // which is the content showing through. `top-full` measures to
+            // the padding box, so it would sit a pixel above the header's
+            // border and leave a ledge -- hence the explicit offset.
+            className="pointer-events-none absolute left-0 hidden h-5 w-5 lg:block"
+            style={{
+              top: "calc(100% + 1px)",
+              background:
+                "radial-gradient(circle at 100% 100%, transparent 0 20px, var(--color-signal-ink) 20.5px)",
+            }}
+          />
         </header>
 
         <main
-          className={`px-5 pt-7 sm:px-8 lg:px-10 lg:pt-9 ${
+          className={`min-h-[calc(100dvh-57px)] bg-white px-5 pt-7 sm:px-8 lg:px-10 lg:pt-9 ${
             pathname === "/app/chat" ? "pb-6" : "pb-20"
           }`}
         >

@@ -268,10 +268,17 @@ export function Mono({ children }: { children: React.ReactNode }) {
   );
 }
 
+/**
+ * The raised treatment the marketing site uses: a solid offset edge under the
+ * button, lifting on hover and travelling down into it on press, so the depth
+ * reads as physical rather than as a drop shadow. Both variants sit on the
+ * app's white content areas.
+ */
 const buttonStyles = {
-  primary: "bg-signal-bright text-signal-ink shadow-sm hover:bg-signal-bright",
+  primary:
+    "translate-y-0 bg-signal-bright text-signal-ink [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)]",
   secondary:
-    "border border-zinc-200 bg-white text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] hover:bg-zinc-50",
+    "translate-y-0 border border-zinc-200 bg-white text-zinc-800 [box-shadow:0_3px_0_0_#e4e4e7,0_4px_10px_rgba(0,0,0,0.07)] hover:-translate-y-0.5 hover:border-zinc-300 hover:text-zinc-900 hover:[box-shadow:0_5px_0_0_#e4e4e7,0_9px_16px_rgba(0,0,0,0.10)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#e4e4e7,0_2px_4px_rgba(0,0,0,0.07)]",
 };
 
 export function Btn({
@@ -285,7 +292,7 @@ export function Btn({
     <button
       type="button"
       {...props}
-      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-3.5 font-body text-[13px] font-medium transition-colors disabled:opacity-50 ${buttonStyles[variant]} ${className}`}
+      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-3.5 font-body text-[13px] font-medium transition-all duration-150 ease-out disabled:opacity-50 ${buttonStyles[variant]} ${className}`}
     />
   );
 }
@@ -302,7 +309,7 @@ export function BtnLink({
   return (
     <Link
       href={href}
-      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-3.5 font-body text-[13px] font-medium transition-colors ${buttonStyles[variant]}`}
+      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-3.5 font-body text-[13px] font-medium transition-all duration-150 ease-out ${buttonStyles[variant]}`}
     >
       {children}
     </Link>

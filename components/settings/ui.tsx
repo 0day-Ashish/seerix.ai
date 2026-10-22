@@ -186,12 +186,9 @@ export function Button({
   variant?: "primary" | "secondary" | "danger" | "danger-ghost" | "ghost";
 }) {
   const styles = {
-    primary:
-      "bg-signal-bright text-signal-ink shadow-[0_1px_2px_rgba(15,23,42,0.08)] hover:bg-signal-bright",
-    secondary:
-      "border border-zinc-200 bg-white text-zinc-800 shadow-[0_1px_2px_rgba(15,23,42,0.05)] hover:bg-zinc-50",
-    danger:
-      "bg-danger-deep text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] hover:bg-red-700",
+    primary: "bg-signal-bright text-signal-ink translate-y-0 [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)]",
+    secondary: "border border-zinc-200 bg-white text-zinc-800 translate-y-0 [box-shadow:0_3px_0_0_#e4e4e7,0_4px_10px_rgba(0,0,0,0.07)] hover:-translate-y-0.5 hover:border-zinc-300 hover:[box-shadow:0_5px_0_0_#e4e4e7,0_9px_16px_rgba(0,0,0,0.10)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#e4e4e7,0_2px_4px_rgba(0,0,0,0.07)]",
+    danger: "bg-danger-deep text-white translate-y-0 [box-shadow:0_3px_0_0_#7f1d1d,0_4px_10px_rgba(0,0,0,0.14)] hover:-translate-y-0.5 hover:[box-shadow:0_5px_0_0_#7f1d1d,0_9px_16px_rgba(0,0,0,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#7f1d1d,0_2px_4px_rgba(0,0,0,0.12)]",
     "danger-ghost": "text-danger-deep hover:bg-danger-soft hover:text-red-700",
     ghost: "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900",
   }[variant];
@@ -199,7 +196,7 @@ export function Button({
     <button
       type="button"
       {...props}
-      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-3.5 font-body text-[13.5px] font-medium transition-colors disabled:cursor-not-allowed ${styles} ${className}`}
+      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-3.5 font-body text-[13.5px] font-medium transition-all duration-150 ease-out disabled:cursor-not-allowed ${styles} ${className}`}
     />
   );
 }
