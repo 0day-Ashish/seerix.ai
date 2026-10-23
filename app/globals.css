@@ -3,9 +3,9 @@
 @theme {
   /* Type: Space Grotesk for display, DM Sans for body, mono for figures.
      Mirrors the source landing route's typographic system exactly. */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
   /* Seerix palette. Three brand anchors plus the steps derived from them
@@ -95,16 +95,13 @@ body {
   border-radius: 4px;
 }
 
-/* The app (dashboard, gap tools, settings) is set in Inter throughout --
+/* The app (dashboard, gap tools, settings) is set in Geist throughout --
    body and headings alike -- as product UI reads best in one screen face.
-   The marketing site keeps Space Grotesk and DM Sans. */
+   The marketing site keeps Space Grotesk for display. */
 [data-app] {
-  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   font-family: var(--font-body);
-  /* Inter's alternates: a straight-tailed 1 and an open 4, clearer in
-     tables of figures. */
-  font-feature-settings: "cv01", "cv02", "ss03";
 }
 
 /* In the app (dashboard, gap tools, settings) the ring is a soft halo in the

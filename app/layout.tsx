@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { DM_Sans, Geist_Mono, Inter, Space_Grotesk } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 import Navbar from "@/components/new-landing/navbar";
@@ -11,12 +12,6 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
 });
-
-// Body copy.
-const dmSans = DM_Sans({ variable: "--font-dm-sans", subsets: ["latin"] });
-
-// UI default.
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
 // Figures, labels and stat readouts are always set in mono.
 const geistMono = Geist_Mono({
@@ -43,7 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${dmSans.variable} ${inter.variable} ${geistMono.variable} antialiased`}
+      className={`${spaceGrotesk.variable} ${geistMono.variable} ${GeistSans.variable} antialiased`}
       style={{ colorScheme: "light" }}
     >
       <head>

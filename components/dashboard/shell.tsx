@@ -291,7 +291,7 @@ export default function DashboardShell({
   return (
     <div data-app className="flex min-h-dvh flex-col bg-white lg:flex-row">
       <aside
-        className={`border-b border-white/10 bg-signal-ink transition-[width] duration-200 ease-out lg:sticky lg:top-0 lg:h-dvh lg:shrink-0 lg:border-b-0 lg:border-r ${
+        className={`bg-signal-ink transition-[width] duration-200 ease-out lg:sticky lg:top-0 lg:h-dvh lg:shrink-0 ${
           slim ? "lg:w-[68px]" : "lg:w-[220px]"
         }`}
       >
@@ -394,7 +394,7 @@ export default function DashboardShell({
       </aside>
 
       <div className="min-w-0 flex-1 bg-signal-ink">
-        <header className="relative sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-white/10 bg-signal-ink px-5 py-3 sm:px-8 lg:px-10">
+        <header className="relative sticky top-0 z-30 flex items-center justify-between gap-3 bg-signal-ink px-5 py-3 sm:px-8 lg:px-10">
           <p className="hidden items-center gap-2 font-body text-[13px] text-white/60 sm:flex">
             <span className="h-2 w-2 rounded-full bg-signal-bright" />
             Google data updated this morning
@@ -442,12 +442,9 @@ export default function DashboardShell({
           <span
             aria-hidden="true"
             // A concave corner: black everywhere except inside the circle,
-            // which is the content showing through. `top-full` measures to
-            // the padding box, so it would sit a pixel above the header's
-            // border and leave a ledge -- hence the explicit offset.
-            className="pointer-events-none absolute left-0 hidden h-5 w-5 lg:block"
+            // which is the content showing through.
+            className="pointer-events-none absolute left-0 top-full hidden h-5 w-5 lg:block"
             style={{
-              top: "calc(100% + 1px)",
               background:
                 "radial-gradient(circle at 100% 100%, transparent 0 20px, var(--color-signal-ink) 20.5px)",
             }}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { breakdowns } from "@/components/dashboard/data";
+import SeerixMark from "@/components/new-landing/seerix-mark";
 
 /* -------------------------------------------------------------------------
  * The chat's opening screen: a greeting, one large box to ask in, shortcut
@@ -218,6 +219,7 @@ export default function ChatWelcome({
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col items-center px-1 pb-10 pt-6 sm:pt-12">
+      <SeerixMark size={72} className="mb-6" />
       <h1 className="text-center font-display text-[32px] font-semibold tracking-[-0.03em] text-zinc-900 sm:text-[44px]">
         Welcome back, {name}.
       </h1>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { fixList, type Fix } from "@/components/dashboard/data";
-import { Btn, Kpi, PageTitle, Tag, askHref } from "@/components/dashboard/kit";
+import { Btn, PageTitle, Tag, askHref } from "@/components/dashboard/kit";
 
 function FixRow({
   fix,
@@ -87,6 +87,61 @@ function FixRow({
 export default function FixList() {
   const [done, setDone] = useState<string[]>([]);
   const all = [...fixList.do_now, ...fixList.monitor];
+  // What each count is actually made of, so the cells say something beyond
+  // the number: the best score waiting, the quickest win, how much of the
+  // list is measured.
+  const topScore = fixList.do_now.reduce(
+    (n, f) => Math.max(n, f.priority_score),
+    0,
+  );
+  const quickest =
+    all.find((f) => f.effort === "Minutes")?.effort ??
+    all.find((f) => f.effort === "An hour")?.effort ??
+    "A day";
+  const avgConfidence = all.length
+    ? Math.round(
+        (all.reduce((n, f) => n + (f.confidence_score ?? 0), 0) / all.length) *
+          100,
+      )
+    : 0;
+  const cells = [
+    {
+      label: "Do now",
+      value: String(fixList.do_now.length),
+      unit: fixList.do_now.length === 1 ? "fix" : "fixes",
+      sub: "Highest expected impact, backed by your data.",
+      dot: "bg-signal-bright",
+      facts: [
+        { k: "Top priority", v: `${topScore}/100` },
+        { k: "Quickest", v: quickest },
+      ],
+    },
+    {
+      label: "Monitor",
+      value: String(fixList.monitor.length),
+      unit: fixList.monitor.length === 1 ? "fix" : "fixes",
+      sub: "Worth doing; lower impact or still building evidence.",
+      dot: "bg-zinc-300",
+      facts: [
+        { k: "Avg confidence", v: `${avgConfidence}%` },
+        { k: "In total", v: String(all.length) },
+      ],
+    },
+    {
+      label: "Measuring",
+      value: String(done.length),
+      unit: done.length === 1 ? "fix" : "fixes",
+      sub: done.length
+        ? "Marked done. Seerix is watching for the result."
+        : "Mark a fix done and Seerix measures whether it worked.",
+      dot: done.length ? "bg-warn" : "bg-zinc-200",
+      facts: [
+        { k: "Verified", v: "0" },
+        { k: "Remaining", v: String(all.length - done.length) },
+      ],
+    },
+  ];
+
   const groups = [
     {
       key: "do_now",
@@ -109,10 +164,49 @@ export default function FixList() {
         description="Every fix comes with the evidence behind it. Mark it done and Seerix measures whether it worked."
       />
 
-      <div className="mt-7 grid grid-cols-3 gap-3">
-        <Kpi label="Do now" value={String(fixList.do_now.length)} />
-        <Kpi label="Monitor" value={String(fixList.monitor.length)} />
-        <Kpi label="Measuring" value={String(done.length)} sub="marked done" />
+      {/* Notion-style grid: each cell is a row of its own rather than a
+          number floating in a card. The figure leads, a line of context
+          follows, and the foot carries what the number is actually made of,
+          so the three read as a summary instead of three loose counts. */}
+      <div className="mt-7 grid gap-3 sm:grid-cols-3">
+        {cells.map((c) => (
+          <div
+            key={c.label}
+            className="flex flex-col rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <p className="font-body text-[13.5px] text-zinc-500">{c.label}</p>
+              <span className={`mt-0.5 h-2 w-2 shrink-0 rounded-full ${c.dot}`} />
+            </div>
+
+            <p className="mt-2 flex items-baseline gap-2">
+              <span className="font-body text-[30px] font-medium tabular-nums tracking-[-0.02em] text-zinc-900">
+                {c.value}
+              </span>
+              {c.unit && (
+                <span className="font-body text-[13px] text-zinc-400">
+                  {c.unit}
+                </span>
+              )}
+            </p>
+
+            <p className="mt-1 font-body text-[13px] leading-[1.5] text-zinc-500">
+              {c.sub}
+            </p>
+
+            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-zinc-100 pt-3">
+              {c.facts.map((f) => (
+                <span
+                  key={f.k}
+                  className="font-body text-[12.5px] text-zinc-400"
+                >
+                  {f.k}{" "}
+                  <span className="tabular-nums text-zinc-700">{f.v}</span>
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
 
       {groups.map((g) => (
