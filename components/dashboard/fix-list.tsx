@@ -98,6 +98,10 @@ export default function FixList() {
     all.find((f) => f.effort === "Minutes")?.effort ??
     all.find((f) => f.effort === "An hour")?.effort ??
     "A day";
+  const doNowPages = new Set(fixList.do_now.map((f) => f.page)).size;
+  const lowScore = fixList.monitor.length
+    ? Math.min(...fixList.monitor.map((f) => f.priority_score))
+    : 0;
   const avgConfidence = all.length
     ? Math.round(
         (all.reduce((n, f) => n + (f.confidence_score ?? 0), 0) / all.length) *
@@ -111,9 +115,14 @@ export default function FixList() {
       unit: fixList.do_now.length === 1 ? "fix" : "fixes",
       sub: "Highest expected impact, backed by your data.",
       dot: "bg-signal-bright",
+      bar: "bg-signal-bright",
+      share: all.length
+        ? Math.round((fixList.do_now.length / all.length) * 100)
+        : 0,
       facts: [
         { k: "Top priority", v: `${topScore}/100` },
         { k: "Quickest", v: quickest },
+        { k: "Pages", v: String(doNowPages) },
       ],
     },
     {
@@ -122,8 +131,13 @@ export default function FixList() {
       unit: fixList.monitor.length === 1 ? "fix" : "fixes",
       sub: "Worth doing; lower impact or still building evidence.",
       dot: "bg-zinc-300",
+      bar: "bg-zinc-300",
+      share: all.length
+        ? Math.round((fixList.monitor.length / all.length) * 100)
+        : 0,
       facts: [
         { k: "Avg confidence", v: `${avgConfidence}%` },
+        { k: "Lowest priority", v: `${lowScore}/100` },
         { k: "In total", v: String(all.length) },
       ],
     },
@@ -135,8 +149,11 @@ export default function FixList() {
         ? "Marked done. Seerix is watching for the result."
         : "Mark a fix done and Seerix measures whether it worked.",
       dot: done.length ? "bg-warn" : "bg-zinc-200",
+      bar: "bg-warn",
+      share: all.length ? Math.round((done.length / all.length) * 100) : 0,
       facts: [
         { k: "Verified", v: "0" },
+        { k: "Awaiting proof", v: String(done.length) },
         { k: "Remaining", v: String(all.length - done.length) },
       ],
     },
@@ -194,17 +211,32 @@ export default function FixList() {
               {c.sub}
             </p>
 
-            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-zinc-100 pt-3">
-              {c.facts.map((f) => (
+            {/* Share of the whole list, so the three cards read against
+                each other rather than as isolated counts. */}
+            <div className="mt-4 flex items-center gap-2.5">
+              <span className="h-1 flex-1 overflow-hidden rounded-full bg-zinc-100">
                 <span
-                  key={f.k}
-                  className="font-body text-[12.5px] text-zinc-400"
-                >
-                  {f.k}{" "}
-                  <span className="tabular-nums text-zinc-700">{f.v}</span>
-                </span>
-              ))}
+                  className={`block h-full rounded-full ${c.bar}`}
+                  style={{ width: `${c.share}%` }}
+                />
+              </span>
+              <span className="font-body text-[12px] tabular-nums text-zinc-400">
+                {c.share}%
+              </span>
             </div>
+
+            <dl className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-zinc-100 pt-3">
+              {c.facts.map((f) => (
+                <div key={f.k} className="flex items-baseline gap-1.5">
+                  <dt className="font-body text-[12.5px] text-zinc-400">
+                    {f.k}
+                  </dt>
+                  <dd className="font-body text-[12.5px] font-medium tabular-nums text-zinc-700">
+                    {f.v}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
         ))}
       </div>

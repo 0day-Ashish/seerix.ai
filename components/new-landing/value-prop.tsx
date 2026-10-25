@@ -210,12 +210,11 @@ export default function ValueProp() {
   return (
     <section
       id="features"
-      // Not overflow-hidden: the lower blocks hang outside the section. z-20
-      // keeps them above the trust section, which stacks at z-10.
-      className="relative z-20 bg-[#141416] px-6 pb-24 pt-24 sm:pb-28 sm:pt-32"
+      // The dither strip is inside the panel now, so the section can clip:
+      // the lower strip used to hang into the section below it.
+      className="relative z-20 overflow-hidden bg-[#141416] px-6 pb-24 pt-24 sm:pb-28 sm:pt-32"
     >
       <DitherBlocks edge="top" />
-      <DitherBlocks edge="bottom" />
 
       <div className="relative mx-auto max-w-7xl">
         <p className="flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.08em] text-white/80">

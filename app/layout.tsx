@@ -42,6 +42,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       style={{ colorScheme: "light" }}
     >
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin=""
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap"
+        />
         <meta name="theme-color" content="#36363B" />
       </head>
       <body className="flex min-h-dvh flex-col font-sans">

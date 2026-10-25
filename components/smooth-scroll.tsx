@@ -49,6 +49,10 @@ export default function SmoothScroll() {
       smoothWheel: true,
     });
 
+    // Exposed so a horizontally dragged rail can park the page scroll for
+    // the duration of a drag; the two otherwise fight over the pointer.
+    (window as unknown as { lenis?: Lenis }).lenis = lenis;
+
     lenis.on("scroll", ScrollTrigger.update);
 
     const onTick = (time: number) => {
@@ -63,6 +67,7 @@ export default function SmoothScroll() {
     return () => {
       gsap.ticker.remove(onTick);
       gsap.ticker.lagSmoothing(500, 33);
+      delete (window as unknown as { lenis?: Lenis }).lenis;
       lenis.destroy();
     };
   }, [inApp]);
