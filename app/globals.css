@@ -169,6 +169,71 @@ body {
   font-family: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
 }
 
+/* The bevelled panel: one shape with a diagonal cut out of its top right,
+   leaving a raised shoulder on the left. Each use sets where the cut starts
+   (--bevel-x), its horizontal run (--bevel-run) and its drop (--bevel-drop).
+   --bevel-jx / --bevel-jy are the joint radius measured along the diagonal,
+   so they depend on its angle and are set alongside it.
+
+   polygon() can only draw sharp corners, so it stays as the fallback;
+   shape() rounds every corner, including both bends of the diagonal. Each
+   bend is a quadratic curve whose control point is the original vertex. */
+.bevel {
+  --bevel-r: 1.5rem;
+  --bevel-k: 0.75rem;
+  clip-path: polygon(
+    0 0,
+    var(--bevel-x) 0,
+    calc(var(--bevel-x) + var(--bevel-run)) var(--bevel-drop),
+    100% var(--bevel-drop),
+    100% 100%,
+    0 100%
+  );
+}
+
+@supports (clip-path: shape(from 0 0, line to 1px 1px)) {
+  .bevel {
+    clip-path: shape(
+      from 0 var(--bevel-r),
+      curve to var(--bevel-r) 0 with 0 0,
+      hline to calc(var(--bevel-x) - var(--bevel-k)),
+      curve to calc(var(--bevel-x) + var(--bevel-jx)) var(--bevel-jy)
+        with var(--bevel-x) 0,
+      line to calc(var(--bevel-x) + var(--bevel-run) - var(--bevel-jx))
+        calc(var(--bevel-drop) - var(--bevel-jy)),
+      curve to calc(var(--bevel-x) + var(--bevel-run) + var(--bevel-k))
+        var(--bevel-drop) with calc(var(--bevel-x) + var(--bevel-run))
+        var(--bevel-drop),
+      hline to calc(100% - var(--bevel-r)),
+      curve to 100% calc(var(--bevel-drop) + var(--bevel-r))
+        with 100% var(--bevel-drop),
+      vline to calc(100% - var(--bevel-r)),
+      curve to calc(100% - var(--bevel-r)) 100% with 100% 100%,
+      hline to var(--bevel-r),
+      curve to 0 calc(100% - var(--bevel-r)) with 0 100%,
+      close
+    );
+  }
+}
+
+/* Trust cards: a 45-degree cut, so the joint offsets are k / sqrt(2). */
+.bevel-card {
+  --bevel-x: 11rem;
+  --bevel-run: 3rem;
+  --bevel-drop: 3rem;
+  --bevel-jx: 0.53rem;
+  --bevel-jy: 0.53rem;
+}
+
+/* Industries panel: a steeper cut (4rem across, 4.5rem down). */
+.bevel-panel {
+  --bevel-x: 16rem;
+  --bevel-run: 4rem;
+  --bevel-drop: 4.5rem;
+  --bevel-jx: 0.5rem;
+  --bevel-jy: 0.56rem;
+}
+
 /* Section headings: a short signal bar beside the first line, in place of
    the eyebrow label that used to sit above. It hangs in the margin left of
    the heading, so the text keeps its alignment with the content below. Sized

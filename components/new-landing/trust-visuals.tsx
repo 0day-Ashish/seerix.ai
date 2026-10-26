@@ -63,25 +63,25 @@ function Lock() {
 export function CitedOrRejected() {
   return (
     <div aria-hidden="true" className="flex flex-col gap-2">
-      <div className="flex items-start gap-2.5 bg-white/[0.06] px-3.5 py-2.5">
+      <div className="flex items-start gap-2.5 rounded-lg bg-white/[0.06] px-3.5 py-2.5">
         <Tick />
         <div className="min-w-0">
           <p className="font-body text-[13px] leading-snug text-white/85">
             Rankings fell after the 2 Apr title rewrite.
           </p>
           <p className={`mt-1.5 flex flex-wrap gap-1.5 ${mono} text-white/45`}>
-            <span className="border border-white/25 px-1.5 py-px">GSC</span>
-            <span className="border border-white/25 px-1.5 py-px">
+            <span className="rounded border border-white/25 px-1.5 py-px">GSC</span>
+            <span className="rounded border border-white/25 px-1.5 py-px">
               SERP
             </span>
-            <span className="border border-white/25 px-1.5 py-px">
+            <span className="rounded border border-white/25 px-1.5 py-px">
               Crawl
             </span>
           </p>
         </div>
       </div>
 
-      <div className="flex items-start gap-2.5 bg-white/[0.04] px-3.5 py-2.5">
+      <div className="flex items-start gap-2.5 rounded-lg bg-white/[0.04] px-3.5 py-2.5">
         <Cross />
         <div className="min-w-0">
           <p className="font-body text-[13px] leading-snug text-white/40 line-through decoration-white/30">
@@ -101,7 +101,7 @@ export function HonestConfidence() {
   const pips = [true, true, false, false, false];
 
   return (
-    <div aria-hidden="true" className="bg-white/[0.06] px-3.5 py-3">
+    <div aria-hidden="true" className="rounded-lg bg-white/[0.06] px-3.5 py-3">
       <div className="flex items-baseline justify-between gap-4">
         <span className={`${mono} uppercase tracking-[0.08em] text-white/45`}>
           Confidence
@@ -147,7 +147,7 @@ export function PrivateByDesign() {
   return (
     <div
       aria-hidden="true"
-      className="overflow-hidden bg-white/[0.06]"
+      className="overflow-hidden rounded-lg bg-white/[0.06]"
     >
       {tenants.map((tenant, i) => (
         <div
@@ -186,11 +186,11 @@ export function NeverWrites() {
     <div aria-hidden="true" className="flex flex-col gap-2">
       {/* The exchange sits on black, so it reads as a terminal on the card's
           green ground rather than a pale box lost against it. */}
-      <p className="max-w-[88%] self-end bg-white/[0.06] px-3 py-2 font-body text-[13px] leading-snug text-white/85">
+      <p className="max-w-[88%] self-end rounded-lg bg-white/[0.06] px-3 py-2 font-body text-[13px] leading-snug text-white/85">
         Apply the title fix to /pricing for me.
       </p>
 
-      <div className="max-w-[94%] bg-white/[0.06] px-3 py-2">
+      <div className="max-w-[94%] rounded-lg bg-white/[0.06] px-3 py-2">
         <p className="font-body text-[13px] leading-snug text-white/85">
           I can&rsquo;t. My Google scope is read-only, so nothing I do reaches
           your account. Copy the suggestion across yourself.
@@ -218,7 +218,7 @@ export function Checkable() {
   ];
 
   return (
-    <div aria-hidden="true" className="bg-white/[0.06] px-3.5 py-3">
+    <div aria-hidden="true" className="rounded-lg bg-white/[0.06] px-3.5 py-3">
       <p className="font-body text-[14px] leading-snug text-white/85">
         Clicks fell 38% after 2 Apr
         <sup className={`ml-0.5 ${mono} text-signal-bright`}>1, 2</sup>

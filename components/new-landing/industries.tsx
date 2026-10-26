@@ -37,18 +37,12 @@ export default function Industries() {
         {/* Dark panel: the one inverted block on the page, so the section
             reads as a break between the FAQ and the closing CTA. */}
         {/* One panel with a diagonal bevel cut out of its top right, not a
-            tab sitting on a box: the eyebrow occupies the raised shoulder on
-            the left, and the cut falls away to the panel's full width.
-            Square corners throughout, as the reference has them.
-
-            clip-path draws it as a single polygon, so the bevel is a true
-            cut rather than two shapes meeting on a seam. */}
+            tab sitting on a box: the raised shoulder on the left, and the
+            cut falls away to the panel's full width. The shape lives in
+            globals.css (.bevel), rounded at every corner like the rest of
+            the site's panels. */}
         <div
-          className="relative bg-signal-ink px-7 pb-12 pt-4 sm:px-12 sm:pb-16"
-          style={{
-            clipPath:
-              "polygon(0 0, 16rem 0, 20rem 4.5rem, 100% 4.5rem, 100% 100%, 0 100%)",
-          }}
+          className="bevel bevel-panel relative bg-signal-ink px-7 pb-12 pt-4 sm:px-12 sm:pb-16"
         >
           <div className="pt-16 sm:pt-20">
             <div className="relative grid gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">

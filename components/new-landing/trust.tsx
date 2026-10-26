@@ -349,19 +349,14 @@ export default function Trust() {
               >
                 {/* The same bevel the industries panel carries: one shape
                     with a diagonal cut out of its top right, the eyebrow
-                    sitting on the shoulder it leaves. clip-path draws it as
-                    a single polygon, so the cut is true rather than two
-                    shapes meeting on a seam. */}
+                    sitting on the shoulder it leaves. The shape lives in
+                    globals.css (.bevel), rounded at every corner. */}
                 <div
-                  className={`relative bg-signal-ink px-6 pb-6 pt-4 transition-[min-height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:px-8 lg:pb-8 ${
+                  className={`bevel bevel-card relative bg-signal-ink px-6 pb-6 pt-4 transition-[min-height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:px-8 lg:pb-8 ${
                     on
                       ? "min-h-[22rem] lg:min-h-[28rem]"
                       : "min-h-[19rem] lg:min-h-[23rem]"
                   }`}
-                  style={{
-                    clipPath:
-                      "polygon(0 0, 11rem 0, 14rem 3rem, 100% 3rem, 100% 100%, 0 100%)",
-                  }}
                 >
                   {/* On the shoulder, and only on the centred card: the
                       neighbours are there to be peeked at, not read. */}
@@ -376,7 +371,7 @@ export default function Trust() {
 
                   <div className="relative pt-9">{pillar.visual}</div>
 
-                  <h3 className="relative mt-7 inline-block bg-white px-3 py-1.5 font-display text-[22px] font-medium leading-snug tracking-[-0.02em] text-zinc-900 lg:text-[26px]">
+                  <h3 className="relative mt-7 inline-block rounded-lg bg-white px-3 py-1.5 font-display text-[22px] font-medium leading-snug tracking-[-0.02em] text-zinc-900 lg:text-[26px]">
                     {pillar.title}
                   </h3>
                 </div>

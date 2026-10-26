@@ -104,7 +104,7 @@ export default function HowItWorks() {
               <circle
                 key={i}
                 r="2"
-                className="fill-black/35 [animation:seerix-travel-loop_22s_linear_infinite]"
+                className="fill-signal [animation:seerix-travel-loop_22s_linear_infinite]"
                 style={{
                   offsetPath: `path("${paths[dot.pathIndex]}")`,
                   animationDelay: `${dot.delay}s`,
