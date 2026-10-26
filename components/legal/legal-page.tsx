@@ -39,7 +39,7 @@ export default function LegalPage({
   sections,
 }: LegalPageProps) {
   return (
-    <section className="bg-white px-6 pb-20 pt-16 sm:pb-24 sm:pt-24">
+    <section className="bg-ghost px-6 pb-20 pt-16 sm:pb-24 sm:pt-24">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-2xl">
           <h1 className="heading-mark font-display text-[36px] font-medium leading-[1.1] tracking-[-0.035em] text-black sm:text-[46px]">

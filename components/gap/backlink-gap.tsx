@@ -204,7 +204,7 @@ export default function BacklinkGap() {
         />
       </section>
 
-      <section className="mt-8 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
+      <section className="mt-8 overflow-hidden rounded-2xl border border-zinc-200/80 bg-ghost">
         <div className="flex flex-wrap items-center justify-between gap-3 px-5 pt-4">
           <p className="font-body text-[15px] font-semibold text-zinc-900">
             All referring domains

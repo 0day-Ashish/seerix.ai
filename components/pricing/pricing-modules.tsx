@@ -150,7 +150,7 @@ const modules: Module[] = [
  */
 export default function PricingModules() {
   return (
-    <section className="bg-white px-6 pb-24">
+    <section className="bg-ghost px-6 pb-24">
       <div className="mx-auto max-w-7xl">
         <h2 className="heading-mark font-display text-[36px] font-medium leading-[1.1] tracking-[-0.03em] text-black sm:text-[44px]">
           What every plan runs

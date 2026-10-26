@@ -101,7 +101,7 @@ export default function Faq() {
   const shown = group === "All" ? faqs : faqs.filter((f) => f.group === group);
 
   return (
-    <section id="faq" className="bg-white px-6 py-20 sm:py-24">
+    <section id="faq" className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
           {/* Heading, filters and the way out park beside the list. */}
@@ -109,7 +109,7 @@ export default function Faq() {
             <h2 className="heading-mark font-display text-[36px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[48px]">
               Fair questions.
             </h2>
-            <p className="mt-5 font-body text-[17px] leading-[1.6] text-zinc-500">
+            <p className="mt-5 font-body text-[17px] leading-[1.6] text-zinc-600">
               Google permissions, how your data is handled, and why the answers
               can&rsquo;t make things up about your site.
             </p>

@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="flex flex-1 flex-col bg-white">
+    <div className="flex flex-1 flex-col bg-ghost">
       <ContactOpener />
 
       <div className="flex flex-1 flex-col">

@@ -14,7 +14,7 @@ import WhatIsSeerix from "@/components/new-landing/what-is-seerix";
 
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col bg-white">
+    <div className="flex flex-1 flex-col bg-ghost">
       <Hero />
       <Marquee />
 

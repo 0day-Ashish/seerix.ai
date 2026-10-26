@@ -244,7 +244,7 @@ export default function FixList() {
       {groups.map((g) => (
         <section
           key={g.key}
-          className="mt-6 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+          className="mt-6 overflow-hidden rounded-2xl border border-zinc-200/80 bg-ghost shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
         >
           <div className="flex items-baseline justify-between gap-3 border-b border-zinc-100 px-5 py-4">
             <div>

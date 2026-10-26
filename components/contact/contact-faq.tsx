@@ -44,7 +44,7 @@ export default function ContactFaq() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section id="contact-faq" className="bg-white px-6 py-20 sm:py-24">
+    <section id="contact-faq" className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-16">
           <div className="lg:sticky lg:top-28 lg:self-start">

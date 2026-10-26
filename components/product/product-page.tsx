@@ -50,9 +50,9 @@ export default function ProductPage({
   next,
 }: ProductPageProps) {
   return (
-    <div className="flex flex-1 flex-col bg-white">
+    <div className="flex flex-1 flex-col bg-ghost">
       {/* Opener: copy left, the job running on the right. */}
-      <section className="bg-white px-6 pb-16 pt-20 sm:pt-28">
+      <section className="bg-ghost px-6 pb-16 pt-20 sm:pt-28">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-14">
             <div>
@@ -86,7 +86,7 @@ export default function ProductPage({
       <SectionDivider />
 
       {/* What the job does. */}
-      <section className="bg-white px-6 py-20 sm:py-24">
+      <section className="bg-ghost px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
           <h2 className="heading-mark max-w-3xl font-display text-[32px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[40px]">
             What {job.toLowerCase()} covers
@@ -149,7 +149,7 @@ export default function ProductPage({
       </section>
 
       {/* The evidence row: the same ledger treatment the numbers section uses. */}
-      <section className="bg-white px-6 py-20 sm:py-24">
+      <section className="bg-ghost px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
           <dl className="grid overflow-hidden rounded-3xl border border-black/[0.07] bg-[#faf9f8] sm:grid-cols-3">
             {proof.map((item, index) => (
@@ -181,7 +181,7 @@ export default function ProductPage({
       <SectionDivider />
 
       {/* The sibling jobs, so the four pages form a set rather than dead ends. */}
-      <section className="bg-white px-6 py-20 sm:py-24">
+      <section className="bg-ghost px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
           <h2 className="heading-mark font-display text-[32px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[40px]">
             The rest of the job

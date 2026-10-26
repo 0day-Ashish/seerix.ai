@@ -6,7 +6,7 @@ export default function Cta() {
   return (
     <section
       id="demo"
-      className="relative overflow-hidden bg-white px-6 py-24 sm:py-32"
+      className="relative overflow-hidden bg-ghost px-6 py-24 sm:py-32"
     >
       {/* The scan field behind the closing line, fading out at every edge
           so it reads as ground rather than a panel. */}
@@ -25,7 +25,7 @@ export default function Cta() {
           <BlockReveal>Stop guessing why. Start knowing.</BlockReveal>
         </h2>
 
-        <p className="mt-5 max-w-lg font-body text-[16px] leading-[1.6] text-zinc-500">
+        <p className="mt-5 max-w-lg font-body text-[16px] leading-[1.6] text-zinc-600">
           Connect your Search Console and ask your first question. Works with
           Search Console alone &middot; No credit card &middot; Cancel anytime.
         </p>

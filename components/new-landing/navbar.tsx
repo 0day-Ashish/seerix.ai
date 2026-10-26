@@ -283,9 +283,9 @@ export default function Navbar() {
         <nav className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-8">
           <Link href="/" className="group flex shrink-0 items-center gap-2">
             <SeerixMark size={32} />
-            <span className="relative font-display text-[25px] font-medium tracking-[-0.03em] text-black">
+            <span className="wordmark relative text-[25px] font-medium tracking-[-0.03em] text-black">
               seerix
-              <sup className="absolute -right-4 top-1.5 font-body text-[9px] font-extrabold leading-none tracking-normal text-black">
+              <sup className="wordmark absolute -right-4 top-1.5 text-[9px] font-bold leading-none tracking-normal text-black">
                 TM
               </sup>
             </span>

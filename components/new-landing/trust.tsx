@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
@@ -137,6 +136,61 @@ export default function Trust() {
         decays after release, instead of the rail stopping dead.
      3. No React state in the gesture: re-rendering the section per frame is
         what made it heavy in the first place. */
+  /* Autoplay: the rail advances one card, rests long enough to read it,
+     then advances again. It stops the moment a person takes over -- a
+     pointer down, a wheel, a touch -- and does not resume, because a rail
+     that moves under someone's hand is worse than one that never moved.
+     Paused while off screen, and off entirely under reduced motion. */
+  useEffect(() => {
+    const el = rail.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let timer: ReturnType<typeof setInterval> | null = null;
+    let stopped = false;
+
+    const step = () => {
+      const card = el.querySelector("article");
+      if (!card) return;
+      // One card plus the gap; the loop effect handles the wrap.
+      const by = card.getBoundingClientRect().width + 20;
+      el.scrollBy({ left: by, behavior: "smooth" });
+    };
+
+    const start = () => {
+      if (stopped || timer) return;
+      timer = setInterval(step, 3800);
+    };
+    const pause = () => {
+      if (timer) clearInterval(timer);
+      timer = null;
+    };
+    /** A person took over: stop for good. */
+    const surrender = () => {
+      stopped = true;
+      pause();
+    };
+
+    el.addEventListener("pointerdown", surrender);
+    el.addEventListener("wheel", surrender, { passive: true });
+    el.addEventListener("touchstart", surrender, { passive: true });
+
+    // Only run while the rail is actually on screen.
+    const io = new IntersectionObserver(
+      ([e]) => (e.isIntersecting ? start() : pause()),
+      { threshold: 0.4 },
+    );
+    io.observe(el);
+
+    return () => {
+      pause();
+      io.disconnect();
+      el.removeEventListener("pointerdown", surrender);
+      el.removeEventListener("wheel", surrender);
+      el.removeEventListener("touchstart", surrender);
+    };
+  }, []);
+
   useEffect(() => {
     const el = rail.current;
     if (!el) return;
@@ -264,7 +318,7 @@ export default function Trust() {
   return (
     <section
       id="trust"
-      className="relative isolate z-30 overflow-x-clip bg-white pb-20 pt-28 sm:pb-28 sm:pt-40 lg:pt-48"
+      className="relative isolate z-30 overflow-x-clip bg-ghost pb-20 pt-28 sm:pb-28 sm:pt-40 lg:pt-48"
     >
       {/* Centred heading, as the reference has it, with the rail beneath
           running the full width so a card peeks in from either side. */}
@@ -293,33 +347,34 @@ export default function Trust() {
                     : "w-[70vw] sm:w-[24rem] lg:w-[27rem]"
                 }`}
               >
-                {/* Eyebrow and body belong to the centred card only: the
-                  neighbours are there to be peeked at, not read. */}
-                <p
-                  className={`flex items-center gap-2.5 font-mono text-[12px] uppercase tracking-[0.12em] text-zinc-500 transition-opacity duration-300 ${
-                    on ? "opacity-100" : "opacity-0"
-                  }`}
-                >
-                  <span className="h-2.5 w-2.5 bg-signal-bright" />
-                  {pillar.eyebrow}
-                </p>
-
+                {/* The same bevel the industries panel carries: one shape
+                    with a diagonal cut out of its top right, the eyebrow
+                    sitting on the shoulder it leaves. clip-path draws it as
+                    a single polygon, so the cut is true rather than two
+                    shapes meeting on a seam. */}
                 <div
-                  className={`relative mt-5 overflow-hidden bg-[#cfe8d8] p-6 transition-[min-height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:p-8 ${
+                  className={`relative bg-signal-ink px-6 pb-6 pt-4 transition-[min-height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:px-8 lg:pb-8 ${
                     on
-                      ? "min-h-[20rem] lg:min-h-[26rem]"
-                      : "min-h-[17rem] lg:min-h-[21rem]"
+                      ? "min-h-[22rem] lg:min-h-[28rem]"
+                      : "min-h-[19rem] lg:min-h-[23rem]"
                   }`}
+                  style={{
+                    clipPath:
+                      "polygon(0 0, 11rem 0, 14rem 3rem, 100% 3rem, 100% 100%, 0 100%)",
+                  }}
                 >
-                  <Image
-                    src="/assets/bg-gradient.png"
-                    alt=""
-                    fill
-                    draggable={false}
-                    sizes="(min-width: 1024px) 34rem, 86vw"
-                    className="pointer-events-none select-none object-cover"
-                  />
-                  <div className="relative">{pillar.visual}</div>
+                  {/* On the shoulder, and only on the centred card: the
+                      neighbours are there to be peeked at, not read. */}
+                  <p
+                    className={`flex items-center gap-2.5 font-mono text-[12px] uppercase tracking-[0.12em] text-white/60 transition-opacity duration-300 ${
+                      on ? "opacity-100" : "opacity-0"
+                    }`}
+                  >
+                    <span className="h-2.5 w-2.5 bg-signal-bright" />
+                    {pillar.eyebrow}
+                  </p>
+
+                  <div className="relative pt-9">{pillar.visual}</div>
 
                   <h3 className="relative mt-7 inline-block bg-white px-3 py-1.5 font-display text-[22px] font-medium leading-snug tracking-[-0.02em] text-zinc-900 lg:text-[26px]">
                     {pillar.title}

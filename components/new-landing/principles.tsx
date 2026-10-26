@@ -39,7 +39,7 @@ const principles: Principle[] = [
 
 export default function Principles() {
   return (
-    <section id="principles" className="bg-white px-6 py-20 sm:py-24">
+    <section id="principles" className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
         {/* The hairline is the section's only divider: it separates these
             columns from whatever sits above without adding a heading. */}

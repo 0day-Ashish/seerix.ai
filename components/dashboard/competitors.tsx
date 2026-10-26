@@ -164,7 +164,7 @@ export default function Competitors() {
       {intel.competitors.map((cp) => (
         <section
           key={cp.domain}
-          className="mt-4 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+          className="mt-4 overflow-hidden rounded-2xl border border-zinc-200/80 bg-ghost shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
         >
           <div className="flex flex-wrap items-center justify-between gap-3 px-5 pb-3 pt-4">
             <h2 className="flex items-center gap-2.5 font-body text-[16px] font-semibold text-zinc-900">

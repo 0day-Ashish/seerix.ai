@@ -306,7 +306,7 @@ export default function DashboardShell({
             <Link href="/" className="flex items-center gap-2 px-1">
               <SeerixMark size={24} tone="white" animated={false} />
               <span
-                className={`font-display text-[19px] font-semibold tracking-[-0.02em] text-white ${
+                className={`wordmark text-[19px] font-semibold tracking-[-0.02em] text-white ${
                   slim ? "lg:hidden" : ""
                 }`}
               >

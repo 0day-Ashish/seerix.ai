@@ -50,7 +50,7 @@ function Value({ value }: { value: Cell }) {
  */
 export default function PricingCompare() {
   return (
-    <section id="compare" className="bg-white px-6 py-20 sm:py-24">
+    <section id="compare" className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <SectionHeader heading="Plan comparison" />
 

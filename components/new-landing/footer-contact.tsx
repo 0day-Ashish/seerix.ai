@@ -12,9 +12,9 @@ export default function FooterContact() {
     <div className="max-w-xs">
       <Link href="/" className="group flex items-center gap-2">
         <SeerixMark size={32} tone="white" />
-        <span className="relative font-display text-[25px] font-medium tracking-[-0.03em] text-white">
+        <span className="wordmark relative text-[25px] font-medium tracking-[-0.03em] text-white">
           seerix
-          <sup className="absolute -right-4 top-1.5 font-body text-[9px] font-extrabold leading-none tracking-normal text-white">
+          <sup className="wordmark absolute -right-4 top-1.5 text-[9px] font-bold leading-none tracking-normal text-white">
             TM
           </sup>
         </span>

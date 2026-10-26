@@ -18,7 +18,7 @@ const useCases = [
  */
 export default function PricingHero() {
   return (
-    <section className="bg-white px-6 pb-12 pt-20 sm:pt-28">
+    <section className="bg-ghost px-6 pb-12 pt-20 sm:pt-28">
       <div className="mx-auto max-w-7xl">
         <h1 className="heading-mark font-display text-[40px] font-medium leading-[1.05] tracking-[-0.035em] text-black sm:text-[56px]">
           Start with one site that matters

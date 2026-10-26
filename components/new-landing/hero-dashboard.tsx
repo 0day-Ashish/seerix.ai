@@ -175,9 +175,7 @@ function Screen({ s }: { s: Scene }) {
         <div className="flex items-center gap-1 px-1.5">
           <span className="mr-auto flex items-center gap-2">
             <SeerixMark size={22} animated={false} />
-            <span
-              style={{ fontFamily: "var(--font-space-grotesk)" }}
-              className="text-[17px] font-semibold tracking-[-0.02em] text-zinc-900"
+            <span className="wordmark text-[17px] font-semibold tracking-[-0.02em] text-zinc-900"
             >
               seerix
             </span>

@@ -153,7 +153,7 @@ const stats: Stat[] = [
  */
 export default function Stats() {
   return (
-    <section id="numbers" className="bg-white px-6 py-20 sm:py-24">
+    <section id="numbers" className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
           <div className="max-w-2xl">

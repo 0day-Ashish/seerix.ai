@@ -437,7 +437,7 @@ export default function Backlinks() {
         })}
       </div>
 
-      <section className="mt-4 min-w-0 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+      <section className="mt-4 min-w-0 overflow-hidden rounded-2xl border border-zinc-200/80 bg-ghost shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
         {/* Title row */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-100 px-5 py-4">
           <h2 className="font-body text-[15px] font-semibold text-zinc-900">

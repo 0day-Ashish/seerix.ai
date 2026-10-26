@@ -47,7 +47,7 @@ export function Panel({
 }) {
   return (
     <section
-      className={`mt-6 overflow-hidden rounded-2xl border bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] ${
+      className={`mt-6 overflow-hidden rounded-2xl border bg-ghost shadow-[0_1px_2px_rgba(15,23,42,0.04)] ${
         tone === "danger" ? "border-red-200" : "border-zinc-200/80"
       }`}
     >

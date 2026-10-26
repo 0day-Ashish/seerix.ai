@@ -12,10 +12,10 @@ const topics = ["Demo", "Pricing", "Security", "Agencies", "Partnerships"];
  */
 export function ContactOpener() {
   return (
-    <section className="bg-white px-6 pb-12 pt-20 sm:pt-28">
+    <section className="bg-ghost px-6 pb-12 pt-20 sm:pt-28">
       <div className="mx-auto max-w-7xl">
         <h1 className="heading-mark max-w-3xl font-display text-[40px] font-medium leading-[1.05] tracking-[-0.035em] text-black sm:text-[56px]">
-          Talk to the people building Seerix
+          Talk to the people building <span className="wordmark">Seerix</span>
         </h1>
         <p className="mt-4 max-w-2xl font-body text-[18px] leading-[1.55] text-zinc-500 sm:text-[20px]">
           A person reads every message. Replies within one business day.
@@ -116,7 +116,7 @@ function Check() {
  */
 export function ContactRoutes() {
   return (
-    <section className="bg-white px-6 pb-24">
+    <section className="bg-ghost px-6 pb-24">
       <h2 className="heading-mark mx-auto mb-10 max-w-7xl font-display text-[36px] font-medium leading-[1.1] tracking-[-0.03em] text-black sm:text-[44px]">
         Other ways to reach us
       </h2>
@@ -228,7 +228,7 @@ const steps = [
  */
 export function ContactFormBlock({ form }: { form: React.ReactNode }) {
   return (
-    <section id="form" className="scroll-mt-28 bg-white px-6 pb-24">
+    <section id="form" className="scroll-mt-28 bg-ghost px-6 pb-24">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
           {form}

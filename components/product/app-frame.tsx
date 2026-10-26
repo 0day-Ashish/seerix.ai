@@ -77,10 +77,7 @@ export default function AppFrame({ active, title, children }: AppFrameProps) {
         <aside className="hidden w-[150px] shrink-0 flex-col px-2.5 pb-4 pt-3.5 lg:flex">
           <span className="flex items-center gap-1.5 px-1.5">
             <SeerixMark size={16} animated={false} />
-            <span
-              style={{ fontFamily: "var(--font-space-grotesk)" }}
-              className="text-[13.5px] font-semibold tracking-[-0.02em] text-zinc-900"
-            >
+            <span className="wordmark text-[13.5px] font-semibold tracking-[-0.02em] text-zinc-900">
               seerix
             </span>
           </span>

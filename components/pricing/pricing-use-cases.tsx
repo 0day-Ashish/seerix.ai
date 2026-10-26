@@ -131,7 +131,7 @@ export default function PricingUseCases() {
   const uc = useCases[active];
 
   return (
-    <section id="use-cases" className="scroll-mt-28 bg-white px-6 pb-24">
+    <section id="use-cases" className="scroll-mt-28 bg-ghost px-6 pb-24">
       <div className="mx-auto max-w-7xl">
         <h2 className="heading-mark font-display text-[36px] font-medium leading-[1.1] tracking-[-0.03em] text-black sm:text-[44px]">
           Use cases

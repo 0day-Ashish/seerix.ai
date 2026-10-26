@@ -32,7 +32,7 @@ const industries: Industry[] = [
 
 export default function Industries() {
   return (
-    <section id="industries" className="bg-white px-6 py-20 sm:py-24">
+    <section id="industries" className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
         {/* Dark panel: the one inverted block on the page, so the section
             reads as a break between the FAQ and the closing CTA. */}
@@ -50,11 +50,13 @@ export default function Industries() {
               "polygon(0 0, 16rem 0, 20rem 4.5rem, 100% 4.5rem, 100% 100%, 0 100%)",
           }}
         >
-          <p className="font-body text-[14px] text-white/70">Industries</p>
-          <div className="pt-10 sm:pt-12">
+          <div className="pt-16 sm:pt-20">
             <div className="relative grid gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
               {/* Heading parks alongside the grid while it scrolls past. */}
               <div className="lg:self-center">
+                <p className="mb-4 font-body text-[14px] text-white/70">
+                  Industries
+                </p>
                 <h2 className="heading-mark font-display text-[34px] font-medium leading-[1.15] tracking-[-0.03em] text-white sm:text-[44px]">
                   <BlockReveal>
                     Built for sites where search traffic is the business.

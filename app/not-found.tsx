@@ -19,7 +19,7 @@ const suggestions = [
 
 export default function NotFound() {
   return (
-    <div className="flex flex-1 flex-col bg-white">
+    <div className="flex flex-1 flex-col bg-ghost">
       <section className="px-6 pb-20 pt-32 sm:pb-24 sm:pt-40">
         <div className="mx-auto max-w-7xl">
           <p className="font-body text-[13px] font-medium tracking-[0.02em] text-zinc-400">

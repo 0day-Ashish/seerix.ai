@@ -95,7 +95,7 @@ export default function Marquee() {
   return (
     <section
       aria-label="Example diagnoses"
-      className="mt-10 border-y border-black/[0.07] bg-white sm:mt-14"
+      className="mt-10 border-y border-black/[0.07] bg-ghost sm:mt-14"
     >
       <div className="flex items-stretch">
         <p className="relative z-10 hidden shrink-0 items-center gap-2.5 border-r border-black/[0.07] bg-white px-6 font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-500 md:flex lg:px-10">

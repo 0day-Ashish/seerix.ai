@@ -679,7 +679,7 @@ export default function Chat({
         }
       />
 
-      <section className="relative mt-6 flex h-[calc(100dvh-330px)] min-h-[440px] flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] lg:h-[calc(100dvh-240px)]">
+      <section className="relative mt-6 flex h-[calc(100dvh-330px)] min-h-[440px] flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-ghost shadow-[0_1px_2px_rgba(15,23,42,0.04)] lg:h-[calc(100dvh-240px)]">
         <div
           ref={scroller}
           onScroll={(e) => {

@@ -125,7 +125,7 @@ const sections: LegalSection[] = [
 
 export default function TermsPage() {
   return (
-    <div className="flex flex-1 flex-col bg-white">
+    <div className="flex flex-1 flex-col bg-ghost">
       <div className="flex flex-1 flex-col">
         <LegalPage
           title="Terms of Service"

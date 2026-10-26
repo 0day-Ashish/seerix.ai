@@ -13,7 +13,7 @@ import WaitlistForm from "@/components/new-landing/waitlist-form";
  */
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-white px-6 pt-16 sm:pt-32">
+    <section className="relative overflow-hidden bg-ghost px-6 pt-16 sm:pt-32">
       {/* The scan field, confined to the top-right corner: it stays clear of
           the headline and the product panel, and fades out toward the
           centre and down toward the waitlist form. */}
@@ -69,19 +69,18 @@ export default function Hero() {
           </BlockReveal>
         </h1>
 
-        {/* The hero's one action. It keeps the right-aligned placement the
-            button pair had, tucked up beside the headline's last line. */}
-        <div className="mt-5 sm:-mt-[44px] sm:flex sm:justify-end">
-          <WaitlistForm />
-        </div>
-
-        {/* The announcement that used to share this row now sits in the pill
-            above the headline, so the subhead has the line to itself. */}
-        <div className="mt-5 sm:mt-4">
-          <p className="max-w-md font-body text-[15px] leading-[1.6] text-zinc-500 sm:text-[17px] sm:leading-[1.55]">
+        {/* Subhead left, the hero's one action right, sharing a row so the
+            form sits level with the copy rather than riding up beside the
+            headline's last line. */}
+        <div className="mt-6 flex flex-col gap-6 sm:mt-8 sm:flex-row sm:items-start sm:justify-between sm:gap-10">
+          <p className="max-w-md font-body text-[15px] leading-[1.6] text-zinc-600 sm:text-[17px] sm:leading-[1.55]">
             Diagnoses with receipts, not dashboards with homework. Built on your
             own Search Console data.
           </p>
+
+          <div className="shrink-0">
+            <WaitlistForm />
+          </div>
         </div>
 
         {/* Bleeds past the section's bottom edge, as the reference does. */}

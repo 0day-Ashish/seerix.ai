@@ -384,7 +384,7 @@ function BreakdownCard({
   };
 
   return (
-    <section className="flex min-w-0 flex-col rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+    <section className="flex min-w-0 flex-col rounded-2xl border border-zinc-200/80 bg-ghost shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-5 pb-3 pt-4">
         <h2 className="flex items-center gap-1.5 font-body text-[15px] font-semibold text-zinc-900">
           {title}

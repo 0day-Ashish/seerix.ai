@@ -17,8 +17,8 @@ export const metadata: Metadata = {
 
 export default function ChangelogPage() {
   return (
-    <div className="flex flex-1 flex-col bg-white">
-      <section className="bg-white px-6 pb-24 pt-20 sm:pt-28">
+    <div className="flex flex-1 flex-col bg-ghost">
+      <section className="bg-ghost px-6 pb-24 pt-20 sm:pt-28">
         <div className="mx-auto max-w-7xl">
           <h1 className="heading-mark font-display text-[40px] font-medium leading-[1.05] tracking-[-0.035em] text-black sm:text-[56px]">
             Changelog

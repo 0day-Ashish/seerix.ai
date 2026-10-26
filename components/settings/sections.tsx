@@ -692,7 +692,7 @@ function Billing() {
         title="Billing"
         description="Your plan, payment method and billing details."
       />
-      <section className="mt-6 grid overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+      <section className="mt-6 grid overflow-hidden rounded-2xl border border-zinc-200/80 bg-ghost shadow-[0_1px_2px_rgba(15,23,42,0.04)] lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
         <div className="bg-signal-soft p-6 sm:p-7">
           <p className="flex items-center gap-2 font-body text-[13px] font-medium text-zinc-500">
             Current plan

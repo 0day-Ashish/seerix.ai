@@ -380,7 +380,7 @@ export default function ChatWelcome({
 
       {/* Two cards */}
       <div className="mt-12 grid w-full gap-4 md:grid-cols-2">
-        <section className="min-w-0 rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+        <section className="min-w-0 rounded-2xl border border-zinc-200/80 bg-ghost p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
           <h2 className="font-body text-[16px] font-semibold text-zinc-900">
             Recommended
           </h2>

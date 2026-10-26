@@ -12,6 +12,9 @@
   /* Seerix palette. Three brand anchors plus the steps derived from them
      for button gradients, press shadows and hover states. */
   --color-white-grey: #dcdddd;
+  /* Ghost grey: the page ground. Cards stay white on top of it, so a panel
+     reads as raised rather than as the page itself. */
+  --color-ghost: #f2f3f6;
   --color-genji-grey: #888084;
   --color-amakusa-black: #36363b;
 
@@ -64,7 +67,7 @@
 /* Surface and ink, swapped per theme. Everything chrome-level reads these two
    rather than a literal white, so the toggle moves the whole page. */
 :root {
-  --surface: #ffffff;
+  --surface: var(--color-ghost);
   --ink: var(--color-amakusa-black);
 }
 
@@ -159,6 +162,13 @@ body {
   }
 }
 
+/* The wordmark. Pinned to Space Grotesk rather than `font-display`, which
+   now resolves to Host Grotesk: the logotype is a fixed mark and should
+   not follow a change of heading face. */
+.wordmark {
+  font-family: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+}
+
 /* Section headings: a short signal bar beside the first line, in place of
    the eyebrow label that used to sit above. It hangs in the margin left of
    the heading, so the text keeps its alignment with the content below. Sized
@@ -219,6 +229,84 @@ body {
   transform-box: fill-box;
   transform-origin: center;
   animation: seerix-mark-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* A highlight landing on a phrase: the mark sweeps in from the left, holds
+   while it is read, then clears. Used on the study panel, where the three
+   marks fire in turn to show the crawl finding its changes. */
+/* A scan sweeping down a panel, used where a page is being read. */
+/* A dot travelling a path, used on the how-it-works graph. The element
+   binds itself to the path with offset-path; this only drives the distance,
+   so one keyframe serves every path. */
+/* A dot riding a closed loop, used on the how-it-works graph. No fade at
+   the ends: the loops close on themselves, so a dot leaving simply
+   continues. */
+@keyframes seerix-travel-loop {
+  from {
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: 100%;
+  }
+}
+
+@keyframes seerix-travel {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  8%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes seerix-scan-down {
+  0% {
+    top: -6rem;
+    opacity: 0;
+  }
+  8%,
+  82% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes seerix-mark-in {
+  0%,
+  4% {
+    background-size: 0% 100%;
+  }
+  14%,
+  70% {
+    background-size: 100% 100%;
+  }
+  84%,
+  100% {
+    background-size: 0% 100%;
+  }
+}
+
+/* A confidence bar filling to its final value and holding there. */
+@keyframes seerix-bar-fill {
+  0% {
+    transform: scaleX(0);
+  }
+  36%,
+  88% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
 }
 
 @keyframes seerix-mark-draw {

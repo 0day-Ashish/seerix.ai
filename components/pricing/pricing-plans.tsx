@@ -59,7 +59,7 @@ const evidence: Record<PlanId, string[]> = {
  */
 export default function PricingPlans() {
   return (
-    <section id="plans" className="bg-white px-6 pb-24">
+    <section id="plans" className="bg-ghost px-6 pb-24">
       <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-3 lg:grid-rows-[auto_auto_auto_1fr]">
         {plans.map((plan) => {
           const dark = Boolean(plan.featured);

@@ -31,7 +31,7 @@ const points: Point[] = [
 
 export default function WhatIsSeerix() {
   return (
-    <section id="what-is-seerix" className="bg-white px-6 py-20 sm:py-28">
+    <section id="what-is-seerix" className="bg-ghost px-6 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl">
         {/* Stacked, not split: heading and lede share the top row, the demo
             runs the full width beneath them, and the three points close the

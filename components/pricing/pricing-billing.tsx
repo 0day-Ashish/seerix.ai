@@ -48,7 +48,7 @@ const columns = [
 
 export function PricingBilling() {
   return (
-    <section className="bg-white px-6 pb-24">
+    <section className="bg-ghost px-6 pb-24">
       <div className="mx-auto grid max-w-7xl gap-10 rounded-3xl bg-[#f6f5f2] p-8 sm:p-12 lg:grid-cols-[minmax(0,1.1fr)_repeat(3,minmax(0,1fr))]">
         <div>
           <h2 className="font-display text-[34px] font-medium leading-[1.1] tracking-[-0.03em] text-black">
@@ -86,7 +86,7 @@ export function PricingBilling() {
 /** The closing line, centred, with the one action. */
 export function PricingCloser() {
   return (
-    <section className="relative overflow-hidden bg-white px-6 pb-28 pt-16 text-center">
+    <section className="relative overflow-hidden bg-ghost px-6 pb-28 pt-16 text-center">
       <div className="pointer-events-none absolute inset-0 [-webkit-mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_70%)] [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_70%)]">
         <ScanField
           tone="light"
