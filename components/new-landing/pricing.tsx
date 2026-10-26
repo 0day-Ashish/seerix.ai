@@ -102,7 +102,7 @@ export default function Pricing() {
                 key={plan.name}
                 className={`flex flex-col rounded-3xl p-7 sm:p-9 ${
                   on
-                    ? "bg-[#fbfbfa] shadow-[0_24px_60px_-28px_rgba(0,0,0,0.14)]"
+                    ? "bg-white shadow-[0_24px_60px_-28px_rgba(0,0,0,0.14)]"
                     : "bg-black/[0.035]"
                 }`}
               >

@@ -36,7 +36,7 @@ function Score({ value, tone = "signal" }: { value: number; tone?: string }) {
       ? "#2f8a4f"
       : tone === "flat"
         ? "#a1a1aa"
-        : `rgba(17,133,78,${0.25 + (value / 100) * 0.75})`;
+        : `rgba(91,79,216,${0.25 + (value / 100) * 0.75})`;
   return (
     <span className="inline-flex items-center gap-2.5">
       <span

@@ -18,7 +18,7 @@ import type { Ranking } from "@/components/dashboard/data";
  * ---------------------------------------------------------------------- */
 
 /** `signal`, as a literal because SVG needs a value. */
-const SIGNAL = "#11854e";
+const SIGNAL = "#5b4fd8";
 const H = 220;
 const PAD = { top: 12, right: 40, bottom: 28, left: 44 };
 

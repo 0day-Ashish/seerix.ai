@@ -29,7 +29,7 @@ export default function Hero() {
       {/* Clears the field off the panel without erasing it: the fade starts
           low and stops short of opaque, so the weave still reaches the
           bottom-left corner it sweeps out of. */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-72% to-white to-97%" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-72% to-ghost to-97%" />
 
       <div className="relative mx-auto max-w-7xl">
         {/* Announcement pill: a label and its link sharing one outline, split

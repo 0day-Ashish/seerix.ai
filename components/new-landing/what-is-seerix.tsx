@@ -1,5 +1,4 @@
-import Image from "next/image";
-
+import GradientWash from "@/components/new-landing/gradient-wash";
 import ProductDemo from "@/components/new-landing/product-demo";
 
 type Point = {
@@ -51,19 +50,11 @@ export default function WhatIsSeerix() {
         </div>
 
         {/* The demo, full width: tabs over an app window, stepping through
-            the jobs Seerix does. It sits on the brand's grained green wash
-            rather than the page white, so the product has a ground of its
-            own. Served through next/image so the large source ships as an
-            optimised, sized WebP rather than the original PNG. */}
+            the jobs Seerix does. It sits on the brand's moving lilac wash
+            rather than the page ground, so the product has a ground of its
+            own. */}
         <div className="relative mt-14 overflow-hidden rounded-[28px] p-5 sm:p-8">
-          <Image
-            src="/assets/bg-gradient.png"
-            alt=""
-            fill
-            priority={false}
-            sizes="(min-width: 1280px) 1280px, 100vw"
-            className="object-cover"
-          />
+          <GradientWash />
           <div className="relative">
             <ProductDemo />
           </div>

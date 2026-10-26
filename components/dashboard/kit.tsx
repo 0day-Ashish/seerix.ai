@@ -155,7 +155,7 @@ export function Tag({
 export function Spark({
   points,
   higherIsBetter = false,
-  color = "#11854e",
+  color = "#5b4fd8",
   width = 96,
   height = 24,
 }: {

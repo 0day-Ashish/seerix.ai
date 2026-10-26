@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 
+import GradientWash from "@/components/new-landing/gradient-wash";
 import { plans, type PlanId } from "@/components/pricing/plans";
 
 function Check({ dark }: { dark?: boolean }) {
@@ -68,22 +68,14 @@ export default function PricingPlans() {
               key={plan.id}
               className={`relative flex flex-col overflow-hidden rounded-3xl p-4 lg:row-span-4 lg:grid lg:grid-rows-subgrid lg:gap-0 ${
                 dark
-                  ? "bg-[#cfe8d8] text-zinc-900 shadow-[0_30px_70px_-30px_rgba(10,40,25,0.45)] lg:-my-3 lg:py-7"
+                  ? "bg-[#d8d1fa] text-zinc-900 shadow-[0_30px_70px_-30px_rgba(40,25,110,0.45)] lg:-my-3 lg:py-7"
                   : "border border-black/[0.08] bg-white"
               }`}
             >
-              {/* The brand gradient fills the whole featured card, so it
-                  reads as one green panel rather than a green inset in grey.
+              {/* The brand wash fills the whole featured card, so it reads
+                  as one lilac panel rather than a lilac inset in grey.
                   The copy is dark against it, as on the industries panel. */}
-              {dark && (
-                <Image
-                  src="/assets/bg-gradient.png"
-                  alt=""
-                  fill
-                  sizes="(min-width: 1024px) 33vw, 100vw"
-                  className="object-cover"
-                />
-              )}
+              {dark && <GradientWash />}
               <div
                 className={`relative min-h-[12rem] overflow-hidden rounded-2xl p-6 ${
                   dark
@@ -129,9 +121,15 @@ export default function PricingPlans() {
 
               <Link
                 href={plan.href}
-                // The mint fill with a dark label, as the shared Button
+                // The lilac fill with a dark label, as the shared Button
                 // carries it, so a CTA reads the same wherever it appears.
-                className="relative mt-4 flex h-11 translate-y-0 items-center justify-center rounded-xl font-body text-[15px] font-medium bg-signal-bright text-signal-ink transition-all duration-150 ease-out [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:bg-signal-bright hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)]"
+                // On the featured card the lilac would sink into the wash
+                // behind it, so that one is ink instead, on the same edge.
+                className={`relative mt-4 flex h-11 translate-y-0 items-center justify-center rounded-xl font-body text-[15px] font-medium transition-all duration-150 ease-out hover:-translate-y-0.5 active:translate-y-[2px] ${
+                  dark
+                    ? "bg-signal-ink text-white [box-shadow:0_3px_0_0_#38383f,0_4px_10px_rgba(10,10,11,0.18)] hover:[box-shadow:0_5px_0_0_#38383f,0_9px_16px_rgba(10,10,11,0.22)] active:[box-shadow:0_1px_0_0_#38383f,0_2px_4px_rgba(10,10,11,0.14)]"
+                    : "bg-signal-bright text-signal-ink [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:bg-signal-bright hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)]"
+                }`}
               >
                 {plan.cta}
               </Link>

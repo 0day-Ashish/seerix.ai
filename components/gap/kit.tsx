@@ -6,7 +6,7 @@ import { domains } from "@/components/gap/data";
 
 /** One colour per compared domain: you in blue, competitors in amber and green. */
 export const domainColor: Record<string, string> = {
-  "arddev.in": "#11854e",
+  "arddev.in": "#5b4fd8",
   "pixelforge.dev": "#b06a1f",
   "buildstack.io": "#2f7d5b",
 };
