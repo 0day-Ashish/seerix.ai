@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { BlockReveal } from "@/components/new-landing/block-reveal";
+import GradientWash from "@/components/new-landing/gradient-wash";
 
 type Industry = {
   name: string;
@@ -34,37 +35,40 @@ export default function Industries() {
   return (
     <section id="industries" className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
-        {/* Dark panel: the one inverted block on the page, so the section
-            reads as a break between the FAQ and the closing CTA. */}
+        {/* The brand wash: the moving gradient behind the product demo, so
+            the section reads as a break between the FAQ and the closing CTA.
+            The copy is near-black throughout, since it crosses the wash's
+            darker violet as well as its lilac. */}
         {/* One panel with a diagonal bevel cut out of its top right, not a
             tab sitting on a box: the raised shoulder on the left, and the
             cut falls away to the panel's full width. The shape lives in
             globals.css (.bevel), rounded at every corner like the rest of
             the site's panels. */}
         <div
-          className="bevel bevel-panel relative bg-signal-ink px-7 pb-12 pt-4 sm:px-12 sm:pb-16"
+          className="bevel bevel-panel relative px-7 pb-12 pt-4 sm:px-12 sm:pb-16"
         >
-          <div className="pt-16 sm:pt-20">
+          <GradientWash offset={9} />
+          <div className="relative pt-16 sm:pt-20">
             <div className="relative grid gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
               {/* Heading parks alongside the grid while it scrolls past. */}
               <div className="lg:self-center">
-                <p className="mb-4 font-body text-[14px] text-white/70">
+                <p className="mb-4 font-body text-[14px] text-zinc-800">
                   Industries
                 </p>
-                <h2 className="heading-mark font-display text-[34px] font-medium leading-[1.15] tracking-[-0.03em] text-white sm:text-[44px]">
+                <h2 className="heading-mark font-display text-[34px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[44px]">
                   <BlockReveal>
                     Built for sites where search traffic is the business.
                   </BlockReveal>
                 </h2>
 
-                <p className="mt-5 max-w-sm font-body text-[16px] leading-[1.6] text-white/60">
+                <p className="mt-5 max-w-sm font-body text-[16px] leading-[1.6] text-zinc-800">
                   Seerix makes no assumptions about your vertical. Every
                   diagnosis is assembled from your own data, whatever you sell.
                 </p>
 
                 <Link
                   href="#demo"
-                  className="group mt-8 inline-flex translate-y-0 items-center gap-2 rounded-xl bg-signal-bright px-5 py-3 font-body text-[15px] font-medium text-signal-ink transition-all duration-150 ease-out [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)]"
+                  className="group mt-8 inline-flex translate-y-0 items-center gap-2 rounded-xl bg-signal-ink px-5 py-3 font-body text-[15px] font-medium text-white transition-all duration-150 ease-out [box-shadow:0_3px_0_0_#38383f,0_4px_10px_rgba(10,10,11,0.18)] hover:-translate-y-0.5 hover:[box-shadow:0_5px_0_0_#38383f,0_9px_16px_rgba(10,10,11,0.22)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#38383f,0_2px_4px_rgba(10,10,11,0.14)]"
                 >
                   See demo
                   <svg
@@ -90,12 +94,12 @@ export default function Industries() {
                 {industries.map((industry) => (
                   <div
                     key={industry.name}
-                    className="border-t border-white/12 py-7 first:border-t-0 sm:[&:nth-child(-n+2)]:border-t-0 sm:[&:nth-child(even)]:border-l sm:[&:nth-child(even)]:pl-7 sm:[&:nth-child(odd)]:pr-7"
+                    className="border-t border-black/[0.12] py-7 first:border-t-0 sm:[&:nth-child(-n+2)]:border-t-0 sm:[&:nth-child(even)]:border-l sm:[&:nth-child(even)]:pl-7 sm:[&:nth-child(odd)]:pr-7"
                   >
-                    <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-white">
+                    <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-black">
                       {industry.name}
                     </h3>
-                    <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-white/55">
+                    <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-800">
                       {industry.body}
                     </p>
                   </div>
@@ -104,18 +108,18 @@ export default function Industries() {
                 {/* An odd number of industries leaves the last cell empty, so it
                   closes the table rather than sitting blank: the list is not
                   meant to be exhaustive, and this is where you say so. */}
-                <div className="group border-t border-white/12 py-7 sm:border-l sm:pl-7">
-                  <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-white/70">
+                <div className="group border-t border-black/[0.12] py-7 sm:border-l sm:pl-7">
+                  <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-zinc-800">
                     Not listed here?
                   </h3>
-                  <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-white/40">
+                  <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-800">
                     The vertical never changes the method. Connect a property
                     and Seerix reads what your market actually does.
                   </p>
 
                   <Link
                     href="/contact"
-                    className="mt-4 inline-flex items-center gap-2 font-body text-[15px] text-white/80 transition-colors duration-200 hover:text-white"
+                    className="mt-4 inline-flex items-center gap-2 font-body text-[15px] font-medium text-black underline decoration-black/25 underline-offset-4 transition-colors duration-200 hover:decoration-black"
                   >
                     Ask about your case
                     <svg

@@ -87,7 +87,7 @@ function NavIcon({ d, vb = 16 }: { d: string; vb?: number }) {
  * which put an account action in the row about the site; it belongs here with
  * the person it signs out.
  */
-function AccountRow({ slim }: { slim: boolean }) {
+export function AccountRow({ slim = false }: { slim?: boolean }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -222,7 +222,7 @@ function RecentChats() {
                 >
                   <span
                     className={`block truncate text-[13px] ${
-                      on ? "font-medium text-signal-deep" : "text-white/70"
+                      on ? "font-medium text-signal-bright" : "text-white/70"
                     }`}
                   >
                     {t.title}

@@ -30,7 +30,7 @@ function Tick() {
 function Cross() {
   return (
     <svg
-      className="mt-[3px] h-3 w-3 shrink-0 text-signal-bright"
+      className="mt-[3px] h-3 w-3 shrink-0 text-signal"
       viewBox="0 0 12 12"
       fill="none"
       stroke="currentColor"
@@ -45,7 +45,7 @@ function Cross() {
 function Lock() {
   return (
     <svg
-      className="h-3 w-3 shrink-0 text-white/40"
+      className="h-3 w-3 shrink-0 text-zinc-400"
       viewBox="0 0 12 12"
       fill="none"
       stroke="currentColor"
@@ -63,31 +63,31 @@ function Lock() {
 export function CitedOrRejected() {
   return (
     <div aria-hidden="true" className="flex flex-col gap-2">
-      <div className="flex items-start gap-2.5 rounded-lg bg-white/[0.06] px-3.5 py-2.5">
+      <div className="flex items-start gap-2.5 rounded-lg bg-white/75 ring-1 ring-black/[0.05] backdrop-blur-sm px-3.5 py-2.5">
         <Tick />
         <div className="min-w-0">
-          <p className="font-body text-[13px] leading-snug text-white/85">
+          <p className="font-body text-[13px] leading-snug text-zinc-900">
             Rankings fell after the 2 Apr title rewrite.
           </p>
-          <p className={`mt-1.5 flex flex-wrap gap-1.5 ${mono} text-white/45`}>
-            <span className="rounded border border-white/25 px-1.5 py-px">GSC</span>
-            <span className="rounded border border-white/25 px-1.5 py-px">
+          <p className={`mt-1.5 flex flex-wrap gap-1.5 ${mono} text-zinc-500`}>
+            <span className="rounded border border-black/15 px-1.5 py-px">GSC</span>
+            <span className="rounded border border-black/15 px-1.5 py-px">
               SERP
             </span>
-            <span className="rounded border border-white/25 px-1.5 py-px">
+            <span className="rounded border border-black/15 px-1.5 py-px">
               Crawl
             </span>
           </p>
         </div>
       </div>
 
-      <div className="flex items-start gap-2.5 rounded-lg bg-white/[0.04] px-3.5 py-2.5">
+      <div className="flex items-start gap-2.5 rounded-lg bg-white/45 ring-1 ring-black/[0.04] backdrop-blur-sm px-3.5 py-2.5">
         <Cross />
         <div className="min-w-0">
-          <p className="font-body text-[13px] leading-snug text-white/40 line-through decoration-white/30">
+          <p className="font-body text-[13px] leading-snug text-zinc-400 line-through decoration-zinc-400">
             A competitor launched a paid campaign.
           </p>
-          <p className={`mt-1.5 ${mono} text-white/35`}>
+          <p className={`mt-1.5 ${mono} text-zinc-400`}>
             no evidence row &middot; dropped before display
           </p>
         </div>
@@ -101,12 +101,12 @@ export function HonestConfidence() {
   const pips = [true, true, false, false, false];
 
   return (
-    <div aria-hidden="true" className="rounded-lg bg-white/[0.06] px-3.5 py-3">
+    <div aria-hidden="true" className="rounded-lg bg-white/75 ring-1 ring-black/[0.05] backdrop-blur-sm px-3.5 py-3">
       <div className="flex items-baseline justify-between gap-4">
-        <span className={`${mono} uppercase tracking-[0.08em] text-white/45`}>
+        <span className={`${mono} uppercase tracking-[0.08em] text-zinc-500`}>
           Confidence
         </span>
-        <span className={`${mono} text-[12px] text-white/85`}>Low</span>
+        <span className={`${mono} text-[12px] text-zinc-900`}>Low</span>
       </div>
 
       <div className="mt-2.5 flex gap-1">
@@ -114,24 +114,24 @@ export function HonestConfidence() {
           <span
             key={i}
             className={`h-1.5 flex-1 rounded-full ${
-              lit ? "bg-signal-bright" : "bg-white/15"
+              lit ? "bg-signal" : "bg-black/10"
             }`}
           />
         ))}
       </div>
 
       <dl
-        className={`mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 ${mono} text-white/45`}
+        className={`mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 ${mono} text-zinc-500`}
       >
         <dt>history</dt>
-        <dd className="text-white/75">6 wk</dd>
+        <dd className="text-zinc-700">6 wk</dd>
         <dt>SERP snapshots</dt>
-        <dd className="text-white/75">1</dd>
+        <dd className="text-zinc-700">1</dd>
       </dl>
 
-      <p className="mt-3 border-t border-white/15 pt-2.5 font-body text-[13px] leading-snug text-white/60">
+      <p className="mt-3 border-t border-black/[0.08] pt-2.5 font-body text-[13px] leading-snug text-zinc-600">
         Not enough to call it.{" "}
-        <span className="text-white/90">Verdict: not yet.</span>
+        <span className="text-zinc-900">Verdict: not yet.</span>
       </p>
     </div>
   );
@@ -147,33 +147,33 @@ export function PrivateByDesign() {
   return (
     <div
       aria-hidden="true"
-      className="overflow-hidden rounded-lg bg-white/[0.06]"
+      className="overflow-hidden rounded-lg bg-white/75 ring-1 ring-black/[0.05] backdrop-blur-sm"
     >
       {tenants.map((tenant, i) => (
         <div
           key={tenant.host}
           className={`flex items-center gap-3 px-3.5 py-2.5 ${
-            i > 0 ? "border-t border-white/12" : ""
+            i > 0 ? "border-t border-black/[0.07]" : ""
           }`}
         >
           <Lock />
-          <span className="font-body text-[13px] text-white/85">
+          <span className="font-body text-[13px] text-zinc-900">
             {tenant.host}
           </span>
-          <span className={`ml-auto ${mono} text-white/45`}>
+          <span className={`ml-auto ${mono} text-zinc-500`}>
             {tenant.rows} rows &middot; AES-256
           </span>
         </div>
       ))}
 
       <div
-        className={`flex flex-wrap gap-x-4 gap-y-1 border-t border-white/12 bg-white/[0.04] px-3.5 py-2 ${mono} text-white/45`}
+        className={`flex flex-wrap gap-x-4 gap-y-1 border-t border-black/[0.07] bg-white/45 ring-1 ring-black/[0.04] backdrop-blur-sm px-3.5 py-2 ${mono} text-zinc-500`}
       >
         <span>
-          cross-tenant reads <span className="text-signal-bright">0</span>
+          cross-tenant reads <span className="text-signal">0</span>
         </span>
         <span>
-          training rows <span className="text-signal-bright">0</span>
+          training rows <span className="text-signal">0</span>
         </span>
       </div>
     </div>
@@ -184,21 +184,21 @@ export function PrivateByDesign() {
 export function NeverWrites() {
   return (
     <div aria-hidden="true" className="flex flex-col gap-2">
-      {/* The exchange sits on black, so it reads as a terminal on the card's
-          green ground rather than a pale box lost against it. */}
-      <p className="max-w-[88%] self-end rounded-lg bg-white/[0.06] px-3 py-2 font-body text-[13px] leading-snug text-white/85">
+      {/* Frosted panels over the card's wash, so the exchange reads as UI
+          rather than as text set straight on the gradient. */}
+      <p className="max-w-[88%] self-end rounded-lg bg-white/75 ring-1 ring-black/[0.05] backdrop-blur-sm px-3 py-2 font-body text-[13px] leading-snug text-zinc-900">
         Apply the title fix to /pricing for me.
       </p>
 
-      <div className="max-w-[94%] rounded-lg bg-white/[0.06] px-3 py-2">
-        <p className="font-body text-[13px] leading-snug text-white/85">
+      <div className="max-w-[94%] rounded-lg bg-white/75 ring-1 ring-black/[0.05] backdrop-blur-sm px-3 py-2">
+        <p className="font-body text-[13px] leading-snug text-zinc-900">
           I can&rsquo;t. My Google scope is read-only, so nothing I do reaches
           your account. Copy the suggestion across yourself.
         </p>
-        <p className={`mt-2 ${mono} text-white/45`}>
-          scope <span className="text-signal-bright">webmasters.readonly</span>
+        <p className={`mt-2 ${mono} text-zinc-500`}>
+          scope <span className="text-signal">webmasters.readonly</span>
           <br />
-          write <span className="text-white/70">not requested</span>
+          write <span className="text-zinc-700">not requested</span>
         </p>
       </div>
     </div>
@@ -218,22 +218,22 @@ export function Checkable() {
   ];
 
   return (
-    <div aria-hidden="true" className="rounded-lg bg-white/[0.06] px-3.5 py-3">
-      <p className="font-body text-[14px] leading-snug text-white/85">
+    <div aria-hidden="true" className="rounded-lg bg-white/75 ring-1 ring-black/[0.05] backdrop-blur-sm px-3.5 py-3">
+      <p className="font-body text-[14px] leading-snug text-zinc-900">
         Clicks fell 38% after 2 Apr
-        <sup className={`ml-0.5 ${mono} text-signal-bright`}>1, 2</sup>
+        <sup className={`ml-0.5 ${mono} text-signal`}>1, 2</sup>
       </p>
 
-      <div className="mt-3 border-t border-white/15">
+      <div className="mt-3 border-t border-black/[0.08]">
         {rows.map((row) => (
           <div
             key={row.n}
-            className={`grid grid-cols-[1rem_2.6rem_1fr_auto] items-baseline gap-x-2 border-b border-white/10 py-2 ${mono}`}
+            className={`grid grid-cols-[1rem_2.6rem_1fr_auto] items-baseline gap-x-2 border-b border-black/[0.06] py-2 ${mono}`}
           >
-            <span className="text-white/35">{row.n}</span>
-            <span className="text-white/75">{row.src}</span>
-            <span className="truncate text-white/50">{row.detail}</span>
-            <span className="text-white/35">{row.when}</span>
+            <span className="text-zinc-400">{row.n}</span>
+            <span className="text-zinc-700">{row.src}</span>
+            <span className="truncate text-zinc-500">{row.detail}</span>
+            <span className="text-zinc-400">{row.when}</span>
           </div>
         ))}
       </div>

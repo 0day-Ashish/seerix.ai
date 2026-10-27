@@ -21,8 +21,20 @@ const blobs = [
  * with a grain over the top so it reads as printed rather than as a flat CSS
  * gradient. CSS only, so it stays a server component, and the global
  * reduced-motion rule holds it still. Fills its nearest positioned parent.
+ *
+ * `paused` holds the drift where it is, for washes that repeat down a row and
+ * only need to move on the one in focus. `offset` starts the drift that many
+ * seconds in, so neighbouring washes are not in step.
  */
-export default function GradientWash({ className = "" }: { className?: string }) {
+export default function GradientWash({
+  className = "",
+  paused = false,
+  offset = 0,
+}: {
+  className?: string;
+  paused?: boolean;
+  offset?: number;
+}) {
   return (
     <div
       aria-hidden="true"
@@ -34,7 +46,10 @@ export default function GradientWash({ className = "" }: { className?: string })
         {blobs.map((blob) => (
           <span
             key={blob}
-            className={`absolute rounded-full will-change-transform ${blob}`}
+            className={`absolute rounded-full will-change-transform ${blob} ${
+              paused ? "[animation-play-state:paused]" : ""
+            }`}
+            style={offset ? { animationDelay: `${-offset}s` } : undefined}
           />
         ))}
       </div>

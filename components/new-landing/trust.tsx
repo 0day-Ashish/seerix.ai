@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
+import GradientWash from "@/components/new-landing/gradient-wash";
 import {
   Checkable,
   CitedOrRejected,
@@ -350,28 +351,32 @@ export default function Trust() {
                 {/* The same bevel the industries panel carries: one shape
                     with a diagonal cut out of its top right, the eyebrow
                     sitting on the shoulder it leaves. The shape lives in
-                    globals.css (.bevel), rounded at every corner. */}
+                    globals.css (.bevel), rounded at every corner. The ground
+                    is the brand wash behind the product demo, clipped to the
+                    bevel; only the centred card's wash moves. */}
                 <div
-                  className={`bevel bevel-card relative bg-signal-ink px-6 pb-6 pt-4 transition-[min-height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:px-8 lg:pb-8 ${
+                  className={`bevel bevel-card relative px-6 pb-6 pt-4 transition-[min-height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:px-8 lg:pb-8 ${
                     on
                       ? "min-h-[22rem] lg:min-h-[28rem]"
                       : "min-h-[19rem] lg:min-h-[23rem]"
                   }`}
                 >
+                  <GradientWash paused={!on} offset={i * 4.3} />
+
                   {/* On the shoulder, and only on the centred card: the
                       neighbours are there to be peeked at, not read. */}
                   <p
-                    className={`flex items-center gap-2.5 font-mono text-[12px] uppercase tracking-[0.12em] text-white/60 transition-opacity duration-300 ${
+                    className={`relative flex items-center gap-2.5 font-mono text-[12px] uppercase tracking-[0.12em] text-zinc-800 transition-opacity duration-300 ${
                       on ? "opacity-100" : "opacity-0"
                     }`}
                   >
-                    <span className="h-2.5 w-2.5 bg-signal-bright" />
+                    <span className="h-2.5 w-2.5 bg-signal" />
                     {pillar.eyebrow}
                   </p>
 
                   <div className="relative pt-9">{pillar.visual}</div>
 
-                  <h3 className="relative mt-7 inline-block rounded-lg bg-white px-3 py-1.5 font-display text-[22px] font-medium leading-snug tracking-[-0.02em] text-zinc-900 lg:text-[26px]">
+                  <h3 className="relative mt-7 inline-block rounded-lg bg-white px-3 py-1.5 shadow-[0_8px_20px_-12px_rgba(40,25,110,0.35)] font-display text-[22px] font-medium leading-snug tracking-[-0.02em] text-zinc-900 lg:text-[26px]">
                     {pillar.title}
                   </h3>
                 </div>

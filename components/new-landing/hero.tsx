@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 import { BlockReveal } from "@/components/new-landing/block-reveal";
+import HeroGlow from "@/components/new-landing/hero-glow";
 import HeroDashboard from "@/components/new-landing/hero-dashboard";
-import ScanField from "@/components/new-landing/scan-field";
 import WaitlistForm from "@/components/new-landing/waitlist-form";
 
 /**
@@ -14,24 +14,13 @@ import WaitlistForm from "@/components/new-landing/waitlist-form";
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-ghost px-6 pt-16 sm:pt-32">
-      {/* The scan field, confined to the top-right corner: it stays clear of
-          the headline and the product panel, and fades out toward the
-          centre and down toward the waitlist form. */}
-      <div className="pointer-events-none absolute right-0 top-0 h-[29rem] w-[48%] [-webkit-mask-image:radial-gradient(ellipse_at_top_right,black_25%,transparent_72%)] [mask-image:radial-gradient(ellipse_at_top_right,black_25%,transparent_72%)]">
-        <ScanField
-          tone="light"
-          cell={16}
-          strength={0.16}
-          findings={4}
-          sweep={8}
-        />
-      </div>
-      {/* Clears the field off the panel without erasing it: the fade starts
-          low and stops short of opaque, so the weave still reaches the
-          bottom-left corner it sweeps out of. */}
+      {/* Settles the panel's glow into the page ground toward the bottom
+          of the section. */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-72% to-ghost to-97%" />
 
-      <div className="relative mx-auto max-w-7xl">
+      {/* Isolated so the panel's glow can sit behind the copy and form
+          (-z-10) without dropping behind the section's own ground. */}
+      <div className="relative isolate mx-auto max-w-7xl">
         {/* Announcement pill: a label and its link sharing one outline, split
             by a hairline. Replaces the inline "New" link that used to sit by
             the subhead, so the hero announces one thing in one place. */}
@@ -85,6 +74,8 @@ export default function Hero() {
 
         {/* Bleeds past the section's bottom edge, as the reference does. */}
         <div className="relative mt-3 sm:mt-5">
+          {/* Light rising off the panel, behind it. */}
+          <HeroGlow />
           <HeroDashboard />
         </div>
       </div>

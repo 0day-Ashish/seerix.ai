@@ -114,7 +114,7 @@ export default function WaitlistForm() {
       )}
 
       {!invalid && (
-        <p className="mt-2.5 font-body text-[13px] text-zinc-400">
+        <p className="mt-2.5 font-body text-[13px] text-zinc-500">
           No spam. One email when we launch.
         </p>
       )}

@@ -332,6 +332,19 @@ body {
   }
 }
 
+/* The glow behind the hero's product panel: a slow breath, swelling and
+   brightening, never travelling, so the light stays anchored to the panel. */
+@keyframes seerix-glow {
+  from {
+    opacity: 0.55;
+    transform: scale(0.94, 0.9);
+  }
+  to {
+    opacity: 0.9;
+    transform: scale(1.06, 1.08);
+  }
+}
+
 /* A dot travelling a path, used on the how-it-works graph. The element
    binds itself to the path with offset-path; this only drives the distance,
    so one keyframe serves every path. */

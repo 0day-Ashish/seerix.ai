@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
+import { AccountRow } from "@/components/dashboard/shell";
+import SeerixMark from "@/components/new-landing/seerix-mark";
 import { settingsGroups } from "@/components/settings/nav";
 
 export function NavIcon({
@@ -30,8 +32,9 @@ export function NavIcon({
 }
 
 /**
- * The settings sidebar: the title, then the four groups.
- * On small screens it collapses to a horizontal strip of the same links.
+ * The settings sidebar, in the dashboard's black: the mark, the title, the
+ * four groups, and the same account row at the foot. On small screens it
+ * collapses to a horizontal strip of the same links.
  */
 export default function SettingsSidebar() {
   const pathname = usePathname();
@@ -47,21 +50,23 @@ export default function SettingsSidebar() {
   }, [pathname]);
 
   return (
-    <aside className="border-b border-zinc-200/80 bg-white lg:sticky lg:top-0 lg:h-dvh lg:w-[240px] lg:shrink-0 lg:overflow-y-auto lg:border-b-0 lg:border-r">
-      <div className="px-4 pb-3 pt-5 lg:pb-10">
-        <Link
-          href="/app"
-          className="inline-flex items-center gap-1.5 rounded-lg px-1.5 py-1 font-body text-[13px] text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
-        >
-          <NavIcon d="M10 3.5L5.5 8l4.5 4.5" />
-          Back to dashboard
+    <aside className="bg-signal-ink lg:sticky lg:top-0 lg:h-dvh lg:w-[220px] lg:shrink-0">
+      <div className="flex h-full flex-col px-4 pb-3 pt-5 lg:pb-5">
+        <Link href="/app" className="flex items-center gap-2 px-1">
+          <SeerixMark size={24} tone="white" animated={false} />
+          <span className="wordmark text-[19px] font-semibold tracking-[-0.02em] text-white">
+            seerix
+          </span>
         </Link>
 
-        <h1 className="mt-3 px-1.5 font-display text-[20px] font-semibold tracking-[-0.02em] text-zinc-900">
+        <h1 className="mt-6 px-2.5 font-display text-[13px] font-medium uppercase tracking-[0.08em] text-white/40 lg:mt-7">
           Settings
         </h1>
 
-        <nav aria-label="Settings" className="mt-4 lg:mt-6">
+        <nav
+          aria-label="Settings"
+          className="mt-3 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden"
+        >
           {/* One scrolling row on phones; stacked groups from lg. */}
           <div
             ref={stripRef}
@@ -69,7 +74,7 @@ export default function SettingsSidebar() {
           >
             {settingsGroups.map((group) => (
               <div key={group.label} className="contents lg:mb-5 lg:block">
-                <p className="hidden px-2.5 pb-1.5 font-body text-[12px] font-medium text-zinc-400 lg:block">
+                <p className="hidden px-2.5 pb-1.5 font-body text-[12px] font-medium text-white/40 lg:block">
                   {group.label}
                 </p>
                 {group.items.map((item) => {
@@ -82,13 +87,13 @@ export default function SettingsSidebar() {
                       aria-current={on ? "page" : undefined}
                       className={`flex shrink-0 items-center gap-2.5 rounded-lg px-2.5 py-[7px] font-body text-[13.5px] transition-colors ${
                         on
-                          ? "bg-signal-soft font-medium text-signal"
-                          : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
+                          ? "bg-white/10 font-medium text-signal-bright"
+                          : "text-white/60 hover:bg-white/10 hover:text-white"
                       }`}
                     >
                       <NavIcon
                         d={item.icon}
-                        className={on ? "text-signal" : "text-zinc-400"}
+                        className={on ? "text-signal-bright" : "text-white/40"}
                       />
                       <span className="whitespace-nowrap">{item.label}</span>
                     </Link>
@@ -98,6 +103,10 @@ export default function SettingsSidebar() {
             ))}
           </div>
         </nav>
+
+        <div className="hidden lg:block">
+          <AccountRow />
+        </div>
       </div>
     </aside>
   );

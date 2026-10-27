@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import GradientWash from "@/components/new-landing/gradient-wash";
 import SectionHeader from "@/components/new-landing/section-header";
 
 type Spec = { label: string; value: string };
@@ -91,25 +92,38 @@ export default function Pricing() {
         />
 
         {/* Name and subtitle, then the price, then the action -- the list
-            sits last. The featured card is the lighter one with the solid
-            button, which is how the reference marks it: the eye goes to the
-            button, not to a coloured panel. */}
+            sits last. The featured card stands on the brand wash (the moving
+            gradient behind the product demo) with the one ink button; the
+            side cards are white, raised off the ivory, with the lilac one. */}
         <div className="mt-12 grid gap-4 lg:grid-cols-3 lg:items-stretch">
           {plans.map((plan) => {
             const on = Boolean(plan.featured);
             return (
               <article
                 key={plan.name}
-                className={`flex flex-col rounded-3xl p-7 sm:p-9 ${
+                className={`relative isolate flex flex-col overflow-hidden rounded-3xl p-7 transition-transform duration-300 ease-out hover:-translate-y-1 sm:p-9 ${
                   on
-                    ? "bg-white shadow-[0_24px_60px_-28px_rgba(0,0,0,0.14)]"
-                    : "bg-black/[0.035]"
+                    ? "shadow-[0_30px_70px_-30px_rgba(40,25,110,0.45)]"
+                    : "bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_20px_50px_-30px_rgba(15,23,42,0.18)] ring-1 ring-black/[0.06]"
                 }`}
               >
-                <h3 className="font-display text-[26px] font-medium tracking-[-0.02em] text-black">
-                  {plan.name}
-                </h3>
-                <p className="mt-2 max-w-[22rem] font-body text-[16px] leading-[1.5] text-zinc-500">
+                {on && <GradientWash offset={6} className="-z-10" />}
+
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="font-display text-[26px] font-medium tracking-[-0.02em] text-black">
+                    {plan.name}
+                  </h3>
+                  {on && (
+                    <span className="mt-1 rounded-full bg-white/70 px-2.5 py-1 font-body text-[12px] font-medium text-zinc-900 ring-1 ring-black/[0.06] backdrop-blur-sm">
+                      Most popular
+                    </span>
+                  )}
+                </div>
+                <p
+                  className={`mt-2 max-w-[22rem] font-body text-[16px] leading-[1.5] ${
+                    on ? "text-zinc-800" : "text-zinc-500"
+                  }`}
+                >
                   {plan.subtitle}
                 </p>
 
@@ -117,44 +131,55 @@ export default function Pricing() {
                   <span className="font-display text-[52px] font-medium leading-none tracking-[-0.04em] text-black">
                     {plan.price}
                   </span>
-                  <span className="font-body text-[17px] text-zinc-500">
+                  <span
+                    className={`font-body text-[17px] ${on ? "text-zinc-800" : "text-zinc-500"}`}
+                  >
                     {plan.cadence}
                   </span>
                 </p>
-                <p className="mt-3 font-body text-[15px] text-zinc-500">
+                <p
+                  className={`mt-3 font-body text-[15px] ${on ? "text-zinc-800" : "text-zinc-500"}`}
+                >
                   Per month, billed monthly
                 </p>
 
                 {/* The action sits above the list, not under it. Raised on a
                     solid offset edge, the same way the site's buttons are: it
                     lifts on hover and travels down into its own shadow on
-                    press. The edge is each button's own fill darkened, so the
-                    black and white cards keep their contrast. */}
+                    press. Ink on the wash, lilac on white: each button
+                    contrasts with its own card. */}
                 <Link
                   href="#demo"
                   className={`mt-7 flex h-12 translate-y-0 items-center justify-center rounded-xl font-body text-[15px] font-medium transition-all duration-150 ease-out hover:-translate-y-0.5 active:translate-y-[2px] ${
                     on
                       ? "bg-signal-ink text-white [box-shadow:0_3px_0_0_#38383f,0_4px_10px_rgba(10,10,11,0.18)] hover:[box-shadow:0_5px_0_0_#38383f,0_9px_16px_rgba(10,10,11,0.22)] active:[box-shadow:0_1px_0_0_#38383f,0_2px_4px_rgba(10,10,11,0.14)]"
-                      : "bg-white text-black [box-shadow:0_3px_0_0_#dcdce0,0_4px_10px_rgba(0,0,0,0.07)] hover:[box-shadow:0_5px_0_0_#dcdce0,0_9px_16px_rgba(0,0,0,0.10)] active:[box-shadow:0_1px_0_0_#dcdce0,0_2px_4px_rgba(0,0,0,0.07)]"
+                      : "bg-signal-bright text-signal-ink [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)]"
                   }`}
                 >
                   Get started
                 </Link>
 
-                <ul className="mt-8 flex flex-col gap-4">
+                <ul
+                  className={`mt-8 flex flex-col gap-4 border-t pt-7 ${
+                    on ? "border-black/[0.12]" : "border-black/[0.07]"
+                  }`}
+                >
                   {plan.specs.map((spec) => (
                     <li key={spec.label} className="flex gap-3">
-                      <Tick className="text-zinc-400" />
+                      <Tick className={on ? "text-zinc-900" : "text-signal"} />
                       <span className="font-body text-[16px] leading-[1.45] text-zinc-800">
                         {spec.label}
                         {spec.value !== "Yes" && (
-                          <span className="text-zinc-500"> &middot; {spec.value}</span>
+                          <span className={on ? "text-zinc-700" : "text-zinc-500"}>
+                            {" "}
+                            &middot; {spec.value}
+                          </span>
                         )}
                       </span>
                     </li>
                   ))}
                   <li className="flex gap-3">
-                    <Tick className="text-zinc-400" />
+                    <Tick className={on ? "text-zinc-900" : "text-signal"} />
                     <span className="font-body text-[16px] leading-[1.45] text-zinc-800">
                       {plan.sites} {plan.sites === 1 ? "site" : "sites"}
                     </span>

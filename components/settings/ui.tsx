@@ -4,8 +4,9 @@ import { useState } from "react";
 
 /* -------------------------------------------------------------------------
  * The settings kit: page header, framed panels, labelled rows, inputs,
- * toggles, buttons and tables. Soft corners, quiet greys and the dashboard's
- * blue for actions; red for anything destructive.
+ * toggles, buttons and tables. White panels on the white page, told apart by
+ * a hairline and a soft lift; the lilac accent for actions and focus; red for
+ * anything destructive.
  * ---------------------------------------------------------------------- */
 
 export function PageHeader({
@@ -47,7 +48,7 @@ export function Panel({
 }) {
   return (
     <section
-      className={`mt-6 overflow-hidden rounded-2xl border bg-ghost shadow-[0_1px_2px_rgba(15,23,42,0.04)] ${
+      className={`mt-6 overflow-hidden rounded-2xl border bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-16px_rgba(15,23,42,0.12)] ${
         tone === "danger" ? "border-red-200" : "border-zinc-200/80"
       }`}
     >
@@ -103,7 +104,7 @@ export function Row({
 }
 
 const field =
-  "w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[14px] text-zinc-900 shadow-[0_1px_2px_rgba(15,23,42,0.04)] placeholder:text-zinc-400 transition-colors hover:border-zinc-300 focus:border-signal-bright focus:outline-none disabled:bg-zinc-50 disabled:text-zinc-500 disabled:shadow-none";
+  "w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 font-body text-[14px] text-zinc-900 shadow-[0_1px_2px_rgba(15,23,42,0.04)] placeholder:text-zinc-400 transition-colors hover:border-zinc-300 focus:border-signal focus:outline-none focus:ring-4 focus:ring-signal-soft disabled:bg-zinc-50 disabled:text-zinc-500 disabled:shadow-none";
 
 export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return <input {...props} className={`${field} ${props.className ?? ""}`} />;
@@ -211,7 +212,7 @@ export function Badge({
   const styles = {
     neutral: "bg-zinc-100 text-zinc-700",
     good: "bg-good-soft text-good-deep",
-    signal: "bg-[#fff1ea] text-[#c2410c]",
+    signal: "bg-signal-soft text-signal-deep",
   }[tone];
   return (
     <span

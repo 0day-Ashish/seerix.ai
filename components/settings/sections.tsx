@@ -52,21 +52,22 @@ function Profile() {
       <Panel title="Your details" footer={<Button>Save changes</Button>}>
         <Row label="Photo" hint="Shown to your team.">
           <div className="flex items-center gap-4">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-signal-soft font-body text-[18px] font-semibold text-signal">
-              A
+            {/* The same avatar as the sidebar's account row, larger. */}
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-signal-bright font-body text-[16px] font-medium text-signal-ink">
+              AD
             </span>
             <Button variant="secondary">Upload</Button>
             <Button variant="ghost">Remove</Button>
           </div>
         </Row>
         <Row label="Full name">
-          <Input defaultValue="Alex Mercer" />
+          <Input defaultValue="Ashish Das" />
         </Row>
         <Row
           label="Email"
           hint="From your Google sign-in; change it in your Google account."
         >
-          <Input defaultValue="alex@acme.com" disabled />
+          <Input defaultValue="ashish@arddev.in" disabled />
         </Row>
         <Row label="Role" hint="Helps Seerix pitch answers at the right depth.">
           <Select
@@ -265,7 +266,7 @@ function Knowledge() {
     <>
       <PageHeader
         title="Knowledge"
-        description="Context about acme.com that Seerix uses when it diagnoses. The more it knows, the sharper its answers."
+        description="Context about arddev.in that Seerix uses when it diagnoses. The more it knows, the sharper its answers."
       />
       <Panel title="About the business" footer={<Button>Save</Button>}>
         <Row label="What you sell" hint="One or two sentences.">
@@ -290,7 +291,7 @@ function Knowledge() {
           label="Brand terms"
           hint="Queries containing these count as branded."
         >
-          <Input defaultValue="acme, acme pm, acmeapp" />
+          <Input defaultValue="arddev, ard dev, arddev.in" />
         </Row>
         <Row label="Competitors" hint="Domains to track in your SERPs.">
           <Textarea rows={3} defaultValue={"rivalpm.com\nboardly.io"} />
@@ -387,7 +388,7 @@ function ExclusionLists() {
   const [rules, setRules] = useState([
     { value: "/blog/tag/*", kind: "URL pattern" },
     { value: "/staging/*", kind: "URL pattern" },
-    { value: "acme login", kind: "Query" },
+    { value: "arddev login", kind: "Query" },
   ]);
   const [draft, setDraft] = useState("");
   const [kind, setKind] = useState("URL pattern");
@@ -406,7 +407,7 @@ function ExclusionLists() {
             className="sm:w-44"
           />
           <Input
-            placeholder={kind === "Query" ? "acme login" : "/blog/tag/*"}
+            placeholder={kind === "Query" ? "arddev login" : "/blog/tag/*"}
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
           />
@@ -446,8 +447,8 @@ function ExclusionLists() {
 
 function Scheduled() {
   const jobs: [string, string, string, boolean][] = [
-    ["Weekly report", "Mondays, 09:00", "Email · alex@acme.com", true],
-    ["Site crawl", "Daily, 02:00", "acme.com · 5,000 pages", true],
+    ["Weekly report", "Mondays, 09:00", "Email · ashish@arddev.in", true],
+    ["Site crawl", "Daily, 02:00", "arddev.in · 5,000 pages", true],
     ["SERP snapshots", "Daily, 04:00", "312 tracked queries", true],
     ["Monthly summary", "1st of the month, 09:00", "Email · team", false],
   ];
@@ -482,9 +483,9 @@ function Scheduled() {
 
 function Team() {
   const members: [string, string, string, string][] = [
-    ["Alex Mercer", "alex@acme.com", "Owner", "Active"],
-    ["Priya Nair", "priya@acme.com", "Admin", "Active"],
-    ["Sam Okafor", "sam@acme.com", "Member", "Invited"],
+    ["Ashish Das", "ashish@arddev.in", "Owner", "Active"],
+    ["Priya Nair", "priya@arddev.in", "Admin", "Active"],
+    ["Sam Okafor", "sam@arddev.in", "Member", "Invited"],
   ];
   return (
     <>
@@ -530,14 +531,14 @@ function Team() {
 
 function Projects() {
   const rows: [string, string, string, string][] = [
-    ["acme.com", "sc-domain:acme.com", "United States (en)", "12 Mar 2026"],
+    ["arddev.in", "sc-domain:arddev.in", "United States (en)", "12 Mar 2026"],
     [
-      "docs.acme.com",
-      "https://docs.acme.com/",
+      "docs.arddev.in",
+      "https://docs.arddev.in/",
       "United States (en)",
       "3 Apr 2026",
     ],
-    ["acme.de", "sc-domain:acme.de", "Germany (de)", "18 May 2026"],
+    ["arddev.de", "sc-domain:arddev.de", "Germany (de)", "18 May 2026"],
   ];
   return (
     <>
@@ -580,7 +581,7 @@ function Domains() {
           rows={[
             [
               <span key="a" className="font-medium text-zinc-900">
-                acme.com
+                arddev.in
               </span>,
               <Badge key="b" tone="good">
                 Verified
@@ -589,7 +590,7 @@ function Domains() {
             ],
             [
               <span key="a" className="font-medium text-zinc-900">
-                acme.de
+                arddev.de
               </span>,
               <Badge key="b" tone="signal">
                 Pending
@@ -600,7 +601,7 @@ function Domains() {
         />
       </Panel>
       <Panel
-        title="Verify acme.de"
+        title="Verify arddev.de"
         description="Add this TXT record at your DNS provider. It can take up to an hour to be seen."
       >
         <div className="grid gap-2 py-5 sm:grid-cols-[6rem_minmax(0,1fr)] sm:items-center sm:gap-3">
@@ -692,7 +693,7 @@ function Billing() {
         title="Billing"
         description="Your plan, payment method and billing details."
       />
-      <section className="mt-6 grid overflow-hidden rounded-2xl border border-zinc-200/80 bg-ghost shadow-[0_1px_2px_rgba(15,23,42,0.04)] lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+      <section className="mt-6 grid overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
         <div className="bg-signal-soft p-6 sm:p-7">
           <p className="flex items-center gap-2 font-body text-[13px] font-medium text-zinc-500">
             Current plan
@@ -763,10 +764,10 @@ function Billing() {
       </Panel>
       <Panel title="Billing details" footer={<Button>Save</Button>}>
         <Row label="Billing email" hint="Invoices are sent here.">
-          <Input defaultValue="billing@acme.com" />
+          <Input defaultValue="billing@arddev.in" />
         </Row>
         <Row label="Company name">
-          <Input defaultValue="Acme Inc." />
+          <Input defaultValue="Arddev" />
         </Row>
         <Row label="Tax ID" hint="Optional. Shown on invoices.">
           <Input placeholder="GB123456789" />
