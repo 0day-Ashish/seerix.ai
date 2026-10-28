@@ -224,7 +224,9 @@ const steps = [
 
 /**
  * The form beside a framed account of what happens once it is sent, so the
- * ask and the promise sit side by side.
+ * ask and the promise sit side by side. The steps run as a timeline that
+ * spreads to the form's height, then a short list of what makes a message
+ * quick to answer, so the panel carries something useful all the way down.
  */
 export function ContactFormBlock({ form }: { form: React.ReactNode }) {
   return (
@@ -232,39 +234,83 @@ export function ContactFormBlock({ form }: { form: React.ReactNode }) {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
           {form}
-          <div className="flex flex-col overflow-hidden rounded-3xl border border-black/[0.08]">
-            <p className="border-b border-black/[0.08] bg-zinc-50 px-6 py-4 font-mono text-[12px] uppercase tracking-[0.1em] text-zinc-500">
+          <div className="flex flex-col rounded-3xl border border-black/[0.08] bg-white p-6 sm:p-8">
+            <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-zinc-500">
               What happens next
             </p>
-            {steps.map((step) => (
-              <div
-                key={step.n}
-                className="grid grid-cols-[3rem_minmax(0,1fr)] items-start gap-2 border-b border-black/[0.08] px-6 py-6 last:border-b-0"
-              >
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-signal-soft font-mono text-[12px] text-signal-deep">
-                  {step.n}
-                </span>
-                <div>
-                  <p className="font-display text-[19px] tracking-[-0.01em] text-black">
-                    {step.title}
-                  </p>
-                  <p className="mt-1.5 font-body text-[15px] leading-[1.55] text-zinc-500">
-                    {step.body}
-                  </p>
-                </div>
-              </div>
-            ))}
-            <div className="mt-auto border-t border-black/[0.08] bg-zinc-50 px-6 py-5">
-              <p className="font-body text-[14px] text-zinc-500">
-                Prefer email?{" "}
-                <a
-                  href="mailto:hello@seerix.ai"
-                  className="text-black underline underline-offset-4 hover:text-signal-deep"
+
+            {/* A timeline: each step's number on a line that runs to the
+                next, the rows sharing out the height so the steps fill the
+                panel instead of stacking at the top. */}
+            <ol className="mt-6 flex flex-1 flex-col">
+              {steps.map((step, i) => (
+                <li
+                  key={step.n}
+                  className="relative grid flex-1 grid-cols-[2.5rem_minmax(0,1fr)] gap-4 pb-8 last:pb-0"
                 >
-                  hello@seerix.ai
-                </a>
+                  {i < steps.length - 1 && (
+                    <span
+                      aria-hidden="true"
+                      className="absolute bottom-0 left-[1.25rem] top-10 w-px -translate-x-1/2 bg-gradient-to-b from-signal/40 to-signal/10"
+                    />
+                  )}
+                  <span className="relative flex h-10 w-10 items-center justify-center rounded-full bg-signal-soft font-mono text-[12px] text-signal-deep ring-4 ring-white">
+                    {step.n}
+                  </span>
+                  <div className="pt-1.5">
+                    <p className="font-display text-[19px] tracking-[-0.01em] text-black">
+                      {step.title}
+                    </p>
+                    <p className="mt-1.5 font-body text-[15px] leading-[1.55] text-zinc-600">
+                      {step.body}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+
+            {/* What to put in the message: the three things every first
+                reply otherwise has to ask for. */}
+            <div className="mt-8 rounded-2xl bg-signal-soft p-5">
+              <p className="font-body text-[14px] font-medium text-signal-deep">
+                Helps us answer faster
               </p>
+              <ul className="mt-3 flex flex-col gap-2">
+                {[
+                  "The site or Search Console property",
+                  "Roughly when the change started",
+                  "What you have already tried",
+                ].map((item) => (
+                  <li key={item} className="flex gap-2.5">
+                    <svg
+                      className="mt-[5px] h-3.5 w-3.5 shrink-0 text-signal"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M3 8.5l3.2 3.2L13 5" />
+                    </svg>
+                    <span className="font-body text-[15px] leading-[1.5] text-zinc-800">
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
+
+            <p className="mt-6 border-t border-black/[0.08] pt-5 font-body text-[14px] text-zinc-500">
+              Prefer email?{" "}
+              <a
+                href="mailto:hello@seerix.ai"
+                className="text-black underline underline-offset-4 hover:text-signal-deep"
+              >
+                hello@seerix.ai
+              </a>
+            </p>
           </div>
         </div>
       </div>

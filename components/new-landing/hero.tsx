@@ -1,8 +1,9 @@
 import Link from "next/link";
 
 import { BlockReveal } from "@/components/new-landing/block-reveal";
+import GradientWash from "@/components/new-landing/gradient-wash";
 import HeroGlow from "@/components/new-landing/hero-glow";
-import HeroDashboard from "@/components/new-landing/hero-dashboard";
+import ProductDemo from "@/components/new-landing/product-demo";
 import WaitlistForm from "@/components/new-landing/waitlist-form";
 
 /**
@@ -13,7 +14,7 @@ import WaitlistForm from "@/components/new-landing/waitlist-form";
  */
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-ghost px-6 pt-16 sm:pt-32">
+    <section className="relative overflow-hidden bg-ghost px-6 pb-4 pt-16 sm:pb-6 sm:pt-32">
       {/* Settles the panel's glow into the page ground toward the bottom
           of the section. */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-72% to-ghost to-97%" />
@@ -26,15 +27,15 @@ export default function Hero() {
             the subhead, so the hero announces one thing in one place. */}
         <Link
           href="/pricing"
-          className="group mb-7 inline-flex max-w-full items-center gap-2.5 rounded-full border border-black/[0.10] bg-white py-2 pl-3.5 pr-3 transition-colors duration-200 hover:border-black/[0.18] sm:gap-3 sm:pl-4 sm:pr-3.5"
+          className="group mb-7 inline-flex max-w-full items-center gap-2.5 rounded-full border border-signal/20 bg-signal-soft py-2 pl-3.5 pr-3 transition-colors duration-200 hover:border-signal/40 sm:gap-3 sm:pl-4 sm:pr-3.5"
         >
-          <span className="font-body text-[12px] text-zinc-600 sm:text-[14px]">
+          <span className="font-body text-[12px] text-zinc-700 sm:text-[14px]">
             <span className="sm:hidden">Evidence-cited diagnoses</span>
             <span className="hidden sm:inline">
               Introducing evidence-cited diagnoses
             </span>
           </span>
-          <span aria-hidden="true" className="h-4 w-px bg-black/[0.10]" />
+          <span aria-hidden="true" className="h-4 w-px bg-signal/20" />
           <span className="flex shrink-0 items-center gap-1.5 whitespace-nowrap font-body text-[12px] font-medium text-signal-deep sm:text-[14px]">
             Read more
             <svg
@@ -72,11 +73,17 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Bleeds past the section's bottom edge, as the reference does. */}
-        <div className="relative mt-3 sm:mt-5">
+        {/* The product demo: tabs over an app window, stepping through the
+            jobs Seerix does, on the brand's moving lilac wash. */}
+        <div className="relative mt-8 sm:mt-12">
           {/* Light rising off the panel, behind it. */}
           <HeroGlow />
-          <HeroDashboard />
+          <div className="relative overflow-hidden rounded-[22px] p-3 sm:rounded-[28px] sm:p-8">
+            <GradientWash />
+            <div className="relative">
+              <ProductDemo />
+            </div>
+          </div>
         </div>
       </div>
     </section>

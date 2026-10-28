@@ -55,9 +55,79 @@ const dots = paths.flatMap((_, pathIndex) =>
   })),
 );
 
+/**
+ * The graph itself. `vertical` turns it 90 degrees for phones, where the wide
+ * version would be too short to read: the same paths and dots, drawn inside
+ * a rotated group, with each label's position rotated to match.
+ */
+function Graph({ vertical = false }: { vertical?: boolean }) {
+  return (
+    <div className="relative">
+      <svg
+        viewBox={vertical ? `0 0 ${H} ${W}` : `0 0 ${W} ${H}`}
+        className="block h-auto w-full overflow-visible"
+        fill="none"
+      >
+        {/* A quarter turn clockwise: (x, y) lands on (H - y, x). */}
+        <g transform={vertical ? `translate(${H} 0) rotate(90)` : undefined}>
+          {paths.map((d, i) => (
+            <path
+              key={i}
+              d={d}
+              stroke="currentColor"
+              strokeWidth={vertical ? 1 : 0.75}
+              className="text-black/25"
+            />
+          ))}
+
+          {dots.map((dot, i) => (
+            <circle
+              key={i}
+              r={vertical ? 2.75 : 2}
+              className="fill-signal [animation:seerix-travel-loop_22s_linear_infinite]"
+              style={{
+                offsetPath: `path("${paths[dot.pathIndex]}")`,
+                animationDelay: `${dot.delay}s`,
+              }}
+            />
+          ))}
+        </g>
+      </svg>
+
+      {/* Labels, placed as a share of the design space so they ride the
+          curves at any width. */}
+      {labels.map((l) => (
+        <span
+          key={l.text}
+          className={`absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg bg-zinc-100 font-mono text-zinc-700 ring-1 ring-black/[0.08] ${
+            vertical ? "px-2.5 py-1.5 text-[12px]" : "px-3 py-2 text-[13px]"
+          }`}
+          style={
+            vertical
+              ? { left: `${100 - l.y}%`, top: `${l.x}%` }
+              : { left: `${l.x}%`, top: `${l.y}%` }
+          }
+        >
+          {l.text}
+        </span>
+      ))}
+
+      {/* The centre: everything arrives here. */}
+      <span className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-zinc-100 ring-1 ring-black/[0.08] sm:h-20 sm:w-20 lg:h-24 lg:w-24">
+        <SeerixMark size={32} animated={false} />
+      </span>
+    </div>
+  );
+}
+
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="bg-ghost px-6 py-20 sm:py-28">
+    <section
+      id="how-it-works"
+      // The outermost labels sit on the graph's edge and can poke a few
+      // pixels past a narrow viewport; clip them rather than let the page pan.
+      className="overflow-x-clip bg-ghost px-6 py-20 sm:py-28"
+    >
       <div className="mx-auto max-w-7xl">
         {/* Heading left, lede right, as the reference sets them. */}
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start lg:gap-16">
@@ -80,83 +150,16 @@ export default function HowItWorks() {
         </div>
 
         {/* The graph. Decorative: every label is already named in the prose
-            above, so nothing here is the only place a fact appears. */}
+            above, so nothing here is the only place a fact appears. Wide
+            from sm up; on a phone the same graph turned upright. */}
+        <div aria-hidden="true" className="mt-16 hidden sm:mt-24 sm:block">
+          <Graph />
+        </div>
         <div
           aria-hidden="true"
-          className="relative mt-16 hidden sm:mt-24 sm:block"
+          className="mx-auto mt-14 w-[min(100%,17rem)] sm:hidden"
         >
-          <svg
-            viewBox={`0 0 ${W} ${H}`}
-            className="block h-auto w-full overflow-visible"
-            fill="none"
-          >
-            {paths.map((d, i) => (
-              <path
-                key={i}
-                d={d}
-                stroke="currentColor"
-                strokeWidth="0.75"
-                className="text-black/25"
-              />
-            ))}
-
-            {dots.map((dot, i) => (
-              <circle
-                key={i}
-                r="2"
-                className="fill-signal [animation:seerix-travel-loop_22s_linear_infinite]"
-                style={{
-                  offsetPath: `path("${paths[dot.pathIndex]}")`,
-                  animationDelay: `${dot.delay}s`,
-                }}
-              />
-            ))}
-          </svg>
-
-          {/* Labels, placed as a share of the design space so they ride the
-              curves at any width. */}
-          {labels.map((l) => (
-            <span
-              key={l.text}
-              className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg bg-zinc-100 px-3 py-2 font-mono text-[13px] text-zinc-700 ring-1 ring-black/[0.08]"
-              style={{ left: `${l.x}%`, top: `${l.y}%` }}
-            >
-              {l.text}
-            </span>
-          ))}
-
-          {/* The centre: everything arrives here. */}
-          <span className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-zinc-100 ring-1 ring-black/[0.08] lg:h-24 lg:w-24">
-            <SeerixMark size={36} animated={false} />
-          </span>
-        </div>
-
-        {/* Below sm the curves have no room: the signals stack as a list
-            around the mark, as the reference does on a phone. */}
-        <div className="mt-14 flex flex-col items-center gap-6 sm:hidden">
-          <ul className="grid w-full grid-cols-2 gap-3">
-            {labels.slice(0, 3).map((l) => (
-              <li
-                key={l.text}
-                className="rounded-xl bg-zinc-100 px-2 py-3 text-center font-mono text-[13px] text-zinc-700 ring-1 ring-black/[0.08] last:col-span-2"
-              >
-                {l.text}
-              </li>
-            ))}
-          </ul>
-          <span className="flex h-20 w-20 items-center justify-center rounded-full bg-zinc-100 ring-1 ring-black/[0.08]">
-            <SeerixMark size={36} animated={false} />
-          </span>
-          <ul className="grid w-full grid-cols-2 gap-3">
-            {labels.slice(3).map((l) => (
-              <li
-                key={l.text}
-                className="rounded-xl bg-zinc-100 px-2 py-3 text-center font-mono text-[13px] text-zinc-700 ring-1 ring-black/[0.08] last:col-span-2"
-              >
-                {l.text}
-              </li>
-            ))}
-          </ul>
+          <Graph vertical />
         </div>
       </div>
     </section>

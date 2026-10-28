@@ -98,8 +98,8 @@ export default function Marquee() {
       className="mt-10 border-y border-black/[0.07] bg-ghost sm:mt-14"
     >
       <div className="flex items-stretch">
-        <p className="relative z-10 hidden shrink-0 items-center gap-2.5 border-r border-black/[0.07] bg-white px-6 font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-500 md:flex lg:px-10">
-          <span className="h-1.5 w-1.5 rounded-full bg-signal-bright" />
+        <p className="relative z-10 hidden shrink-0 items-center gap-2.5 border-r border-black/[0.07] bg-signal-soft px-6 font-mono text-[11px] uppercase tracking-[0.12em] text-signal-deep md:flex lg:px-10">
+          <span className="h-1.5 w-1.5 rounded-full bg-signal" />
           Diagnosed this week
         </p>
         <div className="group flex min-w-0 flex-1 overflow-hidden [-webkit-mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)] [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">

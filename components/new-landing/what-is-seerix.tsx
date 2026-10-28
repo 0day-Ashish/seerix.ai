@@ -1,6 +1,3 @@
-import GradientWash from "@/components/new-landing/gradient-wash";
-import ProductDemo from "@/components/new-landing/product-demo";
-
 type Point = {
   title: string;
   body: string;
@@ -10,8 +7,8 @@ type Point = {
  * The plain-language answer to "what is this", set before the how-it-works
  * walkthrough so a first-time reader knows what they are looking at.
  *
- * The heading, then the thing itself: the product demo, stepping through
- * the jobs Seerix does, so the reader sees it work before being told how.
+ * The heading and lede, then three points. The product demo that used to
+ * sit between them now opens the page in the hero.
  */
 const points: Point[] = [
   {
@@ -32,10 +29,10 @@ export default function WhatIsSeerix() {
   return (
     <section id="what-is-seerix" className="bg-ghost px-6 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl">
-        {/* Stacked, not split: heading and lede share the top row, the demo
-            runs the full width beneath them, and the three points close the
-            section as a row. How-it-works below is the copy-left, panel-right
-            section; this one reads top to bottom so the two don't repeat. */}
+        {/* Stacked, not split: heading and lede share the top row and the
+            three points close the section as a row. How-it-works below is
+            the copy-left, panel-right section; this one reads top to bottom
+            so the two don't repeat. */}
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
           <div>
             <h2 className="heading-mark font-display text-[36px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[54px] lg:text-[60px]">
@@ -47,17 +44,6 @@ export default function WhatIsSeerix() {
             explains your rankings in plain language, with the receipts to back
             it up.
           </p>
-        </div>
-
-        {/* The demo, full width: tabs over an app window, stepping through
-            the jobs Seerix does. It sits on the brand's moving lilac wash
-            rather than the page ground, so the product has a ground of its
-            own. */}
-        <div className="relative mt-14 overflow-hidden rounded-[28px] p-5 sm:p-8">
-          <GradientWash />
-          <div className="relative">
-            <ProductDemo />
-          </div>
         </div>
 
         {/* The three points as a row closing the section. */}

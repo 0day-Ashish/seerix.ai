@@ -1,25 +1,16 @@
 import Button, { ButtonArrow } from "@/components/new-landing/button";
 import { BlockReveal } from "@/components/new-landing/block-reveal";
-import ScanField from "@/components/new-landing/scan-field";
+import HeroGlow from "@/components/new-landing/hero-glow";
 
 export default function Cta() {
   return (
     <section
       id="demo"
-      className="relative overflow-hidden bg-ghost px-6 py-24 sm:py-32"
+      className="relative isolate overflow-hidden bg-ghost px-6 py-24 sm:py-32"
     >
-      {/* The scan field behind the closing line, fading out at every edge
-          so it reads as ground rather than a panel. */}
-      <div className="pointer-events-none absolute inset-0 [-webkit-mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_70%)] [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_70%)]">
-        <ScanField
-          tone="light"
-          cell={14}
-          strength={0.12}
-          findings={3}
-          scanLine={false}
-          sweep={8}
-        />
-      </div>
+      {/* The hero's glow, closing the page as it opened: centred behind the
+          closing line and its buttons, breathing slowly. */}
+      <HeroGlow className="inset-x-[-10%] top-1/2 h-[17rem] -translate-y-1/2 sm:inset-x-[8%] sm:h-[19rem]" />
       <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
         <h2 className="font-display text-[32px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[44px]">
           <BlockReveal>Stop guessing why. Start knowing.</BlockReveal>

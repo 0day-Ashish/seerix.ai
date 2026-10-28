@@ -188,7 +188,7 @@ function RecentChats() {
   const { threads, active } = useThreads();
   const pathname = usePathname();
   return (
-    <div className="mt-4 hidden min-h-0 flex-1 flex-col border-t border-white/10 pt-4 lg:flex">
+    <div className="mt-4 flex min-h-0 flex-1 flex-col border-t border-white/10 pt-4">
       <div className="flex items-center justify-between px-2.5 pb-1.5">
         <p className="font-body text-[12px] font-medium text-white/40">
           Recent chats
@@ -252,8 +252,9 @@ function RecentChats() {
 /**
  * The dashboard shell: sidebar with the ten tabs, a top bar with the site
  * picker and sign out, and the alert strip. Keywords and Backlinks are the
- * gap tools; Settings opens the settings area. On phones the sidebar becomes
- * one scrolling strip.
+ * gap tools; Settings opens the settings area. Below lg the sidebar is a
+ * drawer that slides in from the left, opened from a menu button in the top
+ * bar, so the content keeps the whole screen.
  */
 export default function DashboardShell({
   children,
@@ -261,7 +262,8 @@ export default function DashboardShell({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const stripRef = useRef<HTMLElement>(null);
+  // Below lg: the sidebar as a drawer.
+  const [drawer, setDrawer] = useState(false);
   const [siteId, setSiteId] = useState(sites[0].site_id);
   // Desktop only: the sidebar can shrink to its icons. Kept per viewer.
   const [slim, setSlim] = useState(false);
@@ -280,23 +282,52 @@ export default function DashboardShell({
       return !v;
     });
 
+  // Close the drawer on navigation (checked during render, as React
+  // recommends over an effect), on Escape, and if the window grows past lg,
+  // where there is no drawer; lock the page behind it while it is open.
+  const [drawerPath, setDrawerPath] = useState(pathname);
+  if (drawerPath !== pathname) {
+    setDrawerPath(pathname);
+    setDrawer(false);
+  }
   useEffect(() => {
-    const strip = stripRef.current;
-    const active = strip?.querySelector<HTMLElement>("[aria-current=page]");
-    if (!strip || !active || strip.scrollWidth <= strip.clientWidth) return;
-    strip.scrollLeft =
-      active.offsetLeft - strip.clientWidth / 2 + active.clientWidth / 2;
-  }, [pathname]);
+    if (!drawer) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setDrawer(false);
+    };
+    const wide = window.matchMedia("(min-width: 1024px)");
+    const onWide = () => wide.matches && setDrawer(false);
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", onKey);
+    wide.addEventListener("change", onWide);
+    return () => {
+      document.body.style.overflow = previous;
+      document.removeEventListener("keydown", onKey);
+      wide.removeEventListener("change", onWide);
+    };
+  }, [drawer]);
 
   return (
     <div data-app className="flex min-h-dvh flex-col bg-white lg:flex-row">
-      <aside
-        className={`bg-signal-ink transition-[width] duration-200 ease-out lg:sticky lg:top-0 lg:h-dvh lg:shrink-0 ${
-          slim ? "lg:w-[68px]" : "lg:w-[220px]"
+      {/* The drawer's backdrop, below lg only. */}
+      <button
+        type="button"
+        aria-label="Close menu"
+        tabIndex={drawer ? 0 : -1}
+        onClick={() => setDrawer(false)}
+        className={`fixed inset-0 z-40 bg-black/50 transition-opacity duration-200 lg:hidden ${
+          drawer ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
+      />
+      <aside
+        id="dashboard-drawer"
+        className={`fixed inset-y-0 left-0 z-50 w-[280px] max-w-[85vw] bg-signal-ink transition-transform duration-200 ease-out lg:sticky lg:top-0 lg:z-auto lg:h-dvh lg:max-w-none lg:shrink-0 lg:translate-x-0 lg:transition-[width] ${
+          drawer ? "translate-x-0" : "-translate-x-full"
+        } ${slim ? "lg:w-[68px]" : "lg:w-[220px]"}`}
       >
         <div
-          className={`flex h-full flex-col px-4 pb-3 pt-5 lg:pb-5 ${slim ? "lg:px-3" : ""}`}
+          className={`flex h-full flex-col overflow-y-auto px-4 pb-5 pt-5 lg:overflow-visible ${slim ? "lg:px-3" : ""}`}
         >
           <div
             className={`flex items-center justify-between gap-2 ${
@@ -313,6 +344,14 @@ export default function DashboardShell({
                 seerix
               </span>
             </Link>
+            <button
+              type="button"
+              onClick={() => setDrawer(false)}
+              aria-label="Close menu"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-white/50 transition-colors hover:bg-white/10 hover:text-white lg:hidden"
+            >
+              <NavIcon d="M4.5 4.5l7 7M11.5 4.5l-7 7" />
+            </button>
             <button
               type="button"
               onClick={toggleSlim}
@@ -339,9 +378,8 @@ export default function DashboardShell({
           </div>
 
           <nav
-            ref={stripRef}
             aria-label="Dashboard"
-            className="mt-4 flex gap-0.5 overflow-x-auto [scrollbar-width:none] lg:mt-7 lg:min-h-0 lg:flex-1 lg:flex-col lg:overflow-visible [&::-webkit-scrollbar]:hidden"
+            className="mt-7 flex min-h-0 flex-1 flex-col gap-0.5"
           >
             {nav.map((n) => {
               const on =
@@ -359,7 +397,7 @@ export default function DashboardShell({
                     title={slim ? n.label : undefined}
                     className={`relative flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-lg px-2.5 py-[7px] font-body text-[13.5px] transition-colors ${
                       slim ? "lg:justify-center lg:px-0 lg:py-2" : ""
-                    } ${last ? "lg:mt-auto" : ""} ${
+                    } ${last ? "mt-auto" : ""} ${
                       on
                         ? "bg-white/10 font-medium text-signal-bright"
                         : "text-white/60 hover:bg-white/10 hover:text-white"
@@ -387,15 +425,35 @@ export default function DashboardShell({
           </nav>
 
           {/* Below Settings, which the nav pushes to the bottom. */}
-          <div className="hidden lg:block">
+          <div>
             <AccountRow slim={slim} />
           </div>
         </div>
       </aside>
 
       <div className="min-w-0 flex-1 bg-signal-ink">
-        <header className="relative sticky top-0 z-30 flex items-center justify-between gap-3 bg-signal-ink px-5 py-3 sm:px-8 lg:px-10">
-          <p className="hidden items-center gap-2 font-body text-[13px] text-white/60 sm:flex">
+        <header className="relative sticky top-0 z-30 flex items-center justify-between gap-3 bg-signal-ink px-4 py-3 sm:px-8 lg:px-10">
+          {/* Below lg: the drawer's button and the mark, in place of the
+              sidebar. */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <button
+              type="button"
+              onClick={() => setDrawer(true)}
+              aria-label="Open menu"
+              aria-expanded={drawer}
+              aria-controls="dashboard-drawer"
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+            >
+              <NavIcon d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" />
+            </button>
+            <Link href="/" className="flex items-center gap-2">
+              <SeerixMark size={22} tone="white" animated={false} />
+              <span className="wordmark text-[18px] font-semibold tracking-[-0.02em] text-white">
+                seerix
+              </span>
+            </Link>
+          </div>
+          <p className="hidden items-center gap-2 font-body text-[13px] text-white/60 lg:flex">
             <span className="h-2 w-2 rounded-full bg-signal-bright" />
             Google data updated this morning
           </p>

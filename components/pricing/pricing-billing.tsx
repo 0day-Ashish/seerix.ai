@@ -1,6 +1,6 @@
 import Button from "@/components/new-landing/button";
 
-import ScanField from "@/components/new-landing/scan-field";
+import HeroGlow from "@/components/new-landing/hero-glow";
 
 function Check() {
   return (
@@ -86,16 +86,10 @@ export function PricingBilling() {
 /** The closing line, centred, with the one action. */
 export function PricingCloser() {
   return (
-    <section className="relative overflow-hidden bg-ghost px-6 pb-28 pt-16 text-center">
-      <div className="pointer-events-none absolute inset-0 [-webkit-mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_70%)] [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_70%)]">
-        <ScanField
-          tone="light"
-          cell={14}
-          strength={0.12}
-          findings={3}
-          sweep={8}
-        />
-      </div>
+    <section className="relative isolate overflow-hidden bg-ghost px-6 py-28 text-center sm:py-32">
+      {/* The same breathing glow as the home page's closing CTA, behind the
+          line and its button. */}
+      <HeroGlow className="inset-x-[-10%] top-1/2 h-[14rem] -translate-y-1/2 sm:inset-x-[10%] sm:h-[15rem]" />
       <div className="relative">
         <h2 className="font-display text-[40px] font-medium leading-[1.05] tracking-[-0.035em] text-black sm:text-[56px]">
           SEO answers with receipts

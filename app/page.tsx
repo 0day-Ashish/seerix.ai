@@ -10,7 +10,6 @@ import Pricing from "@/components/new-landing/pricing";
 import Trust from "@/components/new-landing/trust";
 import Stats from "@/components/new-landing/stats";
 import ValueProp from "@/components/new-landing/value-prop";
-import WhatIsSeerix from "@/components/new-landing/what-is-seerix";
 
 export default function Home() {
   return (
@@ -21,8 +20,6 @@ export default function Home() {
       {/* Dividers live here rather than inside each section, so the rule sits
           between siblings and the last section before the footer has none. */}
       <div className="flex flex-1 flex-col">
-        <WhatIsSeerix />
-        <SectionDivider />
         <HowItWorks />
         {/* No divider here: the numbers follow the how-it-works panels
             directly, without a rule between them. */}

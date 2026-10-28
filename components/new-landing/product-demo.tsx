@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
+import FitWidth from "@/components/new-landing/fit-width";
+
 import SeerixMark from "@/components/new-landing/seerix-mark";
 
 /**
@@ -331,161 +333,167 @@ export default function ProductDemo() {
         })}
       </div>
 
-      {/* The window. Fixed height on desktop so switching never jumps. */}
+      {/* The window. Always the desktop layout at a fixed height, so
+          switching never jumps; on narrower screens FitWidth zooms the whole
+          window down to fit, like a screenshot, rather than reflowing it. */}
       {/* The app window in a black bezel, as the hero dashboard is framed:
           on the green ground a hairline border disappeared, and the device
           frame reads as a screen rather than a floating card. */}
-      <div className="mt-6 rounded-[20px] bg-[#1c1c21] p-2 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.5)] ring-1 ring-black/40 sm:rounded-[24px] sm:p-2.5">
-        <div className="overflow-hidden rounded-xl bg-white sm:rounded-2xl">
-        <div
-          key={active}
-          id="product-demo-panel"
-          role="tabpanel"
-          className="flex animate-[seerix-fade-in_0.35s_ease-out] lg:h-[600px]"
-        >
-          {/* Icon rail */}
-          <div className="hidden w-14 shrink-0 flex-col items-center gap-1 border-r border-black/[0.07] bg-[#fbfaf9] py-4 md:flex">
-            <span className="mb-3">
-              <SeerixMark size={20} animated={false} />
-            </span>
-            {RAIL.map((d, i) => (
-              <span
-                key={d}
-                className={`flex h-9 w-9 items-center justify-center rounded-lg ${
-                  i === 0 ? "bg-black/[0.06] text-black" : "text-zinc-400"
-                }`}
+      <div className="mt-4 sm:mt-6">
+        <FitWidth width={1120}>
+          <div className="rounded-[24px] bg-[#1c1c21] p-2.5 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.5)] ring-1 ring-black/40">
+            <div className="overflow-hidden rounded-2xl bg-white">
+              <div
+                key={active}
+                id="product-demo-panel"
+                role="tabpanel"
+                className="flex h-[600px] animate-[seerix-fade-in_0.35s_ease-out]"
               >
-                <Icon d={d} />
-              </span>
-            ))}
-          </div>
-
-          <div className="grid min-w-0 flex-1 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.6fr)]">
-            {/* The conversation */}
-            <div className="flex min-w-0 flex-col border-b border-black/[0.07] p-5 lg:border-b-0 lg:border-r lg:p-6">
-              <p className="font-body text-[12.5px] text-zinc-400">
-                arddev.in <span className="px-1">/</span>
-                <span className="text-zinc-600">{demo.crumb}</span>
-                <span className="pl-2 tracking-widest">···</span>
-              </p>
-
-              <p
-                className="mt-6 rounded-xl rounded-tr-sm bg-[#f1f0ee] px-4 py-3 font-body text-[14px] leading-[1.55] text-black"
-                style={rise(0.1)}
-              >
-                {demo.question}
-              </p>
-
-              <div style={rise(0.45)} className="mt-6">
-                <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.1em] text-zinc-400">
-                  <span className="h-1.5 w-1.5 rounded-full bg-signal-bright" />
-                  Seerix
-                </p>
-                <p className="mt-2 font-body text-[14px] leading-[1.65] text-zinc-700">
-                  {demo.answer}
-                </p>
-              </div>
-
-              <div className="mt-auto hidden rounded-xl border border-black/[0.12] px-4 pb-3 pt-3.5 lg:block">
-                <p className="font-body text-[13.5px] text-zinc-400">
-                  Ask a follow-up…
-                </p>
-                <div className="mt-4 flex items-center justify-between">
-                  <span className="font-mono text-[11px] text-zinc-400">
-                    Search Console · 16 months
+                {/* Icon rail */}
+                <div className="w-14 shrink-0 flex-col items-center gap-1 border-r border-black/[0.07] bg-[#fbfaf9] py-4 flex">
+                  <span className="mb-3">
+                    <SeerixMark size={20} animated={false} />
                   </span>
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-signal-bright/40 text-signal-deep">
-                    <Icon d="M8 12.5v-9M4.5 7L8 3.5 11.5 7" />
-                  </span>
+                  {RAIL.map((d, i) => (
+                    <span
+                      key={d}
+                      className={`flex h-9 w-9 items-center justify-center rounded-lg ${
+                        i === 0 ? "bg-black/[0.06] text-black" : "text-zinc-400"
+                      }`}
+                    >
+                      <Icon d={d} />
+                    </span>
+                  ))}
                 </div>
-              </div>
-            </div>
 
-            {/* The table it was built from */}
-            <div className="flex min-w-0 flex-col bg-white">
-              <div className="flex items-end gap-1 border-b border-black/[0.07] bg-[#fbfaf9] px-4 pt-3">
-                <span className="flex items-center gap-6 rounded-t-lg border border-b-0 border-black/[0.08] bg-white px-4 py-2 font-body text-[13px] text-black">
-                  {demo.sheet}
-                  <span className="text-[10px] text-zinc-400">▾</span>
-                </span>
-                <span className="px-3 py-2 text-zinc-300">+</span>
-              </div>
+                <div className="grid min-w-0 flex-1 grid-cols-[minmax(0,0.85fr)_minmax(0,1.6fr)]">
+                  {/* The conversation */}
+                  <div className="flex min-w-0 flex-col border-r border-black/[0.07] p-6">
+                    <p className="font-body text-[12.5px] text-zinc-400">
+                      arddev.in <span className="px-1">/</span>
+                      <span className="text-zinc-600">{demo.crumb}</span>
+                      <span className="pl-2 tracking-widest">···</span>
+                    </p>
 
-              <div className="flex flex-wrap items-start justify-between gap-4 border-b border-black/[0.07] px-5 py-4">
-                <div>
-                  <p className="font-display text-[17px] font-medium tracking-[-0.01em] text-black">
-                    {demo.title}
-                  </p>
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {demo.filters.map((f) => (
-                      <span
-                        key={f}
-                        className="rounded-md bg-black/[0.04] px-2 py-0.5 font-body text-[11.5px] text-zinc-600"
-                      >
-                        {f}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-3 flex gap-6">
-                    {demo.stats.map(([k, v]) => (
-                      <div key={k}>
-                        <p className="font-body text-[11px] text-zinc-400">
-                          {k}
-                        </p>
-                        <p className="font-display text-[16px] font-medium text-black">
-                          {v}
-                        </p>
+                    <p
+                      className="mt-6 rounded-xl rounded-tr-sm bg-[#f1f0ee] px-4 py-3 font-body text-[14px] leading-[1.55] text-black"
+                      style={rise(0.1)}
+                    >
+                      {demo.question}
+                    </p>
+
+                    <div style={rise(0.45)} className="mt-6">
+                      <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.1em] text-zinc-400">
+                        <span className="h-1.5 w-1.5 rounded-full bg-signal-bright" />
+                        Seerix
+                      </p>
+                      <p className="mt-2 font-body text-[14px] leading-[1.65] text-zinc-700">
+                        {demo.answer}
+                      </p>
+                    </div>
+
+                    <div className="mt-auto rounded-xl border border-black/[0.12] px-4 pb-3 pt-3.5">
+                      <p className="font-body text-[13.5px] text-zinc-400">
+                        Ask a follow-up…
+                      </p>
+                      <div className="mt-4 flex items-center justify-between">
+                        <span className="font-mono text-[11px] text-zinc-400">
+                          Search Console · 16 months
+                        </span>
+                        <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-signal-bright/40 text-signal-deep">
+                          <Icon d="M8 12.5v-9M4.5 7L8 3.5 11.5 7" />
+                        </span>
                       </div>
-                    ))}
+                    </div>
+                  </div>
+
+                  {/* The table it was built from */}
+                  <div className="flex min-w-0 flex-col bg-white">
+                    <div className="flex items-end gap-1 border-b border-black/[0.07] bg-[#fbfaf9] px-4 pt-3">
+                      <span className="flex items-center gap-6 rounded-t-lg border border-b-0 border-black/[0.08] bg-white px-4 py-2 font-body text-[13px] text-black">
+                        {demo.sheet}
+                        <span className="text-[10px] text-zinc-400">▾</span>
+                      </span>
+                      <span className="px-3 py-2 text-zinc-300">+</span>
+                    </div>
+
+                    <div className="flex flex-wrap items-start justify-between gap-4 border-b border-black/[0.07] px-5 py-4">
+                      <div>
+                        <p className="font-display text-[17px] font-medium tracking-[-0.01em] text-black">
+                          {demo.title}
+                        </p>
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                          {demo.filters.map((f) => (
+                            <span
+                              key={f}
+                              className="rounded-md bg-black/[0.04] px-2 py-0.5 font-body text-[11.5px] text-zinc-600"
+                            >
+                              {f}
+                            </span>
+                          ))}
+                        </div>
+                        <div className="mt-3 flex gap-6">
+                          {demo.stats.map(([k, v]) => (
+                            <div key={k}>
+                              <p className="font-body text-[11px] text-zinc-400">
+                                {k}
+                              </p>
+                              <p className="font-display text-[16px] font-medium text-black">
+                                {v}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <span className="rounded-lg border border-black/[0.12] px-3 py-1.5 font-body text-[12.5px] text-black">
+                        Add to fix list
+                      </span>
+                    </div>
+
+                    <div className="min-h-0 flex-1 overflow-x-auto">
+                      <table className="w-full min-w-[640px] border-collapse text-left font-body text-[13px] text-zinc-700">
+                        <thead>
+                          <tr className="border-b border-black/[0.07]">
+                            <th className="w-10 py-2.5 pl-4 font-normal" />
+                            {demo.head.map((h) => (
+                              <th
+                                key={h}
+                                className="border-l border-black/[0.06] px-3 py-2.5 font-body text-[12.5px] font-medium text-black"
+                              >
+                                {h}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {demo.rows.map((row, r) => (
+                            <tr
+                              key={r}
+                              className="border-b border-black/[0.06]"
+                              style={rise(0.7 + r * 0.09)}
+                            >
+                              <td className="py-2.5 pl-4 font-mono text-[11.5px] text-zinc-400">
+                                {r + 1}
+                              </td>
+                              {row.map((c, k) => (
+                                <td
+                                  key={k}
+                                  className="whitespace-nowrap border-l border-black/[0.06] px-3 py-2.5"
+                                >
+                                  {c}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
-                <span className="rounded-lg border border-black/[0.12] px-3 py-1.5 font-body text-[12.5px] text-black">
-                  Add to fix list
-                </span>
-              </div>
-
-              <div className="min-h-0 flex-1 overflow-x-auto">
-                <table className="w-full min-w-[640px] border-collapse text-left font-body text-[13px] text-zinc-700">
-                  <thead>
-                    <tr className="border-b border-black/[0.07]">
-                      <th className="w-10 py-2.5 pl-4 font-normal" />
-                      {demo.head.map((h) => (
-                        <th
-                          key={h}
-                          className="border-l border-black/[0.06] px-3 py-2.5 font-body text-[12.5px] font-medium text-black"
-                        >
-                          {h}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {demo.rows.map((row, r) => (
-                      <tr
-                        key={r}
-                        className="border-b border-black/[0.06]"
-                        style={rise(0.7 + r * 0.09)}
-                      >
-                        <td className="py-2.5 pl-4 font-mono text-[11.5px] text-zinc-400">
-                          {r + 1}
-                        </td>
-                        {row.map((c, k) => (
-                          <td
-                            key={k}
-                            className="whitespace-nowrap border-l border-black/[0.06] px-3 py-2.5"
-                          >
-                            {c}
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </FitWidth>
       </div>
     </div>
   );

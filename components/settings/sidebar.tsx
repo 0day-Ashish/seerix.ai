@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
 
 import { AccountRow } from "@/components/dashboard/shell";
 import SeerixMark from "@/components/new-landing/seerix-mark";
@@ -33,31 +32,43 @@ export function NavIcon({
 
 /**
  * The settings sidebar, in the dashboard's black: the mark, the title, the
- * four groups, and the same account row at the foot. On small screens it
- * collapses to a horizontal strip of the same links.
+ * four groups, and the same account row at the foot. Below lg it is a drawer
+ * from the left, as the dashboard's is, opened from the top bar; the shell
+ * owns whether it is open.
  */
-export default function SettingsSidebar() {
+export default function SettingsSidebar({
+  open = false,
+  onClose,
+}: {
+  open?: boolean;
+  onClose?: () => void;
+}) {
   const pathname = usePathname();
-  const stripRef = useRef<HTMLDivElement>(null);
-
-  // On phones the nav is one scrolling strip; bring the current page into it.
-  useEffect(() => {
-    const strip = stripRef.current;
-    const active = strip?.querySelector<HTMLElement>("[aria-current=page]");
-    if (!strip || !active || strip.scrollWidth <= strip.clientWidth) return;
-    strip.scrollLeft =
-      active.offsetLeft - strip.clientWidth / 2 + active.clientWidth / 2;
-  }, [pathname]);
 
   return (
-    <aside className="bg-signal-ink lg:sticky lg:top-0 lg:h-dvh lg:w-[220px] lg:shrink-0">
-      <div className="flex h-full flex-col px-4 pb-3 pt-5 lg:pb-5">
-        <Link href="/app" className="flex items-center gap-2 px-1">
-          <SeerixMark size={24} tone="white" animated={false} />
-          <span className="wordmark text-[19px] font-semibold tracking-[-0.02em] text-white">
-            seerix
-          </span>
-        </Link>
+    <aside
+      id="settings-drawer"
+      className={`fixed inset-y-0 left-0 z-50 w-[280px] max-w-[85vw] bg-signal-ink transition-transform duration-200 ease-out lg:sticky lg:top-0 lg:z-auto lg:h-dvh lg:w-[220px] lg:max-w-none lg:shrink-0 lg:translate-x-0 ${
+        open ? "translate-x-0" : "-translate-x-full"
+      }`}
+    >
+      <div className="flex h-full flex-col overflow-y-auto px-4 pb-5 pt-5 lg:overflow-visible">
+        <div className="flex items-center justify-between gap-2">
+          <Link href="/app" className="flex items-center gap-2 px-1">
+            <SeerixMark size={24} tone="white" animated={false} />
+            <span className="wordmark text-[19px] font-semibold tracking-[-0.02em] text-white">
+              seerix
+            </span>
+          </Link>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close menu"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-white/50 transition-colors hover:bg-white/10 hover:text-white lg:hidden"
+          >
+            <NavIcon d="M4.5 4.5l7 7M11.5 4.5l-7 7" />
+          </button>
+        </div>
 
         <h1 className="mt-6 px-2.5 font-display text-[13px] font-medium uppercase tracking-[0.08em] text-white/40 lg:mt-7">
           Settings
@@ -65,16 +76,15 @@ export default function SettingsSidebar() {
 
         <nav
           aria-label="Settings"
-          className="mt-3 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden"
+          className="mt-3 flex-1 lg:min-h-0 lg:overflow-y-auto lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden"
         >
           {/* One scrolling row on phones; stacked groups from lg. */}
           <div
-            ref={stripRef}
-            className="flex gap-0.5 overflow-x-auto pb-1 [scrollbar-width:none] lg:block lg:overflow-visible [&::-webkit-scrollbar]:hidden"
+            className="flex flex-col gap-0.5"
           >
             {settingsGroups.map((group) => (
-              <div key={group.label} className="contents lg:mb-5 lg:block">
-                <p className="hidden px-2.5 pb-1.5 font-body text-[12px] font-medium text-white/40 lg:block">
+              <div key={group.label} className="mb-5">
+                <p className="px-2.5 pb-1.5 font-body text-[12px] font-medium text-white/40">
                   {group.label}
                 </p>
                 {group.items.map((item) => {
@@ -104,7 +114,7 @@ export default function SettingsSidebar() {
           </div>
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="mt-auto">
           <AccountRow />
         </div>
       </div>

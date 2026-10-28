@@ -340,90 +340,119 @@ export default function Navbar() {
         </nav>
       </div>
 
+      {/* Full screen: the sheet fills the viewport behind the bar (-z-[5]
+          sits above the frosted ground at -z-10 and below the bar itself),
+          so the mark and the close button stay where they were. The links
+          scroll in the middle; the closing note is pinned to the bottom. */}
       {menuOpen && (
         <div
           id="mobile-menu"
-          className="max-h-[calc(100dvh-72px)] overflow-y-auto overscroll-contain border-t border-black/[0.07] bg-white px-6 pb-8 pt-2 lg:hidden"
+          className="fixed inset-0 -z-[5] flex h-dvh flex-col bg-ghost pt-[72px] lg:hidden"
         >
-          <div className="mx-auto max-w-7xl">
-            <ul className="font-body text-[15px] text-zinc-600">
-              {links.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    onClick={() => setMenuOpen(false)}
-                    className="flex items-center justify-between border-b border-black/[0.07] py-3.5 transition-colors hover:text-black"
-                  >
-                    {link.label}
-                    <ArrowBox />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-
-            {/* The desktop mega-menu is hover-driven, so here it is a
-              collapsed "Products" row that opens its groups on tap. */}
-            <button
-              type="button"
-              onClick={() => setProductsOpen((v) => !v)}
-              aria-expanded={productsOpen}
-              aria-controls="mobile-products"
-              className="flex w-full items-center justify-between border-b border-black/[0.07] py-3.5 font-body text-[15px] text-zinc-600 transition-colors hover:text-black"
-            >
-              Products
-              <Chevron
-                className={`transition-transform ${productsOpen ? "rotate-90" : ""}`}
-              />
-            </button>
-            {productsOpen && (
-              <div id="mobile-products" className="pb-2">
-                {productColumns.map((column) => (
-                  <div key={column.title} className="mt-5">
-                    <div className="flex items-center gap-2.5">
-                      <span
-                        className={`h-2.5 w-2.5 rounded-full ${column.swatch}`}
-                      />
-                      <span className="font-body text-[12px] font-medium text-black">
-                        {column.title}
-                      </span>
-                    </div>
-                    <ul className="mt-1">
-                      {column.items.map((item) => (
-                        <li key={item.label}>
-                          <Link
-                            href={item.href}
-                            onClick={() => setMenuOpen(false)}
-                            className="flex items-center justify-between border-b border-black/[0.07] py-3 font-body text-[14px] text-zinc-600 transition-colors hover:text-black"
-                          >
-                            {item.label}
-                            <ArrowBox />
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+          {/* data-lenis-prevent: the smooth-scroll library otherwise takes
+              the wheel and touch for the (locked) page, so this list could
+              not be scrolled. */}
+          <div
+            data-lenis-prevent
+            className="min-h-0 flex-1 overflow-y-auto overscroll-contain border-t border-black/[0.07] px-6 pb-8 pt-2"
+          >
+            <div className="mx-auto max-w-7xl">
+              <ul className="font-body text-[15px] text-zinc-600">
+                {links.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                      className="flex items-center justify-between border-b border-black/[0.07] py-3.5 transition-colors hover:text-black"
+                    >
+                      {link.label}
+                      <ArrowBox />
+                    </Link>
+                  </li>
                 ))}
-              </div>
-            )}
+              </ul>
 
-            {/* Mirrors the header CTAs, which are held back below lg. */}
-            <div className="mt-7 flex flex-col gap-3 lg:hidden">
-              <Button
-                href="#demo"
-                onClick={() => setMenuOpen(false)}
-                className="w-full sm:hidden"
+              {/* The desktop mega-menu is hover-driven, so here it is a
+              collapsed "Products" row that opens its groups on tap. */}
+              <button
+                type="button"
+                onClick={() => setProductsOpen((v) => !v)}
+                aria-expanded={productsOpen}
+                aria-controls="mobile-products"
+                className="flex w-full items-center justify-between border-b border-black/[0.07] py-3.5 font-body text-[15px] text-zinc-600 transition-colors hover:text-black"
               >
-                See demo
-                <ButtonArrow />
-              </Button>
-              <Button
-                href="/contact"
-                onClick={() => setMenuOpen(false)}
-                variant="secondary"
-                className="w-full"
-              >
-                Contact us
-              </Button>
+                Products
+                <Chevron
+                  className={`transition-transform ${productsOpen ? "rotate-90" : ""}`}
+                />
+              </button>
+              {productsOpen && (
+                <div id="mobile-products" className="pb-2">
+                  {productColumns.map((column) => (
+                    <div key={column.title} className="mt-5">
+                      <div className="flex items-center gap-2.5">
+                        <span
+                          className={`h-2.5 w-2.5 rounded-full ${column.swatch}`}
+                        />
+                        <span className="font-body text-[12px] font-medium text-black">
+                          {column.title}
+                        </span>
+                      </div>
+                      <ul className="mt-1">
+                        {column.items.map((item) => (
+                          <li key={item.label}>
+                            <Link
+                              href={item.href}
+                              onClick={() => setMenuOpen(false)}
+                              className="flex items-center justify-between border-b border-black/[0.07] py-3 font-body text-[14px] text-zinc-600 transition-colors hover:text-black"
+                            >
+                              {item.label}
+                              <ArrowBox />
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Mirrors the header CTAs, which are held back below lg. */}
+              <div className="mt-7 flex flex-col gap-3 lg:hidden">
+                <Button
+                  href="#demo"
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full sm:hidden"
+                >
+                  See demo
+                  <ButtonArrow />
+                </Button>
+                <Button
+                  href="/contact"
+                  onClick={() => setMenuOpen(false)}
+                  variant="secondary"
+                  className="w-full"
+                >
+                  Contact us
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-black/[0.07] px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-6">
+            <div className="mx-auto max-w-7xl">
+              <p className="max-w-xs font-display text-[22px] font-medium leading-[1.2] tracking-[-0.02em] text-black">
+                Diagnoses with receipts, not dashboards with homework.
+              </p>
+              <div className="mt-5 flex items-center justify-between gap-4 font-body text-[13px] text-zinc-500">
+                <a
+                  href="mailto:hello@seerix.ai"
+                  className="text-black underline decoration-black/25 underline-offset-4 hover:decoration-black"
+                >
+                  hello@seerix.ai
+                </a>
+                <span>&copy; {new Date().getFullYear()} Seerix</span>
+              </div>
             </div>
           </div>
         </div>
