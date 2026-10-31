@@ -30,7 +30,7 @@ export default function Error({
             Error
           </p>
 
-          <h1 className="mt-4 max-w-2xl font-display text-[32px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[40px]">
+          <h1 className="mt-4 max-w-2xl font-display text-[32px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[40px]">
             Something went wrong.
           </h1>
 

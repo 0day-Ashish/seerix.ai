@@ -135,7 +135,7 @@ export default function HowItWorks() {
             <p className="font-body text-[15px] text-signal-deep">
               One connection
             </p>
-            <h2 className="mt-3 font-display text-[36px] font-medium leading-[1.08] tracking-[-0.03em] text-black sm:text-[50px] lg:text-[56px]">
+            <h2 className="mt-3 font-display text-[36px] font-light leading-[1.08] tracking-[-0.02em] text-black sm:text-[50px] lg:text-[56px]">
               Connect once.
               <br />
               Then just ask.

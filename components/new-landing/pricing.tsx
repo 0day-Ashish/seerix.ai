@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import Button from "@/components/new-landing/button";
 import GradientWash from "@/components/new-landing/gradient-wash";
 import SectionHeader from "@/components/new-landing/section-header";
 
@@ -143,21 +144,16 @@ export default function Pricing() {
                   Per month, billed monthly
                 </p>
 
-                {/* The action sits above the list, not under it. Raised on a
-                    solid offset edge, the same way the site's buttons are: it
-                    lifts on hover and travels down into its own shadow on
-                    press. Ink on the wash, lilac on white: each button
-                    contrasts with its own card. */}
-                <Link
+                {/* The action sits above the list, not under it: the site's
+                    glow button, ink on the featured card's wash and light on
+                    the white ones. */}
+                <Button
                   href="#demo"
-                  className={`mt-7 flex h-12 translate-y-0 items-center justify-center rounded-xl font-body text-[15px] font-medium transition-all duration-150 ease-out hover:-translate-y-0.5 active:translate-y-[2px] ${
-                    on
-                      ? "bg-signal-ink text-white [box-shadow:0_3px_0_0_#38383f,0_4px_10px_rgba(10,10,11,0.18)] hover:[box-shadow:0_5px_0_0_#38383f,0_9px_16px_rgba(10,10,11,0.22)] active:[box-shadow:0_1px_0_0_#38383f,0_2px_4px_rgba(10,10,11,0.14)]"
-                      : "bg-signal-bright text-signal-ink [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)]"
-                  }`}
+                  variant={on ? "primary" : "secondary"}
+                  className="mt-7 w-full"
                 >
                   Get started
-                </Link>
+                </Button>
 
                 <ul
                   className={`mt-8 flex flex-col gap-4 border-t pt-7 ${

@@ -1,42 +1,84 @@
 import Link from "next/link";
-import type { ComponentProps } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 /**
- * The page's two button treatments, in one place -- previously each section
- * spelled the same long shadow stack out inline.
+ * The site's two buttons, in one place: a squared-off pill with three
+ * blurred colour fields drifting inside it, so the light in each button
+ * never sits still. `primary` is ink with a faint glow; `secondary` is a
+ * light gradient with a stronger one.
  */
+
+/** Full class strings, so Tailwind can see every one. */
+const glows = {
+  primary: [
+    "left-0 bg-[#bdb4f8]/30 [animation:seerix-glow-drift-1_8s_ease-in-out_infinite]",
+    "left-1/2 bg-[#f6d9c6]/25 [animation:seerix-glow-drift-2_10s_ease-in-out_infinite]",
+    "right-0 bg-[#8f84f0]/30 [animation:seerix-glow-drift-3_9s_ease-in-out_infinite]",
+  ],
+  secondary: [
+    "left-0 bg-[#bdb4f8]/40 [animation:seerix-glow-drift-1_8s_ease-in-out_infinite]",
+    "left-1/2 bg-[#f6d9c6]/45 [animation:seerix-glow-drift-2_10s_ease-in-out_infinite]",
+    "right-0 bg-[#8f84f0]/35 [animation:seerix-glow-drift-3_9s_ease-in-out_infinite]",
+  ],
+};
+
+export type ButtonVariant = keyof typeof glows;
+
+/** The drifting fields; sits under the label inside any button. */
+export function Glow({ variant = "primary" }: { variant?: ButtonVariant }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 overflow-clip rounded-[inherit]"
+    >
+      {glows[variant].map((g) => (
+        <span
+          key={g}
+          className={`absolute -top-6 size-24 rounded-full blur-md ${g}`}
+        />
+      ))}
+    </span>
+  );
+}
+
 const base =
-  "inline-flex shrink-0 translate-y-0 items-center justify-center gap-2 rounded-xl font-body transition-all duration-150 ease-out";
+  "group relative inline-flex shrink-0 items-center justify-center overflow-clip rounded-md border font-body font-medium shadow-sm transition-all duration-150 hover:brightness-105 active:brightness-95 disabled:pointer-events-none disabled:opacity-60";
 
 /**
- * One height everywhere: nav and body buttons match. `compact` steps that down
- * below sm and restores it from sm up, for placements that sit beside smaller
- * mobile type. These are swapped rather than layered on top of `default`,
- * because two competing sizes in the same stylesheet layer resolve by rule
- * order rather than by which was passed last.
+ * One height everywhere. `compact` steps down below sm for placements that
+ * sit beside smaller mobile type. Swapped rather than layered, because two
+ * competing sizes in the same layer resolve by rule order.
  */
 const sizes = {
-  default: "h-11 px-5 text-[15px]",
-  compact: "h-10 px-4 text-[14px] sm:h-11 sm:px-5 sm:text-[15px]",
+  default: "h-10 px-6 text-[14px]",
+  compact: "h-9 px-4 text-[13.5px] sm:h-10 sm:px-6 sm:text-[14px]",
 };
 
-/**
- * Raised on a solid offset edge: the button lifts on hover and travels down
- * into its own shadow on press, so the depth reads as physical rather than
- * as a drop shadow.
- */
-const variants = {
-  // The brand mint, carried as a flat fill with a dark label -- the way the
-  // mint is meant to be used. White on it reaches only 1.6:1; near-black
-  // reaches 12.3:1. The solid press edge is the same hue darkened.
-  primary:
-    "bg-signal-bright text-signal-ink [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:bg-signal-bright hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)]",
+const variants: Record<ButtonVariant, string> = {
+  primary: "border-transparent bg-signal-ink text-white",
   secondary:
-    "border border-black/[0.09] bg-white text-zinc-700 [box-shadow:0_3px_0_0_#e4e4e7,0_4px_10px_rgba(0,0,0,0.07)] hover:-translate-y-0.5 hover:border-black/[0.16] hover:text-black hover:[box-shadow:0_5px_0_0_#e4e4e7,0_9px_16px_rgba(0,0,0,0.10)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#e4e4e7,0_2px_4px_rgba(0,0,0,0.07)]",
+    "border-black/[0.10] bg-gradient-to-b from-white to-black/[0.04] text-zinc-900",
 };
+
+/** The classes, for a `<button>` or anything that is not a link. */
+export function buttonClass(
+  variant: ButtonVariant = "primary",
+  size: keyof typeof sizes = "default",
+) {
+  return `${base} ${sizes[size]} ${variants[variant]}`;
+}
+
+/** Label wrapper: lifts the content above the glow. */
+export function ButtonLabel({ children }: { children: ReactNode }) {
+  return (
+    <span className="relative z-10 inline-flex items-center gap-2">
+      {children}
+    </span>
+  );
+}
 
 type ButtonProps = ComponentProps<typeof Link> & {
-  variant?: keyof typeof variants;
+  variant?: ButtonVariant;
   size?: keyof typeof sizes;
 };
 
@@ -44,13 +86,14 @@ export default function Button({
   variant = "primary",
   size = "default",
   className = "",
+  children,
   ...props
 }: ButtonProps) {
   return (
-    <Link
-      {...props}
-      className={`group ${base} ${sizes[size]} ${variants[variant]} ${className}`}
-    />
+    <Link {...props} className={`${buttonClass(variant, size)} ${className}`}>
+      <Glow variant={variant} />
+      <ButtonLabel>{children}</ButtonLabel>
+    </Link>
   );
 }
 

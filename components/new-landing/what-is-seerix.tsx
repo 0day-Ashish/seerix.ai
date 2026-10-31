@@ -35,7 +35,7 @@ export default function WhatIsSeerix() {
             so the two don't repeat. */}
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
           <div>
-            <h2 className="heading-mark font-display text-[36px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[54px] lg:text-[60px]">
+            <h2 className="heading-mark font-display text-[36px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[54px] lg:text-[60px]">
               An SEO analyst that works from your Search Console.
             </h2>
           </div>

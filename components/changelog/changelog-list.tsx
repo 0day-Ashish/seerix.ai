@@ -182,7 +182,7 @@ export default function ChangelogList() {
                 >
                   {e.kind}
                 </span>
-                <h2 className="mt-4 font-display text-[28px] font-medium leading-[1.15] tracking-[-0.025em] text-black sm:text-[32px]">
+                <h2 className="mt-4 font-display text-[28px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[32px]">
                   {e.title}
                 </h2>
                 <p className="mt-3 max-w-2xl font-body text-[17px] leading-[1.6] text-zinc-600">

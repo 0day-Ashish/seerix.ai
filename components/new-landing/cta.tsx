@@ -12,7 +12,7 @@ export default function Cta() {
           closing line and its buttons, breathing slowly. */}
       <HeroGlow className="inset-x-[-10%] top-1/2 h-[17rem] -translate-y-1/2 sm:inset-x-[8%] sm:h-[19rem]" />
       <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
-        <h2 className="font-display text-[32px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[44px]">
+        <h2 className="font-display text-[32px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[44px]">
           <BlockReveal>Stop guessing why. Start knowing.</BlockReveal>
         </h2>
 

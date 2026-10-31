@@ -42,7 +42,7 @@ export default function LegalPage({
     <section className="bg-ghost px-6 pb-20 pt-16 sm:pb-24 sm:pt-24">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-2xl">
-          <h1 className="heading-mark font-display text-[36px] font-medium leading-[1.1] tracking-[-0.035em] text-black sm:text-[46px]">
+          <h1 className="heading-mark font-display text-[36px] font-light leading-[1.1] tracking-[-0.02em] text-black sm:text-[46px]">
             <BlockReveal>{title}</BlockReveal>
           </h1>
           <p className="mt-5 font-body text-[17px] leading-[1.6] text-zinc-500">
@@ -75,7 +75,7 @@ export default function LegalPage({
                 // Clears the sticky navbar when jumped to from the rail.
                 className="scroll-mt-28 border-b border-black/[0.07] pb-8 pt-8 first:pt-0 last:border-b-0"
               >
-                <h2 className="font-display text-[22px] font-medium leading-[1.25] tracking-[-0.02em] text-black">
+                <h2 className="font-display text-[22px] font-light leading-[1.25] tracking-[-0.02em] text-black">
                   {section.heading}
                 </h2>
 

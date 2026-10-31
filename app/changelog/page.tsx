@@ -20,7 +20,7 @@ export default function ChangelogPage() {
     <div className="flex flex-1 flex-col bg-ghost">
       <section className="bg-ghost px-6 pb-24 pt-20 sm:pt-28">
         <div className="mx-auto max-w-7xl">
-          <h1 className="heading-mark font-display text-[40px] font-medium leading-[1.05] tracking-[-0.035em] text-black sm:text-[56px]">
+          <h1 className="heading-mark font-display text-[40px] font-light leading-[1.05] tracking-[-0.02em] text-black sm:text-[56px]">
             Changelog
           </h1>
           <p className="mt-4 max-w-2xl font-body text-[18px] leading-[1.55] text-zinc-500 sm:text-[20px]">

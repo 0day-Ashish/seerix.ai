@@ -59,7 +59,7 @@ export default function ProductPage({
               <p className="font-mono text-[12px] tracking-[0.04em] text-zinc-400">
                 {job.toUpperCase()}
               </p>
-              <h1 className="heading-mark mt-4 font-display text-[36px] font-medium leading-[1.08] tracking-[-0.035em] text-black sm:text-[50px]">
+              <h1 className="heading-mark mt-4 font-display text-[36px] font-light leading-[1.08] tracking-[-0.02em] text-black sm:text-[50px]">
                 {headline}
               </h1>
               <p className="mt-5 max-w-xl font-body text-[17px] leading-[1.6] text-zinc-500 sm:text-[18px]">
@@ -88,7 +88,7 @@ export default function ProductPage({
       {/* What the job does. */}
       <section className="bg-ghost px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
-          <h2 className="heading-mark max-w-3xl font-display text-[32px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[40px]">
+          <h2 className="heading-mark max-w-3xl font-display text-[32px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[40px]">
             What {job.toLowerCase()} covers
           </h2>
 
@@ -126,7 +126,7 @@ export default function ProductPage({
           <p className="font-mono text-[12px] tracking-[0.04em] text-white/40">
             HOW IT RUNS
           </p>
-          <h2 className="mt-4 max-w-3xl font-display text-[32px] font-medium leading-[1.15] tracking-[-0.03em] text-white sm:text-[40px]">
+          <h2 className="mt-4 max-w-3xl font-display text-[32px] font-light leading-[1.15] tracking-[-0.02em] text-white sm:text-[40px]">
             Three beats, every time you ask.
           </h2>
 
@@ -183,7 +183,7 @@ export default function ProductPage({
       {/* The sibling jobs, so the four pages form a set rather than dead ends. */}
       <section className="bg-ghost px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
-          <h2 className="heading-mark font-display text-[32px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[40px]">
+          <h2 className="heading-mark font-display text-[32px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[40px]">
             The rest of the job
           </h2>
 

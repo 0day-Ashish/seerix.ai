@@ -51,7 +51,7 @@ export function PricingBilling() {
     <section className="bg-ghost px-6 pb-24">
       <div className="mx-auto grid max-w-7xl gap-10 rounded-3xl bg-[#f6f5f2] p-8 sm:p-12 lg:grid-cols-[minmax(0,1.1fr)_repeat(3,minmax(0,1fr))]">
         <div>
-          <h2 className="font-display text-[34px] font-medium leading-[1.1] tracking-[-0.03em] text-black">
+          <h2 className="font-display text-[34px] font-light leading-[1.1] tracking-[-0.02em] text-black">
             How billing works
           </h2>
           <p className="mt-4 max-w-sm font-body text-[16px] leading-[1.6] text-zinc-500">
@@ -91,7 +91,7 @@ export function PricingCloser() {
           line and its button. */}
       <HeroGlow className="inset-x-[-10%] top-1/2 h-[14rem] -translate-y-1/2 sm:inset-x-[10%] sm:h-[15rem]" />
       <div className="relative">
-        <h2 className="font-display text-[40px] font-medium leading-[1.05] tracking-[-0.035em] text-black sm:text-[56px]">
+        <h2 className="font-display text-[40px] font-light leading-[1.05] tracking-[-0.02em] text-black sm:text-[56px]">
           SEO answers with receipts
         </h2>
         <p className="mx-auto mt-5 max-w-md font-body text-[17px] leading-[1.6] text-zinc-500">

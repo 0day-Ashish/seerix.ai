@@ -224,9 +224,8 @@ export default function ValueProp() {
           One analyst, the whole SEO job
         </p>
 
-        <h2 className="heading-mark mt-14 max-w-4xl font-display text-[36px] leading-[1.1] tracking-[-0.03em] text-white sm:text-[50px] lg:text-[56px]">
-          <span className="font-normal">Four jobs a consultant does,</span>{" "}
-          <span className="font-normal">automated and backed by evidence.</span>
+        <h2 className="heading-mark mt-14 max-w-4xl font-display font-light text-[36px] leading-[1.1] tracking-[-0.02em] text-white sm:text-[50px] lg:text-[56px]">
+          Four jobs a consultant does, automated and backed by evidence.
         </h2>
         <p className="mt-6 max-w-2xl font-body text-[17px] leading-[1.6] text-white/75 sm:text-[19px]">
           Built on your own Search Console data, Seerix diagnoses what changed,

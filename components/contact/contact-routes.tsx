@@ -14,7 +14,7 @@ export function ContactOpener() {
   return (
     <section className="bg-ghost px-6 pb-12 pt-20 sm:pt-28">
       <div className="mx-auto max-w-7xl">
-        <h1 className="heading-mark max-w-3xl font-display text-[40px] font-medium leading-[1.05] tracking-[-0.035em] text-black sm:text-[56px]">
+        <h1 className="heading-mark max-w-3xl font-display text-[40px] font-light leading-[1.05] tracking-[-0.02em] text-black sm:text-[56px]">
           Talk to the people building <span className="wordmark">Seerix</span>
         </h1>
         <p className="mt-4 max-w-2xl font-body text-[18px] leading-[1.55] text-zinc-500 sm:text-[20px]">
@@ -117,7 +117,7 @@ function Check() {
 export function ContactRoutes() {
   return (
     <section className="bg-ghost px-6 pb-24">
-      <h2 className="heading-mark mx-auto mb-10 max-w-7xl font-display text-[36px] font-medium leading-[1.1] tracking-[-0.03em] text-black sm:text-[44px]">
+      <h2 className="heading-mark mx-auto mb-10 max-w-7xl font-display text-[36px] font-light leading-[1.1] tracking-[-0.02em] text-black sm:text-[44px]">
         Other ways to reach us
       </h2>
       <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr] lg:gap-x-5 lg:gap-y-0">

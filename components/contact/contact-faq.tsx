@@ -48,7 +48,7 @@ export default function ContactFaq() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-16">
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <h2 className="heading-mark font-display text-[36px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[50px] lg:text-[56px]">
+            <h2 className="heading-mark font-display text-[36px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[50px] lg:text-[56px]">
               <BlockReveal>What happens after you send.</BlockReveal>
             </h2>
             <p className="mt-5 font-body text-[17px] leading-[1.6] text-zinc-500">

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { BlockReveal } from "@/components/new-landing/block-reveal";
+import Button, { ButtonArrow } from "@/components/new-landing/button";
 import GradientWash from "@/components/new-landing/gradient-wash";
 
 type Industry = {
@@ -55,7 +56,7 @@ export default function Industries() {
                 <p className="mb-4 font-body text-[14px] text-zinc-800">
                   Industries
                 </p>
-                <h2 className="heading-mark font-display text-[34px] font-medium leading-[1.15] tracking-[-0.03em] text-black sm:text-[44px]">
+                <h2 className="heading-mark font-display text-[34px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[44px]">
                   <BlockReveal>
                     Built for sites where search traffic is the business.
                   </BlockReveal>
@@ -66,24 +67,10 @@ export default function Industries() {
                   diagnosis is assembled from your own data, whatever you sell.
                 </p>
 
-                <Link
-                  href="#demo"
-                  className="group mt-8 inline-flex translate-y-0 items-center gap-2 rounded-xl bg-signal-ink px-5 py-3 font-body text-[15px] font-medium text-white transition-all duration-150 ease-out [box-shadow:0_3px_0_0_#38383f,0_4px_10px_rgba(10,10,11,0.18)] hover:-translate-y-0.5 hover:[box-shadow:0_5px_0_0_#38383f,0_9px_16px_rgba(10,10,11,0.22)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#38383f,0_2px_4px_rgba(10,10,11,0.14)]"
-                >
+                <Button href="#demo" className="mt-8">
                   See demo
-                  <svg
-                    className="h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.75"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M6 3.5L10.5 8L6 12.5" />
-                  </svg>
-                </Link>
+                  <ButtonArrow />
+                </Button>
               </div>
 
               {/* Hairlines come from the cells, so the grid reads as one

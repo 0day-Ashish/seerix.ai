@@ -309,18 +309,16 @@ export default function Navbar() {
             </ul>
 
             <div className="flex shrink-0 items-center gap-2">
-              <Link
-                href="#demo"
-                className="hidden h-10 translate-y-0 items-center rounded-xl px-4 font-body text-[14.5px] font-medium bg-signal-bright text-signal-ink transition-all duration-150 ease-out [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:bg-signal-bright hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)] sm:flex"
-              >
-                See demo
-              </Link>
-              <Link
-                href="/contact"
-                className="hidden h-10 items-center rounded-xl border border-black/[0.18] bg-white px-4 font-body text-[14.5px] font-medium text-black transition-colors hover:border-black/50 lg:flex"
-              >
-                Contact us
-              </Link>
+              {/* Wrapped: the wrapper carries the breakpoint display, so it
+                  never fights the button's own inline-flex. */}
+              <span className="hidden sm:block">
+                <Button href="#demo">See demo</Button>
+              </span>
+              <span className="hidden lg:block">
+                <Button href="/contact" variant="secondary">
+                  Contact us
+                </Button>
+              </span>
 
               <button
                 type="button"

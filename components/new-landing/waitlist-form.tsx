@@ -3,6 +3,12 @@
 import { useActionState } from "react";
 
 import { joinWaitlist, type WaitlistState } from "@/app/waitlist/actions";
+import {
+  ButtonArrow,
+  ButtonLabel,
+  Glow,
+  buttonClass,
+} from "@/components/new-landing/button";
 
 const initialState: WaitlistState = { status: "idle" };
 
@@ -78,28 +84,18 @@ export default function WaitlistForm() {
           />
         </div>
 
-        {/* Not the shared Button: that one is a Link, and this submits. The
-            treatment is copied so the two still read as one system. */}
+        {/* Not the shared Button, which is a Link: this submits. Same
+            classes and glow, so the two read as one system. */}
         <button
           type="submit"
           disabled={pending}
-          className="group inline-flex h-10 shrink-0 translate-y-0 items-center justify-center gap-2 rounded-xl bg-signal-bright px-4 font-body text-[14px] text-signal-ink transition-all duration-150 ease-out [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:bg-signal-bright hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)] disabled:pointer-events-none disabled:opacity-60 sm:h-11 sm:px-5 sm:text-[15px]"
+          className={`${buttonClass("primary")} sm:h-11`}
         >
-          {pending ? "Joining..." : "Join waitlist"}
-          {!pending && (
-            <svg
-              className="h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
-              viewBox="0 0 16 16"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.75"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M6 3.5L10.5 8L6 12.5" />
-            </svg>
-          )}
+          <Glow variant="primary" />
+          <ButtonLabel>
+            {pending ? "Joining..." : "Join waitlist"}
+            {!pending && <ButtonArrow />}
+          </ButtonLabel>
         </button>
       </div>
 
