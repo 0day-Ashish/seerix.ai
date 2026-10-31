@@ -3,6 +3,11 @@
 import { useActionState, useState } from "react";
 
 import { submitContact, type ContactState } from "@/app/contact/actions";
+import {
+  ButtonLabel,
+  Glow,
+  buttonClass,
+} from "@/components/new-landing/button";
 
 const sources = [
   "Search engine",
@@ -237,25 +242,28 @@ export default function ContactForm() {
         type="submit"
         disabled={pending}
         aria-disabled={!ready}
-        // The homepage's raised primary button. Until the form is ready it
-        // sits slightly dimmed.
-        className={`group mt-10 inline-flex h-12 translate-y-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-b from-[#4a4a51] to-[#36363B] px-7 font-body text-[16px] font-medium text-white transition-all duration-150 ease-out [box-shadow:0_3px_0_0_#1c1c21,0_4px_10px_rgba(0,0,0,0.18)] hover:-translate-y-0.5 hover:from-[#55555d] hover:to-[#3f3f45] hover:[box-shadow:0_5px_0_0_#1c1c21,0_9px_16px_rgba(0,0,0,0.22)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#1c1c21,0_2px_4px_rgba(0,0,0,0.15)] disabled:opacity-60 ${
+        // The site's glow button. Until the form is ready it sits slightly
+        // dimmed.
+        className={`${buttonClass("primary")} mt-10 h-12 px-7 text-[15px] ${
           ready ? "opacity-100" : "opacity-75"
         }`}
       >
-        {pending ? "Sending" : "Submit"}
-        <svg
-          className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-          viewBox="0 0 20 20"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M4 10h12M11 5l5 5-5 5" />
-        </svg>
+        <Glow />
+        <ButtonLabel>
+          {pending ? "Sending" : "Submit"}
+          <svg
+            className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
+            viewBox="0 0 20 20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 10h12M11 5l5 5-5 5" />
+          </svg>
+        </ButtonLabel>
       </button>
     </form>
   );

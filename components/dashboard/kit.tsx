@@ -1,5 +1,11 @@
 import Link from "next/link";
 
+import {
+  ButtonLabel,
+  Glow,
+  buttonClass,
+} from "@/components/new-landing/button";
+
 /* -------------------------------------------------------------------------
  * The dashboard kit: page title, framed cards, KPI tiles, deltas, tags,
  * sparklines and a table. Soft corners, quiet greys and one blue for data
@@ -269,31 +275,28 @@ export function Mono({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * The raised treatment the marketing site uses: a solid offset edge under the
- * button, lifting on hover and travelling down into it on press, so the depth
- * reads as physical rather than as a drop shadow. Both variants sit on the
- * app's white content areas.
+ * The site's glow buttons, at the app's density: ink for the main action,
+ * light for the rest, each with the drifting colour fields inside.
  */
-const buttonStyles = {
-  primary:
-    "translate-y-0 bg-signal-bright text-signal-ink [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)]",
-  secondary:
-    "translate-y-0 border border-zinc-200 bg-white text-zinc-800 [box-shadow:0_3px_0_0_#e4e4e7,0_4px_10px_rgba(0,0,0,0.07)] hover:-translate-y-0.5 hover:border-zinc-300 hover:text-zinc-900 hover:[box-shadow:0_5px_0_0_#e4e4e7,0_9px_16px_rgba(0,0,0,0.10)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#e4e4e7,0_2px_4px_rgba(0,0,0,0.07)]",
-};
+type BtnVariant = "primary" | "secondary";
 
 export function Btn({
   variant = "secondary",
   className = "",
+  children,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: keyof typeof buttonStyles;
+  variant?: BtnVariant;
 }) {
   return (
     <button
       type="button"
       {...props}
-      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-3.5 font-body text-[13px] font-medium transition-all duration-150 ease-out disabled:opacity-50 ${buttonStyles[variant]} ${className}`}
-    />
+      className={`${buttonClass(variant, "app")} ${className}`}
+    >
+      <Glow variant={variant} />
+      <ButtonLabel>{children}</ButtonLabel>
+    </button>
   );
 }
 
@@ -303,15 +306,13 @@ export function BtnLink({
   children,
 }: {
   href: string;
-  variant?: keyof typeof buttonStyles;
+  variant?: BtnVariant;
   children: React.ReactNode;
 }) {
   return (
-    <Link
-      href={href}
-      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-3.5 font-body text-[13px] font-medium transition-all duration-150 ease-out ${buttonStyles[variant]}`}
-    >
-      {children}
+    <Link href={href} className={buttonClass(variant, "app")}>
+      <Glow variant={variant} />
+      <ButtonLabel>{children}</ButtonLabel>
     </Link>
   );
 }

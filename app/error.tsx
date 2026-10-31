@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
+import Button, {
+  ButtonLabel,
+  Glow,
+  buttonClass,
+} from "@/components/new-landing/button";
 
 /**
  * Route-level error boundary. Next 16 passes `retry` (not the older `reset`)
@@ -51,16 +55,14 @@ export default function Error({
             <button
               type="button"
               onClick={retry}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#36363B] px-5 py-2.5 font-body text-[15px] text-white transition-colors duration-200 hover:bg-[#55555d]"
+              className={buttonClass("primary")}
             >
-              Try again
+              <Glow />
+              <ButtonLabel>Try again</ButtonLabel>
             </button>
-            <Link
-              href="/"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-black/[0.12] px-5 py-2.5 font-body text-[15px] text-black transition-colors duration-200 hover:border-black/[0.3]"
-            >
+            <Button href="/" variant="secondary">
               Back to home
-            </Link>
+            </Button>
           </div>
         </div>
       </section>

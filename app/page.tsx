@@ -1,6 +1,6 @@
-import HowItWorks from "@/components/new-landing/how-it-works";
 import Cta from "@/components/new-landing/cta";
 import Faq from "@/components/new-landing/faq";
+import FindGaps from "@/components/new-landing/find-gaps";
 import Hero from "@/components/new-landing/hero";
 import Industries from "@/components/new-landing/industries";
 import Marquee from "@/components/new-landing/marquee";
@@ -20,8 +20,8 @@ export default function Home() {
       {/* Dividers live here rather than inside each section, so the rule sits
           between siblings and the last section before the footer has none. */}
       <div className="flex flex-1 flex-col">
-        <HowItWorks />
-        {/* No divider here: the numbers follow the how-it-works panels
+        <FindGaps />
+        {/* No divider here: the numbers follow the gaps chart
             directly, without a rule between them. */}
         <Stats />
         <SectionDivider />

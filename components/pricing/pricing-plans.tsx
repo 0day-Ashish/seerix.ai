@@ -1,5 +1,4 @@
-import Link from "next/link";
-
+import Button from "@/components/new-landing/button";
 import GradientWash from "@/components/new-landing/gradient-wash";
 import { plans, type PlanId } from "@/components/pricing/plans";
 
@@ -119,20 +118,15 @@ export default function PricingPlans() {
                 </div>
               </div>
 
-              <Link
+              {/* The site's glow button: ink on the featured card's wash,
+                  light on the others. */}
+              <Button
                 href={plan.href}
-                // The lilac fill with a dark label, as the shared Button
-                // carries it, so a CTA reads the same wherever it appears.
-                // On the featured card the lilac would sink into the wash
-                // behind it, so that one is ink instead, on the same edge.
-                className={`relative mt-4 flex h-11 translate-y-0 items-center justify-center rounded-xl font-body text-[15px] font-medium transition-all duration-150 ease-out hover:-translate-y-0.5 active:translate-y-[2px] ${
-                  dark
-                    ? "bg-signal-ink text-white [box-shadow:0_3px_0_0_#38383f,0_4px_10px_rgba(10,10,11,0.18)] hover:[box-shadow:0_5px_0_0_#38383f,0_9px_16px_rgba(10,10,11,0.22)] active:[box-shadow:0_1px_0_0_#38383f,0_2px_4px_rgba(10,10,11,0.14)]"
-                    : "bg-signal-bright text-signal-ink [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:bg-signal-bright hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)]"
-                }`}
+                variant={dark ? "primary" : "secondary"}
+                className="mt-4 h-11 w-full text-[15px]"
               >
                 {plan.cta}
-              </Link>
+              </Button>
 
               <div
                 className={`relative mx-2 mt-6 border-t pt-6 ${

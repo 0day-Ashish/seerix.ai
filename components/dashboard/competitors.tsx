@@ -323,6 +323,17 @@ export default function Competitors() {
           <MultiLineChart
             unit="referring domains"
             labels={months}
+            // Your own site leads the series; its latest count heads the chart.
+            headline={(() => {
+              const own = history[0]?.[1] ?? [];
+              const first = own[0] ?? 0;
+              const last = own[own.length - 1] ?? 0;
+              return {
+                value: String(last),
+                delta: `${Math.abs(last - first)} since ${months[0]}`,
+                up: last >= first,
+              };
+            })()}
             series={history.map(([dom, vals]) => ({
               name: dom,
               color: domainColor[dom] ?? "#a1a1aa",

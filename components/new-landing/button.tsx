@@ -52,6 +52,8 @@ const base =
 const sizes = {
   default: "h-10 px-6 text-[14px]",
   compact: "h-9 px-4 text-[13.5px] sm:h-10 sm:px-6 sm:text-[14px]",
+  // The app's denser screens: dashboard, settings and the gap tools.
+  app: "h-9 gap-2 px-3.5 text-[13px]",
 };
 
 const variants: Record<ButtonVariant, string> = {

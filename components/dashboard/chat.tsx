@@ -17,6 +17,11 @@ import {
 } from "@/components/dashboard/chat-history";
 import ChatWelcome from "@/components/dashboard/chat-welcome";
 import { Btn, PageTitle } from "@/components/dashboard/kit";
+import {
+  ButtonLabel,
+  Glow,
+  buttonClass,
+} from "@/components/new-landing/button";
 
 /* -------------------------------------------------------------------------
  * Small pieces
@@ -796,9 +801,10 @@ export default function Chat({
               <button
                 type="submit"
                 disabled={busy || !text.trim()}
-                className="h-11 shrink-0 rounded-xl bg-signal-bright px-5 font-body text-[14px] font-medium text-signal-ink disabled:opacity-40 translate-y-0 transition-all duration-150 ease-out [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)] disabled:translate-y-0 disabled:shadow-none"
+                className={`${buttonClass("primary")} h-11 px-5`}
               >
-                Ask
+                <Glow />
+                <ButtonLabel>Ask</ButtonLabel>
               </button>
             )}
           </form>

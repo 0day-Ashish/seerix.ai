@@ -2,6 +2,12 @@
 
 import { useState } from "react";
 
+import {
+  ButtonLabel,
+  Glow,
+  buttonClass,
+} from "@/components/new-landing/button";
+
 /* -------------------------------------------------------------------------
  * The settings kit: page header, framed panels, labelled rows, inputs,
  * toggles, buttons and tables. White panels on the white page, told apart by
@@ -182,23 +188,38 @@ export function Toggle({
 export function Button({
   variant = "primary",
   className = "",
+  children,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "danger" | "danger-ghost" | "ghost";
 }) {
+  // Primary and secondary are the site's glow buttons; danger keeps its red
+  // on the same shape, without the glow; the ghosts stay quiet text buttons.
+  if (variant === "primary" || variant === "secondary")
+    return (
+      <button
+        type="button"
+        {...props}
+        className={`${buttonClass(variant, "app")} ${className}`}
+      >
+        <Glow variant={variant} />
+        <ButtonLabel>{children}</ButtonLabel>
+      </button>
+    );
   const styles = {
-    primary: "bg-signal-bright text-signal-ink translate-y-0 [box-shadow:0_3px_0_0_var(--color-signal-edge),0_4px_10px_rgba(10,10,11,0.14)] hover:-translate-y-0.5 hover:[box-shadow:0_5px_0_0_var(--color-signal-edge),0_9px_16px_rgba(10,10,11,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_var(--color-signal-edge),0_2px_4px_rgba(10,10,11,0.12)]",
-    secondary: "border border-zinc-200 bg-white text-zinc-800 translate-y-0 [box-shadow:0_3px_0_0_#e4e4e7,0_4px_10px_rgba(0,0,0,0.07)] hover:-translate-y-0.5 hover:border-zinc-300 hover:[box-shadow:0_5px_0_0_#e4e4e7,0_9px_16px_rgba(0,0,0,0.10)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#e4e4e7,0_2px_4px_rgba(0,0,0,0.07)]",
-    danger: "bg-danger-deep text-white translate-y-0 [box-shadow:0_3px_0_0_#7f1d1d,0_4px_10px_rgba(0,0,0,0.14)] hover:-translate-y-0.5 hover:[box-shadow:0_5px_0_0_#7f1d1d,0_9px_16px_rgba(0,0,0,0.18)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#7f1d1d,0_2px_4px_rgba(0,0,0,0.12)]",
-    "danger-ghost": "text-danger-deep hover:bg-danger-soft hover:text-red-700",
-    ghost: "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900",
+    danger:
+      "rounded-md border border-transparent bg-danger-deep text-white shadow-sm hover:brightness-110 active:brightness-95",
+    "danger-ghost": "rounded-lg text-danger-deep hover:bg-danger-soft hover:text-red-700",
+    ghost: "rounded-lg text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900",
   }[variant];
   return (
     <button
       type="button"
       {...props}
-      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-3.5 font-body text-[13.5px] font-medium transition-all duration-150 ease-out disabled:cursor-not-allowed ${styles} ${className}`}
-    />
+      className={`inline-flex h-9 shrink-0 items-center justify-center gap-2 px-3.5 font-body text-[13.5px] font-medium transition-all duration-150 ease-out disabled:cursor-not-allowed ${styles} ${className}`}
+    >
+      {children}
+    </button>
   );
 }
 
