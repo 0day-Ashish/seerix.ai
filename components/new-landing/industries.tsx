@@ -56,7 +56,7 @@ export default function Industries() {
                 <p className="mb-4 font-body text-[14px] text-zinc-800">
                   Industries
                 </p>
-                <h2 className="heading-mark font-display text-[34px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[44px]">
+                <h2 className="heading-mark font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-black">
                   <BlockReveal>
                     Built for sites where search traffic is the business.
                   </BlockReveal>

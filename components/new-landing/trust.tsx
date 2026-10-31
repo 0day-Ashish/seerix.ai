@@ -324,7 +324,7 @@ export default function Trust() {
       {/* Centred heading, as the reference has it, with the rail beneath
           running the full width so a card peeks in from either side. */}
       <div className="mx-auto w-full max-w-3xl px-6 text-center">
-        <h2 className="font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-zinc-900 sm:text-[52px]">
+        <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-zinc-900">
           Built so it can&rsquo;t make things up about your site.
         </h2>
       </div>

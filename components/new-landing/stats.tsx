@@ -157,7 +157,7 @@ export default function Stats() {
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
           <div className="max-w-2xl">
-            <h2 className="heading-mark font-display text-[36px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[50px] lg:text-[56px]">
+            <h2 className="heading-mark font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-black">
               Every claim shows its receipts
             </h2>
           </div>
