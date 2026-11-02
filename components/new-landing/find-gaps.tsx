@@ -34,7 +34,7 @@ const you = sites[0].values;
 export default function FindGaps() {
   return (
     // Keeps the old section's id: the nav, footer and job links point here.
-    <section id="how-it-works" className="bg-ghost px-6 py-20 sm:py-28">
+    <section id="how-it-works" className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.5fr)] lg:gap-16">
         <h2 className="font-display text-[34px] font-light leading-[1.15] tracking-[-0.02em] text-zinc-900 sm:text-[44px]">
           Find your gaps

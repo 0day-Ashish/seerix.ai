@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useId } from "react";
 
 import { joinWaitlist, type WaitlistState } from "@/app/waitlist/actions";
 import {
@@ -13,13 +13,25 @@ import {
 const initialState: WaitlistState = { status: "idle" };
 
 /**
- * The hero's primary action: one field and one button, sharing a row on all
- * but the narrowest screens. State comes back from the Server Action rather
+ * The page's one action: an email field and "Join waitlist", sharing a row on
+ * all but the narrowest screens. Used in the hero and the closing section, so
+ * its ids come from useId rather than being fixed. State comes back from the Server Action rather
  * than living in the client, so a rejected submit keeps what was typed and the
  * same validation governs a direct POST.
  */
-export default function WaitlistForm() {
+export default function WaitlistForm({
+  note = "no spam · one email when we launch · read-only Google access, revoke anytime",
+  className = "",
+}: {
+  /** The mono line under the field. */
+  note?: string;
+  className?: string;
+}) {
   const [state, action, pending] = useActionState(joinWaitlist, initialState);
+  const uid = useId();
+  const emailId = `${uid}-email`;
+  const errorId = `${uid}-error`;
+  const trapId = `${uid}-trap`;
 
   if (state.status === "success") {
     return (
@@ -47,13 +59,13 @@ export default function WaitlistForm() {
   const invalid = state.status === "error";
 
   return (
-    <form action={action} className="max-w-md">
+    <form action={action} className={`max-w-md ${className}`}>
       {/* Hidden from real users; bots fill it and are answered with a success
           that never reaches the delivery step. */}
       <div aria-hidden="true" className="absolute left-[-9999px] top-0">
-        <label htmlFor="company_website">Company website</label>
+        <label htmlFor={trapId}>Company website</label>
         <input
-          id="company_website"
+          id={trapId}
           name="company_website"
           type="text"
           tabIndex={-1}
@@ -63,11 +75,11 @@ export default function WaitlistForm() {
 
       <div className="flex flex-col gap-2.5 sm:flex-row sm:items-start sm:gap-3">
         <div className="flex-1">
-          <label htmlFor="waitlist-email" className="sr-only">
+          <label htmlFor={emailId} className="sr-only">
             Email address
           </label>
           <input
-            id="waitlist-email"
+            id={emailId}
             name="email"
             type="email"
             required
@@ -75,7 +87,7 @@ export default function WaitlistForm() {
             defaultValue={state.email}
             placeholder="you@company.com"
             aria-invalid={invalid}
-            aria-describedby={invalid ? "waitlist-error" : undefined}
+            aria-describedby={invalid ? errorId : undefined}
             className={`h-10 w-full rounded-xl border bg-white px-3.5 font-body text-[14px] text-black transition-colors duration-200 placeholder:text-zinc-400 focus:outline-none sm:h-11 sm:text-[15px] ${
               invalid
                 ? "border-black/[0.28] focus:border-black/[0.45]"
@@ -101,7 +113,7 @@ export default function WaitlistForm() {
 
       {invalid && (
         <p
-          id="waitlist-error"
+          id={errorId}
           role="alert"
           className="mt-2 font-body text-[13px] text-black"
         >
@@ -110,8 +122,8 @@ export default function WaitlistForm() {
       )}
 
       {!invalid && (
-        <p className="mt-2.5 font-body text-[13px] text-zinc-500">
-          No spam. One email when we launch.
+        <p className="mt-2.5 font-mono text-[11.5px] tracking-[0.01em] text-zinc-500">
+          {note}
         </p>
       )}
     </form>

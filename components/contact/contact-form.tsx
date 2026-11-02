@@ -74,7 +74,7 @@ export default function ContactForm() {
   const [filled, setFilled] = useState<Record<string, boolean>>({});
 
   const panel =
-    "rounded-3xl border border-black/[0.08] bg-white p-6 sm:p-12";
+    "frost rounded-[28px] p-6 sm:p-12";
 
   if (state.status === "success") {
     return (

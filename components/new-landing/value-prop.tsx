@@ -212,25 +212,18 @@ export default function ValueProp() {
       id="features"
       // The dither strip is inside the panel now, so the section can clip:
       // the lower strip used to hang into the section below it.
-      className="relative z-20 overflow-hidden bg-[#141416] px-6 pb-24 pt-24 sm:pb-28 sm:pt-32"
+      className="relative z-20 overflow-hidden bg-[#141416] px-6 py-20 sm:py-24"
     >
       <DitherBlocks edge="top" />
 
       <div className="relative mx-auto max-w-7xl">
-        <p className="flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.08em] text-white/80">
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-white text-[#141416]">
-            <Icon name="db" />
-          </span>
-          One analyst, the whole SEO job
-        </p>
-
-        <h2 className="heading-mark mt-14 max-w-4xl font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-white">
-          Four jobs a consultant does, automated and backed by evidence.
+        <h2 className="max-w-4xl font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-white">
+          One analyst, the whole SEO job.
         </h2>
         <p className="mt-6 max-w-2xl font-body text-[17px] leading-[1.6] text-white/75 sm:text-[19px]">
-          Built on your own Search Console data, Seerix diagnoses what changed,
-          ranks what to fix, watches what moves and writes the fix, with every
-          answer citing the rows it came from.
+          Four jobs a consultant does: automated, continuous, and backed
+          by evidence. This is where the hero&rsquo;s question becomes a working
+          relationship.
         </p>
 
         {/* The four jobs. */}

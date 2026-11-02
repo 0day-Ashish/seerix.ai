@@ -3,171 +3,80 @@
 import Link from "next/link";
 import { useState } from "react";
 
+import GradientWash from "@/components/new-landing/gradient-wash";
+
 type Faq = {
-  /** Groups the list into labelled runs. */
-  group: string;
   question: string;
   answer: string;
 };
 
 const faqs: Faq[] = [
   {
-    group: "Access & data",
+    question: "Isn't this just ChatGPT with my data pasted in?",
+    answer:
+      "No, and the difference is structural. A chat model has no memory of your site, no crawler, no rank history and no way to check its own claims. Seerix keeps sixteen months of your Search Console history reconciled to GSC's own reporting days, runs its own crawler, snapshots your SERPs over time, and rejects any answer that cites evidence it doesn't hold. Then it does the one thing no chat window can: it comes back weeks later and measures whether the fix worked.",
+  },
+  {
     question: "What permissions does Seerix have on my Google account?",
     answer:
       "Read-only, and only what you explicitly grant: basic sign-in identity (email, profile) and read-only Search Console access for the properties you connect. Seerix can never modify anything in your Google account: no settings, no properties, no data. You can revoke access at any time from your Google Account permissions page, effective immediately.",
   },
   {
-    group: "Access & data",
-    question: "Do you have access to my data?",
-    answer:
-      "Seerix stores the Search Console metrics, crawl results, and ranking snapshots needed to power your diagnoses. That's what makes week-over-week analysis and 'did my fix work?' possible. That data is encrypted, isolated per customer, never sold, never shared with other customers, and never used to train AI models. Delete your account and it's deleted. Full details in the Privacy Policy.",
-  },
-  {
-    group: "Access & data",
-    question: "Can I connect more than one Search Console property?",
-    answer:
-      "Yes. Each plan covers a set number of sites, and every site is configured on its own: its market, its competitors, its crawl scope. Properties are kept isolated from one another, so a diagnosis for one site never draws on another site's data, and you can add or remove a property at any time without losing the history of the others.",
-  },
-  {
-    group: "Access & data",
-    question: "What happens to my data if I cancel?",
-    answer:
-      "Your account stays readable until the end of the billing period, then the data is scheduled for deletion: Search Console metrics, crawl results, ranking snapshots, and the diagnoses built from them. You can export your findings before that point, and you can trigger deletion immediately from account settings instead of waiting.",
-  },
-  {
-    group: "How it works",
     question: "Won't the AI hallucinate about my site?",
     answer:
       "This is the core of how Seerix is engineered. The AI never browses or free-associates. It only sees structured evidence packets built from your actual data, and every claim must cite specific evidence rows. Answers citing evidence that doesn't exist are rejected by validators before you see them. When data can't support a conclusion, Seerix lowers its confidence score and says so in plain language.",
   },
   {
-    group: "How it works",
-    question: "How is this different from Ahrefs or Semrush?",
-    answer:
-      "Those are excellent data tools, and they still leave you staring at charts, doing the consultant's job yourself. Seerix starts where they stop: it takes your Search Console history, crawl, rankings, and competitor movement and produces the diagnosis: what happened, why, what to do first, and whether the fix worked. You talk to it like the consultant you'd otherwise hire.",
-  },
-  {
-    group: "How it works",
-    question: "Does it replace Google Search Console?",
-    answer:
-      "No, it makes GSC useful. Search Console remains your source of truth (and Seerix deliberately matches its reporting days, so numbers always reconcile). Seerix adds what GSC doesn't have: the why, ranked priorities, SERP and competitor tracking, and a conversation on top of it all.",
-  },
-  {
-    group: "How it works",
     question: "How long before Seerix has anything useful to say?",
     answer:
       "The first read-only sign-in pulls up to sixteen months of Search Console history, so the initial diagnoses land within the first crawl rather than after a warm-up period. Week-over-week comparisons and 'did my fix work?' verification need a little runtime on top of that, since they measure change after the moment you made it.",
   },
   {
-    group: "How it works",
-    question: "What does a confidence score actually mean?",
-    answer:
-      "It reflects how much of your data stands behind a claim: how long the history runs, how many rows support it, and whether competing explanations were ruled out. A low score is a real answer, not a hedge. It tells you the evidence is thin, and Seerix says which evidence it wanted and did not have.",
-  },
-  {
-    group: "Plans",
     question: "What kinds of sites does it work for?",
     answer:
-      "Any vertical (SaaS, e-commerce, content, local services) and any of 15 country/language markets, configured per site. Seerix makes zero assumptions about your business type; every diagnosis is built from your data. It works best with a few months of Search Console history so answers can be evidence-based.",
+      "Any vertical (SaaS, e-commerce, content, local services) and any of 15 country/language markets, configured per site. Seerix makes zero assumptions about your business type; every diagnosis is built from your data. Diagnosis starts on day one from your imported history; fix verification and week-over-week trends build up over the following weeks, since they measure change after the moment you made it.",
   },
   {
-    group: "Plans",
-    question: "What counts as an AI question?",
-    answer:
-      "One question you ask and one diagnosis you get back, however many evidence rows it had to assemble to answer. Follow-ups in the same thread count separately, since each one runs its own analysis. Background work does not draw on the allowance: crawls, SERP snapshots, alerts, and the weekly report are all included in the plan.",
-  },
-  {
-    group: "Plans",
-    question: "Can I change plans later?",
-    answer:
-      "Yes, in either direction, and the change takes effect on the next billing period. Moving up raises your site count and monthly allowances straight away. Moving down keeps everything you have already collected: the limits apply to new work, not to the history already in your account.",
-  },
-  {
-    group: "Plans",
     question: "Is there a free trial?",
     answer:
-      "Not yet. We're onboarding a limited group of design partners and working closely with each of them. Email hello@seerix.ai to join the early-access list; there's no credit card required to join, and paid plans can be cancelled anytime.",
+      "Not yet. Seerix hasn't launched. Join the waitlist and you'll get one email when it's live; no card, no spam. Paid plans will be cancellable anytime.",
   },
 ];
 
-const groups = ["All", ...Array.from(new Set(faqs.map((f) => f.group)))];
-
 export default function Faq() {
-  const [group, setGroup] = useState("All");
-  // All questions start collapsed; keyed by question so filtering keeps it.
+  // All questions start collapsed.
   const [open, setOpen] = useState<string | null>(null);
-
-  const shown = group === "All" ? faqs : faqs.filter((f) => f.group === group);
 
   return (
     <section id="faq" className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
-          {/* Heading, filters and the way out park beside the list. */}
+          {/* Heading and the way out park beside the list. */}
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <h2 className="heading-mark font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-black">
-              Fair questions.
+            <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-black">
+              What people ask first.
             </h2>
             <p className="mt-5 font-body text-[17px] leading-[1.6] text-zinc-600">
-              Google permissions, how your data is handled, and why the answers
-              can&rsquo;t make things up about your site.
+              How it differs from a chatbot, what it can touch in your Google
+              account, and when it&rsquo;s ready.
             </p>
 
-            <div
-              role="tablist"
-              aria-label="Filter questions"
-              className="mt-8 flex flex-wrap gap-2"
-            >
-              {groups.map((g) => {
-                const on = g === group;
-                const count =
-                  g === "All"
-                    ? faqs.length
-                    : faqs.filter((f) => f.group === g).length;
-                return (
-                  <button
-                    key={g}
-                    type="button"
-                    role="tab"
-                    aria-selected={on}
-                    onClick={() => {
-                      setGroup(g);
-                      setOpen(null);
-                    }}
-                    className={`flex items-center gap-2 rounded-full border px-3.5 py-1.5 font-body text-[14px] transition-colors duration-200 ${
-                      on
-                        ? "border-[#1c1c21] bg-[#1c1c21] text-white"
-                        : "border-black/[0.10] text-zinc-600 hover:border-black/[0.2] hover:text-black"
-                    }`}
-                  >
-                    {g}
-                    <span
-                      className={`font-mono text-[11px] ${
-                        on ? "text-white/50" : "text-zinc-400"
-                      }`}
-                    >
-                      {count}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
             {/* The way out when the list doesn't have it: drawn as the
-                product's own question bar, routed to a person. */}
+                product's own question bar, routed to a person, on the same
+                moving wash as the industries panel. */}
             <Link
               href="/contact"
-              className="group mt-10 block rounded-2xl bg-[#1c1c21] p-5 transition-transform duration-200 hover:-translate-y-0.5"
+              className="group relative isolate mt-10 block overflow-hidden rounded-2xl p-5 shadow-[0_20px_50px_-28px_rgba(40,25,110,0.45)] transition-transform duration-200 hover:-translate-y-0.5"
             >
-              <p className="font-body text-[13px] text-white/45">
+              <GradientWash offset={4} className="-z-10" />
+              <p className="font-body text-[13px] text-zinc-800">
                 Not on the list?
               </p>
-              <span className="mt-3 flex items-center justify-between gap-3 rounded-xl bg-white/[0.06] px-4 py-3 ring-1 ring-white/[0.08]">
-                <span className="font-body text-[14px] text-white/60">
+              <span className="mt-3 flex items-center justify-between gap-3 rounded-xl bg-white/80 px-4 py-3 ring-1 ring-black/[0.06] backdrop-blur-sm">
+                <span className="font-body text-[14px] text-zinc-700">
                   Ask the people who built it
                 </span>
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-signal-bright text-signal-ink transition-transform duration-200 group-hover:translate-x-0.5">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-signal-ink text-white transition-transform duration-200 group-hover:translate-x-0.5">
                   <svg
                     className="h-3.5 w-3.5"
                     viewBox="0 0 16 16"
@@ -182,33 +91,18 @@ export default function Faq() {
                   </svg>
                 </span>
               </span>
-              <p className="mt-3 font-mono text-[11px] text-white/35">
+              <p className="mt-3 font-mono text-[11px] text-zinc-700">
                 a person replies within one business day
               </p>
             </Link>
           </div>
 
           <div className="border-t border-black/[0.07]">
-            {shown.map((faq, index) => {
+            {faqs.map((faq) => {
               const isOpen = open === faq.question;
               const id = `faq-panel-${faqs.indexOf(faq)}`;
-              // In "All", a group label is drawn once above its first question.
-              const startsGroup =
-                group === "All" &&
-                (index === 0 || shown[index - 1].group !== faq.group);
-
               return (
                 <div key={faq.question}>
-                  {startsGroup && (
-                    <p
-                      className={`pl-[18px] font-mono text-[11px] uppercase tracking-[0.08em] text-zinc-400 ${
-                        index === 0 ? "pt-6" : "pt-12"
-                      }`}
-                    >
-                      {faq.group}
-                    </p>
-                  )}
-
                   <div className="border-b border-black/[0.07]">
                     <button
                       type="button"

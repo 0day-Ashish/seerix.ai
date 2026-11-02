@@ -3,6 +3,7 @@ import { GeistSans } from "geist/font/sans";
 import { Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
+import MarketingBackground from "@/components/new-landing/marketing-background";
 import Navbar from "@/components/new-landing/navbar";
 import SmoothScroll from "@/components/smooth-scroll";
 import { siteUrl } from "@/app/sitemap";
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
   // Resolves relative Open Graph and canonical URLs against the real origin
   // rather than localhost; shares the constant the sitemap is built from.
   metadataBase: new URL(siteUrl),
-  title: "Seerix \u00b7 The Search Console platform that explains why",
+  title: "Seerix \u00b7 The SEO analyst that explains why",
   description:
     "Seerix connects to your Google Search Console, monitors your SERPs, and tracks every ranking change, then tells you why it happened and what to do next.",
   openGraph: {
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="flex min-h-dvh flex-col font-sans">
         <SmoothScroll />
+        <MarketingBackground />
         <Navbar />
         {children}
       </body>

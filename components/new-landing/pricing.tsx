@@ -1,208 +1,127 @@
 import Link from "next/link";
 
-import Button from "@/components/new-landing/button";
-import GradientWash from "@/components/new-landing/gradient-wash";
 import SectionHeader from "@/components/new-landing/section-header";
-
-type Spec = { label: string; value: string };
 
 type Plan = {
   name: string;
   price: string;
-  cadence: string;
   subtitle: string;
-  /** Sites the plan covers; drawn as lit squares out of twenty. */
-  sites: number;
-  /** The allowances, as a spec sheet: label left, figure right. */
-  specs: Spec[];
-  /** Only one plan carries the emphasis treatment. */
-  featured?: boolean;
+  /** The plan in one line: its sites and its question allowance. */
+  summary: string;
 };
 
+/**
+ * Three plans, each told in one line. The full allowance table lives on
+ * /pricing; every limit there is per site, per month, except AI questions,
+ * which are per account.
+ */
 const plans: Plan[] = [
   {
     name: "Starter",
     price: "$39",
-    cadence: "/mo",
     subtitle: "For one site that matters",
-    sites: 1,
-    specs: [
-      { label: "AI questions", value: "100 / mo" },
-      { label: "Pages crawled", value: "1,000 / mo" },
-      { label: "Keywords enriched", value: "500 / mo" },
-      { label: "SERP snapshots", value: "100 / mo" },
-      { label: "Weekly report + alerts", value: "Yes" },
-    ],
+    summary: "1 site · 100 AI questions a month",
   },
   {
     name: "Growth",
     price: "$99",
-    cadence: "/mo",
     subtitle: "For builders running multiple sites",
-    sites: 5,
-    featured: true,
-    specs: [
-      { label: "AI questions", value: "500 / mo" },
-      { label: "Pages crawled", value: "5,000 / site" },
-      { label: "Keywords enriched", value: "2,000 / site" },
-      { label: "SERP snapshots", value: "500 / site" },
-      { label: "Weekly report + alerts", value: "Yes" },
-    ],
+    summary: "5 sites · 500 AI questions a month",
   },
   {
     name: "Agency",
     price: "$249",
-    cadence: "/mo",
     subtitle: "For portfolios and client work",
-    sites: 20,
-    specs: [
-      { label: "AI questions", value: "2,000 / mo" },
-      { label: "Pages crawled", value: "10,000 / site" },
-      { label: "Keywords enriched", value: "10,000 / site" },
-      { label: "SERP snapshots", value: "2,000 / site" },
-      { label: "Weekly report + alerts", value: "Yes" },
-    ],
+    summary: "20 sites · 2,000 AI questions a month",
   },
 ];
 
-/** A flat tick, as the reference draws it. */
-function Tick({ className = "" }: { className?: string }) {
+function Arrow() {
   return (
     <svg
-      className={`mt-[3px] h-4 w-4 shrink-0 ${className}`}
+      className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
       viewBox="0 0 16 16"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      strokeWidth="1.6"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      <path d="M3 8.5l3.2 3.2L13 5" />
+      <path d="M3 8h10M9 4l4 4-4 4" />
     </svg>
   );
 }
 
+/**
+ * Pricing as quiet frosted cards over the page's background: the name and
+ * who it is for, open space, then the price, the plan in one line and the
+ * one action. The footnote and "Compare plans" sit centred beneath.
+ */
 export default function Pricing() {
   return (
     <section id="pricing" className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <SectionHeader
           heading="A fraction of one consultant hour."
-          lede="The same analysis a $200/hr consultant runs by hand, working every day instead of one engagement."
+          lede="The same analysis a $200/hr consultant runs by hand, working every day instead of one engagement. All limits are per site, per month."
         />
 
-        {/* Name and subtitle, then the price, then the action -- the list
-            sits last. The featured card stands on the brand wash (the moving
-            gradient behind the product demo) with the one ink button; the
-            side cards are white, raised off the ivory, with the lilac one. */}
-        <div className="mt-12 grid gap-4 lg:grid-cols-3 lg:items-stretch">
-          {plans.map((plan) => {
-            const on = Boolean(plan.featured);
-            return (
-              <article
-                key={plan.name}
-                className={`relative isolate flex flex-col overflow-hidden rounded-3xl p-7 transition-transform duration-300 ease-out hover:-translate-y-1 sm:p-9 ${
-                  on
-                    ? "shadow-[0_30px_70px_-30px_rgba(40,25,110,0.45)]"
-                    : "bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_20px_50px_-30px_rgba(15,23,42,0.18)] ring-1 ring-black/[0.06]"
-                }`}
+        <div className="mt-12 grid gap-3 md:grid-cols-3">
+          {plans.map((plan) => (
+            <article
+              key={plan.name}
+              className="flex min-h-[22rem] flex-col rounded-[28px] border border-white/70 bg-white/70 p-7 shadow-[0_1px_2px_rgba(15,23,42,0.03),0_24px_60px_-40px_rgba(15,23,42,0.2)] backdrop-blur-xl sm:p-8"
+            >
+              <h3 className="font-display text-[28px] font-light tracking-[-0.02em] text-zinc-900">
+                {plan.name}
+              </h3>
+              <p className="mt-2 max-w-[18rem] font-body text-[16px] leading-[1.45] text-zinc-500">
+                {plan.subtitle}
+              </p>
+
+              {/* The open space the reference leaves before the price. */}
+              <span className="min-h-10 flex-1" />
+
+              <p className="flex items-baseline gap-1.5">
+                <span className="font-display text-[34px] font-light leading-none tracking-[-0.02em] text-zinc-900">
+                  {plan.price}
+                </span>
+                <span className="font-body text-[16px] text-zinc-500">
+                  /mo
+                </span>
+              </p>
+              <p className="mt-4 font-body text-[16px] leading-[1.45] text-zinc-500">
+                {plan.summary}
+              </p>
+
+              <Link
+                href="/#waitlist"
+                className="group mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-black/[0.05] px-5 py-2.5 font-body text-[15px] text-zinc-900 transition-colors duration-200 hover:bg-black/[0.09]"
               >
-                {on && <GradientWash offset={6} className="-z-10" />}
-
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="font-display text-[26px] font-medium tracking-[-0.02em] text-black">
-                    {plan.name}
-                  </h3>
-                  {on && (
-                    <span className="mt-1 rounded-full bg-white/70 px-2.5 py-1 font-body text-[12px] font-medium text-zinc-900 ring-1 ring-black/[0.06] backdrop-blur-sm">
-                      Most popular
-                    </span>
-                  )}
-                </div>
-                <p
-                  className={`mt-2 max-w-[22rem] font-body text-[16px] leading-[1.5] ${
-                    on ? "text-zinc-800" : "text-zinc-500"
-                  }`}
-                >
-                  {plan.subtitle}
-                </p>
-
-                <p className="mt-8 flex items-baseline gap-2">
-                  <span className="font-display text-[52px] font-medium leading-none tracking-[-0.04em] text-black">
-                    {plan.price}
-                  </span>
-                  <span
-                    className={`font-body text-[17px] ${on ? "text-zinc-800" : "text-zinc-500"}`}
-                  >
-                    {plan.cadence}
-                  </span>
-                </p>
-                <p
-                  className={`mt-3 font-body text-[15px] ${on ? "text-zinc-800" : "text-zinc-500"}`}
-                >
-                  Per month, billed monthly
-                </p>
-
-                {/* The action sits above the list, not under it: the site's
-                    glow button, ink on the featured card's wash and light on
-                    the white ones. */}
-                <Button
-                  href="#demo"
-                  variant={on ? "primary" : "secondary"}
-                  className="mt-7 w-full"
-                >
-                  Get started
-                </Button>
-
-                <ul
-                  className={`mt-8 flex flex-col gap-4 border-t pt-7 ${
-                    on ? "border-black/[0.12]" : "border-black/[0.07]"
-                  }`}
-                >
-                  {plan.specs.map((spec) => (
-                    <li key={spec.label} className="flex gap-3">
-                      <Tick className={on ? "text-zinc-900" : "text-signal"} />
-                      <span className="font-body text-[16px] leading-[1.45] text-zinc-800">
-                        {spec.label}
-                        {spec.value !== "Yes" && (
-                          <span className={on ? "text-zinc-700" : "text-zinc-500"}>
-                            {" "}
-                            &middot; {spec.value}
-                          </span>
-                        )}
-                      </span>
-                    </li>
-                  ))}
-                  <li className="flex gap-3">
-                    <Tick className={on ? "text-zinc-900" : "text-signal"} />
-                    <span className="font-body text-[16px] leading-[1.45] text-zinc-800">
-                      {plan.sites} {plan.sites === 1 ? "site" : "sites"}
-                    </span>
-                  </li>
-                </ul>
-              </article>
-            );
-          })}
+                Join waitlist
+                <Arrow />
+              </Link>
+            </article>
+          ))}
         </div>
 
-        <p className="mt-10 font-body text-[15px] leading-[1.65] text-zinc-500">
-          <Link
-            href="/pricing"
-            className="text-black underline underline-offset-2 transition-colors hover:text-zinc-500"
-          >
-            Compare every plan side by side
-          </Link>
-          . Early access is invite-based while we work closely with design
-          partners. Reach us at{" "}
-          <Link
-            href="mailto:hello@seerix.ai"
-            className="text-black underline underline-offset-2 transition-colors hover:text-zinc-500"
-          >
-            hello@seerix.ai
-          </Link>
-          .
+        <p className="mx-auto mt-10 max-w-2xl text-center font-body text-[15px] leading-[1.6] text-zinc-500">
+          Flat plans, no metering: crawls, SERP snapshots, alerts and the
+          weekly report are included, and background monitoring never draws
+          down your questions. Seerix is pre-launch; this is what plans
+          will cost when it opens.
         </p>
+
+        <div className="mt-6 flex justify-center">
+          <Link
+            href="/pricing#compare"
+            className="group inline-flex items-center gap-3 rounded-full bg-signal-ink px-5 py-2.5 font-body text-[15px] text-white transition-colors duration-200 hover:bg-[#1c1c21]"
+          >
+            Compare plans
+            <Arrow />
+          </Link>
+        </div>
       </div>
     </section>
   );

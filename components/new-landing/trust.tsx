@@ -25,7 +25,7 @@ const pillars: Pillar[] = [
   {
     eyebrow: "Evidence",
     title: "Cited, or rejected",
-    body: "The AI only reasons over evidence assembled from your actual data. Answers citing evidence that doesn't exist are automatically thrown away before you see them.",
+    body: "The AI reasons only over evidence assembled from your data. An answer citing evidence that doesn't exist is thrown away before you see it.",
     visual: <CitedOrRejected />,
   },
   {
@@ -327,6 +327,10 @@ export default function Trust() {
         <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-zinc-900">
           Built so it can&rsquo;t make things up about your site.
         </h2>
+        <p className="mx-auto mt-5 max-w-xl font-body text-[17px] leading-[1.6] text-zinc-600">
+          Every claim on this page about honesty is a design constraint, not a
+          promise. Here is each one, and how it is enforced.
+        </p>
       </div>
 
       {/* Drag to scroll. `overscroll-x-contain` stops a throw at either end
@@ -401,7 +405,11 @@ export default function Trust() {
         />
       </div>
 
-      <div className="mx-auto mt-10 w-full max-w-7xl px-6">
+      <div className="mx-auto mt-10 flex w-full max-w-7xl flex-col gap-4 px-6 sm:flex-row sm:items-center sm:justify-between">
+        {/* The three facts, said once, as the section's footer. */}
+        <p className="font-mono text-[12px] uppercase tracking-[0.08em] text-zinc-500">
+          Read-only &middot; 16 months &middot; Every claim cited
+        </p>
         <Link
           href="/privacy"
           className="group inline-flex items-center gap-2 font-body text-[15px] text-zinc-500 transition-colors duration-200 hover:text-black"

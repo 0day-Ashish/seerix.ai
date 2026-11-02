@@ -1,34 +1,33 @@
-import Button, { ButtonArrow } from "@/components/new-landing/button";
 import { BlockReveal } from "@/components/new-landing/block-reveal";
-import HeroGlow from "@/components/new-landing/hero-glow";
+import WaitlistForm from "@/components/new-landing/waitlist-form";
 
+/**
+ * The close: the one ask again, the same field and button as the hero. No
+ * demo, contact or "cancel anytime" here -- each promises a flow that does
+ * not exist until launch.
+ */
 export default function Cta() {
   return (
     <section
-      id="demo"
-      className="relative isolate overflow-hidden bg-ghost px-6 py-24 sm:py-32"
+      id="join"
+      className="relative bg-ghost px-6 py-20 sm:py-24"
     >
-      {/* The hero's glow, closing the page as it opened: centred behind the
-          closing line and its buttons, breathing slowly. */}
-      <HeroGlow className="inset-x-[-10%] top-1/2 h-[17rem] -translate-y-1/2 sm:inset-x-[8%] sm:h-[19rem]" />
       <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
         <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-black">
           <BlockReveal>Stop guessing why. Start knowing.</BlockReveal>
         </h2>
 
         <p className="mt-5 max-w-lg font-body text-[16px] leading-[1.6] text-zinc-600">
-          Connect your Search Console and ask your first question. Works with
-          Search Console alone &middot; No credit card &middot; Cancel anytime.
+          Join the waitlist and your first diagnosis lands on day one of
+          launch: sixteen months of your own history, read-only, every claim
+          cited.
         </p>
 
-        <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
-          <Button href="#demo">
-            See demo
-            <ButtonArrow />
-          </Button>
-          <Button href="/contact" variant="secondary">
-            Contact us
-          </Button>
+        <div className="mt-9 w-full">
+          <WaitlistForm
+            className="mx-auto text-left"
+            note="no spam · one email when we launch · revoke access anytime"
+          />
         </div>
       </div>
     </section>

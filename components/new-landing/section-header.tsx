@@ -7,8 +7,7 @@ type SectionHeaderProps = {
 };
 
 /**
- * The heading / lede stack every section opens with. The heading carries a
- * signal bar beside its first line (.heading-mark) in place of an eyebrow. Left-aligned and
+ * The heading / lede stack every section opens with. Left-aligned and
  * stacked rather than the earlier two-column split, so all sections share one
  * rhythm.
  */
@@ -18,7 +17,7 @@ export default function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <div className="max-w-2xl">
-      <h2 className="heading-mark font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-black">
+      <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-black">
         <BlockReveal>{heading}</BlockReveal>
       </h2>
       {lede && (

@@ -13,7 +13,7 @@ const sections: LegalSection[] = [
   {
     heading: "What SeerixBot is",
     body: [
-      "SeerixBot is the crawler behind the Seerix platform. When a customer connects a site, SeerixBot fetches its pages so that a diagnosis can cite what is actually on them: titles, headings, internal links, canonical tags, status codes and page structure.",
+      "SeerixBot is the crawler behind Seerix. When a customer connects a site, SeerixBot fetches its pages so that a diagnosis can cite what is actually on them: titles, headings, internal links, canonical tags, status codes and page structure.",
       "It crawls only sites that a customer has connected and configured, and it crawls within the limits of that customer's plan. It does not roam the web building a general index, and it is not an AI training crawler: nothing it fetches is used to train models.",
     ],
   },

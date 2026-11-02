@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import AgentWindow from "@/components/new-landing/agent-window";
-import HeroActions, { SourceCycle } from "@/components/new-landing/hero-actions";
+import WaitlistForm from "@/components/new-landing/waitlist-form";
 
 /**
  * The opener: an announcement strip under the nav, then one ruled frame
@@ -13,13 +13,11 @@ export default function Hero() {
   return (
     <section className="bg-ghost">
       <p className="border-y border-black/[0.07] px-6 py-2.5 text-center font-body text-[13px] text-zinc-700 sm:text-[14px]">
-        Introducing evidence-cited diagnoses{" "}
-        <Link
-          href="/pricing"
-          className="whitespace-nowrap text-signal-deep hover:underline"
-        >
-          Read more &rarr;
-        </Link>
+        Launching soon.{" "}
+        <Link href="#waitlist" className="text-signal-deep hover:underline">
+          Join the waitlist
+        </Link>{" "}
+        and get one email when Seerix is live.
       </p>
 
       <div className="px-4 pt-8 sm:px-6">
@@ -38,17 +36,30 @@ export default function Hero() {
             />
 
             <div className="relative flex flex-col items-center">
-              <h1 className="max-w-5xl font-display text-[36px] font-light leading-[1.15] tracking-[-0.02em] text-zinc-900 sm:text-[48px] md:text-[60px] md:leading-[1.2]">
-                The Search Console platform that explains why
-              </h1>
-              <p className="mt-4 font-body text-[16px] font-light text-zinc-600 sm:text-[18px]">
-                Answers cited from <SourceCycle />
+              <p className="mb-5 font-mono text-[11.5px] uppercase tracking-[0.08em] text-zinc-500 sm:text-[12px]">
+                Built on your Search Console &middot; Read-only &middot; Every
+                claim cited
               </p>
-              <div className="mt-8 w-full">
-                <HeroActions />
+              <h1 className="max-w-5xl font-display text-[36px] font-light leading-[1.15] tracking-[-0.02em] text-zinc-900 sm:text-[48px] md:text-[60px] md:leading-[1.2]">
+                The Search Console analyst that explains why.
+              </h1>
+              <p className="mt-4 max-w-xl font-body text-[16px] font-light leading-[1.55] text-zinc-600 sm:text-[18px]">
+                Ask why your rankings moved. Get the cause, the fix, and the
+                receipts.
+              </p>
+              {/* The hero's only action. The nav's button and the
+                  announcement link land here. */}
+              <div id="waitlist" className="mt-8 w-full scroll-mt-32">
+                <WaitlistForm className="mx-auto text-left" />
               </div>
             </div>
           </div>
+
+          {/* The breadth, whispered: every job, in one mono line. */}
+          <p className="border-t border-black/[0.08] px-4 py-2.5 text-center font-mono text-[11.5px] tracking-[0.06em] text-zinc-500 sm:text-[12px]">
+            diagnose &middot; prioritize &middot; watch &middot; verify
+            &middot; write
+          </p>
 
           <div className="border-t border-black/[0.08]">
             <AgentWindow />

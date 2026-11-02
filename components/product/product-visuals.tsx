@@ -300,7 +300,7 @@ export function CreateVisual() {
 
   const variants = [
     {
-      text: "SEO Audit Tool — See Why Rankings Changed | Seerix",
+      text: "SEO Audit Tool: See Why Rankings Changed | Seerix",
       cite: "Title ≤ 60 chars",
       len: 51,
     },
@@ -310,7 +310,7 @@ export function CreateVisual() {
       len: 47,
     },
     {
-      text: "Seerix — Search Console Audits With Evidence",
+      text: "Seerix | Search Console Audits With Evidence",
       cite: "Brand last on brand terms",
       len: 44,
     },

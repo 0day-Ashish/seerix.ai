@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import FooterContact from "@/components/new-landing/footer-contact";
-import FooterDetails from "@/components/new-landing/footer-details";
 import FooterLinks from "@/components/new-landing/footer-links";
 import StrokeText from "@/components/new-landing/StrokeText";
 import { ParticleDissolve } from "@/components/new-landing/ui/particle-dissolve";
@@ -10,7 +9,7 @@ import { ParticleDissolve } from "@/components/new-landing/ui/particle-dissolve"
  *  the two must change together or a seam shows at the join. */
 const FOOT = "#0a0a0b";
 
-/** The short legal run in the bottom bar, beside the status readout. */
+/** The short legal run in the bottom bar. */
 const legalLinks = [
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
@@ -32,11 +31,10 @@ export default function SiteFooter() {
         style={{ background: FOOT }}
       >
         <div className="relative z-10">
-          {/* Tagline left, office and socials in the middle, link columns
-              right; they stack on mobile. */}
+          {/* Tagline and email left, link columns right; they stack on
+              mobile. No office, phone or socials until real ones exist. */}
           <div className="mx-auto flex max-w-7xl flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
             <FooterContact />
-            <FooterDetails />
             <FooterLinks />
           </div>
 
@@ -45,19 +43,8 @@ export default function SiteFooter() {
               &copy; {new Date().getFullYear()} Seerix. All rights reserved.
             </p>
 
-            {/* Replaces the theme toggle, which had nothing to switch: no part
-                of the site carries dark variants. A status readout and the
-                legal links use the slot for something the footer is actually
-                asked for. */}
+            {/* No status readout until there is a status page to link. */}
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-              <span className="flex items-center gap-2 font-body text-[13px] text-white/40">
-                <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal-bright opacity-60" />
-                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-signal-bright" />
-                </span>
-                All systems operational
-              </span>
-
               <nav aria-label="Legal" className="flex items-center gap-5">
                 {legalLinks.map((link) => (
                   <Link

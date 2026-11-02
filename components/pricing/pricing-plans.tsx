@@ -68,7 +68,7 @@ export default function PricingPlans() {
               className={`relative flex flex-col overflow-hidden rounded-3xl p-4 lg:row-span-4 lg:grid lg:grid-rows-subgrid lg:gap-0 ${
                 dark
                   ? "bg-[#d8d1fa] text-zinc-900 shadow-[0_30px_70px_-30px_rgba(40,25,110,0.45)] lg:-my-3 lg:py-7"
-                  : "border border-black/[0.08] bg-white"
+                  : "frost"
               }`}
             >
               {/* The brand wash fills the whole featured card, so it reads

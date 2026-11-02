@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import { BlockReveal } from "@/components/new-landing/block-reveal";
 import Button, { ButtonArrow } from "@/components/new-landing/button";
-import GradientWash from "@/components/new-landing/gradient-wash";
 
 type Industry = {
   name: string;
@@ -36,39 +35,29 @@ export default function Industries() {
   return (
     <section id="industries" className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
-        {/* The brand wash: the moving gradient behind the product demo, so
-            the section reads as a break between the FAQ and the closing CTA.
-            The copy is near-black throughout, since it crosses the wash's
-            darker violet as well as its lilac. */}
-        {/* One panel with a diagonal bevel cut out of its top right, not a
-            tab sitting on a box: the raised shoulder on the left, and the
-            cut falls away to the panel's full width. The shape lives in
-            globals.css (.bevel), rounded at every corner like the rest of
-            the site's panels. */}
-        <div
-          className="bevel bevel-panel relative px-7 pb-12 pt-4 sm:px-12 sm:pb-16"
-        >
-          <GradientWash offset={9} />
-          <div className="relative pt-16 sm:pt-20">
+        {/* A frosted card, the same as the pricing cards, over the page's
+            moving background. */}
+        <div className="relative overflow-hidden rounded-[28px] border border-white/70 bg-white/70 px-7 py-12 shadow-[0_1px_2px_rgba(15,23,42,0.03),0_24px_60px_-40px_rgba(15,23,42,0.2)] backdrop-blur-xl sm:px-12 sm:py-16">
+          <div className="relative">
             <div className="relative grid gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
               {/* Heading parks alongside the grid while it scrolls past. */}
               <div className="lg:self-center">
-                <p className="mb-4 font-body text-[14px] text-zinc-800">
+                <p className="mb-4 font-body text-[14px] text-zinc-500">
                   Industries
                 </p>
-                <h2 className="heading-mark font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-black">
+                <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-black">
                   <BlockReveal>
                     Built for sites where search traffic is the business.
                   </BlockReveal>
                 </h2>
 
-                <p className="mt-5 max-w-sm font-body text-[16px] leading-[1.6] text-zinc-800">
+                <p className="mt-5 max-w-sm font-body text-[16px] leading-[1.6] text-zinc-500">
                   Seerix makes no assumptions about your vertical. Every
                   diagnosis is assembled from your own data, whatever you sell.
                 </p>
 
-                <Button href="#demo" className="mt-8">
-                  See demo
+                <Button href="/#waitlist" className="mt-8">
+                  Join waitlist
                   <ButtonArrow />
                 </Button>
               </div>
@@ -86,7 +75,7 @@ export default function Industries() {
                     <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-black">
                       {industry.name}
                     </h3>
-                    <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-800">
+                    <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-500">
                       {industry.body}
                     </p>
                   </div>
@@ -99,7 +88,7 @@ export default function Industries() {
                   <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-zinc-800">
                     Not listed here?
                   </h3>
-                  <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-800">
+                  <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-500">
                     The vertical never changes the method. Connect a property
                     and Seerix reads what your market actually does.
                   </p>

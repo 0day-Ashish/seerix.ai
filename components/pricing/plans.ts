@@ -35,8 +35,8 @@ export const plans: Plan[] = [
       "Weekly report and alerts",
       "Email support",
     ],
-    cta: "See demo",
-    href: "/#demo",
+    cta: "Join waitlist",
+    href: "/#waitlist",
   },
   {
     id: "growth",
@@ -53,8 +53,8 @@ export const plans: Plan[] = [
       "Competitor tracking and SERP snapshots",
       "Priority support",
     ],
-    cta: "See demo",
-    href: "/#demo",
+    cta: "Join waitlist",
+    href: "/#waitlist",
   },
   {
     id: "agency",
@@ -70,8 +70,8 @@ export const plans: Plan[] = [
       "Client-ready exports and shared workspaces",
       "Named account contact",
     ],
-    cta: "Talk to us",
-    href: "mailto:hello@seerix.ai",
+    cta: "Join waitlist",
+    href: "/#waitlist",
   },
 ];
 

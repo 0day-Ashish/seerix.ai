@@ -214,6 +214,31 @@ body {
   }
 }
 
+/* The marketing pages run on the animated noise background
+   (noise-background.tsx), fixed behind everything; sections that would paint
+   the flat ivory over it go transparent wherever it is mounted. */
+body:has([data-noise-bg]) .bg-ghost {
+  background-color: transparent;
+}
+
+/* The body paints its own ivory after negative-z content, which would cover
+   the fixed canvas; it steps aside too (html keeps the ivory). */
+body:has([data-noise-bg]) {
+  background: transparent;
+}
+
+/* The frosted card every marketing panel uses: translucent white over the
+   moving background, a pale rim and a long soft shadow. */
+@utility frost {
+  border: 1px solid rgb(255 255 255 / 0.7);
+  background-color: rgb(255 255 255 / 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.03),
+    0 24px 60px -40px rgba(15, 23, 42, 0.2);
+}
+
 /* The wordmark. Pinned to Space Grotesk rather than `font-display`, which
    now resolves to Host Grotesk: the logotype is a fixed mark and should
    not follow a change of heading face. */
@@ -284,26 +309,6 @@ body {
   --bevel-drop: 4.5rem;
   --bevel-jx: 0.5rem;
   --bevel-jy: 0.56rem;
-}
-
-/* Section headings: a short signal bar beside the first line, in place of
-   the eyebrow label that used to sit above. It hangs in the margin left of
-   the heading, so the text keeps its alignment with the content below. Sized
-   in em so it tracks the heading at every breakpoint, and pinned to the first
-   line so a wrapping heading keeps one mark. */
-.heading-mark {
-  position: relative;
-}
-
-.heading-mark::before {
-  content: "";
-  position: absolute;
-  left: calc(-0.3em - 3px);
-  top: 0.18em;
-  height: 0.82em;
-  width: 3px;
-  border-radius: 2px;
-  background: var(--color-signal);
 }
 
 /* How-it-works globe: a full turn about the vertical axis. */

@@ -59,7 +59,7 @@ export default function PricingCompare() {
             keeps the 720px table from widening the document itself: the sticky
             header row otherwise escapes the scroll container and counts toward
             the page's scroll width, so the whole page pans sideways. */}
-        <div className="mt-10 overflow-x-auto rounded-2xl border border-black/[0.10] bg-white contain-[paint]">
+        <div className="frost mt-10 overflow-x-auto rounded-2xl contain-[paint]">
           <table className="w-full min-w-[720px] border-collapse text-left">
             <caption className="sr-only">
               Feature comparison across the Starter, Growth and Agency plans

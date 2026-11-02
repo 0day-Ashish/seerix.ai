@@ -4,7 +4,7 @@ import Link from "next/link";
 import Button from "@/components/new-landing/button";
 
 /** Topics a message can be about; each jumps to the form. */
-const topics = ["Demo", "Pricing", "Security", "Agencies", "Partnerships"];
+const topics = ["Waitlist", "Pricing", "Security", "Agencies", "Partnerships"];
 
 /**
  * The contact page's opener: one promise, one line under it, and the topics
@@ -14,7 +14,7 @@ export function ContactOpener() {
   return (
     <section className="bg-ghost px-6 pb-12 pt-20 sm:pt-28">
       <div className="mx-auto max-w-7xl">
-        <h1 className="heading-mark max-w-3xl font-display text-[40px] font-light leading-[1.05] tracking-[-0.02em] text-black sm:text-[56px]">
+        <h1 className="max-w-3xl font-display text-[40px] font-light leading-[1.05] tracking-[-0.02em] text-black sm:text-[56px]">
           Talk to the people building <span className="wordmark">Seerix</span>
         </h1>
         <p className="mt-4 max-w-2xl font-body text-[18px] leading-[1.55] text-zinc-500 sm:text-[20px]">
@@ -51,16 +51,16 @@ type Route = {
 
 const routes: Route[] = [
   {
-    label: "Sales",
-    title: "See it on your site",
-    reply: "Same day",
+    label: "Launch",
+    title: "Join the waitlist",
+    reply: "One email",
     summary:
-      "A half-hour walkthrough on a property you connect, not a canned demo account.",
-    cta: { label: "Book a demo", href: "#form" },
+      "Seerix is pre-launch. Leave your email and you get one message, the day it opens.",
+    cta: { label: "Join waitlist", href: "/#waitlist" },
     goodFor: [
-      "Whether Seerix fits your sites",
-      "Which plan covers your portfolio",
-      "A first diagnosis on real data",
+      "Hearing the day Seerix opens",
+      "Launch pricing for your portfolio",
+      "A first diagnosis on your own data",
     ],
   },
   {
@@ -117,7 +117,7 @@ function Check() {
 export function ContactRoutes() {
   return (
     <section className="bg-ghost px-6 pb-24">
-      <h2 className="heading-mark mx-auto mb-10 max-w-7xl font-display text-[36px] font-light leading-[1.1] tracking-[-0.02em] text-black sm:text-[44px]">
+      <h2 className="mx-auto mb-10 max-w-7xl font-display text-[36px] font-light leading-[1.1] tracking-[-0.02em] text-black sm:text-[44px]">
         Other ways to reach us
       </h2>
       <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr] lg:gap-x-5 lg:gap-y-0">
@@ -126,7 +126,7 @@ export function ContactRoutes() {
           return (
             <article
               key={route.label}
-              className="flex flex-col rounded-3xl border border-black/[0.08] bg-white p-4 lg:row-span-3 lg:grid lg:grid-rows-subgrid lg:gap-0"
+              className="frost flex flex-col rounded-[28px] p-4 lg:row-span-3 lg:grid lg:grid-rows-subgrid lg:gap-0"
             >
               <div
                 className={`relative min-h-[13rem] overflow-hidden rounded-2xl p-6 ${
@@ -217,8 +217,8 @@ const steps = [
   },
   {
     n: "03",
-    title: "If it helps, we show you",
-    body: "A short call on a property you connect, read-only, on your own data.",
+    title: "You hear first at launch",
+    body: "If you join the waitlist too, you get one email the day Seerix opens.",
   },
 ];
 
@@ -234,7 +234,7 @@ export function ContactFormBlock({ form }: { form: React.ReactNode }) {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
           {form}
-          <div className="flex flex-col rounded-3xl border border-black/[0.08] bg-white p-6 sm:p-8">
+          <div className="frost flex flex-col rounded-[28px] p-6 sm:p-8">
             <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-zinc-500">
               What happens next
             </p>
@@ -271,7 +271,7 @@ export function ContactFormBlock({ form }: { form: React.ReactNode }) {
 
             {/* What to put in the message: the three things every first
                 reply otherwise has to ask for. */}
-            <div className="mt-8 rounded-2xl bg-signal-soft p-5">
+            <div className="mt-8 rounded-2xl border border-black/[0.06] bg-white/60 p-5">
               <p className="font-body text-[14px] font-medium text-signal-deep">
                 Helps us answer faster
               </p>

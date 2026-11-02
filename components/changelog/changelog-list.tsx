@@ -203,7 +203,7 @@ export default function ChangelogList() {
               {e.sketch && (
                 <div
                   aria-hidden="true"
-                  className="self-start rounded-2xl bg-[#f3f2ef] p-5"
+                  className="frost self-start rounded-2xl p-5"
                 >
                   <Sketch kind={e.sketch} />
                 </div>

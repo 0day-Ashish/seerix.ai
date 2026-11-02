@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 
 import Button, { ButtonArrow } from "@/components/new-landing/button";
-import SectionDivider from "@/components/new-landing/section-divider";
 import SiteFooter from "@/components/new-landing/site-footer";
 
 export type Capability = {
@@ -35,9 +34,8 @@ export type ProductPageProps = {
  *
  * One component rather than four near-identical pages, so the pages cannot
  * drift apart -- the same decision `PlanCard` makes for the two pricing
- * surfaces. Everything here reuses the landing system: `heading-mark` on the
- * headings, `SectionDivider` between sections, the shared `Button` at its one
- * size, and `SiteFooter` closing the page.
+ * surfaces. Everything here reuses the landing system: the shared `Button` at its one size, and `SiteFooter`
+ * closing the page.
  */
 export default function ProductPage({
   job,
@@ -59,7 +57,7 @@ export default function ProductPage({
               <p className="font-mono text-[12px] tracking-[0.04em] text-zinc-400">
                 {job.toUpperCase()}
               </p>
-              <h1 className="heading-mark mt-4 font-display text-[36px] font-light leading-[1.08] tracking-[-0.02em] text-black sm:text-[50px]">
+              <h1 className="mt-4 font-display text-[36px] font-light leading-[1.08] tracking-[-0.02em] text-black sm:text-[50px]">
                 {headline}
               </h1>
               <p className="mt-5 max-w-xl font-body text-[17px] leading-[1.6] text-zinc-500 sm:text-[18px]">
@@ -67,8 +65,8 @@ export default function ProductPage({
               </p>
 
               <div className="mt-9 flex flex-wrap items-center gap-3">
-                <Button href="/#demo">
-                  See demo
+                <Button href="/#waitlist">
+                  Join waitlist
                   <ButtonArrow />
                 </Button>
                 <Button href="/pricing" variant="secondary">
@@ -83,12 +81,10 @@ export default function ProductPage({
         </div>
       </section>
 
-      <SectionDivider />
-
       {/* What the job does. */}
       <section className="bg-ghost px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
-          <h2 className="heading-mark max-w-3xl font-display text-[32px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[40px]">
+          <h2 className="max-w-3xl font-display text-[32px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[40px]">
             What {job.toLowerCase()} covers
           </h2>
 
@@ -178,12 +174,10 @@ export default function ProductPage({
         </div>
       </section>
 
-      <SectionDivider />
-
       {/* The sibling jobs, so the four pages form a set rather than dead ends. */}
       <section className="bg-ghost px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
-          <h2 className="heading-mark font-display text-[32px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[40px]">
+          <h2 className="font-display text-[32px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[40px]">
             The rest of the job
           </h2>
 

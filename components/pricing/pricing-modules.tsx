@@ -1,5 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
+
+import Button from "@/components/new-landing/button";
 
 type Module = {
   name: string;
@@ -152,7 +153,7 @@ export default function PricingModules() {
   return (
     <section className="bg-ghost px-6 pb-24">
       <div className="mx-auto max-w-7xl">
-        <h2 className="heading-mark font-display text-[36px] font-light leading-[1.1] tracking-[-0.02em] text-black sm:text-[44px]">
+        <h2 className="font-display text-[36px] font-light leading-[1.1] tracking-[-0.02em] text-black sm:text-[44px]">
           What every plan runs
         </h2>
 
@@ -162,7 +163,7 @@ export default function PricingModules() {
             return (
               <article
                 key={m.name}
-                className="flex flex-col rounded-3xl border border-black/[0.08] bg-white p-3 sm:p-4"
+                className="frost flex flex-col rounded-[28px] p-3 sm:p-4"
               >
                 <div
                   aria-hidden="true"
@@ -216,12 +217,9 @@ export default function PricingModules() {
                   ))}
                 </ul>
                 <div className="flex-1" />
-                <Link
-                  href="/#demo"
-                  className="mt-4 flex h-11 items-center justify-center rounded-xl bg-[#1c1c21] font-body text-[14px] font-medium text-white transition-colors hover:bg-[#36363B]"
-                >
-                  See it work
-                </Link>
+                <Button href="/#waitlist" className="mt-4 h-11 w-full">
+                  Join waitlist
+                </Button>
               </article>
             );
           })}

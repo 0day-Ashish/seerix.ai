@@ -133,7 +133,7 @@ export default function PricingUseCases() {
   return (
     <section id="use-cases" className="scroll-mt-28 bg-ghost px-6 pb-24">
       <div className="mx-auto max-w-7xl">
-        <h2 className="heading-mark font-display text-[36px] font-light leading-[1.1] tracking-[-0.02em] text-black sm:text-[44px]">
+        <h2 className="font-display text-[36px] font-light leading-[1.1] tracking-[-0.02em] text-black sm:text-[44px]">
           Use cases
         </h2>
 
@@ -169,7 +169,7 @@ export default function PricingUseCases() {
           <div
             role="tabpanel"
             key={uc.name}
-            className="grid animate-[seerix-fade-in_0.35s_ease-out] gap-6 rounded-3xl border border-black/[0.08] bg-white p-6 shadow-[0_20px_50px_-35px_rgba(0,0,0,0.35)] sm:p-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]"
+            className="grid animate-[seerix-fade-in_0.35s_ease-out] gap-6 rounded-[28px] frost p-6 sm:p-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]"
           >
             <div className="flex min-w-0 flex-col">
               <h3 className="font-display text-[30px] font-medium tracking-[-0.03em] text-black">
@@ -194,7 +194,7 @@ export default function PricingUseCases() {
                 ))}
               </div>
               <div className="flex-1" />
-              <div className="mt-8 rounded-2xl border border-black/[0.06] bg-zinc-50 p-5">
+              <div className="mt-8 rounded-2xl border border-black/[0.06] bg-white/60 p-5">
                 <p className="flex items-baseline justify-between gap-4">
                   <span className="font-display text-[18px] text-black">
                     Fits the {uc.plan.name} plan
@@ -206,8 +206,8 @@ export default function PricingUseCases() {
                     </span>
                   </span>
                 </p>
-                <Button href="/#demo" className="mt-4 w-full font-medium">
-                  See it on your site
+                <Button href="/#waitlist" className="mt-4 w-full font-medium">
+                  Join waitlist
                 </Button>
               </div>
             </div>

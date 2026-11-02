@@ -20,7 +20,7 @@ export default function PricingHero() {
   return (
     <section className="bg-ghost px-6 pb-12 pt-20 sm:pt-28">
       <div className="mx-auto max-w-7xl">
-        <h1 className="heading-mark font-display text-[40px] font-light leading-[1.05] tracking-[-0.02em] text-black sm:text-[56px]">
+        <h1 className="font-display text-[40px] font-light leading-[1.05] tracking-[-0.02em] text-black sm:text-[56px]">
           Start with one site that matters
         </h1>
         <p className="mt-4 font-body text-[18px] leading-[1.55] text-zinc-500 sm:text-[20px]">
@@ -28,8 +28,8 @@ export default function PricingHero() {
         </p>
 
         <div className="mt-9 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <Button href="/#demo" className="w-full font-medium sm:w-56">
-            Get started
+          <Button href="/#waitlist" className="w-full font-medium sm:w-56">
+            Join waitlist
           </Button>
 
           <div className="flex flex-wrap items-center gap-2">

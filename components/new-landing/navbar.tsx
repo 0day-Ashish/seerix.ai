@@ -31,7 +31,6 @@ const productColumns = [
       { label: "Connect Search Console", href: "#how-it-works" },
       { label: "Seerix studies your site", href: "#how-it-works" },
       { label: "Ask anything", href: "#how-it-works" },
-      { label: "Why trust it", href: "#trust" },
     ],
   },
 ];
@@ -309,15 +308,11 @@ export default function Navbar() {
             </ul>
 
             <div className="flex shrink-0 items-center gap-2">
-              {/* Wrapped: the wrapper carries the breakpoint display, so it
-                  never fights the button's own inline-flex. */}
+              {/* The one button: the waitlist. Contact stays a plain link in
+                  the row. Wrapped, so the breakpoint display never fights the
+                  button's own inline-flex. */}
               <span className="hidden sm:block">
-                <Button href="#demo">See demo</Button>
-              </span>
-              <span className="hidden lg:block">
-                <Button href="/contact" variant="secondary">
-                  Contact us
-                </Button>
+                <Button href="/#waitlist">Join waitlist</Button>
               </span>
 
               <button
@@ -415,23 +410,15 @@ export default function Navbar() {
                 </div>
               )}
 
-              {/* Mirrors the header CTAs, which are held back below lg. */}
-              <div className="mt-7 flex flex-col gap-3 lg:hidden">
+              {/* The header's one button, which is held back on phones. */}
+              <div className="mt-7 lg:hidden">
                 <Button
-                  href="#demo"
+                  href="/#waitlist"
                   onClick={() => setMenuOpen(false)}
-                  className="w-full sm:hidden"
-                >
-                  See demo
-                  <ButtonArrow />
-                </Button>
-                <Button
-                  href="/contact"
-                  onClick={() => setMenuOpen(false)}
-                  variant="secondary"
                   className="w-full"
                 >
-                  Contact us
+                  Join waitlist
+                  <ButtonArrow />
                 </Button>
               </div>
             </div>

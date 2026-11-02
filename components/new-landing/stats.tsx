@@ -4,7 +4,7 @@ import { CountUp } from "@/components/new-landing/count-up";
  * Each figure carries a small reading of itself drawn underneath, so the
  * number is shown as product output rather than as a marketing claim: the
  * sixteen months as a history strip, the markets as locale chips, the
- * allowance as a usage meter, the price against an hour of consultant time.
+ * allowance as a usage meter, a month's price against an hour of consultant time.
  * The signal colour marks the part of each reading the figure is about.
  * ---------------------------------------------------------------------- */
 
@@ -121,7 +121,7 @@ const stats: Stat[] = [
     unit: "months",
     label: "History on day one",
     description:
-      "of clicks, impressions and rankings, pulled on your first read-only sign-in.",
+      "Clicks, impressions and rankings, pulled on your first read-only sign-in.",
     reading: <HistoryStrip />,
   },
   {
@@ -138,10 +138,11 @@ const stats: Stat[] = [
     reading: <UsageMeter />,
   },
   {
-    value: "$39",
-    unit: "/month",
-    label: "Where plans start",
-    description: "for analysis a $200/hr consultant runs by hand.",
+    value: "12",
+    unit: "minutes",
+    label: "What a month of Seerix costs",
+    description:
+      "in consultant time. Starter is $39/mo; one consultant hour is $200.",
     reading: <PriceCompare />,
   },
 ];
@@ -157,7 +158,7 @@ export default function Stats() {
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
           <div className="max-w-2xl">
-            <h2 className="heading-mark font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-black">
+            <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-black">
               Every claim shows its receipts
             </h2>
           </div>

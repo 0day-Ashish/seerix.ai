@@ -42,7 +42,7 @@ export default function LegalPage({
     <section className="bg-ghost px-6 pb-20 pt-16 sm:pb-24 sm:pt-24">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-2xl">
-          <h1 className="heading-mark font-display text-[36px] font-light leading-[1.1] tracking-[-0.02em] text-black sm:text-[46px]">
+          <h1 className="font-display text-[36px] font-light leading-[1.1] tracking-[-0.02em] text-black sm:text-[46px]">
             <BlockReveal>{title}</BlockReveal>
           </h1>
           <p className="mt-5 font-body text-[17px] leading-[1.6] text-zinc-500">
@@ -106,7 +106,7 @@ export default function LegalPage({
               </section>
             ))}
 
-            <p className="mt-10 rounded-2xl border border-black/[0.08] bg-[#f3f2ef] px-5 py-4 font-body text-[15px] leading-[1.7] text-zinc-500">
+            <p className="frost mt-10 rounded-2xl px-5 py-4 font-body text-[15px] leading-[1.7] text-zinc-500">
               Questions about any of this? Write to{" "}
               <Link
                 href="mailto:hello@seerix.ai"

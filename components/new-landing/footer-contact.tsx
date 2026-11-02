@@ -3,7 +3,7 @@ import Link from "next/link";
 import SeerixMark from "@/components/new-landing/seerix-mark";
 
 const tagline =
-  "The SEO platform that explains why. Connect your Google Search Console and get diagnoses with receipts, not dashboards with homework.";
+  "An SEO analyst built on your own Search Console. Diagnoses with receipts, not dashboards with homework.";
 
 const contacts = [{ label: "hello@seerix.ai", href: "mailto:hello@seerix.ai" }];
 

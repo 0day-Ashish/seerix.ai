@@ -98,8 +98,8 @@ export function PricingCloser() {
           Connect your Search Console and ask your first question. Plans from
           $39 a month.
         </p>
-        <Button href="/#demo" className="mt-8 px-6 font-medium">
-          Get started
+        <Button href="/#waitlist" className="mt-8 px-6 font-medium">
+          Join waitlist
         </Button>
       </div>
     </section>
