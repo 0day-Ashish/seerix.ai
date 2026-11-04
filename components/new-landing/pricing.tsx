@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import Button, { ButtonArrow } from "@/components/new-landing/button";
 import SectionHeader from "@/components/new-landing/section-header";
 
@@ -37,23 +35,6 @@ const plans: Plan[] = [
   },
 ];
 
-function Arrow() {
-  return (
-    <svg
-      className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M3 8h10M9 4l4 4-4 4" />
-    </svg>
-  );
-}
-
 /**
  * The three plan cards, shared by the homepage and /pricing so the two can't
  * drift apart: the name and who it is for, open space, then the price, the
@@ -89,13 +70,10 @@ export function PlanCards({ className = "" }: { className?: string }) {
             {plan.summary}
           </p>
 
-          <Link
-            href="/#waitlist"
-            className="group mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-black/[0.05] px-5 py-2.5 font-body text-[15px] text-zinc-900 transition-colors duration-200 hover:bg-black/[0.09]"
-          >
+          <Button href="/#waitlist" className="mt-6 w-fit">
             Join waitlist
-            <Arrow />
-          </Link>
+            <ButtonArrow />
+          </Button>
         </article>
       ))}
     </div>

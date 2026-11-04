@@ -77,7 +77,13 @@ function Arrow() {
  * ---------------------------------------------------------------------- */
 
 type Item = { label: string; icon: IconName; soon?: boolean };
-type Column = { job: string; href: string; tile: string; items: Item[] };
+type Column = {
+  job: string;
+  summary: string;
+  href: string;
+  tile: string;
+  items: Item[];
+};
 
 /**
  * One soft tint per job, so a column's tiles read as a set: the signal tint
@@ -86,7 +92,8 @@ type Column = { job: string; href: string; tile: string; items: Item[] };
 const columns: Column[] = [
   {
     job: "Diagnose",
-    href: "/#how-it-works",
+    summary: "Why traffic moved, with the evidence behind it.",
+    href: "/product/diagnose",
     tile: "bg-[#e3e2fb] text-[#2f2d8a]",
     items: [
       { label: "Traffic-drop diagnosis", icon: "drop" },
@@ -98,7 +105,8 @@ const columns: Column[] = [
   },
   {
     job: "Prioritize",
-    href: "/#how-it-works",
+    summary: "Fixes ranked by impact against effort.",
+    href: "/product/prioritize",
     tile: "bg-[#f3d6e4] text-[#6b1f43]",
     items: [
       { label: "Impact × effort scoring", icon: "score" },
@@ -110,7 +118,8 @@ const columns: Column[] = [
   },
   {
     job: "Watch",
-    href: "/#how-it-works",
+    summary: "SERPs and competitors, checked every day.",
+    href: "/product/watch",
     tile: "bg-[#cfeee0] text-[#14503a]",
     items: [
       { label: "SERP snapshots", icon: "camera" },
@@ -122,7 +131,8 @@ const columns: Column[] = [
   },
   {
     job: "Create",
-    href: "/#how-it-works",
+    summary: "Titles, metas and briefs, drafted from what ranks.",
+    href: "/product/create",
     tile: "bg-[#f6efb6] text-[#5a4a07]",
     items: [
       { label: "Title rewrites", icon: "title" },
@@ -133,159 +143,75 @@ const columns: Column[] = [
   },
 ];
 
-const foundation: Item[] = [
-  { label: "Search Console sync", icon: "db" },
-  { label: "SeerixBot crawler", icon: "bot" },
-  { label: "Evidence validator", icon: "shield" },
-  { label: "Confidence scoring", icon: "gauge" },
-  { label: "Per-site isolation", icon: "lock" },
-  { label: "Ask Seerix", icon: "chat" },
-];
-
-/* -------------------------------------------------------------------------
- * Dithered blocks: the pixel texture in the top-right corner, built from
- * repeating gradients rather than an image so it stays crisp at any size.
- * ---------------------------------------------------------------------- */
-
-const dither = {
-  fine: "bg-[radial-gradient(#ffffff_0.9px,transparent_1.1px)] [background-size:4px_4px]",
-  checker:
-    "bg-[conic-gradient(#ffffff_25%,transparent_0_50%,#ffffff_0_75%,transparent_0)] [background-size:12px_12px]",
-  small:
-    "bg-[conic-gradient(#ffffff_25%,transparent_0_50%,#ffffff_0_75%,transparent_0)] [background-size:6px_6px]",
-};
-
-/**
- * Drawn once and placed twice, facing the same way both times: hanging from
- * the section's top edge, and hanging off its bottom edge onto the white page
- * below. Outside the section it carries its own dark ground, or the white
- * pattern would vanish into the page.
- */
-function DitherBlocks({ edge }: { edge: "top" | "bottom" }) {
-  // On hover the composition rearranges: the white slab slides across, the
-  // checker columns march, the orange block climbs the centre column and the
-  // dot field brightens. Hover is on the whole strip, so it reads as one
-  // object responding rather than six separate targets.
-  const move = "transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]";
-  return (
-    <div
-      aria-hidden="true"
-      className={`group/dither absolute right-0 hidden h-40 w-[46%] lg:block ${
-        edge === "top" ? "top-0" : "top-full bg-[#141416]"
-      }`}
-    >
-      <div
-        className={`absolute inset-0 opacity-[0.22] ${dither.fine} ${move} group-hover/dither:opacity-40`}
-      />
-      <div
-        className={`absolute left-[32%] top-0 h-[38%] w-[33%] bg-white ${move} group-hover/dither:left-[54%] group-hover/dither:w-[22%]`}
-      />
-      <div
-        className={`absolute left-[10%] top-[38%] h-[62%] w-[11%] ${dither.small} ${move} group-hover/dither:top-0 group-hover/dither:h-full group-hover/dither:animate-[seerix-march_1.2s_steps(4)_infinite]`}
-      />
-      <div
-        className={`absolute left-[43%] top-[38%] h-[62%] w-[11%] ${dither.checker} ${move} group-hover/dither:animate-[seerix-march_0.9s_steps(4)_infinite]`}
-      />
-      <div
-        className={`absolute right-[11%] top-0 h-[38%] w-[11%] opacity-80 ${dither.small} ${move} group-hover/dither:h-full group-hover/dither:opacity-100`}
-      />
-      <div
-        className={`absolute bottom-0 left-[43%] h-[20%] w-[11%] bg-signal-bright ${move} group-hover/dither:h-[42%]`}
-      />
-    </div>
-  );
-}
-
 /* -------------------------------------------------------------------------
  * Section
  * ---------------------------------------------------------------------- */
 
 /**
- * Everything Seerix does, as a directory rather than a set of demos: four
- * jobs across the top, each a column of the features that make it up, over
- * the foundation they all run on. Dark ground, so the section stands as the
- * product's own index between the lighter story sections around it.
+ * Everything Seerix does, as four frosted cards, one per job: its number, the
+ * job in the display serif, a line on what it means, and the features that
+ * make it up as a ruled list. Light ground, like the sections around it.
  */
 export default function ValueProp() {
   return (
-    <section
-      id="features"
-      // The dither strip is inside the panel now, so the section can clip:
-      // the lower strip used to hang into the section below it.
-      className="relative z-20 overflow-hidden bg-[#141416] px-6 py-20 sm:py-24"
-    >
-      <DitherBlocks edge="top" />
-
-      <div className="relative mx-auto max-w-7xl">
-        <h2 className="max-w-4xl font-display text-[34px] leading-[1.15] sm:text-[44px] font-extralight tracking-[-0.03em] text-white">
+    <section id="features" className="bg-ghost px-6 py-20 sm:py-24">
+      <div className="mx-auto max-w-7xl">
+        <h2 className="max-w-4xl font-display text-[34px] leading-[1.15] sm:text-[44px] font-extralight tracking-[-0.03em] text-black">
           One analyst, the whole SEO job.
         </h2>
-        <p className="mt-6 max-w-2xl font-body text-[17px] leading-[1.6] text-white/75 sm:text-[19px]">
-          Four jobs a consultant does: automated, continuous, and backed
-          by evidence. This is where the hero&rsquo;s question becomes a working
+        <p className="mt-5 max-w-2xl font-body text-[17px] leading-[1.6] text-zinc-600">
+          Four jobs a consultant does: automated, continuous, and backed by
+          evidence. This is where the hero&rsquo;s question becomes a working
           relationship.
         </p>
 
-        {/* The four jobs. */}
-        <div className="mt-20 grid gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
-          {columns.map((column) => (
-            <div key={column.job}>
-              <Link
-                href={column.href}
-                className="group inline-flex items-center gap-2 font-display text-[22px] font-extralight tracking-[-0.03em] text-white"
-              >
+        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {columns.map((column, i) => (
+            <Link
+              key={column.job}
+              href={column.href}
+              className="frost group flex flex-col rounded-[24px] p-6 transition-transform duration-200 hover:-translate-y-1"
+            >
+              <span className="flex items-center justify-between">
+                <span className="font-mono text-[12px] text-zinc-400">
+                  0{i + 1}
+                </span>
+                <span className="text-zinc-400 transition-colors group-hover:text-black">
+                  <Arrow />
+                </span>
+              </span>
+              <span className="mt-6 font-display text-[30px] font-extralight leading-none tracking-[-0.03em] text-black">
                 {column.job}
-                <Arrow />
-              </Link>
-              <ul className="mt-7 flex flex-col gap-4">
+              </span>
+              <span className="mt-3 font-body text-[14.5px] leading-[1.5] text-zinc-500">
+                {column.summary}
+              </span>
+
+              <ul className="mt-6 border-t border-black/[0.07]">
                 {column.items.map((item) => (
-                  <li key={item.label} className="flex items-center gap-4">
+                  <li
+                    key={item.label}
+                    className="flex items-center gap-3 border-b border-black/[0.06] py-2.5 last:border-b-0"
+                  >
                     <span
-                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${column.tile}`}
+                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${column.tile}`}
                     >
                       <Icon name={item.icon} />
                     </span>
-                    <span className="font-body text-[16px] text-white/90">
+                    <span className="min-w-0 flex-1 font-body text-[14px] text-zinc-800">
                       {item.label}
                     </span>
                     {item.soon && (
-                      <span className="rounded-md border border-white/40 px-1.5 py-px font-mono text-[11px] tracking-[0.04em] text-white/80">
-                        SOON
+                      <span className="rounded-md bg-signal-soft px-1.5 py-px font-body text-[11px] text-signal-deep">
+                        Soon
                       </span>
                     )}
                   </li>
                 ))}
               </ul>
-            </div>
+            </Link>
           ))}
         </div>
-
-        {/* The foundation they all run on. */}
-        <Link
-          href="/#how-it-works"
-          className="group mt-20 flex items-center justify-center gap-2 rounded-2xl bg-white/[0.06] px-6 py-5 text-center font-body font-medium text-[18px] text-white transition-colors duration-200 hover:bg-white/[0.09] sm:text-[20px]"
-        >
-          <span>
-            <span className="font-semibold">Foundation:</span>{" "}
-            <span className="text-white/85">
-              one evidence layer every answer is built on
-            </span>
-          </span>
-          <Arrow />
-        </Link>
-
-        <ul className="mt-10 grid gap-x-6 gap-y-6 sm:grid-cols-3 lg:grid-cols-6">
-          {foundation.map((item) => (
-            <li key={item.label} className="flex items-center gap-4">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#cfe3fb] text-[#123a66]">
-                <Icon name={item.icon} />
-              </span>
-              <span className="font-body text-[16px] leading-snug text-white/90">
-                {item.label}
-              </span>
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   );

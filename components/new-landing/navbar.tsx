@@ -325,6 +325,10 @@ function MenuIcon({ open }: { open: boolean }) {
 export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  // Where the bar ends on screen, so the menu sheet starts just below it
+  // whether or not the announcement above is still in view.
+  const headerRef = useRef<HTMLElement>(null);
+  const [sheetTop, setSheetTop] = useState(72);
   // Products starts collapsed each time the mobile menu opens.
   const [productsOpen, setProductsOpen] = useState(false);
 
@@ -367,7 +371,20 @@ export default function Navbar() {
     return null;
 
   return (
-    <header className="sticky top-0 z-40 w-full">
+    <>
+      {/* The announcement, above the bar: black, and it scrolls away while
+          the bar below it stays. */}
+      <p className="relative z-50 bg-signal-ink px-6 py-2.5 text-center font-body text-[13px] text-white/75 sm:text-[14px]">
+        Launching soon.{" "}
+        <Link
+          href="/#waitlist"
+          className="text-white underline decoration-white/40 underline-offset-4 hover:decoration-white"
+        >
+          Join the waitlist
+        </Link>{" "}
+        and get one email when Seerix is live.
+      </p>
+    <header ref={headerRef} className="sticky top-0 z-40 w-full">
       {/* Frosted ground: the page shows through, blurred. It runs past the
           bar's bottom edge and fades out there, so the bar ends in a soft
           falloff rather than a hard line. */}
@@ -415,6 +432,8 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => {
+                  const bottom = headerRef.current?.getBoundingClientRect().bottom;
+                  if (bottom) setSheetTop(bottom);
                   setMenuOpen((value) => !value);
                   setProductsOpen(false);
                 }}
@@ -437,7 +456,10 @@ export default function Navbar() {
       {menuOpen && (
         <div
           id="mobile-menu"
-          className="fixed inset-0 -z-[5] flex h-dvh flex-col bg-ghost pt-[72px] lg:hidden"
+          // Solid ivory, not bg-ghost: that goes transparent over the
+          // animated background, and the sheet must hide the page.
+          className="fixed inset-0 -z-[5] flex h-dvh flex-col bg-[#f7f6f2] lg:hidden"
+          style={{ paddingTop: sheetTop }}
         >
           {/* data-lenis-prevent: the smooth-scroll library otherwise takes
               the wheel and touch for the (locked) page, so this list could
@@ -540,5 +562,6 @@ export default function Navbar() {
         </div>
       )}
     </header>
+    </>
   );
 }

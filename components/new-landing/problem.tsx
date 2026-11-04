@@ -41,36 +41,67 @@ function useTick(ref: React.RefObject<HTMLElement | null>) {
   return tick;
 }
 
+/**
+ * A band of dots sweeping across a card, as the reference draws its wave:
+ * a dot grid masked to a soft curved stroke. `d` is the curve, drawn in a
+ * 400 x 300 box and stretched to the card.
+ */
+function DotWave({ d }: { d: string }) {
+  const mask = `url("data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' preserveAspectRatio='none'><filter id='f' x='-50%' y='-50%' width='200%' height='200%' filterUnits='userSpaceOnUse'><feGaussianBlur stdDeviation='9'/></filter><path d='${d}' fill='none' stroke='black' stroke-width='34' stroke-linecap='round' filter='url(#f)'/></svg>`,
+  )}")`;
+  return (
+    <span
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0"
+      style={{
+        backgroundImage:
+          "radial-gradient(circle, rgba(91,79,216,0.5) 1.1px, transparent 1.6px)",
+        backgroundSize: "6px 6px",
+        WebkitMaskImage: mask,
+        maskImage: mask,
+        WebkitMaskSize: "100% 100%",
+        maskSize: "100% 100%",
+      }}
+    />
+  );
+}
+
+/** Each card's wave, so neighbouring cards don't repeat one curve. */
+const waves = {
+  rise: "M-20 60 C 90 40, 140 230, 260 200 S 380 120, 430 150",
+  fall: "M40 -20 C 30 120, 160 140, 230 210 S 360 300, 420 290",
+  arc: "M-20 280 C 80 230, 160 120, 260 110 S 380 40, 430 20",
+  low: "M-20 200 C 100 260, 220 180, 300 230 S 380 260, 430 240",
+  high: "M-20 90 C 120 30, 220 140, 300 70 S 380 30, 430 50",
+};
+
+/**
+ * One bento card, as the reference draws them: a frosted card, the visual
+ * centred over its dot wave, and the title alone at the bottom left.
+ */
 function Cell({
   title,
-  body,
   visual,
+  wave,
   className = "",
-  stacked = false,
 }: {
   title: string;
-  body: string;
   visual: ReactNode;
+  wave: keyof typeof waves;
   className?: string;
-  /** Visual above the copy (the big cell); otherwise side by side. */
-  stacked?: boolean;
 }) {
   return (
     <div
-      className={`flex min-w-0 flex-col gap-8 p-7 sm:p-9 ${
-        stacked ? "" : "lg:flex-row lg:items-center lg:gap-6"
-      } ${className}`}
+      className={`frost relative flex min-h-[26rem] min-w-0 flex-col overflow-hidden rounded-[24px] ${className}`}
     >
-      {stacked && <div className="flex flex-1 items-center">{visual}</div>}
-      <div className={stacked ? "" : "lg:w-[44%] lg:shrink-0"}>
-        <h3 className="font-[family-name:var(--font-geist-sans)] text-[22px] font-normal leading-[1.25] tracking-[-0.01em] text-zinc-900 sm:text-[24px]">
-          {title}
-        </h3>
-        <p className="mt-3 max-w-md font-body text-[15px] leading-[1.6] text-zinc-500">
-          {body}
-        </p>
+      <DotWave d={waves[wave]} />
+      <div className="relative flex flex-1 items-center justify-center px-6 pb-4 pt-10 sm:px-8">
+        <div className="w-full">{visual}</div>
       </div>
-      {!stacked && <div className="min-w-0 flex-1">{visual}</div>}
+      <h3 className="relative px-7 pb-7 font-[family-name:var(--font-geist-sans)] text-[19px] font-normal leading-[1.3] tracking-[-0.01em] text-zinc-900 sm:px-8 sm:pb-8">
+        {title}
+      </h3>
     </div>
   );
 }
@@ -198,7 +229,7 @@ function Guess({ tick }: { tick: number }) {
             className={`rounded-md px-2 py-1 font-mono text-[11px] ring-1 transition-colors duration-300 ${
               i === at
                 ? "bg-white text-zinc-900 ring-black/[0.15]"
-                : "text-zinc-400 ring-black/[0.06]"
+                : "bg-white text-zinc-400 ring-black/[0.06]"
             }`}
           >
             {g.replace(/^the /, "")}?
@@ -214,7 +245,7 @@ function Guess({ tick }: { tick: number }) {
           Is it {guesses[at]}? Can&rsquo;t tell.
         </span>
       </div>
-      <p className="mt-3 text-center font-mono text-[11px] text-zinc-400">
+      <p className="mx-auto mt-3 w-fit rounded-md bg-white px-2 py-0.5 text-center font-mono text-[11px] text-zinc-500">
         3 fixes shipped together · none measured
       </p>
     </div>
@@ -276,7 +307,7 @@ function Ask({ tick }: { tick: number }) {
         Why did /pricing drop last week?
       </p>
       <div className="min-h-[5rem]">
-        <p className="flex items-center gap-1.5 font-body text-[12px] text-signal-deep">
+        <p className="flex w-fit items-center gap-1.5 rounded-full bg-white py-0.5 pl-1 pr-2.5 font-body text-[12px] text-signal-deep ring-1 ring-black/[0.06]">
           <SeerixMark size={16} animated={false} />
           Seerix
         </p>
@@ -314,7 +345,7 @@ const rows = [
 function Receipts({ tick }: { tick: number }) {
   const shown = Math.min(rows.length, (tick % (rows.length + 3)) + 1);
   return (
-    <div className="mx-auto max-w-sm">
+    <div className="mx-auto max-w-sm rounded-xl bg-white p-4 shadow-[0_10px_30px_-14px_rgba(15,23,42,0.35)] ring-1 ring-black/[0.06]">
       <p className="flex items-center gap-2 font-body text-[13px] text-zinc-500">
         <span className="h-2 w-2 animate-pulse rounded-full bg-signal" />
         Evidence
@@ -362,44 +393,22 @@ export default function Problem() {
           </span>
         </h2>
 
-        {/* The bento: the big cell spans two rows on the left; hairlines
-            come from the cells' own borders so the grid reads as one. One
-            frosted panel, the same as the pricing cards. */}
+        {/* The bento: separate cards, a wide one beside a narrow one on
+            top and three below, each title at its foot. */}
         <div
           ref={ref}
-          className="mt-14 grid grid-cols-[minmax(0,1fr)] overflow-hidden rounded-[28px] border border-white/70 bg-white/70 shadow-[0_1px_2px_rgba(15,23,42,0.03),0_24px_60px_-40px_rgba(15,23,42,0.2)] backdrop-blur-xl lg:grid-cols-2"
+          className="mt-14 grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2 lg:grid-cols-3"
         >
           <Cell
-            stacked
-            className="lg:row-span-2 lg:border-r lg:border-black/[0.08]"
-            title="Fifteen charts, no why"
-            body="Traffic dropped. Search Console shows you that it dropped. Fifteen charts deep, it still won’t tell you why."
+            className="md:col-span-2"
+            wave="rise"
+            title="Fifteen charts, and still no why"
             visual={<NoWhy tick={tick} />}
           />
-          <Cell
-            className="border-t border-black/[0.08] lg:border-t-0"
-            title="So you guess"
-            body="Core update? The title you rewrote? A lost backlink? You change three things at once and never learn which one worked."
-            visual={<Guess tick={tick} />}
-          />
-          <Cell
-            className="border-t border-black/[0.08]"
-            title="So you pay"
-            body="The one person who could tell you charges $200 an hour. Next week, once."
-            visual={<Pay tick={tick} />}
-          />
-          <Cell
-            className="border-t border-black/[0.08] lg:border-r"
-            title="Or you just ask"
-            body="Seerix answers from your own data: today, every day, in a sentence you can act on."
-            visual={<Ask tick={tick} />}
-          />
-          <Cell
-            className="border-t border-black/[0.08]"
-            title="And get the receipts"
-            body="Every answer lists the rows it rests on and the causes it ruled out, so you can check it yourself."
-            visual={<Receipts tick={tick} />}
-          />
+          <Cell wave="fall" title="So you guess, and change three things" visual={<Guess tick={tick} />} />
+          <Cell wave="arc" title="So you pay $200 an hour" visual={<Pay tick={tick} />} />
+          <Cell wave="low" title="Or you just ask Seerix" visual={<Ask tick={tick} />} />
+          <Cell wave="high" title="And get the receipts" visual={<Receipts tick={tick} />} />
         </div>
       </div>
     </section>

@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { BlockReveal } from "@/components/new-landing/block-reveal";
 import Button, { ButtonArrow } from "@/components/new-landing/button";
 
@@ -56,10 +54,6 @@ export default function Industries() {
                   diagnosis is assembled from your own data, whatever you sell.
                 </p>
 
-                <Button href="/#waitlist" className="mt-8">
-                  Join waitlist
-                  <ButtonArrow />
-                </Button>
               </div>
 
               {/* Hairlines come from the cells, so the grid reads as one
@@ -93,24 +87,10 @@ export default function Industries() {
                     and Seerix reads what your market actually does.
                   </p>
 
-                  <Link
-                    href="/contact"
-                    className="mt-4 inline-flex items-center gap-2 font-body text-[15px] font-medium text-black underline decoration-black/25 underline-offset-4 transition-colors duration-200 hover:decoration-black"
-                  >
+                  <Button href="/contact" className="mt-5">
                     Ask about your case
-                    <svg
-                      className="h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.75"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M6 3.5L10.5 8L6 12.5" />
-                    </svg>
-                  </Link>
+                    <ButtonArrow />
+                  </Button>
                 </div>
               </div>
             </div>

@@ -2,25 +2,19 @@ import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 
 /**
- * The site's two buttons, in one place: a squared-off pill with three
- * blurred colour fields drifting inside it, so the light in each button
- * never sits still. `primary` is ink with a faint glow; `secondary` is a
- * light gradient with a stronger one.
+ * The site's button, in one place: a squared-off pill on a light gradient,
+ * with three blurred colour fields drifting inside it so the light never
+ * sits still. One look everywhere; `primary` and `secondary` are kept as
+ * names so callers can still say which action leads, and both draw the same.
  */
 
 /** Full class strings, so Tailwind can see every one. */
-const glows = {
-  primary: [
-    "left-0 bg-[#bdb4f8]/30 [animation:seerix-glow-drift-1_8s_ease-in-out_infinite]",
-    "left-1/2 bg-[#f6d9c6]/25 [animation:seerix-glow-drift-2_10s_ease-in-out_infinite]",
-    "right-0 bg-[#8f84f0]/30 [animation:seerix-glow-drift-3_9s_ease-in-out_infinite]",
-  ],
-  secondary: [
-    "left-0 bg-[#bdb4f8]/40 [animation:seerix-glow-drift-1_8s_ease-in-out_infinite]",
-    "left-1/2 bg-[#f6d9c6]/45 [animation:seerix-glow-drift-2_10s_ease-in-out_infinite]",
-    "right-0 bg-[#8f84f0]/35 [animation:seerix-glow-drift-3_9s_ease-in-out_infinite]",
-  ],
-};
+const glow = [
+  "left-0 bg-[#bdb4f8]/40 [animation:seerix-glow-drift-1_8s_ease-in-out_infinite]",
+  "left-1/2 bg-[#f6d9c6]/45 [animation:seerix-glow-drift-2_10s_ease-in-out_infinite]",
+  "right-0 bg-[#8f84f0]/35 [animation:seerix-glow-drift-3_9s_ease-in-out_infinite]",
+];
+const glows = { primary: glow, secondary: glow };
 
 export type ButtonVariant = keyof typeof glows;
 
@@ -56,10 +50,11 @@ const sizes = {
   app: "h-9 gap-2 px-3.5 text-[13px]",
 };
 
+const light =
+  "border-black/[0.10] bg-gradient-to-b from-white to-black/[0.04] text-zinc-900";
 const variants: Record<ButtonVariant, string> = {
-  primary: "border-transparent bg-signal-ink text-white",
-  secondary:
-    "border-black/[0.10] bg-gradient-to-b from-white to-black/[0.04] text-zinc-900",
+  primary: light,
+  secondary: light,
 };
 
 /** The classes, for a `<button>` or anything that is not a link. */

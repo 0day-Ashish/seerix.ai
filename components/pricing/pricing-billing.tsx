@@ -57,9 +57,6 @@ export function PricingBilling() {
             A flat monthly fee against the plan&rsquo;s allowances. A month that
             needs a lot of digging never turns into a surprise line item.
           </p>
-          <Button href="#compare" className="mt-6 px-6 font-medium">
-            Compare plans
-          </Button>
         </div>
 
         {columns.map((col) => (

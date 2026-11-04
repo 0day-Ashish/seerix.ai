@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 
-import GradientWash from "@/components/new-landing/gradient-wash";
+import Button, { ButtonArrow } from "@/components/new-landing/button";
 
 type Faq = {
   question: string;
@@ -61,40 +60,11 @@ export default function Faq() {
               account, and when it&rsquo;s ready.
             </p>
 
-            {/* The way out when the list doesn't have it: drawn as the
-                product's own question bar, routed to a person, on the same
-                moving wash as the industries panel. */}
-            <Link
-              href="/contact"
-              className="group relative isolate mt-10 block overflow-hidden rounded-2xl p-5 shadow-[0_20px_50px_-28px_rgba(40,25,110,0.45)] transition-transform duration-200 hover:-translate-y-0.5"
-            >
-              <GradientWash offset={4} className="-z-10" />
-              <p className="font-body text-[13px] text-zinc-800">
-                Not on the list?
-              </p>
-              <span className="mt-3 flex items-center justify-between gap-3 rounded-xl bg-white/80 px-4 py-3 ring-1 ring-black/[0.06] backdrop-blur-sm">
-                <span className="font-body text-[14px] text-zinc-700">
-                  Ask the people who built it
-                </span>
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-signal-ink text-white transition-transform duration-200 group-hover:translate-x-0.5">
-                  <svg
-                    className="h-3.5 w-3.5"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M3 8h10M9 4l4 4-4 4" />
-                  </svg>
-                </span>
-              </span>
-              <p className="mt-3 font-mono text-[11px] text-zinc-700">
-                a person replies within one business day
-              </p>
-            </Link>
+            {/* The way out when the list doesn't have it. */}
+            <Button href="/contact" variant="secondary" className="mt-8">
+              Contact us
+              <ButtonArrow />
+            </Button>
           </div>
 
           <div className="border-t border-black/[0.07]">

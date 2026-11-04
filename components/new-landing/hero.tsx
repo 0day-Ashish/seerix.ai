@@ -1,10 +1,8 @@
-import Link from "next/link";
-
 import AgentWindow from "@/components/new-landing/agent-window";
 import WaitlistForm from "@/components/new-landing/waitlist-form";
 
 /**
- * The opener: an announcement strip under the nav, then one ruled frame
+ * The opener: one ruled frame
  * holding the headline on a dot grid and, beneath it, the product window on
  * the brand wash -- the job pills on top, the window running off the right
  * edge.
@@ -12,14 +10,6 @@ import WaitlistForm from "@/components/new-landing/waitlist-form";
 export default function Hero() {
   return (
     <section className="bg-ghost">
-      <p className="border-y border-black/[0.07] px-6 py-2.5 text-center font-body text-[13px] text-zinc-700 sm:text-[14px]">
-        Launching soon.{" "}
-        <Link href="#waitlist" className="text-signal-deep hover:underline">
-          Join the waitlist
-        </Link>{" "}
-        and get one email when Seerix is live.
-      </p>
-
       <div className="px-4 pt-8 sm:px-6">
         <div className="mx-auto max-w-[82rem] overflow-hidden border border-black/[0.08]">
           <div className="relative px-6 py-12 text-center sm:px-10 sm:py-14 md:px-16 md:py-16">

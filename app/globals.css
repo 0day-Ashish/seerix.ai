@@ -128,6 +128,12 @@ body {
   box-shadow: none;
 }
 
+/* Fields mark focus with their own border, so the ring is not drawn on
+   them anywhere on the site. */
+:is(input, select, textarea):focus-visible {
+  outline: none;
+}
+
 /* Under-hero marquee: each row is two identical halves, and one loop moves
    exactly one half, so the restart lands on the same pixels. */
 @keyframes seerix-marquee {
