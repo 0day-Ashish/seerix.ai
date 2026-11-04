@@ -63,7 +63,7 @@ function Cell({
     >
       {stacked && <div className="flex flex-1 items-center">{visual}</div>}
       <div className={stacked ? "" : "lg:w-[44%] lg:shrink-0"}>
-        <h3 className="font-display text-[22px] font-light leading-[1.25] tracking-[-0.01em] text-zinc-900 sm:text-[24px]">
+        <h3 className="font-[family-name:var(--font-geist-sans)] text-[22px] font-normal leading-[1.25] tracking-[-0.01em] text-zinc-900 sm:text-[24px]">
           {title}
         </h3>
         <p className="mt-3 max-w-md font-body text-[15px] leading-[1.6] text-zinc-500">
@@ -355,7 +355,7 @@ export default function Problem() {
   return (
     <section className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
-        <h2 className="max-w-3xl font-display text-[34px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[44px]">
+        <h2 className="max-w-3xl font-display text-[34px] font-extralight leading-[1.15] tracking-[-0.03em] text-black sm:text-[44px]">
           You already have the data.{" "}
           <span className="text-zinc-400">
             What you don&rsquo;t have is the why.

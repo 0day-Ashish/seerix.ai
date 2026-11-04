@@ -28,7 +28,7 @@ export default function Positioning() {
   return (
     <section className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
-        <h2 className="max-w-4xl font-display text-[34px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[44px]">
+        <h2 className="max-w-4xl font-display text-[34px] font-extralight leading-[1.15] tracking-[-0.03em] text-black sm:text-[44px]">
           Diagnoses with receipts, not dashboards with homework.
         </h2>
 
@@ -45,7 +45,7 @@ export default function Positioning() {
               <span className="font-mono text-[12px] text-zinc-500">
                 0{index + 1}
               </span>
-              <h3 className="mt-12 font-display text-[20px] font-light leading-snug tracking-[-0.01em] text-black">
+              <h3 className="mt-12 font-body text-[20px] font-medium leading-snug text-black">
                 {point.title}
               </h3>
               <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-600">

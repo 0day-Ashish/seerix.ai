@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { Geist_Mono, Space_Grotesk } from "next/font/google";
+// Free stand-ins for the Speakeasy fonts until licences are bought
+// (globals.css): Inter for Diatype, Newsreader for Tobias, Geist Mono for
+// Diatype Mono.
+import "@fontsource-variable/inter";
+import "@fontsource-variable/newsreader/opsz.css";
+import "@fontsource-variable/geist-mono";
 import "./globals.css";
 
 import MarketingBackground from "@/components/new-landing/marketing-background";
@@ -8,7 +14,7 @@ import Navbar from "@/components/new-landing/navbar";
 import SmoothScroll from "@/components/smooth-scroll";
 import { siteUrl } from "@/app/sitemap";
 
-// Display face: headings and the wordmark.
+// The wordmark's face (globals.css .wordmark); headings use the Speakeasy pack.
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
@@ -43,16 +49,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       style={{ colorScheme: "light" }}
     >
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin=""
-        />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap"
-        />
         <meta name="theme-color" content="#36363B" />
       </head>
       <body className="flex min-h-dvh flex-col font-sans">

@@ -116,7 +116,7 @@ export default function AppFrame({ active, title, children }: AppFrameProps) {
 
         {/* The page itself, in the white panel the app renders content into. */}
         <div className="min-w-0 flex-1 border-zinc-200 bg-white px-5 pb-6 pt-5 lg:rounded-l-2xl lg:border-l lg:border-t">
-          <p className="font-display text-[16px] font-medium tracking-[-0.02em] text-zinc-900">
+          <p className="font-body text-[16px] font-medium text-zinc-900">
             {title}
           </p>
           <div className="mt-4">{children}</div>

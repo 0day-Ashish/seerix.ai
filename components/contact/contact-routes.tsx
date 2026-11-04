@@ -14,7 +14,7 @@ export function ContactOpener() {
   return (
     <section className="bg-ghost px-6 pb-12 pt-20 sm:pt-28">
       <div className="mx-auto max-w-7xl">
-        <h1 className="max-w-3xl font-display text-[40px] font-light leading-[1.05] tracking-[-0.02em] text-black sm:text-[56px]">
+        <h1 className="max-w-3xl font-display text-[40px] font-extralight leading-[1.05] tracking-[-0.03em] text-black sm:text-[56px]">
           Talk to the people building <span className="wordmark">Seerix</span>
         </h1>
         <p className="mt-4 max-w-2xl font-body text-[18px] leading-[1.55] text-zinc-500 sm:text-[20px]">
@@ -116,8 +116,8 @@ function Check() {
  */
 export function ContactRoutes() {
   return (
-    <section className="bg-ghost px-6 pb-24">
-      <h2 className="mx-auto mb-10 max-w-7xl font-display text-[36px] font-light leading-[1.1] tracking-[-0.02em] text-black sm:text-[44px]">
+    <section className="bg-ghost px-6 py-20 sm:py-24">
+      <h2 className="mx-auto mb-10 max-w-7xl font-display text-[34px] leading-[1.15] sm:text-[44px] font-extralight tracking-[-0.03em] text-black">
         Other ways to reach us
       </h2>
       <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr] lg:gap-x-5 lg:gap-y-0">
@@ -165,7 +165,7 @@ export function ContactRoutes() {
                       {route.reply}
                     </p>
                   </div>
-                  <p className="mt-auto pt-10 font-display text-[30px] font-medium leading-[1.05] tracking-[-0.03em]">
+                  <p className="mt-auto pt-10 font-display text-[30px] font-extralight leading-[1.05] tracking-[-0.03em]">
                     {route.title}
                   </p>
                   <p
@@ -230,7 +230,7 @@ const steps = [
  */
 export function ContactFormBlock({ form }: { form: React.ReactNode }) {
   return (
-    <section id="form" className="scroll-mt-28 bg-ghost px-6 pb-24">
+    <section id="form" className="scroll-mt-28 bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
           {form}
@@ -258,7 +258,7 @@ export function ContactFormBlock({ form }: { form: React.ReactNode }) {
                     {step.n}
                   </span>
                   <div className="pt-1.5">
-                    <p className="font-display text-[19px] tracking-[-0.01em] text-black">
+                    <p className="font-body font-medium text-[19px] text-black">
                       {step.title}
                     </p>
                     <p className="mt-1.5 font-body text-[15px] leading-[1.55] text-zinc-600">

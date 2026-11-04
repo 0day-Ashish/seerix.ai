@@ -79,7 +79,7 @@ export default function ContactForm() {
   if (state.status === "success") {
     return (
       <div role="status" className={panel}>
-        <h2 className="flex items-center gap-4 font-display font-light text-[36px] tracking-[-0.02em] text-black">
+        <h2 className="flex items-center gap-4 font-display tracking-[-0.03em] font-extralight text-[36px] text-black">
           <span className="h-3 w-3 rounded-full bg-signal-bright" />
           Message sent
         </h2>
@@ -123,7 +123,7 @@ export default function ContactForm() {
       onChange={track}
       className={`relative ${panel}`}
     >
-      <h2 className="flex items-center gap-4 font-display font-light text-[36px] tracking-[-0.02em] text-black sm:text-[42px]">
+      <h2 className="flex items-center gap-4 font-display font-extralight text-[36px] tracking-[-0.03em] text-black sm:text-[42px]">
         <span
           aria-hidden="true"
           className="h-3 w-3 shrink-0 rounded-full bg-signal-bright"

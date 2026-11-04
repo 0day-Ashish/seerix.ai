@@ -60,7 +60,7 @@ export default function AnswerCard({
 
       <div className="flex flex-1 flex-col px-6 py-6">
         {/* The answer: one sentence, which is the whole claim of the section. */}
-        <p className="max-w-md font-display text-[19px] font-medium leading-snug tracking-[-0.02em] text-white">
+        <p className="max-w-md font-body text-[19px] font-medium leading-snug text-white">
           {diagnosis.answer}
         </p>
 

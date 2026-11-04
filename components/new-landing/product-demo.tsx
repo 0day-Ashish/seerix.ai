@@ -419,7 +419,7 @@ export default function ProductDemo() {
 
                     <div className="flex flex-wrap items-start justify-between gap-4 border-b border-black/[0.07] px-5 py-4">
                       <div>
-                        <p className="font-display text-[17px] font-medium tracking-[-0.01em] text-black">
+                        <p className="font-body text-[17px] font-medium text-black">
                           {demo.title}
                         </p>
                         <div className="mt-2 flex flex-wrap gap-1.5">
@@ -438,7 +438,7 @@ export default function ProductDemo() {
                               <p className="font-body text-[11px] text-zinc-400">
                                 {k}
                               </p>
-                              <p className="font-display text-[16px] font-medium text-black">
+                              <p className="font-body text-[16px] font-medium text-black">
                                 {v}
                               </p>
                             </div>

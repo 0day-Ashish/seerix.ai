@@ -264,7 +264,7 @@ function Screen({ s }: { s: Scene }) {
 
       <main className="relative flex-1 overflow-hidden px-8 pt-12">
         <div className="mx-auto w-full max-w-[760px]">
-          <h3 className="text-center font-display text-[38px] font-medium tracking-[-0.03em] text-zinc-900">
+          <h3 className="text-center font-display tracking-[-0.03em] text-[38px] font-extralight text-zinc-900">
             Welcome back, Ashish.
           </h3>
 
@@ -413,7 +413,7 @@ function Screen({ s }: { s: Scene }) {
               }`}
             >
               <p className="text-[13px] text-white/45">{QUESTION}</p>
-              <p className="mt-2 font-display text-[20px] tracking-[-0.02em]">
+              <p className="mt-2 font-body font-medium text-[20px]">
                 Rankings fell after a title rewrite, not a Google update.
               </p>
               <div className="mt-4 rounded-xl ring-1 ring-white/10">

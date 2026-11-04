@@ -57,7 +57,7 @@ export default function ProductPage({
               <p className="font-mono text-[12px] tracking-[0.04em] text-zinc-400">
                 {job.toUpperCase()}
               </p>
-              <h1 className="mt-4 font-display text-[36px] font-light leading-[1.08] tracking-[-0.02em] text-black sm:text-[50px]">
+              <h1 className="mt-4 font-display tracking-[-0.03em] text-[36px] font-extralight leading-[1.08] text-black sm:text-[50px]">
                 {headline}
               </h1>
               <p className="mt-5 max-w-xl font-body text-[17px] leading-[1.6] text-zinc-500 sm:text-[18px]">
@@ -84,7 +84,7 @@ export default function ProductPage({
       {/* What the job does. */}
       <section className="bg-ghost px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
-          <h2 className="max-w-3xl font-display text-[32px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[40px]">
+          <h2 className="max-w-3xl font-display text-[34px] leading-[1.15] sm:text-[44px] tracking-[-0.03em] font-extralight text-black">
             What {job.toLowerCase()} covers
           </h2>
 
@@ -97,7 +97,7 @@ export default function ProductPage({
                 <span className="font-mono text-[12px] text-zinc-400">
                   0{index + 1}
                 </span>
-                <h3 className="mt-3 flex flex-wrap items-center gap-2 font-display text-[18px] font-medium leading-snug tracking-[-0.02em] text-black">
+                <h3 className="mt-3 flex flex-wrap items-center gap-2 font-body text-[18px] font-medium leading-snug text-black">
                   {cap.label}
                   {cap.soon && (
                     <span className="rounded-full border border-black/[0.10] px-2 py-0.5 font-mono text-[10px] tracking-[0.04em] text-zinc-400">
@@ -122,7 +122,7 @@ export default function ProductPage({
           <p className="font-mono text-[12px] tracking-[0.04em] text-white/40">
             HOW IT RUNS
           </p>
-          <h2 className="mt-4 max-w-3xl font-display text-[32px] font-light leading-[1.15] tracking-[-0.02em] text-white sm:text-[40px]">
+          <h2 className="mt-4 max-w-3xl font-display text-[34px] leading-[1.15] sm:text-[44px] tracking-[-0.03em] font-extralight text-white">
             Three beats, every time you ask.
           </h2>
 
@@ -132,7 +132,7 @@ export default function ProductPage({
                 <span className="font-mono text-[12px] text-signal">
                   0{index + 1}
                 </span>
-                <h3 className="mt-3 font-display text-[19px] font-medium leading-snug tracking-[-0.02em] text-white">
+                <h3 className="mt-3 font-body text-[19px] font-medium leading-snug text-white">
                   {step.label}
                 </h3>
                 <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-white/55">
@@ -147,7 +147,7 @@ export default function ProductPage({
       {/* The evidence row: the same ledger treatment the numbers section uses. */}
       <section className="bg-ghost px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
-          <dl className="grid overflow-hidden rounded-3xl border border-black/[0.07] bg-[#faf9f8] sm:grid-cols-3">
+          <dl className="frost grid overflow-hidden rounded-[28px] sm:grid-cols-3">
             {proof.map((item, index) => (
               <div
                 key={item.label}
@@ -156,7 +156,7 @@ export default function ProductPage({
                 } border-black/[0.07]`}
               >
                 <dt className="flex flex-wrap items-baseline gap-x-2">
-                  <span className="font-display text-[40px] font-medium leading-none tracking-[-0.04em] text-black sm:text-[46px]">
+                  <span className="font-display text-[40px] font-extralight leading-none tracking-[-0.03em] text-black sm:text-[46px]">
                     {item.figure}
                   </span>
                   {item.unit && (
@@ -177,7 +177,7 @@ export default function ProductPage({
       {/* The sibling jobs, so the four pages form a set rather than dead ends. */}
       <section className="bg-ghost px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
-          <h2 className="font-display text-[32px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[40px]">
+          <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-extralight tracking-[-0.03em] text-black">
             The rest of the job
           </h2>
 
@@ -186,9 +186,9 @@ export default function ProductPage({
               <Link
                 key={item.href}
                 href={item.href}
-                className="group rounded-2xl border border-black/[0.07] p-6 transition-colors duration-200 hover:border-black/[0.16]"
+                className="frost group rounded-[28px] p-6 transition-transform duration-200 hover:-translate-y-0.5"
               >
-                <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-black">
+                <h3 className="font-body text-[19px] font-medium text-black">
                   {item.job}
                 </h3>
                 <p className="mt-2 font-body text-[14px] leading-[1.65] text-zinc-500">

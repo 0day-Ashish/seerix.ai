@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { PlanCards } from "@/components/new-landing/pricing";
 import SiteFooter from "@/components/new-landing/site-footer";
 import {
   PricingBilling,
@@ -8,7 +9,6 @@ import {
 import PricingCompare from "@/components/pricing/pricing-compare";
 import PricingHero from "@/components/pricing/pricing-hero";
 import PricingModules from "@/components/pricing/pricing-modules";
-import PricingPlans from "@/components/pricing/pricing-plans";
 import PricingUseCases from "@/components/pricing/pricing-use-cases";
 
 export const metadata: Metadata = {
@@ -29,7 +29,13 @@ export default function PricingPage() {
       <PricingHero />
 
       <div className="flex flex-1 flex-col">
-        <PricingPlans />
+        {/* The homepage's plan cards; the full allowances are in the
+            comparison table below. */}
+        <section id="plans" className="bg-ghost px-6 pb-20 pt-4 sm:pb-24">
+          <div className="mx-auto max-w-7xl">
+            <PlanCards />
+          </div>
+        </section>
         <PricingModules />
         <PricingUseCases />
         <PricingCompare />

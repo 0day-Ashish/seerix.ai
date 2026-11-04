@@ -85,7 +85,7 @@ export default function PricingCompare() {
                       plan.featured ? "bg-signal-soft" : ""
                     }`}
                   >
-                    <span className="block font-display text-[16px] font-medium tracking-[-0.02em] text-black">
+                    <span className="block font-body text-[16px] font-medium text-black">
                       {plan.name}
                     </span>
                     <span

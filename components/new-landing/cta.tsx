@@ -13,7 +13,7 @@ export default function Cta() {
       className="relative bg-ghost px-6 py-20 sm:py-24"
     >
       <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
-        <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-black">
+        <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-extralight tracking-[-0.03em] text-black">
           <BlockReveal>Stop guessing why. Start knowing.</BlockReveal>
         </h2>
 

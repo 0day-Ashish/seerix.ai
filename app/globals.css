@@ -1,19 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  /* Type: Host Grotesk for display, SF Pro for body, mono for figures.
-     Body asks for the system face rather than shipping a font: Apple
-     devices draw SF Pro from their own copy (its licence does not allow
-     serving it as a web font), and other platforms fall back to theirs --
-     Segoe UI on Windows, Roboto on Android -- with Geist behind those. */
-  --font-system: -apple-system, BlinkMacSystemFont, "SF Pro Text",
-    "SF Pro Display", system-ui, "Segoe UI", Roboto,
-    var(--font-geist-sans), sans-serif;
+  /* Type: the Speakeasy pack, as tokensupply landing-v2 sets it -- Tobias
+     Thin headings, ABC Diatype text, ABC Diatype Mono labels and figures.
+     All three are paid, so the stacks name them first: once licensed .woff2
+     files are in public/fonts with @font-face rules here, they take over
+     with no other change. Until then the free stand-ins load (layout.tsx):
+     Newsreader at its thinnest for Tobias, Inter for Diatype, Geist Mono for
+     Diatype Mono. Tobias is for 28px and up only, at weight 200. */
+  --font-system: "ABC Diatype", "Inter Variable", ui-sans-serif, system-ui,
+    sans-serif;
   --font-sans: var(--font-system);
-  --font-display: "Host Grotesk", var(--font-space-grotesk), ui-sans-serif,
-    system-ui, sans-serif;
+  --font-display: "Tobias", "Newsreader Variable", ui-serif, Georgia, serif;
   --font-body: var(--font-system);
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-mono: "ABC Diatype Mono", "Geist Mono Variable",
+    var(--font-geist-mono), ui-monospace, monospace;
 
   /* Seerix palette. Three brand anchors plus the steps derived from them
      for button gradients, press shadows and hover states. */

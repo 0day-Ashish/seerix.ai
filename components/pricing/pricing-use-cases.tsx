@@ -131,9 +131,9 @@ export default function PricingUseCases() {
   const uc = useCases[active];
 
   return (
-    <section id="use-cases" className="scroll-mt-28 bg-ghost px-6 pb-24">
+    <section id="use-cases" className="scroll-mt-28 bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
-        <h2 className="font-display text-[36px] font-light leading-[1.1] tracking-[-0.02em] text-black sm:text-[44px]">
+        <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-extralight tracking-[-0.03em] text-black">
           Use cases
         </h2>
 
@@ -172,7 +172,7 @@ export default function PricingUseCases() {
             className="grid animate-[seerix-fade-in_0.35s_ease-out] gap-6 rounded-[28px] frost p-6 sm:p-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]"
           >
             <div className="flex min-w-0 flex-col">
-              <h3 className="font-display text-[30px] font-medium tracking-[-0.03em] text-black">
+              <h3 className="font-display text-[30px] font-extralight tracking-[-0.03em] text-black">
                 {uc.name}
               </h3>
               <p className="mt-3 max-w-lg font-body text-[15px] leading-[1.6] text-zinc-600">
@@ -196,10 +196,10 @@ export default function PricingUseCases() {
               <div className="flex-1" />
               <div className="mt-8 rounded-2xl border border-black/[0.06] bg-white/60 p-5">
                 <p className="flex items-baseline justify-between gap-4">
-                  <span className="font-display text-[18px] text-black">
+                  <span className="font-body font-medium text-[18px] text-black">
                     Fits the {uc.plan.name} plan
                   </span>
-                  <span className="font-display text-[26px] tracking-[-0.02em] text-black">
+                  <span className="font-body font-medium text-[26px] text-black">
                     {uc.plan.price}
                     <span className="ml-1 font-body text-[13px] text-zinc-500">
                       /mo
@@ -234,7 +234,7 @@ export default function PricingUseCases() {
                 <p className="font-body text-[13px] text-zinc-500">
                   Example diagnosis
                 </p>
-                <p className="mt-2 font-display text-[19px] leading-snug tracking-[-0.01em] text-black">
+                <p className="mt-2 font-body font-medium text-[19px] leading-snug text-black">
                   {uc.example.answer}
                 </p>
               </div>

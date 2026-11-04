@@ -17,7 +17,7 @@ export default function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <div className="max-w-2xl">
-      <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-black">
+      <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-extralight tracking-[-0.03em] text-black">
         <BlockReveal>{heading}</BlockReveal>
       </h2>
       {lede && (

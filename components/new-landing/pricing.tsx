@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import Button, { ButtonArrow } from "@/components/new-landing/button";
 import SectionHeader from "@/components/new-landing/section-header";
 
 type Plan = {
@@ -54,6 +55,54 @@ function Arrow() {
 }
 
 /**
+ * The three plan cards, shared by the homepage and /pricing so the two can't
+ * drift apart: the name and who it is for, open space, then the price, the
+ * plan in one line and the one action.
+ */
+export function PlanCards({ className = "" }: { className?: string }) {
+  return (
+    <div className={`grid gap-3 md:grid-cols-3 ${className}`}>
+      {plans.map((plan) => (
+        <article
+          key={plan.name}
+          className="flex min-h-[22rem] flex-col rounded-[28px] border border-white/70 bg-white/70 p-7 shadow-[0_1px_2px_rgba(15,23,42,0.03),0_24px_60px_-40px_rgba(15,23,42,0.2)] backdrop-blur-xl sm:p-8"
+        >
+          <h3 className="font-display text-[28px] font-extralight tracking-[-0.03em] text-zinc-900">
+            {plan.name}
+          </h3>
+          <p className="mt-2 max-w-[18rem] font-body text-[16px] leading-[1.45] text-zinc-500">
+            {plan.subtitle}
+          </p>
+
+          {/* The open space the reference leaves before the price. */}
+          <span className="min-h-10 flex-1" />
+
+          <p className="flex items-baseline gap-1.5">
+            <span className="font-display text-[34px] font-extralight leading-none tracking-[-0.03em] text-zinc-900">
+              {plan.price}
+            </span>
+            <span className="font-body text-[16px] text-zinc-500">
+              /mo
+            </span>
+          </p>
+          <p className="mt-4 font-body text-[16px] leading-[1.45] text-zinc-500">
+            {plan.summary}
+          </p>
+
+          <Link
+            href="/#waitlist"
+            className="group mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-black/[0.05] px-5 py-2.5 font-body text-[15px] text-zinc-900 transition-colors duration-200 hover:bg-black/[0.09]"
+          >
+            Join waitlist
+            <Arrow />
+          </Link>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+/**
  * Pricing as quiet frosted cards over the page's background: the name and
  * who it is for, open space, then the price, the plan in one line and the
  * one action. The footnote and "Compare plans" sit centred beneath.
@@ -67,44 +116,7 @@ export default function Pricing() {
           lede="The same analysis a $200/hr consultant runs by hand, working every day instead of one engagement. All limits are per site, per month."
         />
 
-        <div className="mt-12 grid gap-3 md:grid-cols-3">
-          {plans.map((plan) => (
-            <article
-              key={plan.name}
-              className="flex min-h-[22rem] flex-col rounded-[28px] border border-white/70 bg-white/70 p-7 shadow-[0_1px_2px_rgba(15,23,42,0.03),0_24px_60px_-40px_rgba(15,23,42,0.2)] backdrop-blur-xl sm:p-8"
-            >
-              <h3 className="font-display text-[28px] font-light tracking-[-0.02em] text-zinc-900">
-                {plan.name}
-              </h3>
-              <p className="mt-2 max-w-[18rem] font-body text-[16px] leading-[1.45] text-zinc-500">
-                {plan.subtitle}
-              </p>
-
-              {/* The open space the reference leaves before the price. */}
-              <span className="min-h-10 flex-1" />
-
-              <p className="flex items-baseline gap-1.5">
-                <span className="font-display text-[34px] font-light leading-none tracking-[-0.02em] text-zinc-900">
-                  {plan.price}
-                </span>
-                <span className="font-body text-[16px] text-zinc-500">
-                  /mo
-                </span>
-              </p>
-              <p className="mt-4 font-body text-[16px] leading-[1.45] text-zinc-500">
-                {plan.summary}
-              </p>
-
-              <Link
-                href="/#waitlist"
-                className="group mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-black/[0.05] px-5 py-2.5 font-body text-[15px] text-zinc-900 transition-colors duration-200 hover:bg-black/[0.09]"
-              >
-                Join waitlist
-                <Arrow />
-              </Link>
-            </article>
-          ))}
-        </div>
+        <PlanCards className="mt-12" />
 
         <p className="mx-auto mt-10 max-w-2xl text-center font-body text-[15px] leading-[1.6] text-zinc-500">
           Flat plans, no metering: crawls, SERP snapshots, alerts and the
@@ -114,13 +126,10 @@ export default function Pricing() {
         </p>
 
         <div className="mt-6 flex justify-center">
-          <Link
-            href="/pricing#compare"
-            className="group inline-flex items-center gap-3 rounded-full bg-signal-ink px-5 py-2.5 font-body text-[15px] text-white transition-colors duration-200 hover:bg-[#1c1c21]"
-          >
+          <Button href="/pricing#compare">
             Compare plans
-            <Arrow />
-          </Link>
+            <ButtonArrow />
+          </Button>
         </div>
       </div>
     </section>

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import Button, { ButtonArrow } from "@/components/new-landing/button";
+import GradientWash from "@/components/new-landing/gradient-wash";
 import SeerixMark from "@/components/new-landing/seerix-mark";
 
 const links = [
@@ -13,29 +14,114 @@ const links = [
   { label: "Contact", href: "/contact" },
 ];
 
-const productColumns = [
+type ProductItem = {
+  label: string;
+  desc: string;
+  href: string;
+  /** 16px stroke icon, one path. */
+  icon: string;
+  badge?: string;
+};
+
+/** The Products menu, as three columns; the mobile menu reuses it. */
+const productColumns: {
+  title: string;
+  swatch: string;
+  items: ProductItem[];
+}[] = [
   {
-    title: "What it does",
+    title: "Analyst",
     swatch: "bg-signal-bright",
     items: [
-      { label: "Diagnose", href: "/product/diagnose" },
-      { label: "Prioritize", href: "/product/prioritize" },
-      { label: "Watch", href: "/product/watch" },
-      { label: "Create", href: "/product/create" },
+      {
+        label: "Diagnose",
+        desc: "Why traffic moved, with the evidence behind it",
+        href: "/product/diagnose",
+        icon: "M7 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM10.5 10.5l3 3",
+      },
+      {
+        label: "Prioritize",
+        desc: "Fixes ranked by impact against effort",
+        href: "/product/prioritize",
+        icon: "M3 13.5V9M6.5 13.5V6M10 13.5V3.5M13.5 13.5V7.5",
+      },
+      {
+        label: "Watch",
+        desc: "SERPs and competitors, checked every day",
+        href: "/product/watch",
+        icon: "M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8zM8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z",
+      },
+    ],
+  },
+  {
+    title: "Automation",
+    swatch: "bg-[#e0a63a]",
+    items: [
+      {
+        label: "Create",
+        desc: "Titles and metas drafted from what ranks",
+        href: "/product/create",
+        icon: "M10.5 2.5l3 3-8 8H2.5v-3l8-8zM9 4l3 3",
+      },
+      {
+        label: "Content briefs",
+        desc: "A brief for every page worth writing",
+        href: "/product/create",
+        icon: "M4 2h6l2.5 2.5V14H4zM6 7h4M6 9.5h4M6 12h2.5",
+        badge: "Soon",
+      },
+      {
+        label: "Weekly report",
+        desc: "What changed and what to do, every Monday",
+        href: "/#features",
+        icon: "M2.5 3.5h11v10h-11zM2.5 6.5h11M5.5 2v3M10.5 2v3",
+      },
     ],
   },
   {
     title: "How it works",
     swatch: "bg-[#888084]",
     items: [
-      { label: "Connect Search Console", href: "#how-it-works" },
-      { label: "Seerix studies your site", href: "#how-it-works" },
-      { label: "Ask anything", href: "#how-it-works" },
+      {
+        label: "Search Console",
+        desc: "Sixteen months of history on one read-only sign-in",
+        href: "/#how-it-works",
+        icon: "M8 5c3 0 5-.9 5-2s-2-2-5-2-5 .9-5 2 2 2 5 2zM3 3v10c0 1.1 2 2 5 2s5-.9 5-2V3M3 8c0 1.1 2 2 5 2s5-.9 5-2",
+      },
+      {
+        label: "SeerixBot",
+        desc: "The crawler that reads your pages",
+        href: "/seerixbot",
+        icon: "M8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12zM2 8h12M8 2c1.7 1.8 2.5 3.8 2.5 6S9.7 12.2 8 14C6.3 12.2 5.5 10.2 5.5 8S6.3 3.8 8 2z",
+      },
+      {
+        label: "Pricing",
+        desc: "Three flat plans, from $39 a month",
+        href: "/pricing",
+        icon: "M8.5 2H14v5.5L7.5 14 2 8.5zM11 5h.01",
+      },
     ],
   },
 ];
 
-const featured = { label: "Seerix: SEO answers with receipts", href: "#" };
+function ItemIcon({ d }: { d: string }) {
+  return (
+    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-black/[0.08] bg-white text-zinc-700 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors duration-200 group-hover:text-black">
+      <svg
+        className="h-4 w-4"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d={d} />
+      </svg>
+    </span>
+  );
+}
 
 function Chevron({ className = "" }: { className?: string }) {
   return (
@@ -127,74 +213,85 @@ function ProductsMenu() {
       >
         Products
         <Chevron
-          className={
-            open ? "rotate-90 transition-transform" : "transition-transform"
-          }
+          className={`transition-transform duration-200 ${
+            open ? "-rotate-90" : "rotate-90"
+          }`}
         />
       </button>
 
+      {/* Full width under the bar: three columns of jobs, a hairline, and
+          what's new on the right. Solid white, so the page never shows through. */}
       {open && (
-        <div className="absolute left-1/2 top-full z-50 w-[min(40rem,calc(100vw-3rem))] -translate-x-1/2 pt-2">
-          <div className="relative overflow-hidden rounded-2xl border border-black/10 shadow-lg shadow-black/5">
-            <video
-              className="absolute inset-0 h-full w-full object-cover"
-              src="/assets/Emerald.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              aria-hidden="true"
-            />
-            <div className="absolute inset-0 bg-black/10" />
-
-            <div className="relative p-1.5">
-              <div className="grid gap-1.5 sm:grid-cols-2">
-                {productColumns.map((column) => (
-                  <div
-                    key={column.title}
-                    className="flex flex-col rounded-xl border border-black/[0.06] bg-white p-3.5"
-                  >
-                    <div className="flex items-center gap-2.5 pb-4">
-                      <span
-                        className={`h-2.5 w-2.5 rounded-full ${column.swatch}`}
-                      />
-                      <span className="font-body text-[12px] font-medium text-black">
-                        {column.title}
-                      </span>
-                    </div>
-
-                    <ul className="mt-auto">
-                      {column.items.map((item) => (
-                        <li key={item.label}>
-                          <Link
-                            href={item.href}
-                            className="group -mx-1.5 flex items-center justify-between gap-3 border-t border-dashed border-black/15 px-1.5 py-2 text-[13px] text-zinc-800 transition-colors duration-200 hover:bg-black/[0.04] hover:text-black"
-                          >
-                            <span className="transition-transform duration-200 ease-out group-hover:translate-x-1">
-                              {item.label}
-                            </span>
-                            <ArrowBox />
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+        <div className="absolute inset-x-0 top-full z-50 px-6 pt-1">
+          <div className="mx-auto grid max-w-7xl gap-8 rounded-2xl border border-black/[0.08] bg-white p-7 shadow-[0_24px_60px_-24px_rgba(15,23,42,0.25)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-0">
+            {productColumns.map((column) => (
+              <div key={column.title} className="lg:pr-8">
+                <p className="font-body text-[13px] text-zinc-500">
+                  {column.title}
+                </p>
+                <ul className="mt-4 flex flex-col gap-1">
+                  {column.items.map((item) => (
+                    <li key={item.label}>
+                      <Link
+                        href={item.href}
+                        onClick={() => setOpen(false)}
+                        className="group -mx-2 flex gap-3 rounded-xl px-2 py-2 transition-colors duration-200 hover:bg-black/[0.035]"
+                      >
+                        <ItemIcon d={item.icon} />
+                        <span className="min-w-0">
+                          <span className="flex items-center gap-2 font-body text-[14.5px] text-zinc-900">
+                            {item.label}
+                            {item.badge && (
+                              <span className="rounded-md bg-signal-soft px-1.5 py-px font-body text-[11px] text-signal-deep">
+                                {item.badge}
+                              </span>
+                            )}
+                          </span>
+                          <span className="mt-0.5 block font-body text-[13px] leading-[1.45] text-zinc-500">
+                            {item.desc}
+                          </span>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
+            ))}
 
+            {/* What's new: our own card, the brand wash with the mark. */}
+            <div className="border-black/[0.07] lg:border-l lg:pl-8">
+              <p className="font-body text-[13px] text-zinc-500">
+                New in Seerix
+              </p>
               <Link
-                href={featured.href}
-                className="group mt-1.5 flex items-center justify-between gap-3 rounded-xl border border-black/[0.06] bg-white p-2.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-black/[0.14] hover:shadow-md hover:shadow-black/10"
+                href="/#how-it-works"
+                onClick={() => setOpen(false)}
+                className="group mt-4 block"
               >
-                <span className="flex items-center gap-3">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-black/10 bg-white">
-                    <SeerixMark size={16} animated={false} />
-                  </span>
-                  <span className="font-body text-[12px] font-medium text-black">
-                    {featured.label}
+                <span className="relative isolate flex aspect-[2/1] items-center justify-center overflow-hidden rounded-xl">
+                  <GradientWash offset={3} className="-z-10" />
+                  {/* A rising line of evidence dots behind the mark. */}
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-0 opacity-50 [-webkit-mask-image:linear-gradient(160deg,transparent_35%,black_50%,transparent_70%)] [mask-image:linear-gradient(160deg,transparent_35%,black_50%,transparent_70%)]"
+                    style={{
+                      backgroundImage:
+                        "radial-gradient(circle, white 1px, transparent 1.4px)",
+                      backgroundSize: "7px 7px",
+                    }}
+                  />
+                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-[0_10px_30px_-10px_rgba(40,25,110,0.5)] transition-transform duration-300 group-hover:scale-105">
+                    <SeerixMark size={26} animated={false} />
                   </span>
                 </span>
-                <ArrowBox />
+                <span className="mt-4 block font-body text-[14.5px] leading-[1.5] text-zinc-900">
+                  Meet evidence-cited diagnoses: ask why traffic moved, get
+                  the cause with its receipts.
+                </span>
+                <span className="mt-3 flex items-center gap-1.5 font-body text-[13.5px] text-zinc-500 transition-colors group-hover:text-black">
+                  See how it works
+                  <Chevron className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                </span>
               </Link>
             </div>
           </div>
@@ -426,7 +523,7 @@ export default function Navbar() {
 
           <div className="border-t border-black/[0.07] px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-6">
             <div className="mx-auto max-w-7xl">
-              <p className="max-w-xs font-display text-[22px] font-medium leading-[1.2] tracking-[-0.02em] text-black">
+              <p className="max-w-xs font-body text-[22px] font-medium leading-[1.2] text-black">
                 Diagnoses with receipts, not dashboards with homework.
               </p>
               <div className="mt-5 flex items-center justify-between gap-4 font-body text-[13px] text-zinc-500">

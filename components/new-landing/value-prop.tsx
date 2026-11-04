@@ -217,7 +217,7 @@ export default function ValueProp() {
       <DitherBlocks edge="top" />
 
       <div className="relative mx-auto max-w-7xl">
-        <h2 className="max-w-4xl font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-white">
+        <h2 className="max-w-4xl font-display text-[34px] leading-[1.15] sm:text-[44px] font-extralight tracking-[-0.03em] text-white">
           One analyst, the whole SEO job.
         </h2>
         <p className="mt-6 max-w-2xl font-body text-[17px] leading-[1.6] text-white/75 sm:text-[19px]">
@@ -232,7 +232,7 @@ export default function ValueProp() {
             <div key={column.job}>
               <Link
                 href={column.href}
-                className="group inline-flex items-center gap-2 font-display text-[22px] font-semibold tracking-[-0.02em] text-white"
+                className="group inline-flex items-center gap-2 font-display text-[22px] font-extralight tracking-[-0.03em] text-white"
               >
                 {column.job}
                 <Arrow />
@@ -263,7 +263,7 @@ export default function ValueProp() {
         {/* The foundation they all run on. */}
         <Link
           href="/#how-it-works"
-          className="group mt-20 flex items-center justify-center gap-2 rounded-2xl bg-white/[0.06] px-6 py-5 text-center font-display text-[18px] text-white transition-colors duration-200 hover:bg-white/[0.09] sm:text-[20px]"
+          className="group mt-20 flex items-center justify-center gap-2 rounded-2xl bg-white/[0.06] px-6 py-5 text-center font-body font-medium text-[18px] text-white transition-colors duration-200 hover:bg-white/[0.09] sm:text-[20px]"
         >
           <span>
             <span className="font-semibold">Foundation:</span>{" "}

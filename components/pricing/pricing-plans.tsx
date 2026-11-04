@@ -58,7 +58,7 @@ const evidence: Record<PlanId, string[]> = {
  */
 export default function PricingPlans() {
   return (
-    <section id="plans" className="bg-ghost px-6 pb-24">
+    <section id="plans" className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-3 lg:grid-rows-[auto_auto_auto_1fr]">
         {plans.map((plan) => {
           const dark = Boolean(plan.featured);
@@ -97,8 +97,8 @@ export default function PricingPlans() {
                       </span>
                     )}
                   </div>
-                  <p className="mt-2 flex items-baseline gap-2 font-display">
-                    <span className="text-[36px] font-medium leading-none tracking-[-0.035em]">
+                  <p className="mt-2 flex items-baseline gap-2 font-body">
+                    <span className="text-[36px] font-medium leading-none">
                       {plan.name}
                     </span>
                     <span

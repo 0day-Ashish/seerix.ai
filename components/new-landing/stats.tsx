@@ -1,207 +1,122 @@
+import Link from "next/link";
+
 import { CountUp } from "@/components/new-landing/count-up";
-
-/* -------------------------------------------------------------------------
- * Each figure carries a small reading of itself drawn underneath, so the
- * number is shown as product output rather than as a marketing claim: the
- * sixteen months as a history strip, the markets as locale chips, the
- * allowance as a usage meter, a month's price against an hour of consultant time.
- * The signal colour marks the part of each reading the figure is about.
- * ---------------------------------------------------------------------- */
-
-/** Sixteen monthly bars, the last one the month you connect. */
-function HistoryStrip() {
-  const heights = [
-    38, 44, 41, 52, 49, 58, 55, 61, 57, 66, 63, 70, 68, 74, 71, 80,
-  ];
-  return (
-    <div aria-hidden="true">
-      <div className="flex h-12 items-end gap-[3px]">
-        {heights.map((h, i) => (
-          <span
-            key={i}
-            style={{ height: `${h}%` }}
-            className={`flex-1  ${
-              i === heights.length - 1 ? "bg-signal-bright" : "bg-black/[0.12]"
-            }`}
-          />
-        ))}
-      </div>
-      <div className="mt-2 flex justify-between font-mono text-[11px] text-zinc-400">
-        <span>Jun 2025</span>
-        <span className="text-signal-deep">today</span>
-      </div>
-    </div>
-  );
-}
-
-/** The markets as locale chips, the configured ones lit. */
-function MarketChips() {
-  const markets = [
-    ["en-US", true],
-    ["en-GB", true],
-    ["de-DE", true],
-    ["fr-FR", false],
-    ["es-ES", false],
-    ["it-IT", false],
-    ["nl-NL", false],
-    ["en-AU", true],
-    ["pt-BR", false],
-    ["ja-JP", false],
-    ["sv-SE", false],
-    ["en-CA", false],
-    ["pl-PL", false],
-    ["da-DK", false],
-    ["en-IN", false],
-  ] as const;
-  return (
-    <div aria-hidden="true" className="flex flex-wrap gap-1.5">
-      {markets.map(([code, on]) => (
-        <span
-          key={code}
-          className={`rounded-md border px-1.5 py-0.5 font-mono text-[11px] ${
-            on
-              ? "border-signal-bright/40 bg-signal-soft text-signal-deep"
-              : "border-black/[0.08] text-zinc-400"
-          }`}
-        >
-          {code}
-        </span>
-      ))}
-    </div>
-  );
-}
-
-/** The month's questions as a meter: used against the allowance. */
-function UsageMeter() {
-  return (
-    <div aria-hidden="true">
-      <div className="flex h-2 overflow-hidden rounded-full bg-black/[0.08]">
-        <span className="h-full w-[31%] rounded-full bg-signal-bright" />
-      </div>
-      <div className="mt-2 flex justify-between font-mono text-[11px] text-zinc-400">
-        <span>
-          <span className="text-signal-deep">612</span> used
-        </span>
-        <span>18 days left</span>
-      </div>
-    </div>
-  );
-}
-
-/** The starting price set against one hour of a consultant's time. */
-function PriceCompare() {
-  return (
-    <div
-      aria-hidden="true"
-      className="flex flex-col gap-2 font-mono text-[11px]"
-    >
-      <div className="flex items-center gap-2">
-        <span className="h-2 w-[19.5%] shrink-0 rounded-full bg-signal-bright" />
-        <span className="text-signal-deep">Seerix, a month</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="h-2 w-full max-w-[100%] flex-1 rounded-full bg-black/[0.14]" />
-        <span className="shrink-0 text-zinc-400">1 consultant hour</span>
-      </div>
-    </div>
-  );
-}
 
 type Stat = {
   value: string;
-  unit?: string;
+  /** Mono capital label under the figure. */
   label: string;
-  description: string;
-  reading: React.ReactNode;
+  /** The source the figure comes from, and the one line it stands for. */
+  source: string;
+  line: string;
 };
 
 const stats: Stat[] = [
   {
     value: "16",
-    unit: "months",
-    label: "History on day one",
-    description:
-      "Clicks, impressions and rankings, pulled on your first read-only sign-in.",
-    reading: <HistoryStrip />,
+    label: "Months of history on day one",
+    source: "Search Console",
+    line: "clicks, impressions and rankings, on your first read-only sign-in.",
   },
   {
     value: "15",
-    unit: "markets",
-    label: "Country and language",
-    description: "configured per site, any vertical.",
-    reading: <MarketChips />,
+    label: "Markets, any vertical",
+    source: "Per site",
+    line: "country and language configured on their own.",
   },
   {
     value: "2,000",
-    label: "AI questions a month",
-    description: "on Agency. Background monitoring never draws on the count.",
-    reading: <UsageMeter />,
-  },
-  {
-    value: "12",
-    unit: "minutes",
-    label: "What a month of Seerix costs",
-    description:
-      "in consultant time. Starter is $39/mo; one consultant hour is $200.",
-    reading: <PriceCompare />,
+    label: "AI questions a month on Agency",
+    source: "Monitoring",
+    line: "crawls, snapshots and alerts never draw on the count.",
   },
 ];
 
+/** A small square where a rule meets its tick, as on a drawing. */
+function Node({ className }: { className: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`absolute h-[7px] w-[7px] -translate-x-1/2 -translate-y-1/2 border border-black/25 bg-[#f7f6f2] ${className}`}
+    />
+  );
+}
+
 /**
- * One readout strip rather than a grid of tiles: the heading runs across the
- * top, and the four figures share a single bordered panel split by rules, so
- * they read as columns of one report. Each column ends on its own reading.
+ * The figures, as a drawn ledger: the claim on the left, and on the right
+ * each number between hairlines that run past their ends, with small squares
+ * and ticks at the corners. The numbers are server-rendered, so they read
+ * correctly before any script runs.
  */
 export default function Stats() {
   return (
-    <section id="numbers" className="bg-ghost px-6 py-20 sm:py-24">
-      <div className="mx-auto max-w-7xl">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
-          <div className="max-w-2xl">
-            <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-black">
-              Every claim shows its receipts
-            </h2>
-          </div>
-          <p className="max-w-md font-body text-[16px] leading-[1.6] text-zinc-500">
+    <section
+      id="numbers"
+      className="overflow-hidden bg-ghost px-6 py-20 sm:py-24"
+    >
+      <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20">
+        <div className="lg:pt-6">
+          <h2 className="font-display text-[34px] font-extralight leading-[1.15] tracking-[-0.03em] text-black sm:text-[44px]">
+            Every claim shows its receipts
+          </h2>
+          <p className="mt-6 max-w-lg font-body text-[17px] leading-[1.6] text-zinc-600">
             Answers cite your own Search Console rows, live SERP snapshots and
-            crawl data, never a guess dressed up as a number.
+            crawl data, never a guess dressed up as a number. These are the
+            figures every plan runs on.
           </p>
+          <Link
+            href="/pricing#compare"
+            className="mt-8 inline-block border-b border-black/60 pb-0.5 font-mono text-[12.5px] uppercase tracking-[0.12em] text-black transition-colors hover:border-black hover:text-zinc-600"
+          >
+            Compare every plan
+          </Link>
         </div>
 
-        <dl className="mt-12 grid overflow-hidden rounded-3xl border border-black/[0.08] sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat, index) => (
+        <dl className="relative">
+          {stats.map((stat, i) => (
             <div
               key={stat.label}
-              className={`flex flex-col p-6 sm:p-7 ${
-                // Rules between columns at each breakpoint, never on an edge.
-                index > 0 ? "border-t border-black/[0.08]" : ""
-              } ${index % 2 === 1 ? "sm:border-l" : ""} ${
-                index < 2 ? "sm:border-t-0" : ""
-              } ${index > 0 ? "lg:border-l lg:border-t-0" : ""}`}
+              className="relative border-t border-black/[0.12] py-9 pl-6 pr-4 sm:pl-12 last:border-b"
             >
-              <span className="font-mono text-[11px] text-zinc-400">
-                0{index + 1}
-              </span>
-              <dt className="mt-6 flex flex-wrap items-baseline gap-x-2">
+              {/* Ticks running past the rule at both ends, and the squares
+                  where they cross. */}
+              <span
+                aria-hidden="true"
+                className="absolute -left-10 -right-10 top-0 h-px bg-gradient-to-r from-transparent via-black/[0.12] to-transparent"
+              />
+              <span
+                aria-hidden="true"
+                className="absolute -top-8 left-0 h-16 w-px bg-gradient-to-b from-transparent via-black/[0.12] to-transparent"
+              />
+              <span
+                aria-hidden="true"
+                className="absolute -top-8 right-0 h-16 w-px bg-gradient-to-b from-transparent via-black/[0.12] to-transparent"
+              />
+              <Node className="left-0 top-0" />
+              <Node className="left-full top-0" />
+              {i === stats.length - 1 && (
+                <>
+                  <Node className="left-0 top-full" />
+                  <Node className="left-full top-full" />
+                </>
+              )}
+
+              <dt className="sr-only">{stat.label}</dt>
+              <dd>
                 <CountUp
                   value={stat.value}
-                  className="font-display text-[48px] font-medium leading-none tracking-[-0.04em] text-black sm:text-[56px]"
+                  className="font-display text-[56px] font-extralight leading-none tracking-[-0.03em] text-black sm:text-[64px]"
                 />
-                {stat.unit && (
-                  <span className="font-body text-[15px] text-zinc-400">
-                    {stat.unit}
-                  </span>
-                )}
-              </dt>
-              <dd className="mt-4 flex flex-1 flex-col">
-                <span className="block font-display text-[15px] font-medium tracking-[-0.01em] text-black">
+                <p className="mt-4 font-mono text-[12.5px] uppercase tracking-[0.12em] text-zinc-500">
                   {stat.label}
-                </span>
-                <span className="mt-1 block font-body text-[14px] leading-[1.6] text-zinc-500">
-                  {stat.description}
-                </span>
-                <span className="flex-1" />
-                <div className="mt-8">{stat.reading}</div>
+                </p>
+                <p className="mt-4 font-body text-[15.5px] leading-[1.55] text-zinc-600">
+                  <span className="mr-1.5 inline-flex items-center gap-1.5 font-medium text-black">
+                    <span className="h-2 w-2 bg-signal" />
+                    {stat.source}
+                  </span>
+                  {stat.line}
+                </p>
               </dd>
             </div>
           ))}

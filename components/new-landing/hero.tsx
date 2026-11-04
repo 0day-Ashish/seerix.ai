@@ -40,7 +40,7 @@ export default function Hero() {
                 Built on your Search Console &middot; Read-only &middot; Every
                 claim cited
               </p>
-              <h1 className="max-w-5xl font-display text-[36px] font-light leading-[1.15] tracking-[-0.02em] text-zinc-900 sm:text-[48px] md:text-[60px] md:leading-[1.2]">
+              <h1 className="max-w-5xl font-display text-[36px] font-extralight leading-[1.15] tracking-[-0.035em] text-zinc-900 sm:text-[48px] md:text-[60px] md:leading-[1.2]">
                 The Search Console analyst that explains why.
               </h1>
               <p className="mt-4 max-w-xl font-body text-[16px] font-light leading-[1.55] text-zinc-600 sm:text-[18px]">

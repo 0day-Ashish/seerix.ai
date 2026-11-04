@@ -1,6 +1,5 @@
 import Button from "@/components/new-landing/button";
 
-import HeroGlow from "@/components/new-landing/hero-glow";
 
 function Check() {
   return (
@@ -48,10 +47,10 @@ const columns = [
 
 export function PricingBilling() {
   return (
-    <section className="bg-ghost px-6 pb-24">
-      <div className="mx-auto grid max-w-7xl gap-10 rounded-3xl bg-[#f6f5f2] p-8 sm:p-12 lg:grid-cols-[minmax(0,1.1fr)_repeat(3,minmax(0,1fr))]">
+    <section className="bg-ghost px-6 py-20 sm:py-24">
+      <div className="mx-auto grid max-w-7xl gap-10 frost rounded-[28px] p-8 sm:p-12 lg:grid-cols-[minmax(0,1.1fr)_repeat(3,minmax(0,1fr))]">
         <div>
-          <h2 className="font-display text-[34px] font-light leading-[1.1] tracking-[-0.02em] text-black">
+          <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-extralight tracking-[-0.03em] text-black">
             How billing works
           </h2>
           <p className="mt-4 max-w-sm font-body text-[16px] leading-[1.6] text-zinc-500">
@@ -86,12 +85,9 @@ export function PricingBilling() {
 /** The closing line, centred, with the one action. */
 export function PricingCloser() {
   return (
-    <section className="relative isolate overflow-hidden bg-ghost px-6 py-28 text-center sm:py-32">
-      {/* The same breathing glow as the home page's closing CTA, behind the
-          line and its button. */}
-      <HeroGlow className="inset-x-[-10%] top-1/2 h-[14rem] -translate-y-1/2 sm:inset-x-[10%] sm:h-[15rem]" />
+    <section className="relative bg-ghost px-6 py-20 text-center sm:py-24">
       <div className="relative">
-        <h2 className="font-display text-[40px] font-light leading-[1.05] tracking-[-0.02em] text-black sm:text-[56px]">
+        <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-extralight tracking-[-0.03em] text-black">
           SEO answers with receipts
         </h2>
         <p className="mx-auto mt-5 max-w-md font-body text-[17px] leading-[1.6] text-zinc-500">

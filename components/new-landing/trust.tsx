@@ -324,7 +324,7 @@ export default function Trust() {
       {/* Centred heading, as the reference has it, with the rail beneath
           running the full width so a card peeks in from either side. */}
       <div className="mx-auto w-full max-w-3xl px-6 text-center">
-        <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-zinc-900">
+        <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-extralight tracking-[-0.03em] text-zinc-900">
           Built so it can&rsquo;t make things up about your site.
         </h2>
         <p className="mx-auto mt-5 max-w-xl font-body text-[17px] leading-[1.6] text-zinc-600">
@@ -380,7 +380,7 @@ export default function Trust() {
 
                   <div className="relative pt-9">{pillar.visual}</div>
 
-                  <h3 className="relative mt-7 inline-block rounded-lg bg-white px-3 py-1.5 shadow-[0_8px_20px_-12px_rgba(40,25,110,0.35)] font-display text-[22px] font-medium leading-snug tracking-[-0.02em] text-zinc-900 lg:text-[26px]">
+                  <h3 className="relative mt-7 inline-block rounded-lg bg-white px-3 py-1.5 shadow-[0_8px_20px_-12px_rgba(40,25,110,0.35)] font-body text-[22px] font-medium leading-snug text-zinc-900 lg:text-[26px]">
                     {pillar.title}
                   </h3>
                 </div>

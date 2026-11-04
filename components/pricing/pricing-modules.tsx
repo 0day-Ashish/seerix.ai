@@ -151,9 +151,9 @@ const modules: Module[] = [
  */
 export default function PricingModules() {
   return (
-    <section className="bg-ghost px-6 pb-24">
+    <section className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
-        <h2 className="font-display text-[36px] font-light leading-[1.1] tracking-[-0.02em] text-black sm:text-[44px]">
+        <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] tracking-[-0.03em] font-extralight text-black">
           What every plan runs
         </h2>
 
@@ -187,7 +187,7 @@ export default function PricingModules() {
                     {m.visual}
                   </div>
                   <div className="relative">
-                    <p className="font-display text-[30px] font-medium leading-none tracking-[-0.03em]">
+                    <p className="font-display text-[30px] font-extralight leading-none tracking-[-0.03em]">
                       {m.name}
                     </p>
                     <p className="mt-2 flex items-baseline gap-1.5">

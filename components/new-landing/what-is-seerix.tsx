@@ -35,7 +35,7 @@ export default function WhatIsSeerix() {
             so the two don't repeat. */}
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
           <div>
-            <h2 className="font-display text-[36px] font-light leading-[1.15] tracking-[-0.02em] text-black sm:text-[54px] lg:text-[60px]">
+            <h2 className="font-display text-[36px] font-extralight leading-[1.15] tracking-[-0.03em] text-black sm:text-[54px] lg:text-[60px]">
               An SEO analyst that works from your Search Console.
             </h2>
           </div>
@@ -56,7 +56,7 @@ export default function WhatIsSeerix() {
               <span className="font-mono text-[12px] text-zinc-400">
                 0{index + 1}
               </span>
-              <h3 className="mt-3 font-display text-[18px] font-medium leading-snug tracking-[-0.02em] text-black">
+              <h3 className="mt-3 font-body text-[18px] font-medium leading-snug text-black">
                 {point.title}
               </h3>
               <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-500">

@@ -45,7 +45,7 @@ export default function Industries() {
                 <p className="mb-4 font-body text-[14px] text-zinc-500">
                   Industries
                 </p>
-                <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-light tracking-[-0.02em] text-black">
+                <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-extralight tracking-[-0.03em] text-black">
                   <BlockReveal>
                     Built for sites where search traffic is the business.
                   </BlockReveal>
@@ -72,7 +72,7 @@ export default function Industries() {
                     key={industry.name}
                     className="border-t border-black/[0.12] py-7 first:border-t-0 sm:[&:nth-child(-n+2)]:border-t-0 sm:[&:nth-child(even)]:border-l sm:[&:nth-child(even)]:pl-7 sm:[&:nth-child(odd)]:pr-7"
                   >
-                    <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-black">
+                    <h3 className="font-body text-[19px] font-medium text-black">
                       {industry.name}
                     </h3>
                     <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-500">
@@ -85,7 +85,7 @@ export default function Industries() {
                   closes the table rather than sitting blank: the list is not
                   meant to be exhaustive, and this is where you say so. */}
                 <div className="group border-t border-black/[0.12] py-7 sm:border-l sm:pl-7">
-                  <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-zinc-800">
+                  <h3 className="font-body text-[19px] font-medium text-zinc-800">
                     Not listed here?
                   </h3>
                   <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-500">

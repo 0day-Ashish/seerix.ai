@@ -36,7 +36,7 @@ export default function FindGaps() {
     // Keeps the old section's id: the nav, footer and job links point here.
     <section id="how-it-works" className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.5fr)] lg:gap-16">
-        <h2 className="font-display text-[34px] font-light leading-[1.15] tracking-[-0.02em] text-zinc-900 sm:text-[44px]">
+        <h2 className="font-display text-[34px] font-extralight leading-[1.15] tracking-[-0.03em] text-zinc-900 sm:text-[44px]">
           Find your gaps
           <span className="block text-zinc-400">
             See where competitors take page one from you, keyword by keyword.
@@ -44,7 +44,7 @@ export default function FindGaps() {
         </h2>
 
         <div className="min-w-0 lg:pt-12">
-          <p className="font-body text-[17px] font-medium text-zinc-900">
+          <p className="font-body text-[17px] font-extralight text-zinc-900">
             Visibility score
           </p>
           <p className="mt-1 font-body text-[14px] text-zinc-500">

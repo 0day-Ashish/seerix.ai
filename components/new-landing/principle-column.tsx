@@ -23,7 +23,7 @@ export default function PrincipleColumn({
         {visual}
       </div>
 
-      <h3 className="mt-6 font-display text-[18px] font-medium leading-snug tracking-[-0.02em] text-black">
+      <h3 className="mt-6 font-body text-[18px] font-medium leading-snug text-black">
         {title}
       </h3>
       <p className="mt-3 font-body text-[15px] leading-[1.65] text-zinc-500">
