@@ -691,7 +691,6 @@ export default function Chat({
             const el = e.currentTarget;
             setAtBottom(el.scrollHeight - el.scrollTop - el.clientHeight < 80);
           }}
-          data-lenis-prevent
           className="flex-1 overflow-y-auto overscroll-contain"
         >
           {

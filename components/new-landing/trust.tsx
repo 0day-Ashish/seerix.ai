@@ -207,8 +207,6 @@ export default function Trust() {
     let lastX = 0;
     let lastT = 0;
 
-    const lenis = () =>
-      (window as unknown as { lenis?: { stop(): void; start(): void } }).lenis;
 
     const stopGlide = () => {
       if (raf) cancelAnimationFrame(raf);
@@ -257,7 +255,6 @@ export default function Trust() {
         el.style.userSelect = "none";
         // Off for the gesture; restored when the glide settles.
         el.style.scrollSnapType = "none";
-        lenis()?.stop();
       }
       e.preventDefault();
 
@@ -281,7 +278,6 @@ export default function Trust() {
       el.releasePointerCapture?.(e.pointerId);
       el.style.cursor = "";
       el.style.userSelect = "";
-      lenis()?.start();
 
       if (moved) {
         // Let the throw carry; the glide restores snap when it settles.
@@ -312,7 +308,6 @@ export default function Trust() {
       el.removeEventListener("pointerup", onUp);
       el.removeEventListener("pointercancel", onUp);
       stopGlide();
-      lenis()?.start();
     };
   }, []);
 
@@ -337,7 +332,6 @@ export default function Trust() {
           from turning into a browser back-swipe. */}
       <div
         ref={rail}
-        data-lenis-prevent-horizontal
         className="mt-12 flex cursor-grab snap-x snap-proximity gap-5 overflow-x-auto overscroll-x-contain px-6 pb-4 [-webkit-overflow-scrolling:touch] [scrollbar-width:none] sm:mt-16 lg:px-0 [&::-webkit-scrollbar]:hidden"
       >
         {[0, 1, 2].flatMap((copy) =>

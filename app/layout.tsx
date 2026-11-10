@@ -11,7 +11,6 @@ import "./globals.css";
 
 import MarketingBackground from "@/components/new-landing/marketing-background";
 import Navbar from "@/components/new-landing/navbar";
-import SmoothScroll from "@/components/smooth-scroll";
 import { siteUrl } from "@/app/sitemap";
 
 // The wordmark's face (globals.css .wordmark); headings use the Speakeasy pack.
@@ -52,7 +51,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <meta name="theme-color" content="#36363B" />
       </head>
       <body className="flex min-h-dvh flex-col font-sans">
-        <SmoothScroll />
         <MarketingBackground />
         <Navbar />
         {children}

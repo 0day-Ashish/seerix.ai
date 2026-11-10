@@ -78,30 +78,6 @@ const productColumns: {
       },
     ],
   },
-  {
-    title: "How it works",
-    swatch: "bg-[#888084]",
-    items: [
-      {
-        label: "Search Console",
-        desc: "Sixteen months of history on one read-only sign-in",
-        href: "/#how-it-works",
-        icon: "M8 5c3 0 5-.9 5-2s-2-2-5-2-5 .9-5 2 2 2 5 2zM3 3v10c0 1.1 2 2 5 2s5-.9 5-2V3M3 8c0 1.1 2 2 5 2s5-.9 5-2",
-      },
-      {
-        label: "SeerixBot",
-        desc: "The crawler that reads your pages",
-        href: "/seerixbot",
-        icon: "M8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12zM2 8h12M8 2c1.7 1.8 2.5 3.8 2.5 6S9.7 12.2 8 14C6.3 12.2 5.5 10.2 5.5 8S6.3 3.8 8 2z",
-      },
-      {
-        label: "Pricing",
-        desc: "Three flat plans, from $39 a month",
-        href: "/pricing",
-        icon: "M8.5 2H14v5.5L7.5 14 2 8.5zM11 5h.01",
-      },
-    ],
-  },
 ];
 
 function ItemIcon({ d }: { d: string }) {
@@ -223,7 +199,7 @@ function ProductsMenu() {
           what's new on the right. Solid white, so the page never shows through. */}
       {open && (
         <div className="absolute inset-x-0 top-full z-50 px-6 pt-1">
-          <div className="mx-auto grid max-w-7xl gap-8 rounded-2xl border border-black/[0.08] bg-white p-7 shadow-[0_24px_60px_-24px_rgba(15,23,42,0.25)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-0">
+          <div className="mx-auto grid max-w-7xl gap-8 rounded-2xl border border-black/[0.08] bg-white p-7 shadow-[0_24px_60px_-24px_rgba(15,23,42,0.25)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-0">
             {productColumns.map((column) => (
               <div key={column.title} className="lg:pr-8">
                 <p className="font-body text-[13px] text-zinc-500">
@@ -461,11 +437,7 @@ export default function Navbar() {
           className="fixed inset-0 -z-[5] flex h-dvh flex-col bg-[#f7f6f2] lg:hidden"
           style={{ paddingTop: sheetTop }}
         >
-          {/* data-lenis-prevent: the smooth-scroll library otherwise takes
-              the wheel and touch for the (locked) page, so this list could
-              not be scrolled. */}
           <div
-            data-lenis-prevent
             className="min-h-0 flex-1 overflow-y-auto overscroll-contain border-t border-black/[0.07] px-6 pb-8 pt-2"
           >
             <div className="mx-auto max-w-7xl">
