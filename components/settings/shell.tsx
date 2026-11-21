@@ -46,7 +46,7 @@ export default function SettingsShell({
   }, [drawer]);
 
   return (
-    <div data-app className="flex min-h-dvh flex-col bg-signal-ink lg:flex-row">
+    <div data-app className="flex min-h-dvh flex-col bg-[#f4f4f6] lg:flex-row">
       {/* The drawer's backdrop, below lg only. */}
       <button
         type="button"
@@ -58,7 +58,7 @@ export default function SettingsShell({
         }`}
       />
       <SettingsSidebar open={drawer} onClose={() => setDrawer(false)} />
-      <div className="min-w-0 flex-1 bg-signal-ink">
+      <div className="min-w-0 flex-1 bg-[#f4f4f6]">
         <SettingsHeader open={drawer} onOpen={() => setDrawer(true)} />
         <main className="min-h-[calc(100dvh-57px)] bg-white px-5 pb-20 pt-7 sm:px-8 lg:px-12 lg:pt-10">
           <div className="mx-auto max-w-4xl">{children}</div>

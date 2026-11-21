@@ -82,7 +82,7 @@ const productColumns: {
 
 function ItemIcon({ d }: { d: string }) {
   return (
-    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-black/[0.08] bg-white text-zinc-700 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-colors duration-200 group-hover:text-black">
+    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-black/[0.04] text-zinc-700 ring-1 ring-black/[0.05] transition-colors duration-200 group-hover:bg-white group-hover:text-signal-deep">
       <svg
         className="h-4 w-4"
         viewBox="0 0 16 16"
@@ -112,6 +112,24 @@ function Chevron({ className = "" }: { className?: string }) {
       aria-hidden="true"
     >
       <path d="M4.5 3 7.5 6 4.5 9" />
+    </svg>
+  );
+}
+
+/** The trigger's mark: a pair of chevrons, one up, one down. */
+function UpDown({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      className={`h-3.5 w-3.5 ${className}`}
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M5 6l3-3 3 3M5 10l3 3 3-3" />
     </svg>
   );
 }
@@ -185,66 +203,62 @@ function ProductsMenu() {
         aria-expanded={open}
         aria-haspopup="true"
         onClick={() => setOpen((value) => !value)}
-        className="flex items-center gap-1 transition-colors hover:text-black"
+        className={`flex items-center gap-1.5 transition-colors ${
+          open ? "text-signal" : "hover:text-black"
+        }`}
       >
         Products
-        <Chevron
-          className={`transition-transform duration-200 ${
-            open ? "-rotate-90" : "rotate-90"
-          }`}
-        />
+        <UpDown />
       </button>
 
       {/* Full width under the bar: three columns of jobs, a hairline, and
           what's new on the right. Solid white, so the page never shows through. */}
       {open && (
         <div className="absolute inset-x-0 top-full z-50 px-6 pt-1">
-          <div className="mx-auto grid max-w-7xl gap-8 rounded-2xl border border-black/[0.08] bg-white p-7 shadow-[0_24px_60px_-24px_rgba(15,23,42,0.25)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-0">
-            {productColumns.map((column) => (
-              <div key={column.title} className="lg:pr-8">
-                <p className="font-body text-[13px] text-zinc-500">
-                  {column.title}
-                </p>
-                <ul className="mt-4 flex flex-col gap-1">
-                  {column.items.map((item) => (
-                    <li key={item.label}>
-                      <Link
-                        href={item.href}
-                        onClick={() => setOpen(false)}
-                        className="group -mx-2 flex gap-3 rounded-xl px-2 py-2 transition-colors duration-200 hover:bg-black/[0.035]"
-                      >
-                        <ItemIcon d={item.icon} />
-                        <span className="min-w-0">
-                          <span className="flex items-center gap-2 font-body text-[14.5px] text-zinc-900">
-                            {item.label}
-                            {item.badge && (
-                              <span className="rounded-md bg-signal-soft px-1.5 py-px font-body text-[11px] text-signal-deep">
-                                {item.badge}
-                              </span>
-                            )}
-                          </span>
-                          <span className="mt-0.5 block font-body text-[13px] leading-[1.45] text-zinc-500">
-                            {item.desc}
-                          </span>
+          {/* Compact, hung under the links on the right rather than
+              spanning the page. */}
+          <div className="mx-auto flex max-w-7xl justify-end">
+          <div className="grid w-[860px] max-w-full grid-cols-[minmax(0,1fr)_17rem] rounded-2xl border border-black/[0.08] bg-white p-2 shadow-[0_24px_60px_-24px_rgba(15,23,42,0.25)]">
+            {/* Every job in one grid, two across: an icon tile, the name
+                in mono capitals and a line on what it does. */}
+            <ul className="grid content-start gap-0.5 p-1 sm:grid-cols-2">
+              {productColumns
+                .flatMap((column) => column.items)
+                .map((item) => (
+                  <li key={item.label}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className="group flex gap-3 rounded-xl p-3 transition-colors duration-200 hover:bg-black/[0.035]"
+                    >
+                      <ItemIcon d={item.icon} />
+                      <span className="min-w-0">
+                        <span className="flex items-center gap-2 font-mono text-[11.5px] uppercase tracking-[0.06em] text-zinc-900">
+                          {item.label}
+                          {item.badge && (
+                            <span className="rounded-md bg-signal-soft px-1.5 py-px font-body text-[10.5px] normal-case tracking-normal text-signal-deep">
+                              {item.badge}
+                            </span>
+                          )}
                         </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+                        <span className="mt-0.5 block font-body text-[13.5px] leading-[1.45] text-zinc-500">
+                          {item.desc}
+                        </span>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+            </ul>
 
-            {/* What's new: our own card, the brand wash with the mark. */}
-            <div className="border-black/[0.07] lg:border-l lg:pl-8">
-              <p className="font-body text-[13px] text-zinc-500">
-                New in Seerix
-              </p>
+            {/* What's new, beyond a hairline: a visual, then a title and
+                one line. */}
+            <div className="border-l border-black/[0.07] p-2 pl-3">
               <Link
                 href="/#how-it-works"
                 onClick={() => setOpen(false)}
-                className="group mt-4 block"
+                className="group block"
               >
-                <span className="relative isolate flex aspect-[2/1] items-center justify-center overflow-hidden rounded-xl">
+                <span className="relative isolate flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl">
                   <GradientWash offset={3} className="-z-10" />
                   {/* A rising line of evidence dots behind the mark. */}
                   <span
@@ -256,20 +270,19 @@ function ProductsMenu() {
                       backgroundSize: "7px 7px",
                     }}
                   />
-                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-[0_10px_30px_-10px_rgba(40,25,110,0.5)] transition-transform duration-300 group-hover:scale-105">
-                    <SeerixMark size={26} animated={false} />
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-[0_10px_30px_-10px_rgba(40,25,110,0.5)] transition-transform duration-300 group-hover:scale-105">
+                    <SeerixMark size={22} animated={false} />
                   </span>
                 </span>
-                <span className="mt-4 block font-body text-[14.5px] leading-[1.5] text-zinc-900">
-                  Meet evidence-cited diagnoses: ask why traffic moved, get
-                  the cause with its receipts.
+                <span className="mt-3 block font-body text-[15px] text-zinc-900">
+                  Every claim, with its receipts
                 </span>
-                <span className="mt-3 flex items-center gap-1.5 font-body text-[13.5px] text-zinc-500 transition-colors group-hover:text-black">
-                  See how it works
-                  <Chevron className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                <span className="mt-1 block font-body text-[13px] leading-[1.5] text-zinc-500 transition-colors group-hover:text-zinc-700">
+                  Ask why traffic moved; get the cause and the rows behind it.
                 </span>
               </Link>
             </div>
+          </div>
           </div>
         </div>
       )}
@@ -402,7 +415,14 @@ export default function Navbar() {
                   the row. Wrapped, so the breakpoint display never fights the
                   button's own inline-flex. */}
               <span className="hidden sm:block">
-                <Button href="/#waitlist">Join waitlist</Button>
+                <span className="block [filter:drop-shadow(0_0_0.6px_rgba(0,0,0,0.35))_drop-shadow(0_2px_6px_rgba(91,79,216,0.18))]">
+                  <Button
+                    href="/#waitlist"
+                    className="tab-notch !h-9 font-mono !px-5 !text-[12px] uppercase tracking-[0.06em]"
+                  >
+                    Join waitlist
+                  </Button>
+                </span>
               </span>
 
               <button

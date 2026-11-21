@@ -116,8 +116,8 @@ export default function RankingsTrend({ rows }: { rows: Ranking[] }) {
         >
           <defs>
             <linearGradient id="rt-fill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor={SIGNAL} stopOpacity="0.14" />
-              <stop offset="1" stopColor={SIGNAL} stopOpacity="0.01" />
+              <stop offset="0" stopColor="#bdb4f8" stopOpacity="0.55" />
+              <stop offset="1" stopColor="#bdb4f8" stopOpacity="0.03" />
             </linearGradient>
           </defs>
 
@@ -128,7 +128,7 @@ export default function RankingsTrend({ rows }: { rows: Ranking[] }) {
                 x2={PAD.left + iw}
                 y1={yPos(t)}
                 y2={yPos(t)}
-                stroke="#dfe2e7"
+                stroke="#ececf0"
                 strokeDasharray="4 4"
               />
               <text
@@ -199,7 +199,7 @@ export default function RankingsTrend({ rows }: { rows: Ranking[] }) {
               x2={x(hover)}
               y1={PAD.top}
               y2={PAD.top + ih}
-              stroke="#c7ccd4"
+              stroke="#d4d4d8"
               pointerEvents="none"
             />
           )}

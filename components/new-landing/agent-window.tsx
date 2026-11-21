@@ -296,7 +296,7 @@ function Icon({ d, className = "h-4 w-4" }: { d: string; className?: string }) {
 function Message({ m }: { m: Msg }) {
   if (m.k === "user")
     return (
-      <p className="ml-auto max-w-[82%] rounded-2xl bg-black/[0.055] px-4 py-2.5 text-[15px] leading-[1.5] text-zinc-900">
+      <p className="ml-auto max-w-[82%] rounded-2xl bg-white px-4 py-2.5 shadow-[0_1px_2px_rgba(15,23,42,0.05)] ring-1 ring-black/[0.06] text-[15px] leading-[1.5] text-zinc-900">
         {m.text}
       </p>
     );
@@ -311,7 +311,7 @@ function Message({ m }: { m: Msg }) {
     );
   return (
     <div>
-      <div className="flex items-center justify-between overflow-hidden rounded-xl bg-black/[0.04] py-3 pl-4 pr-6">
+      <div className="flex items-center justify-between overflow-hidden rounded-xl bg-white py-3 pl-4 pr-6 shadow-[0_1px_2px_rgba(15,23,42,0.05)] ring-1 ring-black/[0.06]">
         <div>
           <p className="text-[14px] text-zinc-900">{m.title}</p>
           <p className="mt-0.5 text-[12.5px] text-zinc-500">Interactive artifact</p>
@@ -439,10 +439,10 @@ export default function AgentWindow() {
         <div className="mt-4 pb-4 pl-4">
           <FitWidth width={1180}>
             <div
-              className="flex h-[698px] flex-col overflow-hidden rounded-[14px] border border-black/[0.08] bg-[#fdfcfa] font-body shadow-[0_25px_80px_-15px_rgba(0,0,0,0.3)]"
+              className="flex h-[698px] flex-col overflow-hidden rounded-[14px] border border-black/[0.08] bg-[#f4f4f6] font-body shadow-[0_25px_80px_-15px_rgba(0,0,0,0.3)]"
               style={{ width: `calc(100% + ${OVER}px)` }}
             >
-              <div className="relative flex h-[46px] shrink-0 items-center border-b border-black/[0.07] px-4">
+              <div className="relative flex h-[46px] shrink-0 items-center px-4">
                 <span className="flex gap-2">
                   <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
                   <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
@@ -477,7 +477,7 @@ export default function AgentWindow() {
                         <Message key={i} m={m} />
                       ))}
                     </div>
-                    <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#fdfcfa] to-transparent" />
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#f4f4f6] to-transparent" />
                   </div>
                   <div className="px-4 pb-4">
                     <div className="flex items-center gap-3 rounded-2xl border border-black/[0.08] bg-white py-3 pl-4 pr-3 shadow-[0_6px_20px_-12px_rgba(0,0,0,0.25)]">
@@ -487,7 +487,7 @@ export default function AgentWindow() {
                       <span className="flex-1 text-[15px] text-zinc-400">
                         Join the waitlist to ask Seerix
                       </span>
-                      <span className="flex h-11 w-11 items-center justify-center rounded-full bg-zinc-400 text-white">
+                      <span className="flex h-11 w-11 items-center justify-center rounded-full bg-signal text-white">
                         <Icon d="M8 12.5v-9M4 7.5l4-4 4 4" />
                       </span>
                     </div>
@@ -495,7 +495,9 @@ export default function AgentWindow() {
                 </div>
 
                 {/* The report the artifact opens. */}
-                <div className="flex min-h-0 flex-col border-l border-black/[0.07] bg-white">
+                {/* The dashboard's panel: white, set into the grey frame with a
+                    rounded corner. */}
+                <div className="flex min-h-0 flex-col rounded-tl-[14px] border-l border-t border-black/[0.07] bg-white">
                   <div
                     className="flex h-12 shrink-0 items-center justify-center gap-1 text-[13px]"
                     style={{ paddingRight: OVER }}
@@ -506,7 +508,7 @@ export default function AgentWindow() {
                         <span
                           key={t}
                           className={`rounded-md px-3 py-1.5 ${
-                            on ? "bg-black/[0.05] text-zinc-900" : "text-zinc-500"
+                            on ? "bg-signal-soft font-medium text-signal-deep ring-1 ring-signal-bright/50" : "text-zinc-500"
                           }`}
                         >
                           {t}

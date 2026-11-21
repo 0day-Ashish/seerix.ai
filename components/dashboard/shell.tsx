@@ -110,14 +110,14 @@ export function AccountRow({ slim = false }: { slim?: boolean }) {
   }, [open]);
 
   return (
-    <div ref={ref} className="relative mt-1 border-t border-white/10 pt-2">
+    <div ref={ref} className="relative mt-1 border-t border-black/[0.07] pt-2">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-haspopup="menu"
         title={slim ? account.full_name : undefined}
-        className={`flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left transition-colors hover:bg-white/10 ${
+        className={`flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left transition-colors hover:bg-black/[0.04] ${
           slim ? "lg:justify-center lg:px-0" : ""
         }`}
       >
@@ -125,15 +125,15 @@ export function AccountRow({ slim = false }: { slim?: boolean }) {
           {account.initials}
         </span>
         <span className={`min-w-0 flex-1 ${slim ? "lg:hidden" : ""}`}>
-          <span className="block truncate font-body text-[13.5px] font-medium text-white">
+          <span className="block truncate font-body text-[13.5px] font-medium text-zinc-900">
             {account.full_name}
           </span>
-          <span className="block truncate font-body text-[12px] text-white/50">
+          <span className="block truncate font-body text-[12px] text-zinc-500">
             {account.email}
           </span>
         </span>
         <svg
-          className={`h-3.5 w-3.5 shrink-0 text-white/40 ${slim ? "lg:hidden" : ""}`}
+          className={`h-3.5 w-3.5 shrink-0 text-zinc-400 ${slim ? "lg:hidden" : ""}`}
           viewBox="0 0 16 16"
           fill="none"
           stroke="currentColor"
@@ -188,22 +188,22 @@ function RecentChats() {
   const { threads, active } = useThreads();
   const pathname = usePathname();
   return (
-    <div className="mt-4 flex min-h-0 flex-1 flex-col border-t border-white/10 pt-4">
+    <div className="mt-4 flex min-h-0 flex-1 flex-col border-t border-black/[0.07] pt-4">
       <div className="flex items-center justify-between px-2.5 pb-1.5">
-        <p className="font-body text-[12px] font-medium text-white/40">
+        <p className="font-body text-[12px] font-medium text-zinc-400">
           Recent chats
         </p>
         <Link
           href="/app/chat"
           title="New chat"
           aria-label="New chat"
-          className="flex h-6 w-6 items-center justify-center rounded-md text-white/40 transition-colors hover:bg-white/10 hover:text-white/80"
+          className="flex h-6 w-6 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-black/[0.04] hover:text-zinc-800"
         >
           <NavIcon d="M8 3.5v9M3.5 8h9" />
         </Link>
       </div>
       {threads.length === 0 ? (
-        <p className="px-2.5 font-body text-[12.5px] text-white/40">
+        <p className="px-2.5 font-body text-[12.5px] text-zinc-400">
           Your chats will show up here.
         </p>
       ) : (
@@ -217,17 +217,17 @@ function RecentChats() {
                   title={t.title}
                   aria-current={on ? "page" : undefined}
                   className={`block rounded-lg py-1.5 pl-2.5 pr-7 font-body transition-colors ${
-                    on ? "bg-white/10" : "hover:bg-white/10"
+                    on ? "bg-black/[0.05]" : "hover:bg-black/[0.04]"
                   }`}
                 >
                   <span
                     className={`block truncate text-[13px] ${
-                      on ? "font-medium text-signal-bright" : "text-white/70"
+                      on ? "font-medium text-signal-deep" : "text-zinc-600"
                     }`}
                   >
                     {t.title}
                   </span>
-                  <span className="block text-[11.5px] text-white/40">
+                  <span className="block text-[11.5px] text-zinc-400">
                     {when(t.at)}
                   </span>
                 </Link>
@@ -236,7 +236,7 @@ function RecentChats() {
                   onClick={() => deleteThread(t.id)}
                   aria-label={`Delete “${t.title}”`}
                   title="Delete chat"
-                  className="absolute right-1 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-md text-white/40 opacity-0 transition-opacity hover:bg-white/15/70 hover:text-white/80 focus-visible:opacity-100 group-hover:opacity-100"
+                  className="absolute right-1 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-md text-zinc-400 opacity-0 transition-opacity hover:bg-black/[0.06] hover:text-zinc-800 focus-visible:opacity-100 group-hover:opacity-100"
                 >
                   <NavIcon d="M4.5 4.5l7 7M11.5 4.5l-7 7" />
                 </button>
@@ -322,7 +322,7 @@ export default function DashboardShell({
       />
       <aside
         id="dashboard-drawer"
-        className={`fixed inset-y-0 left-0 z-50 w-[280px] max-w-[85vw] bg-signal-ink transition-transform duration-200 ease-out lg:sticky lg:top-0 lg:z-auto lg:h-dvh lg:max-w-none lg:shrink-0 lg:translate-x-0 lg:transition-[width] ${
+        className={`fixed inset-y-0 left-0 z-50 w-[280px] max-w-[85vw] bg-[#f4f4f6] transition-transform duration-200 ease-out lg:sticky lg:top-0 lg:z-auto lg:h-dvh lg:max-w-none lg:shrink-0 lg:translate-x-0 lg:transition-[width] ${
           drawer ? "translate-x-0" : "-translate-x-full"
         } ${slim ? "lg:w-[68px]" : "lg:w-[220px]"}`}
       >
@@ -335,9 +335,9 @@ export default function DashboardShell({
             }`}
           >
             <Link href="/" className="flex items-center gap-2 px-1">
-              <SeerixMark size={24} tone="white" animated={false} />
+              <SeerixMark size={24} animated={false} />
               <span
-                className={`wordmark text-[19px] font-semibold tracking-[-0.02em] text-white ${
+                className={`wordmark text-[19px] font-semibold tracking-[-0.02em] text-zinc-900 ${
                   slim ? "lg:hidden" : ""
                 }`}
               >
@@ -348,7 +348,7 @@ export default function DashboardShell({
               type="button"
               onClick={() => setDrawer(false)}
               aria-label="Close menu"
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-white/50 transition-colors hover:bg-white/10 hover:text-white lg:hidden"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-black/[0.04] hover:text-zinc-900 lg:hidden"
             >
               <NavIcon d="M4.5 4.5l7 7M11.5 4.5l-7 7" />
             </button>
@@ -358,7 +358,7 @@ export default function DashboardShell({
               aria-label={slim ? "Expand sidebar" : "Collapse sidebar"}
               aria-expanded={!slim}
               title={slim ? "Expand sidebar" : "Collapse sidebar"}
-              className="hidden h-8 w-8 items-center justify-center rounded-lg text-white/40 transition-colors hover:bg-white/10 hover:text-white/80 lg:flex"
+              className="hidden h-8 w-8 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-black/[0.04] hover:text-zinc-800 lg:flex"
             >
               <svg
                 className="h-[18px] w-[18px]"
@@ -399,17 +399,17 @@ export default function DashboardShell({
                       slim ? "lg:justify-center lg:px-0 lg:py-2" : ""
                     } ${last ? "mt-auto" : ""} ${
                       on
-                        ? "bg-white/10 font-medium text-signal-bright"
-                        : "text-white/60 hover:bg-white/10 hover:text-white"
+                        ? "bg-signal-soft font-medium text-signal-deep ring-1 ring-signal-bright/50"
+                        : "text-zinc-600 hover:bg-black/[0.04] hover:text-zinc-900"
                     }`}
                   >
-                    <span className={on ? "text-signal-bright" : "text-white/40"}>
+                    <span className={on ? "text-signal-deep" : "text-zinc-400"}>
                       <NavIcon d={n.d} vb={"vb" in n ? n.vb : undefined} />
                     </span>
                     <span className={slim ? "lg:sr-only" : ""}>{n.label}</span>
                     {n.count ? (
                       <span
-                        className={`ml-auto rounded-full bg-white/10 px-1.5 font-body text-[11px] font-medium text-white/60 ${
+                        className={`ml-auto rounded-full bg-black/[0.05] px-1.5 font-body text-[11px] font-medium text-zinc-600 ${
                           slim
                             ? "lg:absolute lg:right-1 lg:top-0.5 lg:ml-0 lg:bg-signal-bright lg:px-1 lg:text-[9.5px] lg:leading-[14px] lg:text-signal-ink"
                             : ""
@@ -431,8 +431,8 @@ export default function DashboardShell({
         </div>
       </aside>
 
-      <div className="min-w-0 flex-1 bg-signal-ink">
-        <header className="relative sticky top-0 z-30 flex items-center justify-between gap-3 bg-signal-ink px-4 py-3 sm:px-8 lg:px-10">
+      <div className="min-w-0 flex-1 bg-[#f4f4f6]">
+        <header className="relative sticky top-0 z-30 flex items-center justify-between gap-3 bg-[#f4f4f6] px-4 py-3 sm:px-8 lg:px-10">
           {/* Below lg: the drawer's button and the mark, in place of the
               sidebar. */}
           <div className="flex items-center gap-2 lg:hidden">
@@ -442,21 +442,17 @@ export default function DashboardShell({
               aria-label="Open menu"
               aria-expanded={drawer}
               aria-controls="dashboard-drawer"
-              className="flex h-9 w-9 items-center justify-center rounded-lg text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-600 transition-colors hover:bg-black/[0.04] hover:text-zinc-900"
             >
               <NavIcon d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" />
             </button>
             <Link href="/" className="flex items-center gap-2">
-              <SeerixMark size={22} tone="white" animated={false} />
-              <span className="wordmark text-[18px] font-semibold tracking-[-0.02em] text-white">
+              <SeerixMark size={22} animated={false} />
+              <span className="wordmark text-[18px] font-semibold tracking-[-0.02em] text-zinc-900">
                 seerix
               </span>
             </Link>
           </div>
-          <p className="hidden items-center gap-2 font-body text-[13px] text-white/60 lg:flex">
-            <span className="h-2 w-2 rounded-full bg-signal-bright" />
-            Google data updated this morning
-          </p>
           <div className="ml-auto flex items-center gap-2">
             <label className="relative">
               <span className="sr-only">Site</span>
@@ -467,23 +463,23 @@ export default function DashboardShell({
                   if (e.target.value === "__add__") return;
                   setSiteId(e.target.value);
                 }}
-                className="h-9 translate-y-0 cursor-pointer appearance-none rounded-xl border border-white/[0.14] bg-[#1b1b1d] pl-3.5 pr-9 font-body text-[13.5px] text-white/85 transition-all duration-150 ease-out [box-shadow:0_3px_0_0_#000,0_4px_10px_rgba(0,0,0,0.35)] hover:-translate-y-0.5 hover:border-white/25 hover:text-white hover:[box-shadow:0_5px_0_0_#000,0_9px_16px_rgba(0,0,0,0.4)] active:translate-y-[2px] active:[box-shadow:0_1px_0_0_#000,0_2px_4px_rgba(0,0,0,0.3)] focus:outline-none"
+                className="h-9 cursor-pointer appearance-none rounded-md border border-black/[0.10] bg-gradient-to-b from-white to-black/[0.04] pl-3.5 pr-9 font-body text-[13.5px] font-medium text-zinc-900 shadow-sm transition-all duration-150 hover:brightness-105 focus:outline-none"
               >
                 {sites.map((s) => (
                   <option
                     key={s.site_id}
                     value={s.site_id}
-                    className="bg-[#1b1b1d] text-white/85"
+                    className="bg-white text-zinc-900"
                   >
                     {s.site_name}
                   </option>
                 ))}
-                <option value="__add__" className="bg-[#1b1b1d] text-white/85">
+                <option value="__add__" className="bg-white text-zinc-900">
                   + Add another site…
                 </option>
               </select>
               <svg
-                className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white/50"
+                className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500"
                 viewBox="0 0 16 16"
                 fill="none"
                 stroke="currentColor"
@@ -499,12 +495,12 @@ export default function DashboardShell({
               and took the corner with it. */}
           <span
             aria-hidden="true"
-            // A concave corner: black everywhere except inside the circle,
+            // A concave corner: the chrome's grey everywhere except inside the circle,
             // which is the content showing through.
             className="pointer-events-none absolute left-0 top-full hidden h-5 w-5 lg:block"
             style={{
               background:
-                "radial-gradient(circle at 100% 100%, transparent 0 20px, var(--color-signal-ink) 20.5px)",
+                "radial-gradient(circle at 100% 100%, transparent 0 20px, #f4f4f6 20.5px)",
             }}
           />
         </header>

@@ -7,7 +7,9 @@ import type { Grain, Point } from "@/components/dashboard/range";
 
 export type Metric = "clicks" | "impressions" | "ctr" | "position";
 
-/** The chart line: `signal`, as a literal because SVG needs a value. */
+/** The chart line: `signal`, as a literal because SVG needs a value. The
+ *  area under it is `signal-bright` (#bdb4f8), the homepage's lilac: the
+ *  line's own violet, thinned, reads grey-mauve rather than lilac. */
 const BLUE = "#5b4fd8";
 const H = 280;
 const PAD = { top: 12, right: 8, bottom: 28, left: 44 };
@@ -268,8 +270,8 @@ export default function TrafficChart({
           >
             <defs>
               <linearGradient id="tc-fill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor={BLUE} stopOpacity="0.14" />
-                <stop offset="1" stopColor={BLUE} stopOpacity="0.01" />
+                <stop offset="0" stopColor="#bdb4f8" stopOpacity="0.55" />
+                <stop offset="1" stopColor="#bdb4f8" stopOpacity="0.03" />
               </linearGradient>
               <clipPath id="tc-clip">
                 <rect x="0" y="0" width={PAD.left + iw * p + 2} height={H} />
@@ -283,7 +285,7 @@ export default function TrafficChart({
                   x2={PAD.left + iw}
                   y1={y(t)}
                   y2={y(t)}
-                  stroke="#dfe2e7"
+                  stroke="#ececf0"
                   strokeDasharray="4 4"
                 />
                 <text
@@ -350,7 +352,7 @@ export default function TrafficChart({
             {updates.map((u) => (
               <g key={u.date} transform={`translate(${x(u.i)} ${base})`}>
                 <title>{u.name}</title>
-                <circle r="8.5" fill="white" stroke="#dfe2e7" />
+                <circle r="8.5" fill="white" stroke="#ececf0" />
                 <text
                   y="3.8"
                   textAnchor="middle"
@@ -371,7 +373,7 @@ export default function TrafficChart({
                   x2={x(hover)}
                   y1={PAD.top}
                   y2={base}
-                  stroke="#c7ccd4"
+                  stroke="#d4d4d8"
                 />
                 <circle
                   cx={x(hover)}

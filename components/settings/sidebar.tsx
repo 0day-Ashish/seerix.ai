@@ -48,15 +48,15 @@ export default function SettingsSidebar({
   return (
     <aside
       id="settings-drawer"
-      className={`fixed inset-y-0 left-0 z-50 w-[280px] max-w-[85vw] bg-signal-ink transition-transform duration-200 ease-out lg:sticky lg:top-0 lg:z-auto lg:h-dvh lg:w-[220px] lg:max-w-none lg:shrink-0 lg:translate-x-0 ${
+      className={`fixed inset-y-0 left-0 z-50 w-[280px] max-w-[85vw] bg-[#f4f4f6] transition-transform duration-200 ease-out lg:sticky lg:top-0 lg:z-auto lg:h-dvh lg:w-[220px] lg:max-w-none lg:shrink-0 lg:translate-x-0 ${
         open ? "translate-x-0" : "-translate-x-full"
       }`}
     >
       <div className="flex h-full flex-col overflow-y-auto px-4 pb-5 pt-5 lg:overflow-visible">
         <div className="flex items-center justify-between gap-2">
           <Link href="/app" className="flex items-center gap-2 px-1">
-            <SeerixMark size={24} tone="white" animated={false} />
-            <span className="wordmark text-[19px] font-semibold tracking-[-0.02em] text-white">
+            <SeerixMark size={24} animated={false} />
+            <span className="wordmark text-[19px] font-semibold tracking-[-0.02em] text-zinc-900">
               seerix
             </span>
           </Link>
@@ -64,13 +64,13 @@ export default function SettingsSidebar({
             type="button"
             onClick={onClose}
             aria-label="Close menu"
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-white/50 transition-colors hover:bg-white/10 hover:text-white lg:hidden"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-black/[0.04] hover:text-zinc-900 lg:hidden"
           >
             <NavIcon d="M4.5 4.5l7 7M11.5 4.5l-7 7" />
           </button>
         </div>
 
-        <h1 className="mt-6 px-2.5 font-display text-[13px] font-medium uppercase tracking-[0.08em] text-white/40 lg:mt-7">
+        <h1 className="mt-6 px-2.5 font-display text-[13px] font-medium uppercase tracking-[0.08em] text-zinc-400 lg:mt-7">
           Settings
         </h1>
 
@@ -84,7 +84,7 @@ export default function SettingsSidebar({
           >
             {settingsGroups.map((group) => (
               <div key={group.label} className="mb-5">
-                <p className="px-2.5 pb-1.5 font-body text-[12px] font-medium text-white/40">
+                <p className="px-2.5 pb-1.5 font-body text-[12px] font-medium text-zinc-400">
                   {group.label}
                 </p>
                 {group.items.map((item) => {
@@ -97,13 +97,13 @@ export default function SettingsSidebar({
                       aria-current={on ? "page" : undefined}
                       className={`flex shrink-0 items-center gap-2.5 rounded-lg px-2.5 py-[7px] font-body text-[13.5px] transition-colors ${
                         on
-                          ? "bg-white/10 font-medium text-signal-bright"
-                          : "text-white/60 hover:bg-white/10 hover:text-white"
+                          ? "bg-signal-soft font-medium text-signal-deep ring-1 ring-signal-bright/50"
+                          : "text-zinc-600 hover:bg-black/[0.04] hover:text-zinc-900"
                       }`}
                     >
                       <NavIcon
                         d={item.icon}
-                        className={on ? "text-signal-bright" : "text-white/40"}
+                        className={on ? "text-signal-deep" : "text-zinc-400"}
                       />
                       <span className="whitespace-nowrap">{item.label}</span>
                     </Link>
