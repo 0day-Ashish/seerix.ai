@@ -1,14 +1,23 @@
 import Link from "next/link";
 
+/** Three columns: what Seerix does, who makes it, and the fine print. */
 const columns = [
   {
-    title: "Product",
+    title: "Products",
     links: [
-      { label: "How it works", href: "#how-it-works" },
-      { label: "Features", href: "#features" },
-      { label: "Pricing", href: "#pricing" },
+      { label: "Diagnose", href: "/product/diagnose" },
+      { label: "Prioritize", href: "/product/prioritize" },
+      { label: "Watch", href: "/product/watch" },
+      { label: "Create", href: "/product/create" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "Manifesto", href: "/manifesto" },
       { label: "Changelog", href: "/changelog" },
-      { label: "FAQ", href: "#faq" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Contact", href: "/contact" },
     ],
   },
   {
@@ -17,13 +26,6 @@ const columns = [
       { label: "Privacy Policy", href: "/privacy" },
       { label: "Terms of Service", href: "/terms" },
       { label: "About SeerixBot", href: "/seerixbot" },
-    ],
-  },
-  {
-    title: "Contact",
-    links: [
-      { label: "Contact us", href: "/contact" },
-      { label: "hello@seerix.ai", href: "mailto:hello@seerix.ai" },
     ],
   },
 ];

@@ -1,4 +1,7 @@
-import Link from "next/link";
+"use client";
+
+import { useState } from "react";
+import Button, { ButtonArrow } from "@/components/new-landing/button";
 
 /* -------------------------------------------------------------------------
  * Icons: one small stroke set, 16px grid, drawn for this section only.
@@ -38,10 +41,16 @@ const icons = {
 
 type IconName = keyof typeof icons;
 
-function Icon({ name }: { name: IconName }) {
+function Icon({
+  name,
+  className = "h-[18px] w-[18px]",
+}: {
+  name: IconName;
+  className?: string;
+}) {
   return (
     <svg
-      className="h-[18px] w-[18px]"
+      className={className}
       viewBox="0 0 16 16"
       fill="none"
       stroke="currentColor"
@@ -51,23 +60,6 @@ function Icon({ name }: { name: IconName }) {
       aria-hidden="true"
     >
       <path d={icons[name]} />
-    </svg>
-  );
-}
-
-function Arrow() {
-  return (
-    <svg
-      className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M3 8h10M9 4l4 4-4 4" />
     </svg>
   );
 }
@@ -148,11 +140,15 @@ const columns: Column[] = [
  * ---------------------------------------------------------------------- */
 
 /**
- * Everything Seerix does, as four frosted cards, one per job: its number, the
- * job in the display serif, a line on what it means, and the features that
- * make it up as a ruled list. Light ground, like the sections around it.
+ * Everything Seerix does, as two panes: the four jobs as a list on the left,
+ * and the chosen one opened up on the right, its features as a grid of tiles
+ * and a way into its page. One job at a time reads faster than four dense
+ * columns side by side.
  */
 export default function ValueProp() {
+  const [active, setActive] = useState(0);
+  const job = columns[active];
+
   return (
     <section id="features" className="bg-ghost px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
@@ -165,40 +161,88 @@ export default function ValueProp() {
           relationship.
         </p>
 
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {columns.map((column, i) => (
-            <Link
-              key={column.job}
-              href={column.href}
-              className="frost group flex flex-col rounded-[24px] p-6 transition-transform duration-200 hover:-translate-y-1"
-            >
-              <span className="flex items-center justify-between">
-                <span className="font-mono text-[12px] text-zinc-400">
-                  0{i + 1}
-                </span>
-                <span className="text-zinc-400 transition-colors group-hover:text-black">
-                  <Arrow />
-                </span>
-              </span>
-              <span className="mt-6 font-display text-[30px] font-extralight leading-none tracking-[-0.03em] text-black">
-                {column.job}
-              </span>
-              <span className="mt-3 font-body text-[14.5px] leading-[1.5] text-zinc-500">
-                {column.summary}
-              </span>
-
-              <ul className="mt-6 border-t border-black/[0.07]">
-                {column.items.map((item) => (
-                  <li
-                    key={item.label}
-                    className="flex items-center gap-3 border-b border-black/[0.06] py-2.5 last:border-b-0"
-                  >
+        <div className="mt-14 grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12">
+          {/* The jobs. The chosen one is lit, with its line beneath. */}
+          <div role="tablist" aria-label="Jobs" className="border-b border-black/[0.10]">
+            {columns.map((column, i) => {
+              const on = i === active;
+              return (
+                <button
+                  key={column.job}
+                  type="button"
+                  role="tab"
+                  id={`job-tab-${i}`}
+                  aria-selected={on}
+                  aria-controls="job-panel"
+                  onClick={() => setActive(i)}
+                  onMouseEnter={() => setActive(i)}
+                  className="group relative block w-full border-t border-black/[0.10] py-6 text-left"
+                >
+                  {/* The lit marker, along the rule. */}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute -top-px left-0 h-0.5 bg-signal transition-[width] duration-500 ease-out ${
+                      on ? "w-full" : "w-0"
+                    }`}
+                  />
+                  <span className="flex items-baseline gap-5">
                     <span
-                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${column.tile}`}
+                      className={`font-mono text-[12px] transition-colors ${
+                        on ? "text-signal-deep" : "text-zinc-400"
+                      }`}
                     >
-                      <Icon name={item.icon} />
+                      0{i + 1}
                     </span>
-                    <span className="min-w-0 flex-1 font-body text-[14px] text-zinc-800">
+                    <span
+                      className={`font-display text-[34px] font-extralight leading-none tracking-[-0.03em] transition-colors duration-300 sm:text-[40px] ${
+                        on ? "text-black" : "text-zinc-400 group-hover:text-zinc-600"
+                      }`}
+                    >
+                      {column.job}
+                    </span>
+                  </span>
+                  <span
+                    className={`grid transition-[grid-template-rows,opacity] duration-500 ease-out ${
+                      on ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <span className="overflow-hidden">
+                      <span className="block pl-[2.2rem] pt-3 font-body text-[15.5px] leading-[1.55] text-zinc-600">
+                        {column.summary}
+                      </span>
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* The chosen job, opened up. */}
+          <div
+            id="job-panel"
+            role="tabpanel"
+            aria-labelledby={`job-tab-${active}`}
+            className="frost flex flex-col rounded-[28px] p-6 sm:p-8"
+          >
+            <div
+              key={active}
+              className="flex flex-1 flex-col opacity-0 [animation:seerix-fade-in_0.35s_ease-out_forwards]"
+            >
+              <p className="font-flex text-[16px] font-medium text-zinc-900">
+                What {job.job.toLowerCase()} covers
+              </p>
+
+              {/* The features, two across, straight on the panel. */}
+              <ul className="mt-6 grid gap-x-3 gap-y-1 sm:grid-cols-2">
+                {job.items.map((item) => (
+                  <li key={item.label} className="flex items-center gap-3.5 py-3">
+                    {/* The icon alone, in the job's ink, no tile behind it. */}
+                    <span
+                      className={`flex h-9 w-9 shrink-0 items-center justify-center ${job.tile.split(" ").find((c) => c.startsWith("text-"))}`}
+                    >
+                      <Icon name={item.icon} className="h-7 w-7" />
+                    </span>
+                    <span className="min-w-0 flex-1 font-body text-[17px] font-medium tracking-[-0.01em] text-zinc-900">
                       {item.label}
                     </span>
                     {item.soon && (
@@ -209,8 +253,18 @@ export default function ValueProp() {
                   </li>
                 ))}
               </ul>
-            </Link>
-          ))}
+
+              <div className="mt-auto flex flex-wrap items-center justify-between gap-4 pt-8">
+                <p className="max-w-sm font-body text-[14.5px] leading-[1.55] text-zinc-500">
+                  Every one runs on your own Search Console rows and cites them.
+                </p>
+                <Button href={job.href}>
+                  Explore {job.job.toLowerCase()}
+                  <ButtonArrow />
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -7,6 +7,9 @@ import { Geist_Mono, Space_Grotesk } from "next/font/google";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/newsreader/opsz.css";
 import "@fontsource-variable/geist-mono";
+// Google Sans Flex, the tokensupply site's text face, for a few card
+// surfaces (the positioning cards and the industries box).
+import "@fontsource-variable/google-sans-flex";
 import "./globals.css";
 
 import MarketingBackground from "@/components/new-landing/marketing-background";

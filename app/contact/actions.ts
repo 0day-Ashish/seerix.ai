@@ -57,22 +57,24 @@ export async function submitContact(
 
   const errors: ContactState["errors"] = {};
 
-  if (!values.firstName) errors.firstName = "Required.";
+  if (!values.firstName) errors.firstName = "Please tell us your name.";
   else if (values.firstName.length > 80) errors.firstName = "Too long.";
-  if (!values.lastName) errors.lastName = "Required.";
-  else if (values.lastName.length > 80) errors.lastName = "Too long.";
-  if (!values.company) errors.company = "Required.";
-  else if (values.company.length > 120) errors.company = "Too long.";
+  // Last name and company are optional, but bounded.
+  if (values.lastName.length > 80) errors.lastName = "Too long.";
+  if (values.company.length > 120) errors.company = "Too long.";
 
   if (!values.email) errors.email = "We need somewhere to reply.";
   else if (!emailPattern.test(values.email))
     errors.email = "That does not look like an email address.";
 
-  if (!values.source || !sources.includes(values.source))
+  // The form no longer asks where people found us; a value that does arrive
+  // must still be one of the known answers.
+  if (values.source && !sources.includes(values.source))
     errors.source = "Pick the closest one.";
 
-  // Optional, but bounded.
-  if (values.message.length > 4000)
+  if (values.message.length < 10)
+    errors.message = "Please add a bit more detail (10 characters or more).";
+  else if (values.message.length > 4000)
     errors.message = "That is longer than we can take; email us instead.";
 
   if (Object.keys(errors).length > 0) {

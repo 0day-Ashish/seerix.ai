@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
 
-import ContactFaq from "@/components/contact/contact-faq";
 import ContactForm from "@/components/contact/contact-form";
-import {
-  ContactFormBlock,
-  ContactOpener,
-  ContactRoutes,
-} from "@/components/contact/contact-routes";
+import { ContactIntro, ContactRoutes } from "@/components/contact/contact-routes";
 import Cta from "@/components/new-landing/cta";
 import SiteFooter from "@/components/new-landing/site-footer";
 
@@ -22,18 +17,16 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * The contact page, after the tokensupply site's: the introduction beside the
+ * form, the other ways to reach the team, then the homepage's close.
+ */
 export default function ContactPage() {
   return (
     <div className="flex flex-1 flex-col bg-ghost">
-      <ContactOpener />
-
-      <div className="flex flex-1 flex-col">
-        <ContactFormBlock form={<ContactForm />} />
-        <ContactRoutes />
-        <ContactFaq />
-        <Cta />
-      </div>
-
+      <ContactIntro form={<ContactForm />} />
+      <ContactRoutes />
+      <Cta />
       <SiteFooter />
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState } from "react";
 
 import { submitContact, type ContactState } from "@/app/contact/actions";
 import {
@@ -9,90 +9,65 @@ import {
   buttonClass,
 } from "@/components/new-landing/button";
 
-const sources = [
-  "Search engine",
-  "LinkedIn",
-  "X / Twitter",
-  "A friend or colleague",
-  "Newsletter or podcast",
-  "Other",
-];
-
 const initialState: ContactState = { status: "idle" };
 
-/** One border treatment across text, select and area, on the grey panel. */
-const fieldBase =
-  "w-full rounded-xl border bg-white px-4 py-3.5 font-body text-[16px] text-black transition-[border-color,box-shadow] duration-200 placeholder:text-zinc-400 focus:outline-none focus:ring-4 focus:ring-signal-bright/15";
+/** The fields' look, after the tokensupply form: a white well with a quiet
+ *  rim and small corners, on the panel's soft grey. */
+const WELL =
+  "h-12 w-full rounded-md border border-black/[0.10] bg-white px-4 font-body text-[15px] text-black transition-colors duration-150 placeholder:text-zinc-400 hover:border-black/20 focus:border-black/40 focus:outline-none aria-[invalid=true]:border-signal-deep";
 
-function fieldClass(invalid: boolean) {
-  return `${fieldBase} ${
-    invalid
-      ? "border-signal-bright focus:border-signal-bright"
-      : "border-black/[0.12] hover:border-black/30 focus:border-signal-bright hover:focus:border-signal-bright"
-  }`;
-}
-
-function Label({
-  htmlFor,
+function Field({
+  id,
+  label,
+  error,
   children,
-  required,
 }: {
-  htmlFor: string;
-  children: string;
-  required?: boolean;
+  id: string;
+  label: string;
+  error?: string;
+  children: React.ReactNode;
 }) {
   return (
-    <label
-      htmlFor={htmlFor}
-      className="font-body text-[14px] font-medium text-black"
-    >
+    <div className="flex flex-col gap-2">
+      <label htmlFor={id} className="font-body text-[14px] text-zinc-800">
+        {label}
+      </label>
       {children}
-      {required && "*"}
-    </label>
-  );
-}
-
-function FieldError({ id, message }: { id: string; message?: string }) {
-  if (!message) return null;
-  return (
-    <p id={id} className="font-body text-[13px] text-signal-deep">
-      {message}
-    </p>
+      {error && (
+        <p id={`${id}-error`} className="font-body text-[13px] text-signal-deep">
+          {error}
+        </p>
+      )}
+    </div>
   );
 }
 
 /**
- * The contact form: a grey panel with mono labels, two fields to a row, and a
- * submit that stays muted until every required field has something in it.
- * State comes back from the Server Action rather than living in the client,
- * so a rejected submit keeps what was typed and the same validation governs a
- * direct POST.
+ * The contact form, short, after the tokensupply site's: first and last name,
+ * work email and company in two pairs, then anything we should know, and one
+ * full-width button. State comes back from the Server Action, so a rejected
+ * submit keeps what was typed and the same checks govern a direct POST.
  */
 export default function ContactForm() {
   const [state, action, pending] = useActionState(submitContact, initialState);
-  // Tracks only whether the required fields are filled, to wake the button.
-  const [filled, setFilled] = useState<Record<string, boolean>>({});
-
-  const panel =
-    "frost rounded-[28px] p-6 sm:p-12";
 
   if (state.status === "success") {
     return (
-      <div role="status" className={panel}>
-        <h2 className="flex items-center gap-4 font-display tracking-[-0.03em] font-extralight text-[36px] text-black">
-          <span className="h-3 w-3 rounded-full bg-signal-bright" />
+      <div role="status" className="rounded-xl bg-[#ecebe7] p-6 md:p-8">
+        <p className="flex items-center gap-3 font-body text-[20px] font-medium text-black">
+          <span className="h-2.5 w-2.5 rounded-full bg-signal" />
           Message sent
-        </h2>
-        <p className="mt-5 max-w-lg font-body text-[16px] leading-[1.65] text-zinc-600">
+        </p>
+        <p className="mt-3 max-w-lg font-body text-[15px] leading-[1.65] text-zinc-600">
           {state.message} We reply within one business day. If it is urgent,
-          mail{" "}
+          write to{" "}
           <a
             href="mailto:hello@seerix.ai"
-            className="text-black underline underline-offset-4"
+            className="text-black underline decoration-zinc-400 underline-offset-[3px] hover:decoration-black"
           >
             hello@seerix.ai
-          </a>{" "}
-          directly.
+          </a>
+          .
         </p>
       </div>
     );
@@ -100,171 +75,124 @@ export default function ContactForm() {
 
   const errors = state.errors ?? {};
   const values = state.values ?? {};
-  const required = ["firstName", "lastName", "company", "email", "source"];
-  const ready = required.every(
-    (n) => filled[n] ?? Boolean(values[n as keyof typeof values]),
-  );
-
-  const track = (e: React.FormEvent<HTMLFormElement>) => {
-    const t = e.target as HTMLInputElement;
-    if (required.includes(t.name)) {
-      setFilled((f) => ({ ...f, [t.name]: t.value.trim() !== "" }));
-    }
-  };
-
   const describe = (name: keyof typeof errors) =>
     errors[name] ? `${name}-error` : undefined;
 
   return (
-    <form
-      action={action}
-      noValidate
-      onInput={track}
-      onChange={track}
-      className={`relative ${panel}`}
-    >
-      <h2 className="flex items-center gap-4 font-display font-extralight text-[36px] tracking-[-0.03em] text-black sm:text-[42px]">
-        <span
-          aria-hidden="true"
-          className="h-3 w-3 shrink-0 rounded-full bg-signal-bright"
-        />
-        Contact us
-      </h2>
+    <div className="rounded-xl bg-[#ecebe7] p-6 md:p-8">
+      <form action={action} noValidate className="relative flex flex-col gap-6">
+        {state.status === "error" && state.message && (
+          <p
+            role="alert"
+            className="rounded-md bg-signal-soft px-4 py-3 font-body text-[14px] text-signal-deep"
+          >
+            {state.message}
+          </p>
+        )}
 
-      {state.status === "error" && state.message && (
-        <p
-          role="alert"
-          className="mt-6 rounded-xl border border-signal-bright/40 bg-signal-soft px-4 py-3 font-body text-[14px] text-signal-deep"
-        >
-          {state.message}
-        </p>
-      )}
-
-      <div className="mt-10 grid gap-x-12 gap-y-8 sm:grid-cols-2">
-        {(
-          [
-            ["firstName", "First name", "First Name", "given-name", "text"],
-            ["lastName", "Last name", "Last Name", "family-name", "text"],
-            ["company", "Company", "Company", "organization", "text"],
-            ["email", "Work email", "Work Email", "email", "email"],
-          ] as const
-        ).map(([name, label, placeholder, auto, type]) => (
-          <div key={name} className="flex flex-col gap-3">
-            <Label htmlFor={name} required>
-              {label}
-            </Label>
+        <div className="grid gap-6 sm:grid-cols-2 sm:gap-5">
+          <Field id="firstName" label="First name" error={errors.firstName}>
             <input
-              id={name}
-              name={name}
-              type={type}
-              autoComplete={auto}
-              placeholder={placeholder}
-              defaultValue={values[name]}
-              aria-invalid={Boolean(errors[name])}
-              aria-describedby={describe(name)}
-              className={fieldClass(Boolean(errors[name]))}
+              id="firstName"
+              name="firstName"
+              autoComplete="given-name"
+              placeholder="Alex"
+              defaultValue={values.firstName}
+              aria-invalid={Boolean(errors.firstName)}
+              aria-describedby={describe("firstName")}
+              className={WELL}
             />
-            <FieldError id={`${name}-error`} message={errors[name]} />
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-8 flex flex-col gap-3">
-        <Label htmlFor="source" required>
-          How did you find us
-        </Label>
-        <div className="relative">
-          <select
-            id="source"
-            name="source"
-            defaultValue={values.source ?? ""}
-            aria-invalid={Boolean(errors.source)}
-            aria-describedby={describe("source")}
-            className={`${fieldClass(Boolean(errors.source))} cursor-pointer appearance-none pr-12 invalid:text-zinc-400`}
-            required
-          >
-            <option value="" disabled>
-              Select one...
-            </option>
-            {sources.map((s) => (
-              <option key={s} value={s} className="text-black">
-                {s}
-              </option>
-            ))}
-          </select>
-          <svg
-            className="pointer-events-none absolute right-5 top-1/2 h-4 w-4 -translate-y-1/2 text-black"
-            viewBox="0 0 16 16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M4 6l4 4 4-4" />
-          </svg>
+          </Field>
+          <Field id="lastName" label="Last name" error={errors.lastName}>
+            <input
+              id="lastName"
+              name="lastName"
+              autoComplete="family-name"
+              placeholder="Rivera"
+              defaultValue={values.lastName}
+              aria-invalid={Boolean(errors.lastName)}
+              aria-describedby={describe("lastName")}
+              className={WELL}
+            />
+          </Field>
+          <Field id="email" label="Work email" error={errors.email}>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              placeholder="you@company.com"
+              defaultValue={values.email}
+              aria-invalid={Boolean(errors.email)}
+              aria-describedby={describe("email")}
+              className={WELL}
+            />
+          </Field>
+          <Field id="company" label="Company" error={errors.company}>
+            <input
+              id="company"
+              name="company"
+              autoComplete="organization"
+              placeholder="Your site or company"
+              defaultValue={values.company}
+              aria-invalid={Boolean(errors.company)}
+              aria-describedby={describe("company")}
+              className={WELL}
+            />
+          </Field>
         </div>
-        <FieldError id="source-error" message={errors.source} />
-      </div>
 
-      <div className="mt-8 flex flex-col gap-3">
-        <Label htmlFor="message">How can we help?</Label>
-        <textarea
-          id="message"
-          name="message"
-          rows={4}
-          defaultValue={values.message}
-          aria-invalid={Boolean(errors.message)}
-          aria-describedby={describe("message")}
-          className={`${fieldClass(Boolean(errors.message))} resize-y`}
-          placeholder="Tell us about your site, timeline, or any questions..."
-        />
-        <FieldError id="message-error" message={errors.message} />
-      </div>
+        <Field id="message" label="Anything we should know?" error={errors.message}>
+          <textarea
+            id="message"
+            name="message"
+            rows={5}
+            maxLength={4000}
+            placeholder="The site or property, roughly when things changed, and what you have already tried."
+            defaultValue={values.message}
+            aria-invalid={Boolean(errors.message)}
+            aria-describedby={describe("message")}
+            className={`${WELL} h-auto min-h-[140px] resize-y py-3.5 leading-6`}
+          />
+        </Field>
 
-      {/* Honeypot: off-screen and skipped by tab order, so only bots fill it. */}
-      <div
-        aria-hidden="true"
-        className="absolute left-[-9999px] h-0 w-0 overflow-hidden"
-      >
-        <label htmlFor="company_website">Company website</label>
-        <input
-          id="company_website"
-          name="company_website"
-          type="text"
-          tabIndex={-1}
-          autoComplete="off"
-        />
-      </div>
+        {/* Honeypot: off-screen and skipped by tab order, so only bots fill it. */}
+        <div
+          aria-hidden="true"
+          className="absolute left-[-9999px] h-0 w-0 overflow-hidden"
+        >
+          <label htmlFor="company_website">Company website</label>
+          <input
+            id="company_website"
+            name="company_website"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </div>
 
-      <button
-        type="submit"
-        disabled={pending}
-        aria-disabled={!ready}
-        // The site's glow button. Until the form is ready it sits slightly
-        // dimmed.
-        className={`${buttonClass("primary")} mt-10 h-12 px-7 text-[15px] ${
-          ready ? "opacity-100" : "opacity-75"
-        }`}
-      >
-        <Glow />
-        <ButtonLabel>
-          {pending ? "Sending" : "Submit"}
-          <svg
-            className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-            viewBox="0 0 20 20"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
+        <div className="flex flex-col gap-4">
+          <button
+            type="submit"
+            disabled={pending}
+            className={`${buttonClass("primary")} h-12 w-full text-[15px]`}
           >
-            <path d="M4 10h12M11 5l5 5-5 5" />
-          </svg>
-        </ButtonLabel>
-      </button>
-    </form>
+            <Glow />
+            <ButtonLabel>{pending ? "Sending" : "Send message"}</ButtonLabel>
+          </button>
+          <p className="font-body text-[13px] leading-[1.55] text-zinc-500">
+            A person reads every message. We use your details only to reply; see
+            the{" "}
+            <a
+              href="/privacy"
+              className="text-zinc-800 underline decoration-zinc-400 underline-offset-[3px] hover:decoration-black"
+            >
+              privacy policy
+            </a>
+            .
+          </p>
+        </div>
+      </form>
+    </div>
   );
 }

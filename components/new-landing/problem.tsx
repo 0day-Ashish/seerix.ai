@@ -46,6 +46,9 @@ function useTick(ref: React.RefObject<HTMLElement | null>) {
  * a dot grid masked to a soft curved stroke. `d` is the curve, drawn in a
  * 400 x 300 box and stretched to the card.
  */
+/** Clear below about two thirds of the card, where the title sits. */
+const TITLE_FADE = "linear-gradient(to bottom, black 55%, transparent 78%)";
+
 function DotWave({ d }: { d: string }) {
   const mask = `url("data:image/svg+xml,${encodeURIComponent(
     `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' preserveAspectRatio='none'><filter id='f' x='-50%' y='-50%' width='200%' height='200%' filterUnits='userSpaceOnUse'><feGaussianBlur stdDeviation='9'/></filter><path d='${d}' fill='none' stroke='black' stroke-width='34' stroke-linecap='round' filter='url(#f)'/></svg>`,
@@ -56,12 +59,16 @@ function DotWave({ d }: { d: string }) {
       className="pointer-events-none absolute inset-0"
       style={{
         backgroundImage:
-          "radial-gradient(circle, rgba(91,79,216,0.5) 1.1px, transparent 1.6px)",
+          "radial-gradient(circle, rgba(91,79,216,0.38) 1.1px, transparent 1.6px)",
         backgroundSize: "6px 6px",
-        WebkitMaskImage: mask,
-        maskImage: mask,
-        WebkitMaskSize: "100% 100%",
-        maskSize: "100% 100%",
+        // The wave, cut by a fade toward the bottom so the card's title
+        // always sits on a clean ground.
+        WebkitMaskImage: `${mask}, ${TITLE_FADE}`,
+        maskImage: `${mask}, ${TITLE_FADE}`,
+        WebkitMaskSize: "100% 100%, 100% 100%",
+        maskSize: "100% 100%, 100% 100%",
+        WebkitMaskComposite: "source-in",
+        maskComposite: "intersect",
       }}
     />
   );
@@ -99,7 +106,7 @@ function Cell({
       <div className="relative flex flex-1 items-center justify-center px-6 pb-4 pt-10 sm:px-8">
         <div className="w-full">{visual}</div>
       </div>
-      <h3 className="relative px-7 pb-7 font-[family-name:var(--font-geist-sans)] text-[19px] font-normal leading-[1.3] tracking-[-0.01em] text-zinc-900 sm:px-8 sm:pb-8">
+      <h3 className="relative px-7 pb-7 font-[family-name:var(--font-geist-sans)] text-[19px] font-medium leading-[1.3] tracking-[-0.01em] text-zinc-950 sm:px-8 sm:pb-8">
         {title}
       </h3>
     </div>
@@ -130,7 +137,7 @@ function NoWhy({ tick }: { tick: number }) {
             <span key={i} className="h-2.5 w-2.5 rounded-full bg-black/[0.10]" />
           ))}
         </span>
-        <span className="mx-auto truncate rounded-full bg-black/[0.04] px-4 py-1 font-body text-[11.5px] text-zinc-400">
+        <span className="mx-auto truncate rounded-full bg-black/[0.04] px-4 py-1 font-body text-[11.5px] text-zinc-500">
           search.google.com/search-console/performance
         </span>
       </div>
@@ -150,7 +157,7 @@ function NoWhy({ tick }: { tick: number }) {
               <span
                 key={t}
                 className={`rounded-md px-2.5 py-1 font-body text-[11.5px] transition-colors duration-300 ${
-                  i === tab ? "bg-signal-soft text-signal-deep" : "text-zinc-400"
+                  i === tab ? "bg-signal-soft text-signal-deep" : "text-zinc-500"
                 }`}
               >
                 {t}
@@ -204,7 +211,7 @@ function NoWhy({ tick }: { tick: number }) {
               why? <span className="text-white/40">no answer</span>
             </span>
           </div>
-          <p className="mt-2 font-mono text-[11px] text-zinc-400">
+          <p className="mt-2 font-mono text-[11px] text-zinc-500">
             chart {((tick % 15) + 1).toString().padStart(2, "0")} of 15 · no
             reason given
           </p>
@@ -229,7 +236,7 @@ function Guess({ tick }: { tick: number }) {
             className={`rounded-md px-2 py-1 font-mono text-[11px] ring-1 transition-colors duration-300 ${
               i === at
                 ? "bg-white text-zinc-900 ring-black/[0.15]"
-                : "bg-white text-zinc-400 ring-black/[0.06]"
+                : "bg-white text-zinc-500 ring-black/[0.08]"
             }`}
           >
             {g.replace(/^the /, "")}?
@@ -265,7 +272,7 @@ function Pay({ tick }: { tick: number }) {
         <span className="font-mono text-[13px] text-zinc-900">$200 / hr</span>
       </div>
       <div className="mt-3 rounded-xl bg-white p-3 ring-1 ring-black/[0.06]">
-        <p className="font-mono text-[10.5px] uppercase tracking-[0.08em] text-zinc-400">
+        <p className="font-mono text-[10.5px] uppercase tracking-[0.08em] text-zinc-500">
           Next week
         </p>
         <div className="mt-2 grid grid-cols-7 gap-1">
@@ -282,7 +289,7 @@ function Pay({ tick }: { tick: number }) {
             ) : (
               <span
                 key={i}
-                className="flex h-8 items-center justify-center rounded-md bg-black/[0.04] font-mono text-[11px] text-zinc-300 line-through"
+                className="flex h-8 items-center justify-center rounded-md bg-black/[0.04] font-mono text-[11px] text-zinc-400 line-through"
               >
                 {d}
               </span>
@@ -362,14 +369,14 @@ function Receipts({ tick }: { tick: number }) {
             <span className="min-w-0 truncate font-body text-[13.5px] text-zinc-800">
               <span
                 className={`font-mono text-[11.5px] ${
-                  src === "Ruled out" ? "text-zinc-400" : "text-signal-deep"
+                  src === "Ruled out" ? "text-zinc-500" : "text-signal-deep"
                 }`}
               >
                 {src}
               </span>{" "}
               {what}
             </span>
-            <span className="shrink-0 font-mono text-[11px] text-zinc-400">
+            <span className="shrink-0 font-mono text-[11px] text-zinc-500">
               {when}
             </span>
           </li>

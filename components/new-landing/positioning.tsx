@@ -45,10 +45,10 @@ export default function Positioning() {
               <span className="font-mono text-[12px] text-zinc-500">
                 0{index + 1}
               </span>
-              <h3 className="mt-12 font-body text-[20px] font-medium leading-snug text-black">
+              <h3 className="mt-12 font-flex text-[21px] font-medium leading-snug tracking-[-0.01em] text-black">
                 {point.title}
               </h3>
-              <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-600">
+              <p className="mt-2.5 font-flex text-[15.5px] leading-[1.6] text-zinc-600">
                 {point.body}
               </p>
             </div>

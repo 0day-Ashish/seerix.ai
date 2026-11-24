@@ -399,7 +399,7 @@ export default function DashboardShell({
                       slim ? "lg:justify-center lg:px-0 lg:py-2" : ""
                     } ${last ? "mt-auto" : ""} ${
                       on
-                        ? "bg-signal-soft font-medium text-signal-deep ring-1 ring-signal-bright/50"
+                        ? "bg-signal-soft font-medium text-signal-deep ring-1 ring-inset ring-signal-bright/60"
                         : "text-zinc-600 hover:bg-black/[0.04] hover:text-zinc-900"
                     }`}
                   >

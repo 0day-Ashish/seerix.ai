@@ -97,7 +97,7 @@ export default function SettingsSidebar({
                       aria-current={on ? "page" : undefined}
                       className={`flex shrink-0 items-center gap-2.5 rounded-lg px-2.5 py-[7px] font-body text-[13.5px] transition-colors ${
                         on
-                          ? "bg-signal-soft font-medium text-signal-deep ring-1 ring-signal-bright/50"
+                          ? "bg-signal-soft font-medium text-signal-deep ring-1 ring-inset ring-signal-bright/60"
                           : "text-zinc-600 hover:bg-black/[0.04] hover:text-zinc-900"
                       }`}
                     >

@@ -1,8 +1,12 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 
-import Button, { ButtonArrow } from "@/components/new-landing/button";
+import Cta from "@/components/new-landing/cta";
+import GradientWash from "@/components/new-landing/gradient-wash";
+import SectionHeader from "@/components/new-landing/section-header";
 import SiteFooter from "@/components/new-landing/site-footer";
+import WaitlistForm from "@/components/new-landing/waitlist-form";
+import { products } from "@/components/product/products";
 
 export type Capability = {
   label: string;
@@ -18,24 +22,53 @@ export type ProductPageProps = {
   lede: string;
   /** The animated panel for this job. */
   visual: ReactNode;
-  /** What the job actually does, as a numbered list. */
+  /** What the job actually does. */
   capabilities: Capability[];
-  /** How the job runs, in three beats; the dark band. */
+  /** How the job runs, in three beats. */
   steps: { label: string; body: string }[];
-  /** The three evidence lines under the capabilities. */
+  /** Three evidence figures, set as a ledger under the opener. */
   proof: { figure: string; unit?: string; label: string }[];
-  /** Where the reader goes next, as a pair of sibling pages. */
+  /** Where the reader goes next: the other jobs. */
   next: { job: string; href: string; blurb: string }[];
 };
 
+const order = Object.values(products).map((p) => p.job);
+
+/** A small square where a rule meets its tick, as on the homepage ledger. */
+function Node({ className }: { className: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`absolute h-[7px] w-[7px] -translate-x-1/2 -translate-y-1/2 border border-black/25 bg-[#f7f6f2] ${className}`}
+    />
+  );
+}
+
+function Arrow({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      className={`h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5 ${className}`}
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M3 8h10M9 4l4 4-4 4" />
+    </svg>
+  );
+}
+
 /**
- * The shape all four product pages share: opener with the animated panel,
- * the capability list, a proof row, then the two sibling jobs.
+ * The shape all four product pages share, in the homepage's language: the
+ * opener with the waitlist and the job running on the brand wash, the proof
+ * as a drawn ledger, what the job covers as frosted cards, how it runs as a
+ * three-step line, the other jobs, then the homepage's close.
  *
  * One component rather than four near-identical pages, so the pages cannot
- * drift apart -- the same decision `PlanCard` makes for the two pricing
- * surfaces. Everything here reuses the landing system: the shared `Button` at its one size, and `SiteFooter`
- * closing the page.
+ * drift apart.
  */
 export default function ProductPage({
   job,
@@ -47,167 +80,202 @@ export default function ProductPage({
   proof,
   next,
 }: ProductPageProps) {
+  const n = order.indexOf(job) + 1;
+
   return (
     <div className="flex flex-1 flex-col bg-ghost">
-      {/* Opener: copy left, the job running on the right. */}
-      <section className="bg-ghost px-6 pb-16 pt-20 sm:pt-28">
+      {/* Opener: copy and the one ask on the left, the job on the right. */}
+      <section className="bg-ghost px-6 pb-14 pt-14 sm:pt-20">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-14">
+          <p className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.08em] text-zinc-500">
+            <Link href="/#features" className="transition-colors hover:text-black">
+              Products
+            </Link>
+            <span aria-hidden="true" className="text-zinc-300">
+              /
+            </span>
+            <span className="text-zinc-900">{job}</span>
+            {n > 0 && (
+              <span className="ml-auto text-zinc-400">
+                Job 0{n} of 0{order.length}
+              </span>
+            )}
+          </p>
+
+          <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-14">
             <div>
-              <p className="font-mono text-[12px] tracking-[0.04em] text-zinc-400">
-                {job.toUpperCase()}
-              </p>
-              <h1 className="mt-4 font-display tracking-[-0.03em] text-[36px] font-extralight leading-[1.08] text-black sm:text-[50px]">
+              <h1 className="font-display text-[40px] font-extralight leading-[1.08] tracking-[-0.035em] text-black sm:text-[56px]">
                 {headline}
               </h1>
-              <p className="mt-5 max-w-xl font-body text-[17px] leading-[1.6] text-zinc-500 sm:text-[18px]">
+              <p className="mt-6 max-w-xl font-body text-[17px] leading-[1.6] text-zinc-600 sm:text-[18px]">
                 {lede}
               </p>
 
-              <div className="mt-9 flex flex-wrap items-center gap-3">
-                <Button href="/#waitlist">
-                  Join waitlist
-                  <ButtonArrow />
-                </Button>
-                <Button href="/pricing" variant="secondary">
-                  View pricing
-                </Button>
+              <div id="waitlist" className="mt-9 scroll-mt-32">
+                <WaitlistForm note="no spam · one email when we launch" />
               </div>
+
+              <Link
+                href="/pricing"
+                className="mt-7 inline-block border-b border-black/60 pb-0.5 font-mono text-[12px] uppercase tracking-[0.12em] text-black transition-colors hover:border-black hover:text-zinc-600"
+              >
+                See what each plan includes
+              </Link>
             </div>
 
-            {/* Sits first on mobile so the job is shown before it is argued. */}
-            <div className="order-first lg:order-none">{visual}</div>
+            {/* The job, on the brand wash; first on mobile so it is shown
+                before it is argued. */}
+            <div className="relative order-first isolate overflow-hidden rounded-[28px] p-4 sm:p-8 lg:order-none">
+              <GradientWash className="-z-10" />
+              {visual}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* What the job does. */}
+      {/* The proof, as the homepage's drawn ledger: three figures between
+          hairlines, squares where the rules cross. */}
+      <section className="overflow-hidden bg-ghost px-6 pb-20 sm:pb-24">
+        <dl className="relative mx-auto grid max-w-7xl border-y border-black/[0.12] sm:grid-cols-3">
+          <span
+            aria-hidden="true"
+            className="absolute -left-10 -right-10 top-0 h-px bg-gradient-to-r from-transparent via-black/[0.12] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="absolute -left-10 -right-10 bottom-0 h-px bg-gradient-to-r from-transparent via-black/[0.12] to-transparent"
+          />
+          <Node className="left-0 top-0" />
+          <Node className="left-full top-0" />
+          <Node className="left-0 top-full" />
+          <Node className="left-full top-full" />
+          {proof.map((item, i) => (
+            <div
+              key={item.label}
+              className={`relative px-1 py-9 sm:px-10 ${
+                i > 0
+                  ? "border-t border-black/[0.12] sm:border-l sm:border-t-0"
+                  : "sm:pl-0"
+              }`}
+            >
+              {i > 0 && (
+                <>
+                  <Node className="left-0 top-0 hidden sm:block" />
+                  <Node className="left-0 top-full hidden sm:block" />
+                </>
+              )}
+              <dt className="flex items-baseline gap-2">
+                <span className="font-display text-[52px] font-extralight leading-none tracking-[-0.03em] text-black sm:text-[60px]">
+                  {item.figure}
+                </span>
+                {item.unit && (
+                  <span className="font-mono text-[12.5px] uppercase tracking-[0.12em] text-zinc-500">
+                    {item.unit}
+                  </span>
+                )}
+              </dt>
+              <dd className="mt-4 max-w-xs font-body text-[15px] leading-[1.55] text-zinc-600">
+                {item.label}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      {/* What the job covers, as frosted cards. */}
       <section className="bg-ghost px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
-          <h2 className="max-w-3xl font-display text-[34px] leading-[1.15] sm:text-[44px] tracking-[-0.03em] font-extralight text-black">
-            What {job.toLowerCase()} covers
-          </h2>
+          <SectionHeader
+            heading={`What ${job.toLowerCase()} covers`}
+            lede="Each one runs on your own Search Console rows, live SERP snapshots and crawl data, and every answer cites what it was built from."
+          />
 
-          <div className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {capabilities.map((cap, index) => (
-              <div
+              <article
                 key={cap.label}
-                className="border-t border-black/[0.10] pt-5"
+                className="frost flex flex-col rounded-[24px] p-6 sm:p-7"
               >
-                <span className="font-mono text-[12px] text-zinc-400">
-                  0{index + 1}
-                </span>
-                <h3 className="mt-3 flex flex-wrap items-center gap-2 font-body text-[18px] font-medium leading-snug text-black">
-                  {cap.label}
+                <span className="flex items-center justify-between">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-signal-soft font-mono text-[12px] text-signal-deep ring-1 ring-signal-bright/50">
+                    0{index + 1}
+                  </span>
                   {cap.soon && (
-                    <span className="rounded-full border border-black/[0.10] px-2 py-0.5 font-mono text-[10px] tracking-[0.04em] text-zinc-400">
-                      SOON
+                    <span className="rounded-md bg-signal-soft px-2 py-0.5 font-body text-[11.5px] text-signal-deep">
+                      Soon
                     </span>
                   )}
+                </span>
+                <h3 className="mt-6 font-body text-[18px] font-medium leading-snug text-black">
+                  {cap.label}
                 </h3>
-                <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-500">
+                <p className="mt-2.5 font-body text-[15px] leading-[1.6] text-zinc-600">
                   {cap.body}
                 </p>
-              </div>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How it runs. The one dark section on the page: it breaks a long
-          run of grey-on-white into two halves and gives the mechanism its
-          own register, rather than a third list in the same texture. */}
-      <section className="bg-[#1c1c21] px-6 py-20 sm:py-24">
+      {/* How it runs: three steps on one line, each a card under its node. */}
+      <section className="bg-ghost px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
-          <p className="font-mono text-[12px] tracking-[0.04em] text-white/40">
-            HOW IT RUNS
-          </p>
-          <h2 className="mt-4 max-w-3xl font-display text-[34px] leading-[1.15] sm:text-[44px] tracking-[-0.03em] font-extralight text-white">
-            Three beats, every time you ask.
-          </h2>
+          <SectionHeader
+            heading="Three steps, every time you ask."
+            lede="The same order on every question, so an answer is never a guess dressed up as a finding."
+          />
 
-          <ol className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-3">
+          <ol className="relative mt-12 grid gap-4 sm:grid-cols-3">
+            {/* The line the steps hang from. */}
+            <span
+              aria-hidden="true"
+              className="absolute left-5 right-5 top-5 hidden border-t border-dashed border-signal/40 sm:block"
+            />
             {steps.map((step, index) => (
-              <li key={step.label} className="border-t border-white/[0.14] pt-5">
-                <span className="font-mono text-[12px] text-signal">
+              <li key={step.label} className="relative">
+                <span className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white font-mono text-[12.5px] text-signal-deep shadow-[0_4px_14px_-6px_rgba(91,79,216,0.45)] ring-1 ring-signal-bright">
                   0{index + 1}
                 </span>
-                <h3 className="mt-3 font-body text-[19px] font-medium leading-snug text-white">
-                  {step.label}
-                </h3>
-                <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-white/55">
-                  {step.body}
-                </p>
+                <div className="frost mt-5 rounded-[24px] p-6 sm:p-7">
+                  <h3 className="font-body text-[18px] font-medium leading-snug text-black">
+                    {step.label}
+                  </h3>
+                  <p className="mt-2.5 font-body text-[15px] leading-[1.6] text-zinc-600">
+                    {step.body}
+                  </p>
+                </div>
               </li>
             ))}
           </ol>
         </div>
       </section>
 
-      {/* The evidence row: the same ledger treatment the numbers section uses. */}
+      {/* The other jobs, as the homepage's job cards. */}
       <section className="bg-ghost px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
-          <dl className="frost grid overflow-hidden rounded-[28px] sm:grid-cols-3">
-            {proof.map((item, index) => (
-              <div
-                key={item.label}
-                className={`flex flex-col p-7 sm:p-8 ${
-                  index > 0 ? "border-t sm:border-l sm:border-t-0" : ""
-                } border-black/[0.07]`}
-              >
-                <dt className="flex flex-wrap items-baseline gap-x-2">
-                  <span className="font-display text-[40px] font-extralight leading-none tracking-[-0.03em] text-black sm:text-[46px]">
-                    {item.figure}
-                  </span>
-                  {item.unit && (
-                    <span className="font-body text-[15px] text-zinc-400">
-                      {item.unit}
-                    </span>
-                  )}
-                </dt>
-                <dd className="mt-3 font-body text-[14px] leading-[1.6] text-zinc-500">
-                  {item.label}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
+          <SectionHeader heading="The rest of the job" />
 
-      {/* The sibling jobs, so the four pages form a set rather than dead ends. */}
-      <section className="bg-ghost px-6 py-20 sm:py-24">
-        <div className="mx-auto max-w-7xl">
-          <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-extralight tracking-[-0.03em] text-black">
-            The rest of the job
-          </h2>
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-3">
+          <div className="mt-12 grid gap-4 sm:grid-cols-3">
             {next.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="frost group rounded-[28px] p-6 transition-transform duration-200 hover:-translate-y-0.5"
+                className="frost group flex flex-col rounded-[24px] p-6 transition-transform duration-200 hover:-translate-y-1 sm:p-7"
               >
-                <h3 className="font-body text-[19px] font-medium text-black">
+                <span className="flex items-center justify-between">
+                  <span className="font-mono text-[12px] text-zinc-500">
+                    0{order.indexOf(item.job) + 1}
+                  </span>
+                  <span className="text-zinc-400 transition-colors group-hover:text-black">
+                    <Arrow />
+                  </span>
+                </span>
+                <span className="mt-8 font-display text-[30px] font-extralight leading-none tracking-[-0.03em] text-black">
                   {item.job}
-                </h3>
-                <p className="mt-2 font-body text-[14px] leading-[1.65] text-zinc-500">
+                </span>
+                <span className="mt-3 font-body text-[15px] leading-[1.55] text-zinc-600">
                   {item.blurb}
-                </p>
-                <span className="mt-4 inline-flex items-center gap-1.5 font-body text-[14px] text-signal">
-                  Read more
-                  <svg
-                    className="h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M6 3.5L10.5 8L6 12.5" />
-                  </svg>
                 </span>
               </Link>
             ))}
@@ -215,6 +283,7 @@ export default function ProductPage({
         </div>
       </section>
 
+      <Cta />
       <SiteFooter />
     </div>
   );

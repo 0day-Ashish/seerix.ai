@@ -10,9 +10,13 @@
      Diatype Mono. Tobias is for 28px and up only, at weight 200. */
   --font-system: "ABC Diatype", "Inter Variable", ui-sans-serif, system-ui,
     sans-serif;
-  --font-sans: var(--font-system);
+  --font-sans: var(--font-flex);
   --font-display: "Tobias", "Newsreader Variable", ui-serif, Georgia, serif;
-  --font-body: var(--font-system);
+  /* The tokensupply site's text face, used on a few card surfaces. */
+  --font-flex: "Google Sans Flex Variable", ui-sans-serif, system-ui, sans-serif;
+  /* Body text is Google Sans Flex, the tokensupply site's text face;
+     headings keep --font-system (see the h1-h6 rule below). */
+  --font-body: var(--font-flex);
   --font-mono: "ABC Diatype Mono", "Geist Mono Variable",
     var(--font-geist-mono), ui-monospace, monospace;
 
@@ -89,6 +93,14 @@ html {
   background: var(--surface);
 }
 
+/* Headings keep the system face: inside one, the body and sans tokens point
+   back at it, so a heading set in either keeps its old face while running
+   text takes Google Sans Flex. Serif display headings are unaffected. */
+:where(h1, h2, h3, h4, h5, h6) {
+  --font-body: var(--font-system);
+  --font-sans: var(--font-system);
+}
+
 body {
   background: var(--surface);
   color: var(--ink);
@@ -108,11 +120,11 @@ body {
   border-radius: 4px;
 }
 
-/* The app (dashboard, gap tools, settings): body in the same system face
+/* The app (dashboard, gap tools, settings): body in the same text face
    as the site, headings in Geist rather than the site's display face, as
    product UI reads best in screen faces. */
 [data-app] {
-  --font-body: var(--font-system);
+  --font-body: var(--font-flex);
   --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   font-family: var(--font-body);
 }
@@ -146,6 +158,14 @@ body {
 }
 
 /* A panel's content arriving: a short rise into place. */
+/* The hero's agent window, rising into the dashboard's corner. */
+@keyframes seerix-agent-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+}
+
 @keyframes seerix-fade-in {
   from {
     opacity: 0;
@@ -295,43 +315,6 @@ body:has([data-noise-bg]) {
       curve to calc(100% - var(--bevel-r)) 100% with 100% 100%,
       hline to var(--bevel-r),
       curve to 0 calc(100% - var(--bevel-r)) with 0 100%,
-      close
-    );
-  }
-}
-
-/* The nav button: a folder-tab notch, its right part raised and its left
-   stepped down, joined by a short 45-degree slope. Drawn whole by shape();
-   older engines get the plain rounded button. */
-@supports (clip-path: shape(from 0 0, line to 1px 1px)) {
-  .tab-notch {
-    --t-r: 7px;
-    --t-k: 3px;
-    --t-j: 2.1px;
-    --t-drop: 6px;
-    --t-x: 46%;
-    /* The shape draws the corners and the edge comes from the wrapper's
-       drop-shadow, so the button's own border and shadow step aside. The
-       label drops by half the notch to sit centred in the body. */
-    border-radius: 0;
-    border-color: transparent;
-    box-shadow: none;
-    padding-top: 6px;
-    clip-path: shape(
-      from 0 calc(var(--t-drop) + var(--t-r)),
-      curve to var(--t-r) var(--t-drop) with 0 var(--t-drop),
-      hline to calc(var(--t-x) - var(--t-k)),
-      curve to calc(var(--t-x) + var(--t-j)) calc(var(--t-drop) - var(--t-j))
-        with var(--t-x) var(--t-drop),
-      line to calc(var(--t-x) + var(--t-drop) - var(--t-j)) var(--t-j),
-      curve to calc(var(--t-x) + var(--t-drop) + var(--t-k)) 0
-        with calc(var(--t-x) + var(--t-drop)) 0,
-      hline to calc(100% - var(--t-r)),
-      curve to 100% var(--t-r) with 100% 0,
-      vline to calc(100% - var(--t-r)),
-      curve to calc(100% - var(--t-r)) 100% with 100% 100%,
-      hline to var(--t-r),
-      curve to 0 calc(100% - var(--t-r)) with 0 100%,
       close
     );
   }

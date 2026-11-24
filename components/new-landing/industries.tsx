@@ -40,7 +40,7 @@ export default function Industries() {
             <div className="relative grid gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
               {/* Heading parks alongside the grid while it scrolls past. */}
               <div className="lg:self-center">
-                <p className="mb-4 font-body text-[14px] text-zinc-500">
+                <p className="mb-4 font-flex text-[14px] text-zinc-500">
                   Industries
                 </p>
                 <h2 className="font-display text-[34px] leading-[1.15] sm:text-[44px] font-extralight tracking-[-0.03em] text-black">
@@ -49,7 +49,7 @@ export default function Industries() {
                   </BlockReveal>
                 </h2>
 
-                <p className="mt-5 max-w-sm font-body text-[16px] leading-[1.6] text-zinc-500">
+                <p className="mt-5 max-w-sm font-flex text-[16px] leading-[1.6] text-zinc-600">
                   Seerix makes no assumptions about your vertical. Every
                   diagnosis is assembled from your own data, whatever you sell.
                 </p>
@@ -66,10 +66,10 @@ export default function Industries() {
                     key={industry.name}
                     className="border-t border-black/[0.12] py-7 first:border-t-0 sm:[&:nth-child(-n+2)]:border-t-0 sm:[&:nth-child(even)]:border-l sm:[&:nth-child(even)]:pl-7 sm:[&:nth-child(odd)]:pr-7"
                   >
-                    <h3 className="font-body text-[19px] font-medium text-black">
+                    <h3 className="font-flex text-[20px] font-medium tracking-[-0.01em] text-black">
                       {industry.name}
                     </h3>
-                    <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-500">
+                    <p className="mt-2.5 font-flex text-[15.5px] leading-[1.6] text-zinc-600">
                       {industry.body}
                     </p>
                   </div>
@@ -79,10 +79,10 @@ export default function Industries() {
                   closes the table rather than sitting blank: the list is not
                   meant to be exhaustive, and this is where you say so. */}
                 <div className="group border-t border-black/[0.12] py-7 sm:border-l sm:pl-7">
-                  <h3 className="font-body text-[19px] font-medium text-zinc-800">
+                  <h3 className="font-flex text-[20px] font-medium tracking-[-0.01em] text-zinc-800">
                     Not listed here?
                   </h3>
-                  <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-zinc-500">
+                  <p className="mt-2.5 font-flex text-[15.5px] leading-[1.6] text-zinc-600">
                     The vertical never changes the method. Connect a property
                     and Seerix reads what your market actually does.
                   </p>

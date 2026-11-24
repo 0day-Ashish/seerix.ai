@@ -1,9 +1,5 @@
 import Link from "next/link";
 
-import LegalContents from "@/components/legal/legal-contents";
-
-import { BlockReveal } from "@/components/new-landing/block-reveal";
-
 export type LegalSection = {
   heading: string;
   /** Each entry is one paragraph. */
@@ -20,6 +16,17 @@ type LegalPageProps = {
   sections: LegalSection[];
 };
 
+/** Every legal page, for the "Related" list beside the one being read. */
+const docs = [
+  { href: "/privacy", title: "Privacy Policy" },
+  { href: "/terms", title: "Terms of Service" },
+  { href: "/seerixbot", title: "About SeerixBot" },
+];
+
+const BODY = "font-body text-[16px] leading-[28px] text-zinc-800";
+const LINK =
+  "text-black underline decoration-zinc-400 underline-offset-[3px] transition-colors duration-150 hover:decoration-black";
+
 function slug(heading: string) {
   return heading
     .toLowerCase()
@@ -27,10 +34,30 @@ function slug(heading: string) {
     .replace(/^-|-$/g, "");
 }
 
+function Chevron() {
+  return (
+    <svg
+      className="h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M6 3.5L10.5 8L6 12.5" />
+    </svg>
+  );
+}
+
 /**
- * The shared shell for the three legal routes. They differ only in their
- * sections, so the contents rail, measure and heading rhythm live here rather
- * than being spelled out three times.
+ * The legal pages' one reading layout, after the tokensupply site's: a
+ * "Related" list of the other legal pages on the left that stays put as you
+ * read, and one 680px reading column: the title, the date in small grey, the
+ * text in ink at 16px on 28px, and numbered section headings with space
+ * rather than rules between them. No contents list. On a phone the related
+ * list follows the text.
  */
 export default function LegalPage({
   title,
@@ -38,93 +65,107 @@ export default function LegalPage({
   updated,
   sections,
 }: LegalPageProps) {
+  const related = docs.filter((d) => d.title !== title);
+
   return (
-    <section className="bg-ghost px-6 pb-20 pt-16 sm:pb-24 sm:pt-24">
-      <div className="mx-auto max-w-7xl">
-        <div className="max-w-2xl">
-          <h1 className="font-display text-[36px] font-extralight leading-[1.1] tracking-[-0.03em] text-black sm:text-[46px]">
-            <BlockReveal>{title}</BlockReveal>
-          </h1>
-          <p className="mt-5 font-body text-[17px] leading-[1.6] text-zinc-500">
-            {lede}
-          </p>
-          <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-black/[0.08] bg-zinc-50 px-3 py-1 font-body text-[13px] text-zinc-500">
-            <span
-              aria-hidden="true"
-              className="h-1.5 w-1.5 rounded-full bg-signal-bright"
-            />
-            Last updated {updated}
-          </p>
-        </div>
-
-        <div className="mt-14 grid gap-10 lg:grid-cols-[minmax(0,17rem)_minmax(0,1fr)] lg:gap-16">
-          {/* Contents rail, pinned under the navbar on wide screens. Marks the
-              section being read, so it is a client component. */}
-          <LegalContents
-            items={sections.map((section) => ({
-              slug: slug(section.heading),
-              heading: section.heading,
-            }))}
-          />
-
-          <div className="max-w-2xl">
-            {sections.map((section) => (
-              <section
-                key={section.heading}
-                id={slug(section.heading)}
-                // Clears the sticky navbar when jumped to from the rail.
-                className="scroll-mt-28 border-b border-black/[0.07] pb-8 pt-8 first:pt-0 last:border-b-0"
-              >
-                <h2 className="font-body text-[22px] font-medium leading-[1.25] text-black">
-                  {section.heading}
-                </h2>
-
-                {section.body.map((paragraph) => (
-                  <p
-                    key={paragraph}
-                    className="mt-4 font-body text-[16px] leading-[1.7] text-zinc-500"
+    <section className="bg-ghost px-6 pb-28 pt-16 md:pt-20 lg:pb-36">
+      <div className="mx-auto grid max-w-[1000px] gap-16 lg:grid-cols-[220px_minmax(0,680px)] lg:justify-between lg:gap-12">
+        <aside className="order-2 min-w-0 border-t border-black/[0.08] pt-10 lg:sticky lg:top-28 lg:order-1 lg:self-start lg:border-t-0 lg:pt-2">
+          <nav aria-label="Related">
+            <p className="font-mono text-[12px] uppercase tracking-[0.08em] text-zinc-500">
+              Related
+            </p>
+            <ul className="mt-5 flex flex-col gap-4">
+              {related.map((d) => (
+                <li key={d.href}>
+                  <Link
+                    href={d.href}
+                    className="group inline-flex items-center gap-1 font-body text-[15px] text-zinc-600 transition-colors duration-150 hover:text-black"
                   >
-                    {paragraph}
-                  </p>
-                ))}
+                    {d.title}
+                    <Chevron />
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  href="/contact"
+                  className="group inline-flex items-center gap-1 font-body text-[15px] text-zinc-600 transition-colors duration-150 hover:text-black"
+                >
+                  Contact
+                  <Chevron />
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </aside>
 
-                {section.list && (
-                  <ul className="mt-4 flex flex-col gap-2.5">
-                    {section.list.map((item) => (
-                      <li key={item} className="flex items-start gap-3">
-                        <span
-                          aria-hidden="true"
-                          className="mt-[11px] h-1 w-1 shrink-0 rounded-full bg-zinc-300"
-                        />
-                        <span className="font-body text-[16px] leading-[1.7] text-zinc-500">
-                          {item}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </section>
-            ))}
+        <article className="order-1 min-w-0 lg:order-2">
+          <header className="flex flex-col gap-3">
+            <h1 className="text-balance font-display text-[36px] font-extralight leading-[1.1] tracking-[-0.03em] text-black md:text-[44px]">
+              {title}
+            </h1>
+            <p className="font-body text-[13px] text-zinc-500">
+              Last updated on {updated}
+            </p>
+          </header>
 
-            <p className="frost mt-10 rounded-2xl px-5 py-4 font-body text-[15px] leading-[1.7] text-zinc-500">
+          <p className={`${BODY} mt-10 text-pretty`}>{lede}</p>
+
+          {sections.map((section, i) => (
+            <section
+              key={section.heading}
+              id={slug(section.heading)}
+              aria-labelledby={`${slug(section.heading)}-title`}
+              className="mt-14 scroll-mt-28"
+            >
+              <h2
+                id={`${slug(section.heading)}-title`}
+                className="font-body text-[22px] leading-8 text-black md:text-[24px]"
+              >
+                {i + 1}. {section.heading}
+              </h2>
+
+              {section.body.map((paragraph) => (
+                <p key={paragraph} className={`${BODY} mt-5 text-pretty`}>
+                  {paragraph}
+                </p>
+              ))}
+
+              {section.list && (
+                <ul
+                  className={`${BODY} mt-5 flex list-disc flex-col gap-2.5 pl-6 marker:text-zinc-400`}
+                >
+                  {section.list.map((item) => (
+                    <li key={item} className="pl-1 text-pretty">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
+
+          <section aria-labelledby="legal-contact" className="mt-14">
+            <h2
+              id="legal-contact"
+              className="font-body text-[22px] leading-8 text-black md:text-[24px]"
+            >
+              {sections.length + 1}. Contact
+            </h2>
+            <p className={`${BODY} mt-5`}>
               Questions about any of this? Write to{" "}
-              <Link
-                href="mailto:hello@seerix.ai"
-                className="text-black underline underline-offset-4 transition-colors duration-200 hover:text-zinc-500"
-              >
+              <a href="mailto:hello@seerix.ai" className={LINK}>
                 hello@seerix.ai
-              </Link>{" "}
+              </a>{" "}
               or use the{" "}
-              <Link
-                href="/contact"
-                className="text-black underline underline-offset-4 transition-colors duration-200 hover:text-zinc-500"
-              >
+              <Link href="/contact" className={LINK}>
                 contact form
               </Link>
               .
             </p>
-          </div>
-        </div>
+          </section>
+        </article>
       </div>
     </section>
   );

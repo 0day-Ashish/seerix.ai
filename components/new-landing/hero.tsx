@@ -1,11 +1,10 @@
-import AgentWindow from "@/components/new-landing/agent-window";
+import HeroApp from "@/components/new-landing/hero-app";
 import WaitlistForm from "@/components/new-landing/waitlist-form";
 
 /**
  * The opener: one ruled frame
- * holding the headline on a dot grid and, beneath it, the product window on
- * the brand wash -- the job pills on top, the window running off the right
- * edge.
+ * holding the headline on a dot grid and, beneath it, the real dashboard in
+ * a window on the brand wash, with a pill per page on top.
  */
 export default function Hero() {
   return (
@@ -52,7 +51,7 @@ export default function Hero() {
           </p>
 
           <div className="border-t border-black/[0.08]">
-            <AgentWindow />
+            <HeroApp />
           </div>
         </div>
       </div>

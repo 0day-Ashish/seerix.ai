@@ -220,7 +220,7 @@ function ProductsMenu() {
           <div className="mx-auto flex max-w-7xl justify-end">
           <div className="grid w-[860px] max-w-full grid-cols-[minmax(0,1fr)_17rem] rounded-2xl border border-black/[0.08] bg-white p-2 shadow-[0_24px_60px_-24px_rgba(15,23,42,0.25)]">
             {/* Every job in one grid, two across: an icon tile, the name
-                in mono capitals and a line on what it does. */}
+                and a line on what it does. */}
             <ul className="grid content-start gap-0.5 p-1 sm:grid-cols-2">
               {productColumns
                 .flatMap((column) => column.items)
@@ -233,10 +233,10 @@ function ProductsMenu() {
                     >
                       <ItemIcon d={item.icon} />
                       <span className="min-w-0">
-                        <span className="flex items-center gap-2 font-mono text-[11.5px] uppercase tracking-[0.06em] text-zinc-900">
+                        <span className="flex items-center gap-2 font-flex text-[14.5px] font-medium text-zinc-900">
                           {item.label}
                           {item.badge && (
-                            <span className="rounded-md bg-signal-soft px-1.5 py-px font-body text-[10.5px] normal-case tracking-normal text-signal-deep">
+                            <span className="rounded-md bg-signal-soft px-1.5 py-px font-flex text-[11px] font-normal text-signal-deep">
                               {item.badge}
                             </span>
                           )}
@@ -354,6 +354,7 @@ export default function Navbar() {
   if (
     pathname.startsWith("/settings") ||
     pathname.startsWith("/gap") ||
+    pathname === "/waitlist" ||
     pathname === "/app" ||
     pathname.startsWith("/app/")
   )
@@ -415,14 +416,10 @@ export default function Navbar() {
                   the row. Wrapped, so the breakpoint display never fights the
                   button's own inline-flex. */}
               <span className="hidden sm:block">
-                <span className="block [filter:drop-shadow(0_0_0.6px_rgba(0,0,0,0.35))_drop-shadow(0_2px_6px_rgba(91,79,216,0.18))]">
-                  <Button
-                    href="/#waitlist"
-                    className="tab-notch !h-9 font-mono !px-5 !text-[12px] uppercase tracking-[0.06em]"
-                  >
-                    Join waitlist
-                  </Button>
-                </span>
+                <Button href="/#waitlist">
+                  Join waitlist
+                  <ButtonArrow />
+                </Button>
               </span>
 
               <button

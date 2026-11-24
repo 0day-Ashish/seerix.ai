@@ -1,317 +1,152 @@
-import Image from "next/image";
-import Link from "next/link";
+import type { ReactNode } from "react";
 
 import Button from "@/components/new-landing/button";
 
-/** Topics a message can be about; each jumps to the form. */
-const topics = ["Waitlist", "Pricing", "Security", "Agencies", "Partnerships"];
-
 /**
- * The contact page's opener: one promise, one line under it, and the topics
- * as a row of chips -- left-aligned, so the routes below carry the weight.
+ * The contact page's body, after the tokensupply site's: a short
+ * introduction beside the form, then the other ways to reach the team as
+ * three open items rather than boxes.
  */
-export function ContactOpener() {
-  return (
-    <section className="bg-ghost px-6 pb-12 pt-20 sm:pt-28">
-      <div className="mx-auto max-w-7xl">
-        <h1 className="max-w-3xl font-display text-[40px] font-extralight leading-[1.05] tracking-[-0.03em] text-black sm:text-[56px]">
-          Talk to the people building <span className="wordmark">Seerix</span>
-        </h1>
-        <p className="mt-4 max-w-2xl font-body text-[18px] leading-[1.55] text-zinc-500 sm:text-[20px]">
-          A person reads every message. Replies within one business day.
-        </p>
 
-        <div className="mt-9 flex flex-wrap items-center gap-2">
-          <span className="mr-2 font-body text-[14px] text-zinc-500">
-            Topics
-          </span>
-          {topics.map((label) => (
-            <Link
-              key={label}
-              href="#form"
-              className="rounded-full border border-black/[0.1] bg-white px-3.5 py-1.5 font-body text-[14px] text-zinc-700 transition-colors hover:border-signal-bright/40 hover:bg-signal-soft hover:text-signal-deep"
+function Info() {
+  return (
+    <svg
+      className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      aria-hidden="true"
+    >
+      <circle cx="8" cy="8" r="6.25" />
+      <path d="M8 7.25v3.5M8 5.25h.01" />
+    </svg>
+  );
+}
+
+/** The introduction, sticky beside the form on wide screens. */
+export function ContactIntro({ form }: { form: ReactNode }) {
+  return (
+    <section className="bg-ghost px-6 pb-24 pt-16 md:pt-20 lg:pb-32">
+      <div className="mx-auto grid max-w-[1088px] gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+        <div className="flex max-w-[560px] flex-col items-start gap-5 lg:sticky lg:top-28 lg:self-start">
+          <p className="font-mono text-[12px] uppercase tracking-[0.08em] text-zinc-500">
+            Contact
+          </p>
+          <h1 className="text-balance font-display text-[40px] font-extralight leading-[1.08] tracking-[-0.03em] text-black md:text-[52px]">
+            Talk to the people building Seerix
+          </h1>
+          <p className="font-body text-[16px] leading-[1.6] text-zinc-600 md:text-[17px]">
+            Questions about what Seerix can see, whether it fits your sites, or
+            what a diagnosis looks like on your own data. A person reads every
+            message.
+          </p>
+          <p className="font-body text-[15px] text-zinc-600">
+            Or email us at{" "}
+            <a
+              href="mailto:hello@seerix.ai"
+              className="text-signal-deep hover:underline"
             >
-              {label}
-            </Link>
-          ))}
+              hello@seerix.ai
+            </a>
+          </p>
+          <p className="mt-4 flex gap-2.5 border-t border-black/[0.08] pt-5 font-body text-[14px] leading-[1.6] text-zinc-600">
+            <Info />
+            <span>
+              <span className="font-medium text-black">
+                Replies within one business day.
+              </span>{" "}
+              Usually the same day, from the team that builds it, not a ticket
+              queue.
+            </span>
+          </p>
+        </div>
+
+        <div id="form" className="min-w-0 scroll-mt-28">
+          {form}
         </div>
       </div>
     </section>
   );
 }
 
-type Route = {
-  label: string;
+/** One way to reach the team: its mark, a heading, one line and its action. */
+function Way({
+  icon,
+  title,
+  body,
+  action,
+}: {
+  icon: string;
   title: string;
-  reply: string;
-  summary: string;
-  cta: { label: string; href: string };
-  goodFor: string[];
-};
-
-const routes: Route[] = [
-  {
-    label: "Launch",
-    title: "Join the waitlist",
-    reply: "One email",
-    summary:
-      "Seerix is pre-launch. Leave your email and you get one message, the day it opens.",
-    cta: { label: "Join waitlist", href: "/#waitlist" },
-    goodFor: [
-      "Hearing the day Seerix opens",
-      "Launch pricing for your portfolio",
-      "A first diagnosis on your own data",
-    ],
-  },
-  {
-    label: "Team",
-    title: "Email us directly",
-    reply: "< 1 business day",
-    summary:
-      "The same inbox the form lands in. Reply straight into a thread you already have open.",
-    cta: { label: "hello@seerix.ai", href: "mailto:hello@seerix.ai" },
-    goodFor: [
-      "Questions about a diagnosis",
-      "Billing and plan changes",
-      "Anything that doesn't fit a form",
-    ],
-  },
-  {
-    label: "Security",
-    title: "Security and data",
-    reply: "Documented",
-    summary:
-      "What Seerix reads, what it stores and how to revoke it. Most of it is already written down.",
-    cta: { label: "Read the privacy policy", href: "/privacy" },
-    goodFor: [
-      "Google permissions and scopes",
-      "Data retention and deletion",
-      "Questions for your security review",
-    ],
-  },
-];
-
-function Check() {
+  body: string;
+  action: ReactNode;
+}) {
   return (
-    <svg
-      className="mt-[5px] h-3.5 w-3.5 shrink-0 text-black"
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M3 8.5l3.2 3.2L13 5" />
-    </svg>
+    <div className="flex flex-col items-center gap-4 text-center">
+      {/* The icon alone, large, in the brand violet. */}
+      <svg
+        className="h-12 w-12 text-signal-deep"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d={icon} />
+      </svg>
+      <div className="flex flex-1 flex-col gap-1.5">
+        <h3 className="font-body text-[18px] font-medium text-black md:text-[21px]">
+          {title}
+        </h3>
+        <p className="mx-auto max-w-[340px] text-pretty font-body text-[15px] leading-[1.6] text-zinc-600">
+          {body}
+        </p>
+      </div>
+      <div>{action}</div>
+    </div>
   );
 }
 
-/**
- * The ways to reach the team, framed as one ruled grid. Each column opens on
- * a tinted card -- the first on the brand image -- with how fast it answers,
- * then the way in, then what it is good for. Subgrid rows keep every part
- * level across the three.
- */
 export function ContactRoutes() {
   return (
-    <section className="bg-ghost px-6 py-20 sm:py-24">
-      <h2 className="mx-auto mb-10 max-w-7xl font-display text-[34px] leading-[1.15] sm:text-[44px] font-extralight tracking-[-0.03em] text-black">
-        Other ways to reach us
-      </h2>
-      <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr] lg:gap-x-5 lg:gap-y-0">
-        {routes.map((route, index) => {
-          const lit = index === 0;
-          return (
-            <article
-              key={route.label}
-              className="frost flex flex-col rounded-[28px] p-4 lg:row-span-3 lg:grid lg:grid-rows-subgrid lg:gap-0"
-            >
-              <div
-                className={`relative min-h-[13rem] overflow-hidden rounded-2xl p-6 ${
-                  lit ? "bg-[#2a2a30] text-white" : "bg-[#f3f2ef] text-black"
-                }`}
-              >
-                {lit && (
-                  <>
-                    <Image
-                      src="/assets/pricing.png"
-                      alt=""
-                      fill
-                      sizes="(min-width: 1024px) 33vw, 100vw"
-                      className="object-cover [transform:scaleY(-1)]"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#1c1c21]/85 via-[#1c1c21]/30 to-transparent" />
-                  </>
-                )}
-                <div className="relative flex h-full flex-col">
-                  <div className="flex items-center justify-between gap-3">
-                    <p
-                      className={`font-mono text-[12px] uppercase tracking-[0.12em] ${
-                        lit ? "text-white/80" : "text-zinc-500"
-                      }`}
-                    >
-                      {route.label}
-                    </p>
-                    <p
-                      className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 font-body text-[12px] ${
-                        lit
-                          ? "bg-white/10 text-white/85 ring-1 ring-white/15"
-                          : "bg-white text-zinc-600 ring-1 ring-black/[0.06]"
-                      }`}
-                    >
-                      <span className="h-1.5 w-1.5 rounded-full bg-signal-bright" />
-                      {route.reply}
-                    </p>
-                  </div>
-                  <p className="mt-auto pt-10 font-display text-[30px] font-extralight leading-[1.05] tracking-[-0.03em]">
-                    {route.title}
-                  </p>
-                  <p
-                    className={`mt-3 max-w-sm font-body text-[14px] leading-[1.55] ${
-                      lit ? "text-white/85" : "text-zinc-600"
-                    }`}
-                  >
-                    {route.summary}
-                  </p>
-                </div>
-              </div>
-
-              <Button href={route.cta.href} className="mt-4 w-full font-medium">
-                {route.cta.label}
-              </Button>
-
-              <div className="mt-6 border-t border-black/[0.08] px-2 pb-2 pt-6">
-                <p className="font-body text-[14px] text-zinc-500">Good for:</p>
-                <ul className="mt-3 flex flex-col gap-2.5">
-                  {route.goodFor.map((item) => (
-                    <li key={item} className="flex gap-3">
-                      <Check />
-                      <span className="font-body text-[16px] leading-[1.5] text-black">
-                        {item}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-/** What happens after the form is sent, as ruled rows. */
-const steps = [
-  {
-    n: "01",
-    title: "It lands with a person",
-    body: "Messages go to the team inbox, not a ticket queue or a sales sequence.",
-  },
-  {
-    n: "02",
-    title: "You get a straight answer",
-    body: "Usually the same day, always within one business day.",
-  },
-  {
-    n: "03",
-    title: "You hear first at launch",
-    body: "If you join the waitlist too, you get one email the day Seerix opens.",
-  },
-];
-
-/**
- * The form beside a framed account of what happens once it is sent, so the
- * ask and the promise sit side by side. The steps run as a timeline that
- * spreads to the form's height, then a short list of what makes a message
- * quick to answer, so the panel carries something useful all the way down.
- */
-export function ContactFormBlock({ form }: { form: React.ReactNode }) {
-  return (
-    <section id="form" className="scroll-mt-28 bg-ghost px-6 py-20 sm:py-24">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
-          {form}
-          <div className="frost flex flex-col rounded-[28px] p-6 sm:p-8">
-            <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-zinc-500">
-              What happens next
-            </p>
-
-            {/* A timeline: each step's number on a line that runs to the
-                next, the rows sharing out the height so the steps fill the
-                panel instead of stacking at the top. */}
-            <ol className="mt-6 flex flex-1 flex-col">
-              {steps.map((step, i) => (
-                <li
-                  key={step.n}
-                  className="relative grid flex-1 grid-cols-[2.5rem_minmax(0,1fr)] gap-4 pb-8 last:pb-0"
-                >
-                  {i < steps.length - 1 && (
-                    <span
-                      aria-hidden="true"
-                      className="absolute bottom-0 left-[1.25rem] top-10 w-px -translate-x-1/2 bg-gradient-to-b from-signal/40 to-signal/10"
-                    />
-                  )}
-                  <span className="relative flex h-10 w-10 items-center justify-center rounded-full bg-signal-soft font-mono text-[12px] text-signal-deep ring-4 ring-white">
-                    {step.n}
-                  </span>
-                  <div className="pt-1.5">
-                    <p className="font-body font-medium text-[19px] text-black">
-                      {step.title}
-                    </p>
-                    <p className="mt-1.5 font-body text-[15px] leading-[1.55] text-zinc-600">
-                      {step.body}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-
-            {/* What to put in the message: the three things every first
-                reply otherwise has to ask for. */}
-            <div className="mt-8 rounded-2xl border border-black/[0.06] bg-white/60 p-5">
-              <p className="font-body text-[14px] font-medium text-signal-deep">
-                Helps us answer faster
-              </p>
-              <ul className="mt-3 flex flex-col gap-2">
-                {[
-                  "The site or Search Console property",
-                  "Roughly when the change started",
-                  "What you have already tried",
-                ].map((item) => (
-                  <li key={item} className="flex gap-2.5">
-                    <svg
-                      className="mt-[5px] h-3.5 w-3.5 shrink-0 text-signal"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M3 8.5l3.2 3.2L13 5" />
-                    </svg>
-                    <span className="font-body text-[15px] leading-[1.5] text-zinc-800">
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <p className="mt-6 border-t border-black/[0.08] pt-5 font-body text-[14px] text-zinc-500">
-              Prefer email?{" "}
+    <section aria-labelledby="other-ways" className="bg-ghost px-6 pb-24 lg:pb-32">
+      <div className="mx-auto flex max-w-[1088px] flex-col gap-12">
+        <h2
+          id="other-ways"
+          className="text-balance font-display text-[32px] font-extralight leading-[1.15] tracking-[-0.03em] text-black md:text-[44px]"
+        >
+          Other ways to reach us
+        </h2>
+        <div className="grid gap-12 md:grid-cols-3 md:gap-10">
+          <Way
+            icon="M2.5 4.5h11v8h-11zM2.5 5l5.5 4 5.5-4"
+            title="Email the team"
+            body="The same inbox the form lands in. Reply straight into a thread you already have open."
+            action={
               <a
                 href="mailto:hello@seerix.ai"
-                className="text-black underline underline-offset-4 hover:text-signal-deep"
+                className="font-body text-[15px] text-signal-deep hover:underline"
               >
                 hello@seerix.ai
               </a>
-            </p>
-          </div>
+            }
+          />
+          <Way
+            icon="M8 1.75v3M8 11.25v3M3.6 3.6l2.1 2.1M10.3 10.3l2.1 2.1M1.75 8h3M11.25 8h3"
+            title="Join the waitlist"
+            body="Seerix is pre-launch. Leave your email and get one message, the day it opens."
+            action={<Button href="/#waitlist">Join waitlist</Button>}
+          />
+          <Way
+            icon="M8 1.75l5 2v3.75c0 3-2.2 5-5 6.25-2.8-1.25-5-3.25-5-6.25V3.75l5-2zM6 8l1.5 1.5L10.5 6.5"
+            title="Security and data"
+            body="What Seerix reads, what it stores and how to revoke it, already written down."
+            action={<Button href="/privacy">Read the policy</Button>}
+          />
         </div>
       </div>
     </section>
